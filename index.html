@@ -820,6 +820,53 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 /* View My Weaknesses: rose button */
 :root[data-bg="dark"] #weakBtn, :root[data-bg="dark"] #weakBtn:hover{background:#D5687F;border-color:#D5687F;color:#fff}
 :root[data-bg="dark"] #weakBtn:hover{filter:brightness(1.06)}
+/* Desktop and tablets (two per row): Bio light pink, Chem/Phys dark pink, Psych/Soc green, CARS green, Research/Stats light pink, All topics dark pink. Phones keep the order above. */
+@media (min-width:561px){
+  :root[data-bg="dark"] .topic.topic.topic[data-k=bb]{background:#F2B1BF;border-color:#F7C9D3;color:#1E1316}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=bb]:hover{background:#F6C2CD}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=bb] .t-name, :root[data-bg="dark"] .topic.topic.topic[data-k=bb] .t-full, :root[data-bg="dark"] .topic.topic.topic[data-k=bb] .sc .l, :root[data-bg="dark"] .topic.topic.topic[data-k=bb] .sc .v{color:#1E1316}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=bb] .t-ico{background:#FFFFFF;color:#A44860;box-shadow:none}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=bb] .t-score{border-top-color:rgba(30,19,22,.25)}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=bb] .sc + .sc{border-left-color:rgba(30,19,22,.25)}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=bb] .sc.lead .v{color:#5A1A2B;font-weight:700}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=cp]{background:#D86B81;border-color:#E58A9C;color:#1E1316}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=cp]:hover{background:#E07A8F}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=cp] .t-name, :root[data-bg="dark"] .topic.topic.topic[data-k=cp] .t-full, :root[data-bg="dark"] .topic.topic.topic[data-k=cp] .sc .l, :root[data-bg="dark"] .topic.topic.topic[data-k=cp] .sc .v{color:#1E1316}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=cp] .t-ico{background:#F8E3E7;color:#A44860;box-shadow:none}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=cp] .t-score{border-top-color:rgba(30,19,22,.28)}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=cp] .sc + .sc{border-left-color:rgba(30,19,22,.28)}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=cp] .sc.lead .v{color:#5A1A2B;font-weight:700}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=ps]{background:#4E6352;border-color:#66806A;color:#F3EFE8}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=ps]:hover{background:#587060}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=ps] .t-name, :root[data-bg="dark"] .topic.topic.topic[data-k=ps] .t-full, :root[data-bg="dark"] .topic.topic.topic[data-k=ps] .sc .l, :root[data-bg="dark"] .topic.topic.topic[data-k=ps] .sc .v{color:#F3EFE8}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=ps] .t-ico{background:#3D5141;color:#DCE7D6;box-shadow:none}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=ps] .t-score{border-top-color:#6E8771}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=ps] .sc + .sc{border-left-color:#6E8771}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=ps] .sc.lead .v{color:#FFD1DA;font-weight:700}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=cars]{background:#4E6352;border-color:#66806A;color:#F3EFE8}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=cars]:hover{background:#587060}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=cars] .t-name, :root[data-bg="dark"] .topic.topic.topic[data-k=cars] .t-full, :root[data-bg="dark"] .topic.topic.topic[data-k=cars] .sc .l, :root[data-bg="dark"] .topic.topic.topic[data-k=cars] .sc .v{color:#F3EFE8}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=cars] .t-ico{background:#3D5141;color:#DCE7D6;box-shadow:none}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=cars] .t-score{border-top-color:#6E8771}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=cars] .sc + .sc{border-left-color:#6E8771}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=cars] .sc.lead .v{color:#FFD1DA;font-weight:700}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=rs]{background:#F2B1BF;border-color:#F7C9D3;color:#1E1316}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=rs]:hover{background:#F6C2CD}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=rs] .t-name, :root[data-bg="dark"] .topic.topic.topic[data-k=rs] .t-full, :root[data-bg="dark"] .topic.topic.topic[data-k=rs] .sc .l, :root[data-bg="dark"] .topic.topic.topic[data-k=rs] .sc .v{color:#1E1316}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=rs] .t-ico{background:#FFFFFF;color:#A44860;box-shadow:none}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=rs] .t-score{border-top-color:rgba(30,19,22,.25)}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=rs] .sc + .sc{border-left-color:rgba(30,19,22,.25)}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=rs] .sc.lead .v{color:#5A1A2B;font-weight:700}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=all]{background:#D86B81;border-color:#E58A9C;color:#1E1316}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=all]:hover{background:#E07A8F}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=all] .t-name, :root[data-bg="dark"] .topic.topic.topic[data-k=all] .t-full, :root[data-bg="dark"] .topic.topic.topic[data-k=all] .sc .l, :root[data-bg="dark"] .topic.topic.topic[data-k=all] .sc .v{color:#1E1316}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=all] .t-ico{background:#F8E3E7;color:#A44860;box-shadow:none}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=all] .t-score{border-top-color:rgba(30,19,22,.28)}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=all] .sc + .sc{border-left-color:rgba(30,19,22,.28)}
+  :root[data-bg="dark"] .topic.topic.topic[data-k=all] .sc.lead .v{color:#5A1A2B;font-weight:700}
+}
+/* Desktop: All topics is dark pink there, so View My Weaknesses under it is green */
+@media (min-width:561px){:root[data-bg="dark"] #weakBtn, :root[data-bg="dark"] #weakBtn:hover{background:#4E6352;border-color:#66806A;color:#F3EFE8;filter:none}:root[data-bg="dark"] #weakBtn:hover{background:#587060}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
