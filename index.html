@@ -787,6 +787,12 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .email-form .btn{overflow-wrap:anywhere}
 @media (max-width:420px){.email-form{padding:12px}.email-form .controls{grid-template-columns:1fr}.email-form #emailSend{order:-1}}
 :root[data-bg="dark"] .email-form{background:#1C2F29;border-color:rgba(255,255,255,.1)}
+
+/* Quote screen: "Another Quote" is outlined only (no fill), "Begin Studying" is the pink button */
+.btn.quote-alt, .btn.quote-alt:hover, :root[data-bg="dark"] .btn.quote-alt, :root[data-bg="dark"] .btn.quote-alt:hover{background:transparent;border:2px solid #111}
+:root[data-bg="dark"] .btn.quote-alt{color:#F3EFE8}
+.btn.quote-alt:hover{background:rgba(0,0,0,.05)}
+:root[data-bg="dark"] .btn.quote-alt:hover{background:rgba(255,255,255,.05)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -1976,37 +1982,37 @@ const CARDS = [
 ["ps","Two neighborhoods have similar incomes, but one faces much higher pollution exposure because of zoning decisions. Which concept best explains this inequality?","Environmental injustice (environmental inequality).","10A-017"]
 ];
 
+// Quotes before each session: [quote, who said it, group]. "doc" = physicians (their own intro line); "other" = everyone else.
+// Each person sees every quote once before any repeats (tracked by quote text in their progress, so edits to this list are safe).
 const QUOTES = [
-  ["You will not break me. Fuck you all. I will break you. I will break you all.","Carl, The Gate of the Feral Gods"],
-  ["What was the point of living, if I couldn't live with myself?","Carl, Dungeon Crawler Carl"],
-  ["Glurp, glurp, motherfucker.","Carl, The Dungeon Anarchist's Cookbook"],
-  ["Viva la revolución, Carl.","Princess Donut, The Butcher's Masquerade"],
-  ["Nothing in biology makes sense except in the light of evolution.","Theodosius Dobzhansky"],
-  ["Research is to see what everybody else has seen, and to think what nobody else has thought.","Albert Szent-Györgyi"],
-  ["Equipped with our five senses, we explore the universe around us and call the adventure Science.","Edwin Hubble"],
-  ["Look up at the stars and not down at your feet.","Stephen Hawking"],
-  ["To study the phenomena of disease without books is to sail an uncharted sea, while to study books without patients is not to go to sea at all.","William Osler"],
-  ["Science is a way of thinking much more than it is a body of knowledge.","Carl Sagan"],
-  ["I have no special talents. I am only passionately curious.","Albert Einstein"],
-  ["Nothing is too wonderful to be true, if it be consistent with the laws of nature.","Michael Faraday"],
-  ["What you do makes a difference, and you have to decide what kind of difference you want to make.","Jane Goodall"],
-  ["Nothing in life is to be feared, it is only to be understood.","Marie Curie"],
-  ["Chance favors only the prepared mind.","Louis Pasteur"],
-  ["The first principle is that you must not fool yourself, and you are the easiest person to fool.","Richard Feynman"],
-  ["It is not easy to be a pioneer, but oh, it is fascinating!","Elizabeth Blackwell"],
-  ["If I have seen further it is by standing on the shoulders of Giants.","Isaac Newton"],
-  ["Life is not easy for any of us. But what of that? We must have perseverance and above all confidence in ourselves.","Marie Curie"],
-  ["Anyone can, if they so desire, become the sculptor of their own brain.","Santiago Ramón y Cajal"],
-  ["Let me tell you the secret that has led me to my goal. My strength lies solely in my tenacity.","Louis Pasteur"],
-  ["I attribute my success to this: I never gave or took any excuse.","Florence Nightingale"],
-  ["Life is short, the art long.","Hippocrates"],
-  ["Science and everyday life cannot and should not be separated.","Rosalind Franklin"],
-  ["The good physician treats the disease; the great physician treats the patient who has the disease.","William Osler"]
+  ["The practice of medicine is an art, not a trade; a calling, not a business; a calling in which your heart will be exercised equally with your head.","Sir William Osler","doc"],
+  ["The good physician treats the disease; the great physician treats the patient who has the disease.","Sir William Osler","doc"],
+  ["It is not easy to be a pioneer, but oh, it is fascinating!","Dr. Elizabeth Blackwell","doc"],
+  ["Anyone can, if they so desire, become the sculptor of their own brain.","Dr. Santiago Ramón y Cajal","doc"],
+  ["Research is to see what everybody else has seen, and to think what nobody else has thought.","Dr. Albert Szent-Gyorgyi","doc"],
+  ["Our greatest responsibility is to be good ancestors.","Dr. Jonas Salk","doc"],
+  ["True health care reform cannot happen in Washington. It has to happen in our kitchens, in our homes, in our communities. All health care is personal.","Dr. Mehmet Oz","doc"],
+  ["Out of your vulnerabilities will come your strength.","Dr. Sigmund Freud","doc"],
+  ["You will not break me. Fuck you all. I will break you. I will break you all.","Carl, Dungeon Crawler Carl by Matt Dinniman","other"],
+  ["If you're the smartest person in the room, you're in the wrong room.","Unknown","other"],
+  ["It's never too late to be what you might have been.","Mary Ann Evans (George Eliot)","other"],
+  ["Equipped with our five senses, we explore the universe around us and call the adventure Science.","Edwin Hubble, PhD","other"],
+  ["Science is a way of thinking much more than it is a body of knowledge.","Carl Sagan, PhD","other"],
+  ["I have no special talents. I am only passionately curious.","Albert Einstein, PhD","other"],
+  ["Nothing is too wonderful to be true, if it be consistent with the laws of nature.","Mr. Michael Faraday","other"],
+  ["What you do makes a difference, and you have to decide what kind of difference you want to make.","Jane Goodall, PhD","other"],
+  ["Nothing in life is to be feared, it is only to be understood.","Marie Curie, PhD","other"],
+  ["Life is not easy for any of us. But what of that? We must have perseverance and above all confidence in ourselves.","Marie Curie, PhD","other"],
+  ["Chance favors only the prepared mind.","Louis Pasteur, PhD","other"],
+  ["Let me tell you the secret that has led me to my goal. My strength lies solely in my tenacity.","Louis Pasteur, PhD","other"],
+  ["The first principle is that you must not fool yourself, and you are the easiest person to fool.","Richard Feynman, PhD","other"],
+  ["If I have seen further it is by standing on the shoulders of Giants.","Sir Isaac Newton","other"],
+  ["Science and everyday life cannot and should not be separated.","Rosalind Franklin, PhD","other"]
 ];
 
 const $ = id => document.getElementById(id);
 let filter = "all", deck = [], pos = 0, flipped = false, revealed = false, draft = "", total = 0, mode = "welcome", quote = null;
-let quotePool = [], shownKey = null, curKey = null, backupMsg = "", pendingImport = null;
+let quoteKeepFocus = false, shownKey = null, curKey = null, backupMsg = "", pendingImport = null;
 let undo = [];
 let backTo = "welcome", crawlerDrawn = false;
 let recallOpen = false, recallText = "";                                  // Active Recall: temporary, never saved
@@ -2170,7 +2176,20 @@ function rate(key, r, written){
 
 /* ---------- Sessions ---------- */
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function nextQuote(){ if(!quotePool.length) quotePool = shuffle(QUOTES.slice()); return quotePool.pop(); }
+// No repeats until every quote has been seen. The "seen" list is saved with her progress (and her account), so it holds across visits and devices.
+function nextQuote(){
+  const seen = Array.isArray(progress.quoteSeen) ? progress.quoteSeen : [];
+  let left = QUOTES.filter(q => !seen.includes(q[0]));
+  if(!left.length){                                            // whole list seen: start a new round, but never the same quote twice in a row
+    progress.quoteSeen = [];
+    left = QUOTES.filter(q => !quote || q[0] !== quote[0]);
+    if(!left.length) left = QUOTES.slice();
+  }
+  const q = left[Math.floor(Math.random() * left.length)];
+  progress.quoteSeen = (progress.quoteSeen || []).concat([q[0]]);
+  save();
+  return q;
+}
 const CUSTOM = { bm:"My Bookmarks", weak:"Weakest topics" };
 // Section buttons alternate blush and sage, each with a small line icon.
 const TINT = { bb:"pink", cp:"sage", ps:"pink", cars:"sage", rs:"pink", all:"all" };
@@ -2654,21 +2673,17 @@ function renderScreen(){
       : `Picking up where you left off: card ${resume.pos + 1} of ${resume.ids.length}.`;
     const note = [where,
       cats ? `Topics: ${cats.map(g => `${g} ${CATEGORIES[g]}`).join(", ")}.` : ""].filter(Boolean).join(" ");
-    // Intro line above the quote: scientists and doctors vs. Dungeon Crawler Carl characters.
-    const fromDungeon = ["Carl", "Princess Donut", "Mordecai", "Prepotente"].includes(quote[1].split(",")[0]);
-    // Physicians (MDs) get the "sat where you're sitting" line; other scientists get the "quoting you someday" line.
-    const fromDoctor = ["William Osler", "Elizabeth Blackwell", "Santiago Ramón y Cajal", "Hippocrates", "Albert Szent-Györgyi"].includes(quote[1]);
-    const intro = fromDungeon ? "Before you start: a word from the dungeon."
-      : fromDoctor ? "Before you start: a word from someone who once sat in the same seat you are now. Not better than you, just earlier."
-      : "A quote from someone who will someday be quoting you... if they're still alive.";
-    if(fromDoctor) scr.className += " doc";   // faint Staff of Asclepius behind the quote
+    // Intro line above the quote: physicians get the "sat in the same seat" line; everyone else gets "your turn is coming".
+    const intro = quote[2] === "doc" ? "Before you start: a word from someone who once sat in the same seat you are now. Not better than you, just earlier."
+      : "A little wisdom from people who changed the world. Your turn is coming.";
+    scr.className += " doc";   // faint Staff of Asclepius behind every quote
     scr.innerHTML = `<p class="q-intro">${intro}</p>
       <div><div class="q-text">“${quote[0]}”</div><div class="q-by">${quote[1]}</div></div>
       ${note ? `<p class="lede" style="margin:0">${note}</p>` : ""}
-      <div class="controls"><button class="btn" id="back" type="button">Back</button>
-      <button class="btn primary" id="toQuote" type="button">Continue</button></div>`;
-    $("back").onclick = () => show("welcome");
-    $("toQuote").onclick = () => start(); $("toQuote").focus();
+      <div class="controls"><button class="btn quote-alt" id="anotherQuote" type="button">Another Quote</button>
+      <button class="btn primary" id="toQuote" type="button">Begin Studying</button></div>`;
+    $("anotherQuote").onclick = () => { quote = nextQuote(); quoteKeepFocus = true; render(); quoteKeepFocus = false; $("anotherQuote").focus(); };
+    $("toQuote").onclick = () => start(); if(!quoteKeepFocus) $("toQuote").focus();
     return;
   }
   if(mode === "done"){
@@ -2908,6 +2923,7 @@ function mergeProgress(list){
     out.open = Object.assign({}, p.open || {}, out.open || {});
     for(const k of Object.keys(p.open || {})){ if(out.open[k] && p.open[k] && p.open[k].date > out.open[k].date) out.open[k] = deepCopy(p.open[k]); }
     if(!out.testDate && p.testDate) out.testDate = p.testDate;
+    if(Array.isArray(p.quoteSeen)) out.quoteSeen = Array.from(new Set((out.quoteSeen || []).concat(p.quoteSeen)));
     ["bg", "view", "tips"].forEach(k => { if(out[k] === undefined && p[k] !== undefined) out[k] = p[k]; });
     const nd = out.newDay || { date:"", count:0 }, pd = p.newDay || { date:"", count:0 };
     out.newDay = pd.date > nd.date ? pd : pd.date === nd.date ? { date:nd.date, count:Math.max(nd.count, pd.count) } : nd;
@@ -3379,6 +3395,7 @@ const TIPS = {
   "#card .bm": "Save this card to your Bookmarks.",
   "#skipToggle": "Skip the writing step after Struggled or Didn't know, for this session only.",
   "#toQuote": "Start your session, or pick up where you left off.",
+  "#anotherQuote": "Show a different quote.",
   "#back": "Go back to the welcome screen.",
   "#askYes": "See each card you didn't know one more time.",
   "#askNo": "Skip the second try and go to the final review.",
