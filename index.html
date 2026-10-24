@@ -867,6 +867,8 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 }
 /* Desktop: All topics is dark pink there, so View My Weaknesses under it is green */
 @media (min-width:561px){:root[data-bg="dark"] #weakBtn, :root[data-bg="dark"] #weakBtn:hover{background:#4E6352;border-color:#66806A;color:#F3EFE8;filter:none}:root[data-bg="dark"] #weakBtn:hover{background:#587060}}
+#helpLocal,#helpAcct{display:flex;flex-direction:column;gap:12px}
+#helpLocal[hidden],#helpAcct[hidden]{display:none}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -1011,9 +1013,16 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
     <p class="modal-title" id="helpTitle">How to Use Me</p>
     <video id="helpVideo" controls playsinline preload="none" aria-label="How to Use Me video"></video>
     <p class="lede" id="helpMissing" hidden><b>The How to Use Me video isn't available yet.</b> Check back soon.</p>
+    <div id="helpLocal">
     <p class="lede">Your study progress is saved automatically in this browser, so you can return and continue where you left off.</p>
     <p class="lede">Progress is stored on this device and browser. It does not automatically synchronize with another phone or computer.</p>
     <p class="lede">If you switch devices or clear your browser data, your saved progress may not be available. You can use the backup feature to export and restore your progress.</p>
+    </div>
+    <div id="helpAcct" hidden>
+    <p class="lede">Your study progress is saved automatically to your account, so you can return and continue where you left off.</p>
+    <p class="lede">Log in on any phone or computer and your progress, notes and bookmarks are there.</p>
+    <p class="lede">If you're offline for a while, your progress is kept on that device and syncs when you're back online. You can also use Export Progress to keep your own backup copy.</p>
+    </div>
     <div class="modal-actions"><button class="btn primary" id="helpClose" type="button">Close</button></div>
   </div>
 </div>
@@ -2662,7 +2671,7 @@ function renderScreen(){
         ${sbUser && profile && profile.is_admin ? `<button class="link" id="ownerBtn" type="button">Owner Dashboard</button>` : ""}
       </div>
       <label class="tipopt"><input type="checkbox" id="tipsToggle" ${tipsOn() ? "checked" : ""}> Hover over button for more information on what the button does.</label>
-      <p class="backup-note">Your progress is saved in this browser on this device. It doesn't sync to another phone or computer, and clearing browser data or using private browsing can erase it. Use Export Progress to keep a backup.</p>
+      <p class="backup-note">${sbUser ? "Your progress is saved to your account, so it follows you to any phone or computer you log in on. Use Export Progress if you want your own backup copy." : "Your progress is saved in this browser on this device. It doesn't sync to another phone or computer, and clearing browser data or using private browsing can erase it. Use Export Progress to keep a backup."}</p>
       <p class="backup-msg" role="status">${esc(backupMsg)}</p>`;
     crawlerDrawn = true;   // the arrow draws itself once per visit, not on every redraw
     scr.querySelectorAll(".topic").forEach(b => b.onclick = () => { backupMsg = ""; pick(b.dataset.k); });
@@ -3609,6 +3618,7 @@ function confirmYes(){
 }
 function openHelp(trigger){
   lastFocus = trigger || null; helpOpen = true;
+  $("helpLocal").hidden = !!sbUser; $("helpAcct").hidden = !sbUser;     // logged in: progress lives in the account and syncs
   const v = $("helpVideo");
   // The video only starts loading when this popup is opened. If it isn't there yet, a short message shows instead.
   if(!v.getAttribute || !v.getAttribute("src")){
