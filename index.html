@@ -801,6 +801,15 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .mnav{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 .mnav .navpill{min-width:0;white-space:normal;text-align:center;line-height:1.25}
 @media (max-width:380px){.mnav .navpill{font-size:.85rem;padding:6px 8px;gap:6px}.mnav .navpill::before{width:16px;height:16px}}
+
+/* Phones up to 560px wide (incl. large iPhones ~440px): section buttons one per row, short arrow under "crawler" */
+@media (max-width:560px){
+  .topics{grid-template-columns:1fr}
+  .topic.solo{width:100%}
+  .cw-wide{display:none}
+  .cw-narrow{display:block;width:1.6em;height:2.1em;top:-.995em}
+  .pick.crawler{padding-right:1.1em}   /* room for the arrow, so it stays inside the panel */
+}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
