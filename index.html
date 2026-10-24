@@ -774,6 +774,19 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 :root[data-bg="dark"] .topic.topic.topic[data-k=all] .t-score{border-top-color:rgba(30,19,22,.28)}
 :root[data-bg="dark"] .topic.topic.topic[data-k=all] .sc + .sc{border-left-color:rgba(30,19,22,.28)}
 :root[data-bg="dark"] .topic.topic.topic[data-k=all] .sc.lead .v{color:#5A1A2B;font-weight:700}
+
+/* Account page: change email */
+.email-line{display:flex;align-items:center;justify-content:space-between;gap:10px 14px;flex-wrap:wrap}
+.email-line #acctEmail{overflow-wrap:anywhere;min-width:0}
+.btn.small-btn{padding:8px 16px;min-height:44px;font-size:.95rem}
+:root[data-bg="dark"] .btn.small-btn{font-size:.95rem}
+.pending-box{display:flex;flex-direction:column;align-items:flex-start;gap:6px;border:1px solid var(--accent);background:var(--accent-soft);border-radius:var(--r);padding:12px 14px;font-size:.95rem;color:var(--ink);overflow-wrap:anywhere}
+.email-form{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;background:var(--bg)}
+.email-form .lede, .pending-box span, .auth-msg{overflow-wrap:anywhere}
+:root[data-bg="dark"] .auth-msg.ok{color:#BFD9C2}
+.email-form .btn{overflow-wrap:anywhere}
+@media (max-width:420px){.email-form{padding:12px}.email-form .controls{grid-template-columns:1fr}.email-form #emailSend{order:-1}}
+:root[data-bg="dark"] .email-form{background:#1C2F29;border-color:rgba(255,255,255,.1)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -2561,7 +2574,7 @@ function renderScreen(){
     scr.querySelectorAll(".topic").forEach(b => b.onclick = () => { backupMsg = ""; pick(b.dataset.k); });
     $("exportBtn").onclick = exportProgress;
     $("helpBtn").onclick = () => openHelp($("helpBtn"));
-    if(sbUser) $("acctBtn").onclick = () => { acctMsg = ""; openSide("account"); };
+    if(sbUser) $("acctBtn").onclick = openAccount;
     if(sbUser && profile && profile.is_admin) $("ownerBtn").onclick = () => { openSide("owner"); loadOwner(); };
     $("tipsToggle").onchange = e => { progress.tips = !!e.target.checked; save(); hideTip(); };
     if($("undoRestore") && readRecovery()) $("undoRestore").onclick = () => { const r = readRecovery(); if(!r) return; pendingImport = r; backupMsg = ""; show("import"); };
@@ -2952,18 +2965,27 @@ async function startAuth(){
   const hash = new URLSearchParams(location.hash.replace(/^#/, ""));
   const linkErr = hash.get("error_description") || hash.get("error");
   let recovering = hash.get("type") === "recovery";
+  const linkType = hash.get("type"), linkNote = hash.get("message");
   sb.auth.onAuthStateChange(event => {
     if(event === "PASSWORD_RECOVERY"){ recovering = true; authView = "reset"; authMsg = ""; mode = "auth"; render(); }
   });
   let session = null;
   try { const r = await sb.auth.getSession(); session = r.data && r.data.session; } catch(e){}
+  if(linkErr || linkNote){ try { history.replaceState(null, "", location.pathname + location.search); } catch(e){} }
   if(linkErr){
-    try { history.replaceState(null, "", location.pathname + location.search); } catch(e){}
     authMsg = /expired|invalid|denied/i.test(linkErr) ? "That link has expired or was already used. Log in, or request a new link below." : linkErr.replace(/\+/g, " ");
   }
+  // Email change: the first of the two links says "now click the other one"; the last one logs her in with the new address.
+  let after = null;
+  if(linkType === "email_change") after = { ok:true, text:"Your email address has been changed. Use it the next time you log in." };
+  else if(linkNote) after = { ok:true, text:/other email|both/i.test(linkNote) ? "One link confirmed. Now click the link we sent to your other email address to finish changing your email." : linkNote.replace(/\+/g, " ") };
+  else if(linkErr && session) after = { ok:false, text:"That email link has expired or was already used. If you're changing your email, use “Send the links again” below." };
   if(recovering && session){ authView = "reset"; mode = "auth"; render(); return; }
-  if(session) await enterAccount(session.user);
-  else { authView = "login"; mode = "auth"; render(); }
+  if(session){
+    await enterAccount(session.user);
+    if(after && sbUser){ openAccount(); emailNote = after; render(); }
+  }
+  else { if(after && after.ok){ authMsg = after.text; authOk = true; } authView = "login"; mode = "auth"; render(); }
 }
 async function enterAccount(user){
   authView = "loading"; mode = "auth"; render();
@@ -3181,8 +3203,20 @@ function renderAuth(scr){
   }
 }
 function renderAccount(scr){
+  const curEmail = (sbUser && sbUser.email) || (profile && profile.email) || "", pendingEmail = sbUser && sbUser.new_email;
+  const note = emailNote ? `<p class="auth-msg${emailNote.ok ? " ok" : ""}" id="emailMsg" role="${emailNote.ok ? "status" : "alert"}">${esc(emailNote.text)}</p>` : "";
   scr.innerHTML = `<p class="sec-title">Your account</p>
-    <div class="acct-row"><span class="lab">Email</span><span>${esc((profile && profile.email) || (sbUser && sbUser.email) || "")}</span></div>
+    <div class="acct-row email-row"><span class="lab">Email</span>
+      <span class="email-line"><span id="acctEmail">${esc(curEmail)}</span>${emailFormOpen ? "" : `<button class="btn small-btn" type="button" id="chgEmailBtn" aria-expanded="false" aria-controls="emailForm">Change Email</button>`}</span></div>
+    ${pendingEmail && !emailFormOpen ? `<div class="pending-box" role="status"><span>Waiting for you to confirm the change to <b>${esc(pendingEmail)}</b>. Click the links we sent to <b>${esc(curEmail)}</b> and <b>${esc(pendingEmail)}</b>. Your email stays the same until then.</span><button class="link" type="button" id="resendChange">Send the links again</button></div>` : ""}
+    ${emailFormOpen ? `<form class="auth-form email-form" id="emailForm" novalidate>
+      <p class="lede" style="margin:0">We'll send a confirmation link to your new address and a security link to <b>${esc(curEmail)}</b>. Nothing changes until you confirm, and your progress, notes and bookmarks stay with your account.</p>
+      <label class="field">New email<input type="email" id="newEmail" autocomplete="email" inputmode="email" maxlength="254" value="${esc(emailDraft.a)}"></label>
+      <label class="field">Confirm new email<input type="email" id="newEmail2" autocomplete="off" inputmode="email" maxlength="254" value="${esc(emailDraft.b)}"></label>
+      <label class="field">Current password <span class="hint-sm">(to confirm it's you)</span><input type="password" id="emailPw" autocomplete="current-password"></label>
+      ${note}
+      <div class="controls"><button class="btn" type="button" id="emailCancel">Cancel</button><button class="btn primary" type="submit" id="emailSend">Send verification</button></div>
+    </form>` : note}
     <form class="auth-form" id="nameForm" novalidate>
       <div class="name-pair">
         <label class="field">First name (used in your welcome)<input type="text" id="acctName" autocomplete="given-name" maxlength="40" value="${esc((profile && profile.first_name) || "")}"></label>
@@ -3200,6 +3234,7 @@ function renderAccount(scr){
     </details>`;
   $("sideBack").onclick = goBack;
   $("logoutBtn").onclick = logOut;
+  wireEmailChange();
   $("nameForm").onsubmit = async e => { e.preventDefault();
     const name = $("acctName").value.trim().slice(0, 40), last = $("acctLast").value.trim().slice(0, 40);
     if(!name || !last){ acctMsg = "Please enter your first and last name."; render(); return; }
@@ -3208,7 +3243,65 @@ function renderAccount(scr){
     profile.first_name = name; profile.last_name = last; acctMsg = "Saved."; render(); };
   $("delConfirm").oninput = e => { $("delBtn").disabled = e.target.value.trim() !== "DELETE"; };
   $("delBtn").onclick = () => { if($("delConfirm").value.trim() === "DELETE") deleteAccount(); };
-  $("sideBack").focus();
+  if(emailFormOpen && $("newEmail").focus) (emailNote && !emailNote.ok ? $("emailSend") : $("newEmail")).focus(); else $("sideBack").focus();
+}
+/* ---------- Change email (Supabase's own email-change flow: nothing changes until the links are clicked) ---------- */
+let emailFormOpen = false, emailNote = null, emailDraft = { a:"", b:"" }, emailBusy = false;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+function openAccount(){ acctMsg = ""; emailFormOpen = false; emailNote = null; emailDraft = { a:"", b:"" }; openSide("account"); refreshAuthUser(); }
+// Pick up an email change finished on another device or tab (the account page always shows the current address).
+async function refreshAuthUser(){
+  if(!sb || !sbUser) return;
+  try {
+    const { data } = await sb.auth.getUser();
+    const u = data && data.user;
+    if(!u || u.id !== sbUser.id) return;
+    const changed = u.email !== sbUser.email || (u.new_email || "") !== (sbUser.new_email || "");
+    sbUser = u; if(profile) profile.email = u.email;
+    if(changed && mode === "account") render();
+  } catch(e){}
+}
+function emailError(error){
+  const m = String((error && (error.message || error.msg)) || ""), code = String((error && (error.code || error.error_code)) || "");
+  if(code === "email_exists" || /already (been )?registered|already exists|already in use/i.test(m)) return "That email is already used by another account. Use a different address.";
+  if(code === "same_email" || /same as|should be different/i.test(m)) return "That's already your email address.";
+  if(/invalid.*email|email.*invalid|unable to validate/i.test(m) || code === "email_address_invalid") return "Please enter a valid email address.";
+  return friendly(error);
+}
+function wireEmailChange(){
+  const show = (text, ok) => { emailNote = { text, ok }; render(); };
+  if($("chgEmailBtn")) $("chgEmailBtn").onclick = () => { emailFormOpen = true; emailNote = null; render(); };
+  if($("resendChange")) $("resendChange").onclick = async () => {
+    if(emailBusy) return; emailBusy = true;
+    let error = null; try { ({ error } = await sb.auth.updateUser({ email:sbUser.new_email }, { emailRedirectTo:siteUrl() })); } catch(x){ error = x; }
+    emailBusy = false;
+    show(error ? emailError(error) : `We sent the links again. Check ${sbUser.email} and ${sbUser.new_email} (and their spam folders).`, !error);
+  };
+  if(!$("emailForm") || !emailFormOpen) return;
+  const keep = () => { emailDraft = { a:$("newEmail").value, b:$("newEmail2").value }; };
+  $("newEmail").oninput = $("newEmail2").oninput = () => { keep(); if(emailNote && !emailNote.ok){ emailNote = null; const m = $("emailMsg"); if(m) m.textContent = ""; } };
+  $("emailCancel").onclick = () => { emailFormOpen = false; emailNote = null; emailDraft = { a:"", b:"" }; render(); };
+  $("emailForm").onsubmit = async e => { e.preventDefault(); if(emailBusy) return; keep();
+    const a = $("newEmail").value.trim(), b = $("newEmail2").value.trim(), pw = $("emailPw").value, cur = sbUser.email || "";
+    if(!EMAIL_RE.test(a)) return show("Please enter a valid email address.", false);
+    if(a.toLowerCase() !== b.toLowerCase()) return show("The two email addresses don't match.", false);
+    if(a.toLowerCase() === cur.toLowerCase()) return show("That's already your email address.", false);
+    if(!pw) return show("Please enter your current password to confirm it's you.", false);
+    emailBusy = true; $("emailSend").disabled = true; $("emailSend").textContent = "Sending…";
+    try {
+      // Confirm it's really her: check the current password (this keeps her logged in as the same account).
+      const r = await sb.auth.signInWithPassword({ email:cur, password:pw });
+      if(r.error){ emailBusy = false; return show(/invalid login|credentials/i.test(r.error.message || "") ? "That password isn't right. Please try again." : friendly(r.error), false); }
+      if(r.data && r.data.user && r.data.user.id !== sbUser.id){ emailBusy = false; return show("Something went wrong. Please log out and back in, then try again.", false); }
+      const { data, error } = await sb.auth.updateUser({ email:a }, { emailRedirectTo:siteUrl() });
+      emailBusy = false;
+      if(error) return show(emailError(error), false);
+      if(data && data.user) sbUser = data.user;
+      if(!sbUser.new_email) sbUser = Object.assign({}, sbUser, { new_email:a });
+      emailFormOpen = false; emailDraft = { a:"", b:"" };
+      show(`Verification sent. Click both links to finish. Until then, keep logging in with your current email.`, true);
+    } catch(x){ emailBusy = false; show(emailError(x), false); }
+  };
 }
 async function loadOwner(){
   ownerData = null; if(mode === "owner") render();
@@ -3510,7 +3603,7 @@ $("menuBtn").onclick = () => setMenu($("menu").hidden || menuFrom !== $("menuBtn
 $("avatarBtn").onclick = () => setMenu($("menu").hidden || menuFrom !== $("avatarBtn"), $("avatarBtn"));
 $("mBm").onclick = menuGo(() => openSide("bm"));
 $("mNotes").onclick = menuGo(() => openSide("notes"));
-$("mAcct").onclick = menuGo(() => { acctMsg = ""; openSide("account"); });
+$("mAcct").onclick = menuGo(openAccount);
 $("mOwner").onclick = menuGo(() => { openSide("owner"); loadOwner(); });
 $("mHelp").onclick = menuGo(back => openHelp(back));
 $("mMode").onclick = menuGo(() => $("modeBtn").onclick());

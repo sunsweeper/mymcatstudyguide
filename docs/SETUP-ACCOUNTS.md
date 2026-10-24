@@ -38,6 +38,13 @@ Some email services open links in advance to scan them, which can use up a one-t
 - **Confirm email:** on (this is what sends the verification link)
 - **Minimum password length:** 8 (the site also requires 8)
 
+### Email changes (Account → Change Email)
+**Authentication → Sign In / Providers → Email**
+- **Secure email change:** on. Supabase then emails a link to both the old and the new address, and the change only happens after both are clicked. The link to the old address doubles as the security notice.
+- Optional, if your dashboard has it: **Authentication → Emails → Security notifications → "Email address changed"**: on. This sends one more notice to the old address once the change is done.
+
+The site never changes an email itself. It checks the person's current password, then asks Supabase to start its own verified email-change process. Progress, notes and bookmarks belong to the account's permanent ID, not the email, so nothing moves or gets lost. The `profiles.email` column updates itself when Supabase finishes the change (a trigger in `supabase-setup.sql`).
+
 ## 4. Upload the site to GitHub
 Upload everything in this zip to the root of the repo. The new files are `supabase.js` (the accounts library), `privacy.html` and `terms.html`, along with the updated `index.html`. Vercel redeploys in about a minute.
 
