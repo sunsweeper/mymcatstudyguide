@@ -793,6 +793,14 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 :root[data-bg="dark"] .btn.quote-alt{color:#F3EFE8}
 .btn.quote-alt:hover{background:rgba(0,0,0,.05)}
 :root[data-bg="dark"] .btn.quote-alt:hover{background:rgba(255,255,255,.05)}
+
+/* Asterisk after "crawler" (note in the footer); two study-screen switches side by side */
+.cw-star{font-size:.6em;vertical-align:super;line-height:0;margin-left:.02em}
+.crawler-note{margin-top:8px}
+.skip-row{flex-wrap:wrap;gap:4px 28px}
+.mnav{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.mnav .navpill{min-width:0;white-space:normal;text-align:center;line-height:1.25}
+@media (max-width:380px){.mnav .navpill{font-size:.85rem;padding:6px 8px;gap:6px}.mnav .navpill::before{width:16px;height:16px}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -902,12 +910,13 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
         <div class="note-text" id="notePeek" hidden></div>
       </div>
       <span class="hint" id="hint" aria-live="polite"></span>
-      <div class="skip-row"><button class="toggle" id="skipToggle" type="button" aria-pressed="false"><span class="switch" aria-hidden="true"></span>Skip reinforcement input</button></div>
+      <div class="skip-row"><button class="toggle" id="skipToggle" type="button" aria-pressed="false"><span class="switch" aria-hidden="true"></span>Skip reinforcement input</button><button class="toggle" id="writeToggle" type="button" aria-pressed="false"><span class="switch" aria-hidden="true"></span>Skip writing before flip</button></div>
     </div>
   </div>
   <input type="file" id="importFile" accept=".json,application/json" hidden>
   <footer class="legal"><span><a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a> · <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a></span>
-    <span class="tm">MCAT is a registered trademark of the Association of American Medical Colleges, which has not endorsed this site.</span></footer>
+    <span class="tm">MCAT is a registered trademark of the Association of American Medical Colleges, which has not endorsed this site.</span>
+    <span class="tm crawler-note">*“Crawler” is a nod to the wonderfully chaotic characters of Matt Dinniman's <i>Dungeon Crawler Carl</i> series. Some stumble blindly through impossible challenges. Others survive through intelligence, preparation, and a little ingenuity.<br>At myMCATstudyguide.com, we're here to help make sure you're one of the latter.</span></footer>
 </div>
 
 <div class="tip" id="tip" role="tooltip" hidden></div>
@@ -2154,7 +2163,7 @@ function rate(key, r, written){
   if(r === "again"){
     s.reps = 0; s.interval = 0; s.due = t; s.writing = true; s.status = "learning";
   } else if(r === "hard"){
-    s.reps = 0; s.interval = 1; s.due = addDays(1); s.writing = true; s.status = "learning";
+    s.reps = 0; s.interval = 1; s.due = addDays(1); s.writing = false; s.status = "learning";   // Struggled: no write-first step next time
   } else { // good
     s.writing = false;
     if(!firstToday || early){
@@ -2568,7 +2577,7 @@ function renderScreen(){
       </div>
       </div>
       <hr class="panel-divider">
-      <p class="pick crawler${crawlerDrawn ? "" : " draw"}">Choose wisely, crawler<span class="cw-anchor"><svg class="cw-arrow cw-wide" viewBox="0 0 60 52" aria-hidden="true" focusable="false"><path class="cw-line" pathLength="1" d="M1 13.5 L 27 13.5 C 37 13.5, 45 20, 45.5 30 C 45.8 36, 45.6 41, 45.2 46"/><path class="cw-head" d="M41 40.6 L45.2 46 L49.6 40.6"/></svg><svg class="cw-arrow cw-narrow" viewBox="0 0 40 52" aria-hidden="true" focusable="false"><path class="cw-line" pathLength="1" d="M1 13.5 L 17 13.5 C 25 13.5, 30.5 19, 31 28 C 31.3 35, 31 41, 30.6 46"/><path class="cw-head" d="M26.6 40.6 L30.6 46 L34.6 40.6"/></svg></span>.</p>
+      <p class="pick crawler${crawlerDrawn ? "" : " draw"}">Choose wisely, crawler<span class="cw-star" aria-hidden="true">*</span><span class="sr">(see note at the bottom of the page)</span><span class="cw-anchor"><svg class="cw-arrow cw-wide" viewBox="0 0 60 52" aria-hidden="true" focusable="false"><path class="cw-line" pathLength="1" d="M1 13.5 L 27 13.5 C 37 13.5, 45 20, 45.5 30 C 45.8 36, 45.6 41, 45.2 46"/><path class="cw-head" d="M41 40.6 L45.2 46 L49.6 40.6"/></svg><svg class="cw-arrow cw-narrow" viewBox="0 0 40 52" aria-hidden="true" focusable="false"><path class="cw-line" pathLength="1" d="M1 13.5 L 17 13.5 C 25 13.5, 30.5 19, 31 28 C 31.3 35, 31 41, 30.6 46"/><path class="cw-head" d="M26.6 40.6 L30.6 46 L34.6 40.6"/></svg></span>.</p>
       <div class="topics">${keys.map(k => `
         <button class="topic${k==="all"?" all":k==="bb"?" solo":""} t-${TINT[k]}" type="button" data-k="${k}">
           <span class="t-ico" aria-hidden="true">${ICONS[k]}</span>
@@ -2773,7 +2782,7 @@ function renderScreen(){
   const front = rev ? (rv[0] || `<span class="lab">Which term or concept is described by:</span>${a}`) : q;
   const asked = rev ? (rv[0] || a) : q, back = rev ? rv[1] : a;
   document.querySelectorAll("#view [data-v]").forEach(b => { const on = b.dataset.v === progress.view; b.setAttribute("aria-checked", String(on)); b.tabIndex = on ? 0 : -1; });
-  const needWrite = !!(st(curKey) && st(curKey).writing);
+  const needWrite = mustWrite(curKey);
   if(shownKey !== curKey){ shownKey = curKey; $("answer").value = draft; }
   const yours = needWrite && draft.trim() ? `<div class="yours"><span class="lab">Your answer</span><div>${esc(draft).replace(/\n/g,"<br>")}</div></div>` : "";
   const marked = !!progress.bookmarks[id];
@@ -2792,6 +2801,7 @@ function renderScreen(){
   $("reinforceHint").textContent = nChars < MIN_REINFORCE ? `${nChars} / ${MIN_REINFORCE} characters` : "";
   const sess = progress.open[filter];
   $("skipToggle").setAttribute("aria-pressed", String(!!(sess && sess.skip)));
+  $("writeToggle").setAttribute("aria-pressed", String(!!progress.skipWrite));
   $("reportBox").hidden = !reportOpen;
   $("reportBtn").setAttribute("aria-expanded", String(reportOpen));
   $("reportSend").disabled = reportBusy;
@@ -2834,13 +2844,20 @@ function animateFlip(change, after){
     back.onfinish = back.oncancel = () => { flipping = false; done(); };
   };
 }
+// Write-before-flip: only for a card whose last rating was "Didn't know", and only while she hasn't turned it off.
+function mustWrite(k){
+  const s = k && st(k);
+  if(!s || !s.writing || progress.skipWrite) return false;
+  const last = s.history && s.history[s.history.length - 1];
+  return !last || last.r === "again";      // older saves with no history keep their setting
+}
 function focusCard(){
   const k = curKey; if(!k) return;
-  if(st(k) && st(k).writing && !revealed) $("answer").focus(); else $("card").focus();
+  if(mustWrite(k) && !revealed) $("answer").focus(); else $("card").focus();
 }
 function reveal(){
   if(mode!=="cards" || flipping || revealed) return;
-  if(st(curKey) && st(curKey).writing && !draft.trim()) { $("answer").focus(); return; }
+  if(mustWrite(curKey) && !draft.trim()) { $("answer").focus(); return; }
   const o = progress.open[filter];
   if(o && !o.counted){ o.counted = true; progress.stats.sessions++; save(); }
   animateFlip(() => { revealed = true; flipped = true; }, () => $("card").focus());
@@ -2866,7 +2883,7 @@ function tapCard(){
 }
 /* ---------- Active Recall ---------- */
 function openRecall(){
-  if(mode !== "cards" || revealed || !curKey || isRevKey(curKey) || (st(curKey) && st(curKey).writing)) return;
+  if(mode !== "cards" || revealed || !curKey || isRevKey(curKey) || mustWrite(curKey)) return;
   if(!recallOpen){ recallOpen = true; recallText = ""; $("recallText").value = ""; }
   render(); $("recallText").focus();
 }
@@ -2924,7 +2941,7 @@ function mergeProgress(list){
     for(const k of Object.keys(p.open || {})){ if(out.open[k] && p.open[k] && p.open[k].date > out.open[k].date) out.open[k] = deepCopy(p.open[k]); }
     if(!out.testDate && p.testDate) out.testDate = p.testDate;
     if(Array.isArray(p.quoteSeen)) out.quoteSeen = Array.from(new Set((out.quoteSeen || []).concat(p.quoteSeen)));
-    ["bg", "view", "tips"].forEach(k => { if(out[k] === undefined && p[k] !== undefined) out[k] = p[k]; });
+    ["bg", "view", "tips", "skipWrite"].forEach(k => { if(out[k] === undefined && p[k] !== undefined) out[k] = p[k]; });
     const nd = out.newDay || { date:"", count:0 }, pd = p.newDay || { date:"", count:0 };
     out.newDay = pd.date > nd.date ? pd : pd.date === nd.date ? { date:nd.date, count:Math.max(nd.count, pd.count) } : nd;
   }
@@ -3394,6 +3411,7 @@ const TIPS = {
   "#ownerBtn": "See who has signed up, when they last studied, how many cards they reviewed and for how long. No scores or answers.",
   "#card .bm": "Save this card to your Bookmarks.",
   "#skipToggle": "Skip the writing step after Struggled or Didn't know, for this session only.",
+  "#writeToggle": "Flip cards you marked Didn't know without writing your answer first. Stays on until you turn it off.",
   "#toQuote": "Start your session, or pick up where you left off.",
   "#anotherQuote": "Show a different quote.",
   "#back": "Go back to the welcome screen.",
@@ -3650,6 +3668,7 @@ $("answer").oninput = e => { draft = e.target.value; $("reveal").disabled = !dra
 document.querySelectorAll("#rateRow [data-r]").forEach(b => b.onclick = () => chooseRating(b.dataset.r));
 $("reinforceText").oninput = e => { reinforceDraft = e.target.value; const n = reinforceDraft.trim().length; $("reinforceNext").disabled = n < MIN_REINFORCE; $("reinforceHint").textContent = n < MIN_REINFORCE ? `${n} / ${MIN_REINFORCE} characters` : ""; };
 $("reinforceNext").onclick = submitReinforce;
+$("writeToggle").onclick = () => { progress.skipWrite = !progress.skipWrite; save(); render(); };
 $("skipToggle").onclick = () => { const o = progress.open[filter]; if(!o) return; o.skip = !o.skip; save(); render(); };
 $("reportBtn").onclick = () => { reportOpen = !reportOpen; $("reportMsg").textContent = ""; render(); if(reportOpen) $("reportNote").focus(); };
 $("reportCancel").onclick = () => { reportOpen = false; $("reportNote").value = ""; $("reportMsg").textContent = ""; render(); $("card").focus(); };
