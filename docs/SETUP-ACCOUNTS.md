@@ -2,6 +2,9 @@
 
 Do these in order. Steps 1–3 take about 10 minutes.
 
+## Updating the database after a site update
+When a site update adds database fields (like last name and MCAT date), run the latest `docs/supabase-setup.sql` again the same way as step 1. It only adds what's missing; existing accounts and progress are untouched.
+
 ## 1. Create the database tables
 1. Open your Supabase project → **SQL Editor** → **New query**.
 2. Open `docs/supabase-setup.sql` from this zip, copy all of it, paste it in, and click **Run**.

@@ -32,6 +32,11 @@ create table if not exists public.activity (
   primary key (user_id, day)
 );
 
+-- Added later: last name and MCAT date (safe to run on an existing database).
+alter table public.profiles add column if not exists last_name text not null default '' check (char_length(last_name) <= 40);
+alter table public.profiles add column if not exists mcat_date date;
+alter table public.profiles add column if not exists mcat_unscheduled boolean not null default false;
+
 alter table public.profiles enable row level security;
 alter table public.progress enable row level security;
 alter table public.activity enable row level security;
@@ -51,7 +56,7 @@ create policy "update own profile" on public.profiles
   for update to authenticated using (id = auth.uid()) with check (id = auth.uid());
 revoke all on public.profiles from anon, authenticated;
 grant select on public.profiles to authenticated;
-grant update (first_name) on public.profiles to authenticated;   -- people can change their name, nothing else
+grant update (first_name, last_name) on public.profiles to authenticated;   -- people can change their name, nothing else
 
 -- Progress: only the person themself. The owner cannot read it.
 drop policy if exists "own progress" on public.progress;
@@ -71,14 +76,19 @@ grant select on public.activity to authenticated;
 
 create or replace function public.handle_new_user()
 returns trigger language plpgsql security definer set search_path = '' as $$
+declare d date;
 begin
-  insert into public.profiles (id, first_name, email, terms_accepted_at, age_confirmed)
+  begin d := (new.raw_user_meta_data->>'mcat_date')::date; exception when others then d := null; end;   -- a bad date never blocks sign-up
+  insert into public.profiles (id, first_name, last_name, email, terms_accepted_at, age_confirmed, mcat_date, mcat_unscheduled)
   values (
     new.id,
     left(coalesce(new.raw_user_meta_data->>'first_name', ''), 40),
+    left(coalesce(new.raw_user_meta_data->>'last_name', ''), 40),
     new.email,
     case when (new.raw_user_meta_data->>'accepted_terms') = 'true' then now() end,
-    coalesce((new.raw_user_meta_data->>'age_confirmed') = 'true', false)
+    coalesce((new.raw_user_meta_data->>'age_confirmed') = 'true', false),
+    d,
+    coalesce((new.raw_user_meta_data->>'mcat_unscheduled') = 'true', false)
   )
   on conflict (id) do nothing;
   return new;

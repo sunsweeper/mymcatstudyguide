@@ -501,6 +501,13 @@ footer.legal .tm{max-width:60ch}
 .trial-spark.s2{bottom:-8px;left:26px;width:14px;height:14px}
 /* Divider above "Choose wisely, crawler.", edge to edge across the panel */
 .panel-divider{border:0;height:2px;margin:4px -26px 0;background:linear-gradient(90deg, var(--sage-edge), var(--accent) 50%, var(--sage-edge))}
+.name-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:420px){.name-pair{grid-template-columns:1fr}}
+.mcat-date{border:1px solid var(--line);border-radius:var(--r);padding:10px 14px 12px;margin:0;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
+.mcat-date legend{font-size:.95rem;font-weight:700;color:var(--forest);padding:0 4px}
+.mcat-date input[type=date]{font:400 1rem var(--f-ui);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;min-height:46px;box-sizing:border-box;width:100%}
+.mcat-date input[type=date]:disabled{opacity:.5}
+.mcat-date input[type=date]:focus{outline:2px solid var(--accent);outline-offset:2px}
 /* Section buttons stand out: thin black border (kept on hover) */
 .topic, .topic.t-pink, .topic.t-sage, .topic.all, .topic:hover, .topic.t-pink:hover, .topic.t-sage:hover, .topic.all:hover{border:2px solid #111}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
@@ -2246,10 +2253,7 @@ function renderScreen(){
           <span class="t-full">${k==="all" ? "Every section" : SECTIONS[k].full}</span>
           <span class="t-score">${cell(k,"good","Known")}${cell(k,"hard","Struggled")}${cell(k,"again","Didn't know")}</span>
         </button>`).join("")}</div>
-      <div class="test-row">
-        <label class="testdate" for="testDate">Test date: <input type="date" id="testDate" value="${progress.testDate || ""}"></label>
-        ${pace ? `<span class="pace">${pace}</span>` : ""}
-      </div>
+      ${progress.testDate && pace ? `<div class="test-row"><span class="pace">${pace}</span></div>` : ""}
       <button class="btn wide-btn" id="weakBtn" type="button">View My Weaknesses</button>
       <div class="backup">
         <button class="link" id="helpBtn" type="button" aria-haspopup="dialog">How to Use Me</button>
@@ -2271,7 +2275,6 @@ function renderScreen(){
     $("tipsToggle").onchange = e => { progress.tips = !!e.target.checked; save(); hideTip(); };
     if($("undoRestore") && readRecovery()) $("undoRestore").onclick = () => { const r = readRecovery(); if(!r) return; pendingImport = r; backupMsg = ""; show("import"); };
     $("weakBtn").onclick = () => openSide("weakdash");
-    $("testDate").onchange = e => { progress.testDate = e.target.value || ""; if(!progress.testDate) delete progress.testDate; clampToTest(); save(); render(); };
     $("importBtn").onclick = () => { $("importFile").value = ""; $("importFile").click(); };
     return;
   }
@@ -2676,13 +2679,26 @@ async function enterAccount(user){
   let prof = null, row = null;
   try {
     const [p, g] = await Promise.all([
-      sb.from("profiles").select("first_name,email,is_admin").eq("id", user.id).maybeSingle(),
+      sb.from("profiles").select("first_name,last_name,email,is_admin").eq("id", user.id).maybeSingle(),
       sb.from("progress").select("data").eq("user_id", user.id).maybeSingle()
     ]);
     if(g.error) throw g.error;
+    if(p.error) throw p.error;
     prof = p.data; row = g.data;
   } catch(e){
-    authMsg = "We couldn't load your account. Check your connection and try again."; authOk = false;
+    // Say what actually went wrong, so a setup problem isn't mistaken for a bad connection.
+    const m = String((e && (e.message || e.details)) || ""), code = String((e && e.code) || "");
+    if(typeof console !== "undefined" && console.error) console.error("Account load failed:", e);
+    authMsg = /PGRST205|42P01/.test(code) || /does not exist|schema cache|could not find the table/i.test(m)
+        ? "Your account works, but the site's database isn't set up yet. (Site owner: run docs/supabase-setup.sql in Supabase.)"
+      : code === "42501" || /permission denied/i.test(m)
+        ? "Your account works, but the database permissions aren't set up. (Site owner: run docs/supabase-setup.sql again in Supabase.)"
+      : /fetch|network|failed to/i.test(m)
+        ? "We couldn't reach your account. Check your connection and try again."
+        : `We couldn't load your account (${m || code || "unknown error"}). Please try again.`;
+    authOk = false;
+    // Setup problems: start clean next time. A dropped connection keeps her signed in, so a refresh works once she's back online.
+    if(!/fetch|network|failed to/i.test(m)){ try { await sb.auth.signOut({ scope:"local" }); } catch(x){} }
     authView = "login"; render(); return;
   }
   sbUser = user;
@@ -2695,6 +2711,12 @@ async function enterAccount(user){
   const hasStuff = p => p && (Object.keys(p.cards || {}).length || Object.keys(p.notes || {}).length || Object.keys(p.bookmarks || {}).length || (p.stats && p.stats.sessions));
   // Progress saved on this device before accounts existed moves into the first account that logs in here.
   progress = normalizeProgress(mergeProgress([local, row && row.data, hasStuff(legacy) ? legacy : null]) || blank());
+  // The MCAT date given at sign-up becomes her test date (once; a later change elsewhere isn't overwritten).
+  const meta = user.user_metadata || {};
+  if(!progress.mcatFromSignup){
+    if(!progress.testDate && meta.mcat_date && /^\d{4}-\d{2}-\d{2}$/.test(meta.mcat_date) && daysUntil(meta.mcat_date) > 0) progress.testDate = meta.mcat_date;
+    progress.mcatFromSignup = true;
+  }
   clampToTest();
   save();
   if(legacyRaw){ try { localStorage.setItem(LEGACY_STORE + "-moved-to-account", legacyRaw); localStorage.removeItem(LEGACY_STORE); } catch(e){} }
@@ -2772,10 +2794,19 @@ function renderAuth(scr){
   if(v === "signup"){
     scr.innerHTML = `<p class="sec-title">Create an account</p>
       <form class="auth-form" id="authForm" novalidate>
-        <label class="field">First name<input type="text" id="aName" autocomplete="given-name" maxlength="40" required></label>
+        <div class="name-pair">
+          <label class="field">First name<input type="text" id="aName" autocomplete="given-name" maxlength="40" required></label>
+          <label class="field">Last name<input type="text" id="aLast" autocomplete="family-name" maxlength="40" required></label>
+        </div>
         <label class="field">Email<input type="email" id="aEmail" autocomplete="email" inputmode="email" required value="${esc(authEmail)}"></label>
         <label class="field">Password<input type="password" id="aPw" autocomplete="new-password" minlength="8" required aria-describedby="pwHint"><span class="hint-sm" id="pwHint">At least 8 characters.</span></label>
         <label class="check small"><input type="checkbox" id="aShow"> Show password</label>
+        <fieldset class="mcat-date">
+          <legend>MCAT test date</legend>
+          <input type="date" id="aMcat" min="${today()}" aria-describedby="mcatHint">
+          <span class="hint-sm" id="mcatHint">Sets your daily study pace and keeps reviews on track before your test.</span>
+          <label class="check small"><input type="checkbox" id="aNoDate"><span>My MCAT date isn't scheduled yet.</span></label>
+        </fieldset>
         <label class="check"><input type="checkbox" id="aAge"><span>I'm 18 or older.</span></label>
         <label class="check"><input type="checkbox" id="aTerms"><span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span></label>
         ${msg}
@@ -2784,14 +2815,19 @@ function renderAuth(scr){
       <div class="auth-links"><span></span><button class="link" type="button" id="toLogin">I already have an account</button></div>`;
     $("aShow").onchange = e => { $("aPw").type = e.target.checked ? "text" : "password"; };
     $("toLogin").onclick = () => { authEmail = $("aEmail").value.trim(); authView = "login"; authMsg = ""; render(); };
+    $("aNoDate").onchange = e => { $("aMcat").disabled = !!e.target.checked; if(e.target.checked) $("aMcat").value = ""; };
+    $("authForm").onchange = () => { const m = $("aMsg"); if(m && authMsg && !authOk){ authMsg = ""; m.textContent = ""; } };   // a fixed problem's message goes away
     $("authForm").onsubmit = e => { e.preventDefault();
-      const name = $("aName").value.trim(), email = $("aEmail").value.trim(), pw = $("aPw").value;
-      const problem = !name ? "Please enter your first name." : !validEmail(email) ? "Please enter a valid email address." : pw.length < 8 ? "Your password needs at least 8 characters."
+      const name = $("aName").value.trim(), last = $("aLast").value.trim(), email = $("aEmail").value.trim(), pw = $("aPw").value;
+      const mcat = ($("aMcat").value || "").trim(), noDate = !!$("aNoDate").checked;
+      const badDate = mcat && (!/^\d{4}-\d{2}-\d{2}$/.test(mcat) || daysUntil(mcat) < 0 || daysUntil(mcat) > 3 * 366);
+      const problem = !name ? "Please enter your first name." : !last ? "Please enter your last name." : !validEmail(email) ? "Please enter a valid email address." : pw.length < 8 ? "Your password needs at least 8 characters."
+        : !mcat && !noDate ? "Please enter your MCAT test date, or check “My MCAT date isn't scheduled yet.”" : badDate ? "Please enter an MCAT date between today and three years from now."
         : !$("aAge").checked ? "You need to be 18 or older to create an account." : !$("aTerms").checked ? "Please agree to the Terms of Service and Privacy Policy." : "";
       if(problem){ showAuthMsg(problem); return; }
       authEmail = email;
       authAction(async () => {
-        const { data, error } = await sb.auth.signUp({ email, password:pw, options:{ emailRedirectTo:siteUrl(), data:{ first_name:name, accepted_terms:true, age_confirmed:true } } });
+        const { data, error } = await sb.auth.signUp({ email, password:pw, options:{ emailRedirectTo:siteUrl(), data:{ first_name:name, last_name:last, mcat_date:noDate ? null : mcat, mcat_unscheduled:noDate, accepted_terms:true, age_confirmed:true } } });
         if(error) throw error;
         if(data && data.session){ authBusy = false; await enterAccount(data.user); return; }   // projects without email confirmation
         authView = "check"; authMsg = ""; authOk = false;
@@ -2857,7 +2893,10 @@ function renderAccount(scr){
   scr.innerHTML = `<p class="sec-title">Your account</p>
     <div class="acct-row"><span class="lab">Email</span><span>${esc((profile && profile.email) || (sbUser && sbUser.email) || "")}</span></div>
     <form class="auth-form" id="nameForm" novalidate>
-      <label class="field">First name (used in your welcome)<input type="text" id="acctName" autocomplete="given-name" maxlength="40" value="${esc((profile && profile.first_name) || "")}"></label>
+      <div class="name-pair">
+        <label class="field">First name (used in your welcome)<input type="text" id="acctName" autocomplete="given-name" maxlength="40" value="${esc((profile && profile.first_name) || "")}"></label>
+        <label class="field">Last name<input type="text" id="acctLast" autocomplete="family-name" maxlength="40" value="${esc((profile && profile.last_name) || "")}"></label>
+      </div>
       <button class="btn" type="submit">Save name</button>
     </form>
     ${acctMsg ? `<p class="auth-msg ok" role="status">${esc(acctMsg)}</p>` : ""}
@@ -2871,11 +2910,11 @@ function renderAccount(scr){
   $("sideBack").onclick = goBack;
   $("logoutBtn").onclick = logOut;
   $("nameForm").onsubmit = async e => { e.preventDefault();
-    const name = $("acctName").value.trim().slice(0, 40);
-    if(!name){ acctMsg = "Please enter a first name."; render(); return; }
-    let error = null; try { ({ error } = await sb.from("profiles").update({ first_name:name }).eq("id", sbUser.id)); } catch(x){ error = x; }
+    const name = $("acctName").value.trim().slice(0, 40), last = $("acctLast").value.trim().slice(0, 40);
+    if(!name || !last){ acctMsg = "Please enter your first and last name."; render(); return; }
+    let error = null; try { ({ error } = await sb.from("profiles").update({ first_name:name, last_name:last }).eq("id", sbUser.id)); } catch(x){ error = x; }
     if(error){ acctMsg = "Your name couldn't be saved right now. Please try again."; render(); return; }
-    profile.first_name = name; acctMsg = "Saved."; render(); };
+    profile.first_name = name; profile.last_name = last; acctMsg = "Saved."; render(); };
   $("delConfirm").oninput = e => { $("delBtn").disabled = e.target.value.trim() !== "DELETE"; };
   $("delBtn").onclick = () => { if($("delConfirm").value.trim() === "DELETE") deleteAccount(); };
   $("sideBack").focus();
@@ -2883,7 +2922,7 @@ function renderAccount(scr){
 async function loadOwner(){
   ownerData = null; if(mode === "owner") render();
   try {
-    const [p, a] = await Promise.all([sb.from("profiles").select("id,first_name,email,created_at"), sb.from("activity").select("user_id,day,cards,seconds,last_seen")]);
+    const [p, a] = await Promise.all([sb.from("profiles").select("id,first_name,last_name,email,created_at,mcat_date,mcat_unscheduled"), sb.from("activity").select("user_id,day,cards,seconds,last_seen")]);
     ownerData = (p.error || a.error) ? { error:true } : { profiles:p.data || [], activity:a.data || [] };
   } catch(e){ ownerData = { error:true }; }
   if(mode === "owner") render();
@@ -2906,7 +2945,8 @@ function renderOwner(scr){
     const when = t => t ? new Date(t).toLocaleString(undefined, { month:"short", day:"numeric", hour:"numeric", minute:"2-digit" }) : "Never";
     body = `<p class="lede" style="margin:0"><b>${rows.length}</b> ${rows.length === 1 ? "account" : "accounts"}.</p>
       <ul class="list">${rows.map(r => `<li class="owner-row">
-        <span class="owner-name">${esc(r.u.first_name || "(no name)")} <span class="owner-email">${esc(r.u.email || "")}</span></span>
+        <span class="owner-name">${esc([r.u.first_name, r.u.last_name].filter(Boolean).join(" ") || "(no name)")} <span class="owner-email">${esc(r.u.email || "")}</span></span>
+        <span>MCAT date: <b>${r.u.mcat_date ? niceDate(r.u.mcat_date) : r.u.mcat_unscheduled ? "Not scheduled yet" : "—"}</b></span>
         <span>Last active: <b>${when(r.last)}</b> · Days studied: <b>${r.days}</b> · Joined ${new Date(r.u.created_at).toLocaleDateString(undefined, { month:"short", day:"numeric", year:"numeric" })}</span>
         <span>Cards reviewed: <b>${r.wcards}</b> this week · <b>${r.cards}</b> total</span>
         <span>Study time: <b>${fmt(r.wsecs)}</b> this week · <b>${fmt(r.secs)}</b> total</span></li>`).join("")}</ul>`;
@@ -2921,7 +2961,6 @@ function renderOwner(scr){
 const TIP_DELAY = 2000;
 const TIPS = {
   "#weakBtn": "See your score for each section and topic, and study the topics you're weakest in.",
-  "#testDate": "Enter your MCAT date. It sets your daily pace and keeps reviews from being scheduled past your test.",
   "#helpBtn": "Open a short how-to video, plus how your progress is saved.",
   "#exportBtn": "Download a backup file of all your progress, notes and bookmarks.",
   "#importBtn": "Restore your progress from a backup file. It asks before replacing anything.",
