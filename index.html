@@ -731,7 +731,7 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 :root[data-bg="dark"] .topic.all .sc.lead .v{color:#5A1A2B;font-weight:700}
 :root[data-bg="dark"] .topic.all:hover{background:#F6C2CD;border-color:#fff}
 :root[data-bg="dark"] .topic.t-pink::after, :root[data-bg="dark"] .topic.all::after{background-color:#F8E3E7}
-/* Home page section colors, in her order: Bio light pink, Chem/Phys rose, Psych/Soc and CARS sage, Research/Stats light pink, All topics rose */
+/* Home page section colors: no two neighbors match, on phones (one column) or desktop (grid). Bio light pink, Chem/Phys rose, Psych/Soc sage, CARS light pink, Research/Stats rose, All topics sage */
 :root[data-bg="dark"] .topic.topic.topic[data-k=bb]{background:#F2B1BF;border-color:#F7C9D3;color:#1E1316}
 :root[data-bg="dark"] .topic.topic.topic[data-k=bb]:hover{background:#F6C2CD}
 :root[data-bg="dark"] .topic.topic.topic[data-k=bb] .t-name, :root[data-bg="dark"] .topic.topic.topic[data-k=bb] .t-full, :root[data-bg="dark"] .topic.topic.topic[data-k=bb] .sc .l, :root[data-bg="dark"] .topic.topic.topic[data-k=bb] .sc .v{color:#1E1316}
@@ -753,27 +753,33 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 :root[data-bg="dark"] .topic.topic.topic[data-k=ps] .t-score{border-top-color:#6E8771}
 :root[data-bg="dark"] .topic.topic.topic[data-k=ps] .sc + .sc{border-left-color:#6E8771}
 :root[data-bg="dark"] .topic.topic.topic[data-k=ps] .sc.lead .v{color:#FFD1DA;font-weight:700}
-:root[data-bg="dark"] .topic.topic.topic[data-k=cars]{background:#4E6352;border-color:#66806A;color:#F3EFE8}
-:root[data-bg="dark"] .topic.topic.topic[data-k=cars]:hover{background:#587060}
-:root[data-bg="dark"] .topic.topic.topic[data-k=cars] .t-name, :root[data-bg="dark"] .topic.topic.topic[data-k=cars] .t-full, :root[data-bg="dark"] .topic.topic.topic[data-k=cars] .sc .l, :root[data-bg="dark"] .topic.topic.topic[data-k=cars] .sc .v{color:#F3EFE8}
-:root[data-bg="dark"] .topic.topic.topic[data-k=cars] .t-ico{background:#3D5141;color:#DCE7D6;box-shadow:none}
-:root[data-bg="dark"] .topic.topic.topic[data-k=cars] .t-score{border-top-color:#6E8771}
-:root[data-bg="dark"] .topic.topic.topic[data-k=cars] .sc + .sc{border-left-color:#6E8771}
-:root[data-bg="dark"] .topic.topic.topic[data-k=cars] .sc.lead .v{color:#FFD1DA;font-weight:700}
-:root[data-bg="dark"] .topic.topic.topic[data-k=rs]{background:#F2B1BF;border-color:#F7C9D3;color:#1E1316}
-:root[data-bg="dark"] .topic.topic.topic[data-k=rs]:hover{background:#F6C2CD}
+:root[data-bg="dark"] .topic.topic.topic[data-k=cars]{background:#F2B1BF;border-color:#F7C9D3;color:#1E1316}
+:root[data-bg="dark"] .topic.topic.topic[data-k=cars]:hover{background:#F6C2CD}
+:root[data-bg="dark"] .topic.topic.topic[data-k=cars] .t-name, :root[data-bg="dark"] .topic.topic.topic[data-k=cars] .t-full, :root[data-bg="dark"] .topic.topic.topic[data-k=cars] .sc .l, :root[data-bg="dark"] .topic.topic.topic[data-k=cars] .sc .v{color:#1E1316}
+:root[data-bg="dark"] .topic.topic.topic[data-k=cars] .t-ico{background:#FFFFFF;color:#A44860;box-shadow:none}
+:root[data-bg="dark"] .topic.topic.topic[data-k=cars] .t-score{border-top-color:rgba(30,19,22,.25)}
+:root[data-bg="dark"] .topic.topic.topic[data-k=cars] .sc + .sc{border-left-color:rgba(30,19,22,.25)}
+:root[data-bg="dark"] .topic.topic.topic[data-k=cars] .sc.lead .v{color:#5A1A2B;font-weight:700}
+:root[data-bg="dark"] .topic.topic.topic[data-k=rs]{background:#D86B81;border-color:#E58A9C;color:#1E1316}
+:root[data-bg="dark"] .topic.topic.topic[data-k=rs]:hover{background:#E07A8F}
 :root[data-bg="dark"] .topic.topic.topic[data-k=rs] .t-name, :root[data-bg="dark"] .topic.topic.topic[data-k=rs] .t-full, :root[data-bg="dark"] .topic.topic.topic[data-k=rs] .sc .l, :root[data-bg="dark"] .topic.topic.topic[data-k=rs] .sc .v{color:#1E1316}
-:root[data-bg="dark"] .topic.topic.topic[data-k=rs] .t-ico{background:#FFFFFF;color:#A44860;box-shadow:none}
-:root[data-bg="dark"] .topic.topic.topic[data-k=rs] .t-score{border-top-color:rgba(30,19,22,.25)}
-:root[data-bg="dark"] .topic.topic.topic[data-k=rs] .sc + .sc{border-left-color:rgba(30,19,22,.25)}
+:root[data-bg="dark"] .topic.topic.topic[data-k=rs] .t-ico{background:#F8E3E7;color:#A44860;box-shadow:none}
+:root[data-bg="dark"] .topic.topic.topic[data-k=rs] .t-score{border-top-color:rgba(30,19,22,.28)}
+:root[data-bg="dark"] .topic.topic.topic[data-k=rs] .sc + .sc{border-left-color:rgba(30,19,22,.28)}
 :root[data-bg="dark"] .topic.topic.topic[data-k=rs] .sc.lead .v{color:#5A1A2B;font-weight:700}
-:root[data-bg="dark"] .topic.topic.topic[data-k=all]{background:#D86B81;border-color:#E58A9C;color:#1E1316}
-:root[data-bg="dark"] .topic.topic.topic[data-k=all]:hover{background:#E07A8F}
-:root[data-bg="dark"] .topic.topic.topic[data-k=all] .t-name, :root[data-bg="dark"] .topic.topic.topic[data-k=all] .t-full, :root[data-bg="dark"] .topic.topic.topic[data-k=all] .sc .l, :root[data-bg="dark"] .topic.topic.topic[data-k=all] .sc .v{color:#1E1316}
-:root[data-bg="dark"] .topic.topic.topic[data-k=all] .t-ico{background:#F8E3E7;color:#A44860;box-shadow:none}
-:root[data-bg="dark"] .topic.topic.topic[data-k=all] .t-score{border-top-color:rgba(30,19,22,.28)}
-:root[data-bg="dark"] .topic.topic.topic[data-k=all] .sc + .sc{border-left-color:rgba(30,19,22,.28)}
-:root[data-bg="dark"] .topic.topic.topic[data-k=all] .sc.lead .v{color:#5A1A2B;font-weight:700}
+:root[data-bg="dark"] .topic.topic.topic[data-k=all]{background:#4E6352;border-color:#66806A;color:#F3EFE8}
+:root[data-bg="dark"] .topic.topic.topic[data-k=all]:hover{background:#587060}
+:root[data-bg="dark"] .topic.topic.topic[data-k=all] .t-name, :root[data-bg="dark"] .topic.topic.topic[data-k=all] .t-full, :root[data-bg="dark"] .topic.topic.topic[data-k=all] .sc .l, :root[data-bg="dark"] .topic.topic.topic[data-k=all] .sc .v{color:#F3EFE8}
+:root[data-bg="dark"] .topic.topic.topic[data-k=all] .t-ico{background:#3D5141;color:#DCE7D6;box-shadow:none}
+:root[data-bg="dark"] .topic.topic.topic[data-k=all] .t-score{border-top-color:#6E8771}
+:root[data-bg="dark"] .topic.topic.topic[data-k=all] .sc + .sc{border-left-color:#6E8771}
+:root[data-bg="dark"] .topic.topic.topic[data-k=all] .sc.lead .v{color:#FFD1DA;font-weight:700}
+:root[data-bg="dark"] .topic.topic.topic[data-k=bb]::after{background-color:#F8E3E7}
+:root[data-bg="dark"] .topic.topic.topic[data-k=cp]::after{background-color:#F8E3E7}
+:root[data-bg="dark"] .topic.topic.topic[data-k=ps]::after{background-color:#2A3B32}
+:root[data-bg="dark"] .topic.topic.topic[data-k=cars]::after{background-color:#F8E3E7}
+:root[data-bg="dark"] .topic.topic.topic[data-k=rs]::after{background-color:#F8E3E7}
+:root[data-bg="dark"] .topic.topic.topic[data-k=all]::after{background-color:#2A3B32}
 
 /* Account page: change email */
 .email-line{display:flex;align-items:center;justify-content:space-between;gap:10px 14px;flex-wrap:wrap}
@@ -810,6 +816,10 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
   .cw-narrow{display:block;width:1.6em;height:2.1em;top:-.995em}
   .pick.crawler{padding-right:1.1em}   /* room for the arrow, so it stays inside the panel */
 }
+
+/* View My Weaknesses sits right under All topics (sage), so it's the rose button here */
+:root[data-bg="dark"] #weakBtn, :root[data-bg="dark"] #weakBtn:hover{background:#D5687F;border-color:#D5687F;color:#fff}
+:root[data-bg="dark"] #weakBtn:hover{filter:brightness(1.06)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
