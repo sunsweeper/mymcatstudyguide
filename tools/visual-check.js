@@ -83,6 +83,10 @@ const showCard = (p, key, back) => p.evaluate(([key, back]) => {
     const pct = diff / (a.width * a.height) * 100;
     if(pct > 1) problems.push(`${k}: ${pct.toFixed(2)}% of pixels differ from the baseline image`);
   }
-  if(problems.length){ console.error(`VISUAL CHECK FAILED: ${problems.length} problem(s)`); problems.slice(0, 40).forEach(x => console.error(' -', x)); process.exit(1); }
+  if(problems.length){
+    console.error(`VISUAL CHECK FAILED: ${problems.length} problem(s)`); problems.slice(0, 40).forEach(x => console.error(' -', x));
+    if(process.env.GITHUB_ACTIONS) problems.slice(0, 10).forEach(x => console.log(`::error title=Visual check::${x}`));   // shown on the GitHub check
+    process.exit(1);
+  }
   console.log(`Visual check passed: ${Object.keys(baseDom).length} card sides, ${Object.keys(baseStyles).length} style sets, ${Object.keys(shots).length} screenshots match.`);
 })().catch(e => { console.error(e); process.exit(1); });
