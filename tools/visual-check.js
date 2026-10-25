@@ -2,7 +2,8 @@
 // Visual regression checks for the existing card interface (Package 1, section 9).
 // 1) Rendered markup of every card, both sides, must match the baseline (hash per card side).
 // 2) Key computed styles of the card interface (both themes, desktop and phone) must match.
-// 3) Screenshots of sample cards must match the baseline images within a small tolerance.
+// 3) Screenshots of sample cards must match the approved reference build (protected/visual/reference-index.html),
+//    rendered in the same run on the same machine, so font rendering differences between computers don't matter.
 // Usage: node tools/visual-check.js            (check)
 //        node tools/visual-check.js --update --approved-by "Name" --reason "why"
 //          Rewrites the visual baseline. Only for an owner-approved change to how cards look; the approval is
@@ -19,11 +20,11 @@ const SAMPLES = [['1A-001', false], ['1A-038', true], ['5D-011', false], ['S4-00
 const VIEWS = [[1280, 900, 'desktop'], [390, 844, 'phone']], THEMES = ['dark', 'light'];
 const STYLE_PROPS = ['font-family', 'font-size', 'font-weight', 'line-height', 'color', 'background-color', 'border-top-width', 'border-top-color', 'border-radius', 'padding-top', 'padding-left', 'text-align', 'box-shadow'];
 const STYLE_SELECTORS = ['#card', '#card .meta', '#card .face', '#card .bm', '#card .side', '#reveal', '#prev', '#recallBtn'];
-async function openPage(browser, w, h, theme){
+async function openPage(browser, w, h, theme, file = path.join(root, 'index.html')){
   const p = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });
   await p.route('**/supabase.js', r => r.fulfill({ status: 200, contentType: 'text/javascript', body: '' }));   // run without accounts
   await p.addInitScript(t => { try { localStorage.setItem('mcat-progress-v2', JSON.stringify({ bg: t, tips: false })); } catch(e){} }, theme);
-  await p.goto('file://' + path.join(root, 'index.html'));
+  await p.goto('file://' + file);
   await p.evaluate(() => { pick('all'); start(true); });
   await p.addStyleTag({ content: '*{animation:none!important;transition:none!important;caret-color:transparent!important}' });
   return p;
@@ -42,7 +43,13 @@ const showCard = (p, key, back) => p.evaluate(([key, back]) => {
   for(const k of keys){ dom[k + '|front'] = sha(await showCard(p, k, false)); dom[k + '|back'] = sha(await showCard(p, k, true)); }
   await p.close();
   // 2) computed styles, 3) screenshots
-  const styles = {}, shots = {};
+  const styles = {}, shots = {}, refShots = {};
+  const refFile = path.join(dir, 'reference-index.html');
+  if(!UPDATE && fs.existsSync(refFile)) for(const [w, h, vname] of VIEWS) for(const theme of THEMES){
+    const pg = await openPage(browser, w, h, theme, refFile);
+    for(const [id, back] of SAMPLES){ await showCard(pg, id, back); refShots[`${id}-${back ? 'back' : 'front'}-${vname}-${theme}`] = await pg.locator('#card').screenshot(); }
+    await pg.close();
+  }
   for(const [w, h, vname] of VIEWS) for(const theme of THEMES){
     const pg = await openPage(browser, w, h, theme);
     await showCard(pg, '1A-001', false);
@@ -64,8 +71,9 @@ const showCard = (p, key, back) => p.evaluate(([key, back]) => {
     fs.writeFileSync(logf, JSON.stringify(log, null, 1));
     fs.writeFileSync(path.join(dir, 'card-markup-hashes.json'), JSON.stringify(dom, null, 0));
     fs.writeFileSync(path.join(dir, 'card-styles.json'), JSON.stringify(styles, null, 1));
-    for(const [k, buf] of Object.entries(shots)) fs.writeFileSync(path.join(dir, k + '.png'), buf);
-    console.log(`Visual baseline written: ${Object.keys(dom).length} card sides, ${Object.keys(styles).length} style sets, ${Object.keys(shots).length} screenshots.`);
+    fs.copyFileSync(path.join(root, 'index.html'), refFile);
+    for(const f of fs.readdirSync(dir)) if(f.endsWith('.png')) fs.unlinkSync(path.join(dir, f));
+    console.log(`Visual baseline written: ${Object.keys(dom).length} card sides, ${Object.keys(styles).length} style sets, reference build for ${Object.keys(shots).length} screenshots.`);
     return;
   }
   const baseDom = JSON.parse(fs.readFileSync(path.join(dir, 'card-markup-hashes.json'), 'utf8'));
@@ -75,13 +83,14 @@ const showCard = (p, key, back) => p.evaluate(([key, back]) => {
     const now = styles[view] && styles[view][sel] && styles[view][sel][prop];
     if(now !== val) problems.push(`${view} ${sel} ${prop}: "${val}" became "${now}"`);
   }
+  if(!fs.existsSync(refFile)) problems.push('protected/visual/reference-index.html is missing');
   for(const [k, buf] of Object.entries(shots)){
-    const f = path.join(dir, k + '.png'); if(!fs.existsSync(f)){ problems.push(`${k}: no baseline image`); continue; }
-    const a = PNG.sync.read(fs.readFileSync(f)), b = PNG.sync.read(buf);
+    if(!refShots[k]) continue;
+    const a = PNG.sync.read(refShots[k]), b = PNG.sync.read(buf);
     if(a.width !== b.width || a.height !== b.height){ problems.push(`${k}: card size changed (${a.width}x${a.height} -> ${b.width}x${b.height})`); continue; }
     const diff = pixelmatch(a.data, b.data, null, a.width, a.height, { threshold: 0.15 });
     const pct = diff / (a.width * a.height) * 100;
-    if(pct > 1) problems.push(`${k}: ${pct.toFixed(2)}% of pixels differ from the baseline image`);
+    if(pct > 0.5) problems.push(`${k}: ${pct.toFixed(2)}% of pixels differ from the approved reference build`);
   }
   if(problems.length){
     console.error(`VISUAL CHECK FAILED: ${problems.length} problem(s)`); problems.slice(0, 40).forEach(x => console.error(' -', x));
