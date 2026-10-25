@@ -10,7 +10,9 @@ const sIx = id => (id in stIx) ? stIx[id] : (stIx[id] = st.push([id.split('.')[0
 const cIx = id => (id in coIx) ? coIx[id] : (coIx[id] = co.push(cName[id] || id) - 1);
 const PR = { high:3, medium:2, low:1 };
 const c = {};
-for(const r of cards) c[r.card_id] = [sIx(r.subtopic_ids[0]), cIx(r.primary_concept_id), +(r.curriculum_weight_pct || 0).toFixed(2), PR[r.curriculum_priority] || 0];
+const SK = { retrieval:0, conceptual_understanding:1, application:2, reasoning:3 };
+// [subtopic, concept, curriculum weight %, priority 1-3, skill (0 recall, 1 conceptual, 2 application, 3 reasoning), difficulty 1-3]
+for(const r of cards) c[r.card_id] = [sIx(r.subtopic_ids[0]), cIx(r.primary_concept_id), +(r.curriculum_weight_pct || 0).toFixed(2), PR[r.curriculum_priority] || 0, SK[r.cognitive_skill] || 0, r.difficulty_level || 1];
 // prerequisite links between concepts that have cards: dependent -> [prerequisite]
 const p = {};
 for(const e of pre){ if(e.prerequisite_concept_id in coIx && e.dependent_concept_id in coIx){ const d = coIx[e.dependent_concept_id]; (p[d] = p[d] || []).push(coIx[e.prerequisite_concept_id]); } }
