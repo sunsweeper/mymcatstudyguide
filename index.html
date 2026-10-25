@@ -1040,7 +1040,10 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
           <div class="ans-grid">
             <div class="ans-cur">
               <label class="ans-lab" for="curAnswer" id="curLabel">Current Answer</label>
-              <textarea id="curAnswer" rows="4" autocomplete="off" spellcheck="true" placeholder="Type your answer in your own words…"></textarea>
+              <textarea id="curAnswer" rows="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="text" enterkeyhint="enter"
+                data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" data-lt-active="false" data-ms-editor="false" data-1p-ignore data-lpignore="true" data-form-type="other"
+                aria-describedby="curHelp" placeholder="Type your answer in your own words…"></textarea>
+              <span class="sr" id="curHelp">Spelling and word suggestions are turned off here so your answer comes from memory.</span>
               <div class="ws-foot"><span class="char-hint" id="curHint" aria-live="polite"></span><button class="btn primary" id="curNext" type="button" hidden>Next card</button></div>
             </div>
             <div class="ans-prev">
