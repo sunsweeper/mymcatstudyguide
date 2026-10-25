@@ -1,0 +1,125 @@
+{
+ "GT-EXP | ladder (current)": {
+  "cardsKnownOnExamDay": 534.4,
+  "recallOfSeenCards": 0.959,
+  "cardsIntroduced": 556,
+  "totalReviews": 9414,
+  "knownPer100Reviews": 5.68,
+  "peakDueBacklog": 556
+ },
+ "GT-EXP | FSRS r=0.90": {
+  "cardsKnownOnExamDay": 581.7,
+  "recallOfSeenCards": 0.932,
+  "cardsIntroduced": 622,
+  "totalReviews": 10112,
+  "knownPer100Reviews": 5.75,
+  "peakDueBacklog": 622,
+  "predictionLogLoss": 0.632,
+  "brier": 0.2134,
+  "brierIfAlwaysAverage": 0.2109
+ },
+ "GT-EXP | FSRS r=0.85": {
+  "cardsKnownOnExamDay": 559.1,
+  "recallOfSeenCards": 0.899,
+  "cardsIntroduced": 619,
+  "totalReviews": 10710,
+  "knownPer100Reviews": 5.22,
+  "peakDueBacklog": 619,
+  "predictionLogLoss": 0.73,
+  "brier": 0.2579,
+  "brierIfAlwaysAverage": 0.2354
+ },
+ "GT-EXP | FSRS r=0.80": {
+  "cardsKnownOnExamDay": 513.4,
+  "recallOfSeenCards": 0.852,
+  "cardsIntroduced": 598,
+  "totalReviews": 11228,
+  "knownPer100Reviews": 4.57,
+  "peakDueBacklog": 598,
+  "predictionLogLoss": 0.79,
+  "brier": 0.2868,
+  "brierIfAlwaysAverage": 0.2444
+ },
+ "GT-ACTR | ladder (current)": {
+  "cardsKnownOnExamDay": 315,
+  "recallOfSeenCards": 0.836,
+  "cardsIntroduced": 375,
+  "totalReviews": 9803,
+  "knownPer100Reviews": 3.21,
+  "peakDueBacklog": 375
+ },
+ "GT-ACTR | FSRS r=0.90": {
+  "cardsKnownOnExamDay": 376.1,
+  "recallOfSeenCards": 0.798,
+  "cardsIntroduced": 469,
+  "totalReviews": 10288,
+  "knownPer100Reviews": 3.66,
+  "peakDueBacklog": 469,
+  "predictionLogLoss": 0.791,
+  "brier": 0.2618,
+  "brierIfAlwaysAverage": 0.2218
+ },
+ "GT-ACTR | FSRS r=0.85": {
+  "cardsKnownOnExamDay": 428.1,
+  "recallOfSeenCards": 0.757,
+  "cardsIntroduced": 561,
+  "totalReviews": 10722,
+  "knownPer100Reviews": 3.99,
+  "peakDueBacklog": 561,
+  "predictionLogLoss": 0.848,
+  "brier": 0.2932,
+  "brierIfAlwaysAverage": 0.2379
+ },
+ "GT-ACTR | FSRS r=0.80": {
+  "cardsKnownOnExamDay": 463,
+  "recallOfSeenCards": 0.724,
+  "cardsIntroduced": 634,
+  "totalReviews": 11023,
+  "knownPer100Reviews": 4.2,
+  "peakDueBacklog": 634,
+  "predictionLogLoss": 0.881,
+  "brier": 0.3108,
+  "brierIfAlwaysAverage": 0.2451
+ },
+ "GT-FSRS | ladder (current)": {
+  "cardsKnownOnExamDay": 680.6,
+  "recallOfSeenCards": 0.977,
+  "cardsIntroduced": 696,
+  "totalReviews": 8519,
+  "knownPer100Reviews": 7.99,
+  "peakDueBacklog": 696
+ },
+ "GT-FSRS | FSRS r=0.90": {
+  "cardsKnownOnExamDay": 932.8,
+  "recallOfSeenCards": 0.967,
+  "cardsIntroduced": 963,
+  "totalReviews": 8799,
+  "knownPer100Reviews": 10.6,
+  "peakDueBacklog": 963,
+  "predictionLogLoss": 0.382,
+  "brier": 0.1135,
+  "brierIfAlwaysAverage": 0.1146
+ },
+ "GT-FSRS | FSRS r=0.85": {
+  "cardsKnownOnExamDay": 954.7,
+  "recallOfSeenCards": 0.965,
+  "cardsIntroduced": 989,
+  "totalReviews": 8620,
+  "knownPer100Reviews": 11.08,
+  "peakDueBacklog": 989,
+  "predictionLogLoss": 0.428,
+  "brier": 0.1337,
+  "brierIfAlwaysAverage": 0.1364
+ },
+ "GT-FSRS | FSRS r=0.80": {
+  "cardsKnownOnExamDay": 958.8,
+  "recallOfSeenCards": 0.962,
+  "cardsIntroduced": 996,
+  "totalReviews": 8500,
+  "knownPer100Reviews": 11.28,
+  "peakDueBacklog": 996,
+  "predictionLogLoss": 0.452,
+  "brier": 0.1445,
+  "brierIfAlwaysAverage": 0.1496
+ }
+}

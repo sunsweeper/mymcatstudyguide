@@ -1,0 +1,28 @@
+=== EXAM=45 SESSION=50
+ GT-EXP | ladder (current)   known= 158.9                recall= 0.926              reviews= 2418         
+ GT-EXP | FSRS r=0.90        known= 173.9                recall= 0.897              reviews= 2596         
+ GT-ACTR | ladder (current)  known= 105.6                recall= 0.828              reviews= 2521         
+ GT-ACTR | FSRS r=0.90       known= 127.6                recall= 0.781              reviews= 2662         
+ GT-FSRS | ladder (current)  known= 215.9                recall= 0.974              reviews= 2153         
+ GT-FSRS | FSRS r=0.90       known= 299.5                recall= 0.96               reviews= 2275         
+=== EXAM=180 SESSION=50
+ GT-EXP | ladder (current)   known= 454.8                recall= 0.973              reviews= 9290         
+ GT-EXP | FSRS r=0.90        known= 496.2                recall= 0.954              reviews= 9957         
+ GT-ACTR | ladder (current)  known= 238.2                recall= 0.84               reviews= 9627         
+ GT-ACTR | FSRS r=0.90       known= 283.5                recall= 0.808              reviews= 10066        
+ GT-FSRS | ladder (current)  known= 558.9                recall= 0.979              reviews= 8460         
+ GT-FSRS | FSRS r=0.90       known= 803.7                recall= 0.967              reviews= 8906         
+=== EXAM=90 SESSION=25
+ GT-EXP | ladder (current)   known= 134.3                recall= 0.954              reviews= 2365         
+ GT-EXP | FSRS r=0.90        known= 143.8                recall= 0.929              reviews= 2546         
+ GT-ACTR | ladder (current)  known= 80.3                 recall= 0.83               reviews= 2460         
+ GT-ACTR | FSRS r=0.90       known= 96.3                 recall= 0.79               reviews= 2586         
+ GT-FSRS | ladder (current)  known= 172.6                recall= 0.977              reviews= 2126         
+ GT-FSRS | FSRS r=0.90       known= 247.3                recall= 0.964              reviews= 2242         
+=== EXAM=90 SESSION=100
+ GT-EXP | ladder (current)   known= 534.4                recall= 0.959              reviews= 9414         
+ GT-EXP | FSRS r=0.90        known= 581.7                recall= 0.932              reviews= 10112        
+ GT-ACTR | ladder (current)  known= 315                  recall= 0.836              reviews= 9803         
+ GT-ACTR | FSRS r=0.90       known= 376.1                recall= 0.798              reviews= 10288        
+ GT-FSRS | ladder (current)  known= 680.6                recall= 0.977              reviews= 8519         
+ GT-FSRS | FSRS r=0.90       known= 932.8                recall= 0.967              reviews= 8799         

@@ -1,6 +1,6 @@
 # Flashcard Scheduling Rules
 
-How the study site decides which cards Sarah sees and when. All of these values live in the `LADDER` and `RULES` constants at the top of the script in `index.html`, so they can be tuned in one place.
+How the study site decides which cards Sarah sees and when. All of these values live in the `RULES` constant (and `LADDER`, for the earlier scheduler) at the top of the script in `index.html`, so they can be tuned in one place. Since Package 2 the spacing between reviews is set by **FSRS**; see *How intervals are set* below, and `docs/package-2/` for the evaluation and the mastery criteria.
 
 ## Two directions per card
 
@@ -27,9 +27,9 @@ After revealing a card she rates it. A card cannot be rated until the answer is 
 
 | Button | What happens to that direction | Writing Required |
 |---|---|---|
-| Didn't know | Stays due today. It doesn't repeat during the session; instead it can get **one optional second try** after the session's cards (see Missed-card second try). If she rates it Got it that day, it's due **tomorrow**. | On |
-| Struggled | Due **tomorrow**. Its streak resets to zero. | On |
-| Got it | Moves to the next step on the interval ladder (below). | Off |
+| Didn't know | Stays due today and its memory strength drops. It doesn't repeat during the session; instead it can get **one optional second try** after the session's cards (see Missed-card second try). If she rates it Got it that day, it's due **tomorrow**. | On |
+| Struggled | Scheduled at 80% of what Got it would have given (1 day for a new or weak card, longer for a well-known one). Its streak resets to zero. | On |
+| Got it | Scheduled for when she's expected to still remember it 90% of the time (below). | Off |
 
 Keyboard: Space reveals the card; 1, 2, 3 rate it (Got it, Struggled, Didn't know), matching the button order.
 
@@ -100,13 +100,19 @@ Keyboard: Space reveals the card; 1, 2, 3 rate it (Got it, Struggled, Didn't kno
 - Nothing is graded. Reinforcement never changes ratings or schedules and doesn't count as studying more cards. Skipping is fine and isn't recorded as a failure.
 - If she leaves mid-way, it resumes at the same question (with what she'd typed); she can still skip.
 
-## Interval ladder
+## How intervals are set (FSRS)
 
-Each consecutive Got it, made on a day the direction was due, moves it one step:
-
-**1 → 3 → 7 → 14 → 30 → 60 → 90 days**, then stays at 90 days (shortened as her test approaches; see Test date).
-
-Cards are never retired. A 90-day card keeps coming back every 90 days.
+- **Memory model:** each card direction has an estimated **memory strength** and **difficulty** (FSRS-5, default parameters). They are worked out from its whole review history every time, so nothing extra is stored and they always match the history that syncs between devices.
+- **Next review:** after a Got it, the card is scheduled for when her predicted recall falls to **90%** (`RULES.targetRecall`).
+- **What changes the next gap:** cards she has missed, struggled with, or that are hard for her come back sooner. Cards she keeps getting right after longer and longer gaps come back less often.
+- **A perfect run with no test date:** **3 → 11 → 35 → about 100 → 180 days**.
+- **Limits:** the longest gap is **180 days** (`RULES.maxInterval`), and the test-date cap still applies.
+- **Spread:** gaps of 4 days or more vary by ±5% so reviews don't bunch up on one day. The limits are applied after the spread, so a capped card lands exactly on the cap.
+- **Never retired:** a mastered card keeps coming back.
+- **Mastery levels** (Unseen, Learning, Developing, Provisionally mastered, Mastered, Previously mastered – needs attention) are defined in `docs/package-2/MASTERY_CRITERIA.md`.
+- **Confidence insertions:** after 3 Struggled / Didn't know in a row, the next card is one of her mastered cards. A correct answer on it changes nothing about that card's schedule.
+- **Sparkle:** a brief sparkle shows after some correct answers on mastered cards.
+- **Rollback:** setting `RULES.scheduler` to `"ladder"` brings back the earlier fixed steps (1 → 3 → 7 → 14 → 30 → 60 → 90 days, then every 90). The review history is the same under both, so switching either way loses nothing.
 
 ## Test date
 
@@ -117,9 +123,9 @@ She enters her test date on the welcome screen (it can be changed or cleared any
 - **Pace line:** under the counters, for example "To see every card by Jan 16 (8 weeks before your test): about 11 new cards a day." The goal date is **8 weeks before the test**, leaving time for reviews and practice exams. Inside those 8 weeks it counts down to the test itself. It counts cards unseen in either direction.
 - After the test date passes, the cap and pace line turn off and scheduling goes back to normal.
 
-## Slower progress for cards with a history of misses
+## Slower progress for cards with a history of misses (earlier ladder scheduler only)
 
-Before setting the next interval, the site looks at that direction's last **8 review days** (the first rating on each day) and counts how many were Didn't know or Struggled:
+With FSRS, misses are already part of the memory model. This rule applies only if the ladder is switched back on. Before setting the next interval, the site looks at that direction's last **8 review days** (the first rating on each day) and counts how many were Didn't know or Struggled:
 
 | Misses in last 8 review days | Interval used |
 |---|---|
@@ -138,7 +144,7 @@ Example, with each card reviewed on its due date:
 
 - Only the **first rating of a direction each day** counts toward its long-term schedule and its review totals.
 - Rating a card Got it a second time on the same day never pushes it further out.
-- Rating a card Got it **before it was due** (early review) does not push it further out either. An early Struggled or Didn't know still reschedules it and turns writing on.
+- Rating a card Got it **before it was due** (early review) counts, but strengthens memory much less than an on-time review, because she was very likely to remember it anyway. An early Struggled or Didn't know reschedules it and turns writing on. (Under the earlier ladder, an early Got it never pushed a card further out.)
 
 ## Writing Required Mode
 
@@ -212,10 +218,10 @@ Stored in the browser under `mcat-progress-v2`. The forward direction is keyed b
 | `good` | Review days rated Got it |
 | `bad` | Review days rated Didn't know or Struggled |
 | `retry` | Date a still-missed card last got its extra look in a later session |
-| `history` | Each rating with its date and time, and `w` with her reinforcement writing after Struggled / Didn't know (latest 50) |
+| `history` | Each rating with its date and time, `w` with her reinforcement writing after Struggled / Didn't know, and `b` on a confidence insertion (latest 50) |
 
 The welcome screen's scoreboard and "cards unseen by you" count **cards**, not directions: a card counts as seen once she's seen it either way, and the scoreboard uses her most recent rating in either direction.
 
-Her notes are stored under `notes` and her bookmarks under `bookmarks`, both keyed by card ID. Her test date is `testDate`. Finished sessions are in `sessionLog` (date, topic, unique cards, review attempts, first ratings, cards missed the first time, second-try results, reinforcement completed/skipped, study time). An unfinished session (under `open`) keeps its original card order, the direction each card was shown, first ratings, the second-try list and position, the reinforcement picks and step, and its study time.
+Dates of confidence insertions are in `boosted` (card ID → date), so the same card isn't inserted again within 14 days. Her notes are stored under `notes` and her bookmarks under `bookmarks`, both keyed by card ID. Her test date is `testDate`. Finished sessions are in `sessionLog` (date, topic, unique cards, review attempts, first ratings, cards missed the first time, second-try results, reinforcement completed/skipped, study time). An unfinished session (under `open`) keeps its original card order, the direction each card was shown, first ratings, the second-try list and position, the reinforcement picks and step, and its study time.
 
 Progress saved by earlier versions loads as the forward direction.

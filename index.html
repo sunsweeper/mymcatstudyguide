@@ -879,6 +879,13 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .owner-glist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:.95rem;overflow-wrap:anywhere}
 .owner-gname{font-weight:700;color:var(--forest)}
 .owner-empty{margin:0;font-size:.92rem;color:var(--muted)}
+/* Mastered-card sparkle (Package 2, Phase 1): an overlay above the card, never part of it. */
+.sparkle-fx{position:fixed;pointer-events:none;z-index:40}
+.sparkle-fx i{position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:#E9B8C4;box-shadow:0 0 6px 1px rgba(233,184,196,.8);opacity:0;animation:sparkle .5s ease-out var(--dl) forwards}
+.sparkle-fx i:nth-child(3n){background:#F3D9A4;box-shadow:0 0 6px 1px rgba(243,217,164,.8)}
+.sparkle-fx i:nth-child(3n+1){background:#BFD9C2;box-shadow:0 0 6px 1px rgba(191,217,194,.8)}
+@keyframes sparkle{0%{opacity:0;transform:translate(0,0) scale(.4)}25%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1)}}
+@media (prefers-reduced-motion: reduce){.sparkle-fx{display:none}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -2137,7 +2144,13 @@ const RULES = {
   maxRepeats: 0,          // in-session repeats of "Didn't know" cards. 0: missed cards get one optional second try after the session instead (set to 3 to bring back the old repeats)
   missWindow: 8,          // how many past review days are checked for misses
   historyKeep: 50,        // ratings kept per card direction
-  finishWeeks: 8          // aim to see every card this many weeks before the test
+  finishWeeks: 8,         // aim to see every card this many weeks before the test
+  scheduler: "fsrs",      // "fsrs" (since Package 2) or "ladder" (the earlier fixed steps above). Review history is the same either way, so switching back is safe.
+  targetRecall: 0.9,      // FSRS: schedule each review for when she's expected to still remember it 90% of the time
+  maxInterval: 180,       // FSRS: longest gap in days (the test-date cap still applies)
+  boostAfter: 3,          // confidence insertion: after this many Struggled / Didn't know in a row, show one mastered card
+  boostPerSession: 2,     //   at most this many insertions per session
+  boostGapDays: 14        //   the same card isn't inserted again within this many days
 };
 
 /* ---------- Saved progress (this browser) ---------- */
@@ -2226,9 +2239,80 @@ function lastRating(id){
   return best;
 }
 
-function rate(key, r, written){
+/* ---------- Spaced repetition: FSRS memory model and mastery (Package 2, Phase 1) ----------
+   Memory strength is worked out from the card's review history every time (nothing new is stored), so it always matches
+   the history that syncs between devices. Only the first counted rating of each day changes memory: repeating a card the
+   same day never lengthens its interval. Criteria are documented in docs/package-2/MASTERY_CRITERIA.md. */
+const FSRS_W = [0.40255, 1.18385, 3.173, 15.69105, 7.1949, 0.5345, 1.4604, 0.0046, 1.54575, 0.1192, 1.01925, 1.9395, 0.11, 0.29605, 2.2698, 0.2315, 2.9898, 0.51655, 0.6621];
+const FSRS_DECAY = -0.5, FSRS_FACTOR = 19 / 81, FSRS_G = { again:1, hard:2, good:3 };
+const fsrsD = d => Math.min(10, Math.max(1, d));
+const fsrsD0 = g => fsrsD(FSRS_W[4] - Math.exp(FSRS_W[5] * (g - 1)) + 1);
+const fsrsR = (t, S) => Math.pow(1 + FSRS_FACTOR * t / S, FSRS_DECAY);
+function fsrsUpdate(m, g, elapsed){
+  const W = FSRS_W;
+  if(!m) return { S: W[g - 1], D: fsrsD0(g) };
+  const R = fsrsR(Math.max(0, elapsed), m.S);
+  const S = g === 1 ? Math.min(m.S, W[11] * Math.pow(m.D, -W[12]) * (Math.pow(m.S + 1, W[13]) - 1) * Math.exp(W[14] * (1 - R)))
+                    : m.S * (Math.exp(W[8]) * (11 - m.D) * Math.pow(m.S, -W[9]) * (Math.exp(W[10] * (1 - R)) - 1) * (g === 2 ? W[15] : 1) + 1);
+  const Dp = m.D - W[6] * (g - 3) * (10 - m.D) / 9;
+  return { S: Math.max(0.1, S), D: fsrsD(W[7] * fsrsD0(4) + (1 - W[7]) * Dp) };
+}
+const fsrsInterval = S => S / FSRS_FACTOR * (Math.pow(RULES.targetRecall, 1 / FSRS_DECAY) - 1);
+const MASTERY = { provisional:{ succ:2, gap:7, S:21 }, mastered:{ succ:3, gap:21, S:60 } };
+const LEVEL_RANK = { unseen:0, learning:1, developing:2, attention:2, provisional:3, mastered:4 };
+function levelFrom(m, succ, lastR){
+  const meets = c => lastR === "good" && succ.length >= c.succ && Math.max(0, ...succ) >= c.gap && m.S >= c.S;
+  return meets(MASTERY.mastered) ? "mastered" : meets(MASTERY.provisional) ? "provisional" : succ.length ? "developing" : "learning";
+}
+// Replays one card direction's history. A "Got it" on a confidence insertion (b) is never counted.
+function memoryFrom(history){
+  let m = null, last = null, succ = [], peak = 0, lastR = null;
+  const list = (history || []).slice().sort((x, y) => x.d < y.d ? -1 : x.d > y.d ? 1 : 0);   // oldest first (same-day order kept)
+  for(const h of list){
+    if(h.b && h.r === "good") continue;
+    const day = dayNum(h.d); if(day === last || !FSRS_G[h.r]) continue;
+    const gap = last === null ? null : day - last;
+    m = fsrsUpdate(m, FSRS_G[h.r], gap || 0);
+    if(h.r === "again") succ = []; else if(h.r === "good" && gap !== null && gap >= 1) succ.push(gap);
+    last = day; lastR = h.r;
+    peak = Math.max(peak, LEVEL_RANK[levelFrom(m, succ, lastR)]);
+  }
+  let level = m ? levelFrom(m, succ, lastR) : "unseen";
+  if(peak >= LEVEL_RANK.provisional && LEVEL_RANK[level] < LEVEL_RANK.provisional) level = "attention";   // previously mastered, needs renewed attention
+  return { m, last, level, peak, succ: succ.length };
+}
+const memCache = {};
+function memOf(key){
+  const s = st(key), h = s ? s.history : [], tip = h.length ? h[h.length - 1] : null;
+  const sig = h.length + ":" + (tip ? (tip.t || tip.d) + tip.r : "");
+  const c = memCache[key]; if(c && c.sig === sig) return c.mem;
+  const mem = memoryFrom(h); memCache[key] = { sig, mem }; return mem;
+}
+const levelOf = key => memOf(key).level;
+// A card's level: the lowest level among the directions she has studied (a card is mastered only when every studied direction is).
+function cardLevel(id){
+  const lv = [id, id + REV].filter(k => st(k) && st(k).history.length).map(levelOf);
+  return lv.length ? lv.reduce((a, b) => LEVEL_RANK[b] < LEVEL_RANK[a] || (b === "attention" && LEVEL_RANK[b] === LEVEL_RANK[a]) ? b : a) : "unseen";
+}
+function fsrsDays(S, r){
+  const raw = fsrsInterval(S);
+  let iv = Math.max(1, Math.round(r === "hard" ? raw * 0.8 : raw));
+  iv = Math.min(iv, RULES.maxInterval);
+  const cap = testCap(); if(cap !== null) iv = Math.min(iv, cap);
+  if(iv >= 4){ const f = Math.max(1, Math.round(iv * 0.05)); iv += Math.round(Math.random() * 2 * f) - f; }   // spread reviews a little so they don't bunch up on one day
+  iv = Math.min(iv, RULES.maxInterval); if(cap !== null) iv = Math.min(iv, cap);
+  return Math.max(1, iv);
+}
+
+function rate(key, r, written, boost){
   const t = today();
   let s = st(key);
+  if(boost && s && r === "good"){
+    // Confidence insertion answered correctly: kept in the history (marked b) but changes nothing about the card's schedule.
+    s.history.push(written ? { d:t, r, t:Date.now(), b:1, w:written } : { d:t, r, t:Date.now(), b:1 });
+    if(s.history.length > RULES.historyKeep) s.history = s.history.slice(-RULES.historyKeep);
+    return save();
+  }
   const isNew = !s;
   if(isNew){
     s = progress.cards[key] = { status:"learning", writing:false, last:null, due:t, interval:0, reps:0, total:0, good:0, bad:0, history:[] };
@@ -2241,10 +2325,27 @@ function rate(key, r, written){
   const daily = s.history.filter((h,i,a) => i === 0 || a[i-1].d !== h.d).slice(-RULES.missWindow);
   const misses = daily.filter(h => h.r !== "good").length;
 
-  s.history.push(written ? { d:t, r, t:Date.now(), w:written } : { d:t, r, t:Date.now() });   // w = what she wrote after Struggled / Didn't know
+  const entry = { d:t, r, t:Date.now() }; if(boost) entry.b = 1; if(written) entry.w = written;   // w = what she wrote after Struggled / Didn't know; b = confidence insertion
+  s.history.push(entry);
   if(s.history.length > RULES.historyKeep) s.history = s.history.slice(-RULES.historyKeep);
   if(firstToday){ s.total++; if(r === "good") s.good++; else s.bad++; }
 
+  if(RULES.scheduler === "fsrs"){
+    if(r === "again"){ s.reps = 0; s.interval = 0; s.due = t; s.writing = true; s.status = "learning"; }
+    else {
+      s.writing = false;
+      if(!firstToday){ if(s.interval === 0){ s.interval = 1; s.due = addDays(1); } }   // same-day repeat: never pushes the card further out
+      else {
+        const mem = memOf(key);
+        s.reps = r === "good" ? s.reps + 1 : 0;
+        s.interval = fsrsDays(mem.m.S, r);
+        s.due = addDays(s.interval);
+        s.status = r === "good" ? "review" : "learning";
+      }
+    }
+    s.last = t;
+    return save();
+  }
   if(r === "again"){
     s.reps = 0; s.interval = 0; s.due = t; s.writing = true; s.status = "learning";
   } else if(r === "hard"){
@@ -2957,6 +3058,7 @@ function previousCard(){
   if(flipping || !undo.length) return;
   const u = undo.pop();
   if(u.card) progress.cards[u.key] = u.card; else delete progress.cards[u.key];
+  if(u.boosted) progress.boosted = u.boosted;
   progress.newDay = u.newDay;
   const cur = progress.open[filter];
   // Study time, session counting and settings stay as they are now; only the rating is taken back.
@@ -3030,6 +3132,7 @@ function mergeProgress(list){
     out.open = Object.assign({}, p.open || {}, out.open || {});
     for(const k of Object.keys(p.open || {})){ if(out.open[k] && p.open[k] && p.open[k].date > out.open[k].date) out.open[k] = deepCopy(p.open[k]); }
     if(!out.testDate && p.testDate) out.testDate = p.testDate;
+    if(p.boosted){ out.boosted = Object.assign({}, p.boosted, out.boosted || {}); for(const [id, d] of Object.entries(p.boosted)) if(d > out.boosted[id]) out.boosted[id] = d; }
     if(Array.isArray(p.quoteSeen)) out.quoteSeen = Array.from(new Set((out.quoteSeen || []).concat(p.quoteSeen)));
     ["bg", "view", "tips", "skipWrite"].forEach(k => { if(out[k] === undefined && p[k] !== undefined) out[k] = p[k]; });
     const nd = out.newDay || { date:"", count:0 }, pd = p.newDay || { date:"", count:0 };
@@ -3674,6 +3777,37 @@ function trapTab(e){
   if(e.shiftKey && (at === first || !box.contains(at))){ e.preventDefault(); last.focus(); }
   else if(!e.shiftKey && (at === last || !box.contains(at))){ e.preventDefault(); first.focus(); }
 }
+// Confidence insertion: after a run of difficult cards, one mastered card (provisionally mastered if none) from this
+// session's topic that isn't due, wasn't studied today, isn't already in the session and wasn't inserted recently.
+function pickBoost(o){
+  const t = today(), inSession = new Set((deck || []).map(idOf)), recent = progress.boosted || {};
+  const ok = id => !inSession.has(id) && !(recent[id] && daysUntil(recent[id]) > -RULES.boostGapDays);
+  const keys = poolFor(filter).map(c => c[3]).filter(ok).reduce((a, id) => a.concat(keysFor(id, o.view || progress.view)), [])
+    .filter(k => { const s = st(k); return s && s.due > t && s.last !== t; });
+  for(const want of ["mastered", "provisional"]){ const c = keys.filter(k => levelOf(k) === want); if(c.length) return c[Math.floor(Math.random() * c.length)]; }
+  return null;
+}
+// A brief sparkle over the card after a mastered card is answered correctly: always when it has just become mastered,
+// otherwise now and then. No message, nothing to click, and the next card is already showing underneath.
+let sinceSparkle = 99;
+function maybeCelebrate(justMastered){
+  sinceSparkle++;
+  if(!justMastered && (sinceSparkle < 6 || Math.random() >= 0.5)) return false;
+  sinceSparkle = 0;
+  if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+  const card = $("card"); if(!card || !card.getBoundingClientRect || !document.body || !document.body.appendChild) return false;
+  const r = card.getBoundingClientRect(), fx = document.createElement("div");
+  fx.className = "sparkle-fx"; fx.setAttribute("aria-hidden", "true");
+  fx.style.left = r.left + "px"; fx.style.top = r.top + "px"; fx.style.width = r.width + "px"; fx.style.height = r.height + "px";
+  let html = "";
+  for(let i = 0; i < 12; i++){
+    const a = i / 12 * Math.PI * 2 + Math.random() * 0.4, d = 70 + Math.random() * 60;
+    html += `<i style="--dx:${Math.round(Math.cos(a) * d)}px;--dy:${Math.round(Math.sin(a) * d * 0.7)}px;--dl:${Math.round(Math.random() * 80)}ms"></i>`;
+  }
+  fx.innerHTML = html; document.body.appendChild(fx);
+  setTimeout(() => { if(fx.remove) fx.remove(); }, 650);
+  return true;
+}
 // Got it moves on. Struggled / Didn't know open the writing box first, unless "Skip reinforcement input" is on.
 function chooseRating(r){
   if(mode!=="cards" || flipping || !revealed || noteModalOpen) return;
@@ -3690,16 +3824,27 @@ function answer(r, written){
   if(mode!=="cards" || flipping || !revealed || noteModalOpen) return;
   const key = curKey, o = progress.open[filter];
   const copy = x => x ? JSON.parse(JSON.stringify(x)) : null;
-  if(o) undo.push({ key, card: copy(st(key)), newDay: copy(progress.newDay), open: copy(o), draft });
-  if(o){
+  if(o) undo.push({ key, card: copy(st(key)), newDay: copy(progress.newDay), open: copy(o), draft, boosted: copy(progress.boosted || {}) });
+  const isBoost = !!(o && o.boost && o.boost[idOf(key)] && o.phase !== "retry");
+  const wasMastered = levelOf(key) === "mastered", firstToday = !st(key) || st(key).last !== today();
+  if(o && !isBoost){
     o.results = o.results || {}; if(!(key in o.results)) o.results[key] = r;   // first rating of each card this session
     o.repeats = o.repeats || {};
     o.attempts = (o.attempts || 0) + 1;
     if(o.phase === "retry"){ o.retryResults = o.retryResults || {}; o.retryResults[key] = r; }
     else { o.shown = o.shown || {}; o.shown[idOf(key)] = key; }
   }
-  rate(key, r, written);
+  rate(key, r, written, isBoost);
+  if(isBoost){ progress.boosted = progress.boosted || {}; progress.boosted[idOf(key)] = today(); save(); }
   noteActivity(1, 0);
+  if(r === "good" && (firstToday || isBoost) && levelOf(key) === "mastered") maybeCelebrate(!wasMastered);
+  if(o && !isBoost && (!o.phase || o.phase === "initial")){
+    o.hardRun = r === "good" ? 0 : (o.hardRun || 0) + 1;
+    if(o.hardRun >= RULES.boostAfter && (o.boostCount || 0) < RULES.boostPerSession){
+      const b = pickBoost(o);
+      if(b){ deck.splice(pos + 1, 0, b); total = deck.length; o.boost = o.boost || {}; o.boost[idOf(b)] = 1; o.boostCount = (o.boostCount || 0) + 1; o.hardRun = 0; }
+    }
+  }
   if(o && o.phase === "retry"){ st(key).retry = today(); save(); }   // this was its one more look today
   if(r === "again" && o && o.phase !== "retry" && (o.repeats[key] || 0) < RULES.maxRepeats){
     o.repeats[key] = (o.repeats[key] || 0) + 1;

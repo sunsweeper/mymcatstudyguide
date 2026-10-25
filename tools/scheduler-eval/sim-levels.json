@@ -1,0 +1,77 @@
+{
+ "GT-EXP | learning": {
+  "cardsPerStudent": 22.8,
+  "recallOnExamDay": 0.369,
+  "recall30DaysLaterNoReview": 0.045
+ },
+ "GT-EXP | developing": {
+  "cardsPerStudent": 56.4,
+  "recallOnExamDay": 0.937,
+  "recall30DaysLaterNoReview": 0.712
+ },
+ "GT-EXP | attention": {
+  "cardsPerStudent": 23.6,
+  "recallOnExamDay": 0.972,
+  "recall30DaysLaterNoReview": 0.855
+ },
+ "GT-EXP | provisional": {
+  "cardsPerStudent": 151.2,
+  "recallOnExamDay": 0.989,
+  "recall30DaysLaterNoReview": 0.927
+ },
+ "GT-EXP | mastered": {
+  "cardsPerStudent": 57.6,
+  "recallOnExamDay": 0.996,
+  "recall30DaysLaterNoReview": 0.97
+ },
+ "GT-ACTR | learning": {
+  "cardsPerStudent": 23.5,
+  "recallOnExamDay": 0.761,
+  "recall30DaysLaterNoReview": 0.555
+ },
+ "GT-ACTR | developing": {
+  "cardsPerStudent": 100.7,
+  "recallOnExamDay": 0.796,
+  "recall30DaysLaterNoReview": 0.628
+ },
+ "GT-ACTR | attention": {
+  "cardsPerStudent": 49.7,
+  "recallOnExamDay": 0.824,
+  "recall30DaysLaterNoReview": 0.678
+ },
+ "GT-ACTR | provisional": {
+  "cardsPerStudent": 58.3,
+  "recallOnExamDay": 0.804,
+  "recall30DaysLaterNoReview": 0.667
+ },
+ "GT-ACTR | mastered": {
+  "cardsPerStudent": 3.4,
+  "recallOnExamDay": 0.799,
+  "recall30DaysLaterNoReview": 0.665
+ },
+ "GT-FSRS | learning": {
+  "cardsPerStudent": 9.4,
+  "recallOnExamDay": 0.737,
+  "recall30DaysLaterNoReview": 0.381
+ },
+ "GT-FSRS | developing": {
+  "cardsPerStudent": 33.5,
+  "recallOnExamDay": 0.905,
+  "recall30DaysLaterNoReview": 0.716
+ },
+ "GT-FSRS | attention": {
+  "cardsPerStudent": 49.9,
+  "recallOnExamDay": 0.913,
+  "recall30DaysLaterNoReview": 0.726
+ },
+ "GT-FSRS | provisional": {
+  "cardsPerStudent": 218.8,
+  "recallOnExamDay": 0.978,
+  "recall30DaysLaterNoReview": 0.899
+ },
+ "GT-FSRS | mastered": {
+  "cardsPerStudent": 192.5,
+  "recallOnExamDay": 0.989,
+  "recall30DaysLaterNoReview": 0.949
+ }
+}
