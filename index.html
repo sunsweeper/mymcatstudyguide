@@ -498,7 +498,7 @@ body{padding-top:28px;padding-bottom:28px;box-sizing:border-box}
 .menu-who{margin:0;padding:8px 12px 10px;font-weight:700;color:var(--forest);border-bottom:1px solid var(--hair);margin-bottom:4px;overflow-wrap:anywhere}
 .menu-item{--ico:var(--i-help);display:flex;align-items:center;gap:12px;width:100%;text-align:left;font:400 1rem var(--f-ui);color:var(--ink);background:none;border:0;border-radius:9px;padding:11px 12px;cursor:pointer;min-height:44px}
 .menu-item:hover{background:var(--accent-soft)}
-#mBm{--ico:var(--i-bookmark)} #mNotes{--ico:var(--i-notes)} #mAcct{--ico:var(--i-user)} #mOwner{--ico:var(--i-chart)} #mMode{--ico:var(--i-moon)} #mOut{--ico:var(--i-logout)}
+#mDate{--ico:var(--i-clock)} #mBm{--ico:var(--i-bookmark)} #mNotes{--ico:var(--i-notes)} #mAcct{--ico:var(--i-user)} #mOwner{--ico:var(--i-chart)} #mMode{--ico:var(--i-moon)} #mOut{--ico:var(--i-logout)}
 .m-only{display:none}
 /* logo */
 .logo{display:flex;align-items:center;gap:14px;min-width:0}
@@ -934,6 +934,21 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 @media (max-width:560px){.card .foot{font-size:.92rem}.face.back .asked{font-size:1rem}.ws-tab{padding:8px 12px;font-size:.95rem}}
 @media (max-width:560px){#card .meta .side{font-size:1.8rem}#card .face{margin-top:8px}}
 
+/* MCAT countdown (Package 2, Phase 6): upper right on every page */
+.countdown{display:inline-flex;flex-direction:column;align-items:center;gap:0;font:400 .95rem var(--f-ui);color:var(--on-page);background:none;border:1px solid var(--pill-line);border-radius:12px;padding:4px 10px;min-height:44px;line-height:1.1;cursor:pointer}
+.countdown[hidden]{display:none}
+.countdown .cd-n{font-weight:700;font-size:1.05rem}
+.countdown:hover{border-color:var(--accent)}
+.countdown:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.countdown.day{background:var(--primary);border-color:var(--primary-edge);color:var(--primary-ink);font-weight:700}
+:root[data-bg="dark"] .countdown.day{background:#D86B81;border-color:#D86B81;color:#fff}
+.countdown .cd-l{font-size:.68rem;white-space:normal;text-align:center;max-width:80px}
+.countdown.day .cd-l, .countdown.past .cd-l{font-size:.8rem;max-width:96px}
+.date-form{display:flex;flex-direction:column;gap:12px}
+/* Tablets: with the countdown in the header, Bookmarks / My Card Notes show their icon and count (labels still read aloud and in the tooltip). */
+@media (min-width:761px) and (max-width:1010px){.topbar{gap:12px}.topnav{gap:14px}.topnav .navpill::after{display:none}
+  .topnav .np-w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
+
 /* Weakness Dashboard (Package 2, Phase 4) */
 .thermos{display:flex;flex-direction:column;gap:10px}
 .thermo{display:grid;grid-template-columns:minmax(110px,170px) 1fr auto;align-items:center;gap:12px;font:400 .98rem var(--f-ui);color:var(--on-page)}
@@ -1009,11 +1024,13 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
       <span class="vsep" aria-hidden="true"></span>
       <button class="mode" id="modeBtn" type="button" aria-pressed="false" aria-label="Dark background">☾</button>
       <button class="avatar" id="avatarBtn" type="button" aria-label="Account menu" aria-haspopup="true" aria-expanded="false" aria-controls="menu" hidden><span class="av-init" id="avatarInit">S</span></button>
+      <button class="countdown" id="countdown" type="button" hidden aria-label=""><span class="cd-n" id="cdN"></span><span class="cd-l" id="cdL"></span></button>
     </nav>
     <div class="menu" id="menu" hidden>
       <p class="menu-who" id="menuWho" hidden></p>
       <button class="menu-item m-only" id="mBm" type="button">Bookmarks</button>
       <button class="menu-item m-only" id="mNotes" type="button">My Card Notes</button>
+      <button class="menu-item" id="mDate" type="button">MCAT date</button>
       <button class="menu-item" id="mAcct" type="button">Account</button>
       <button class="menu-item" id="mOwner" type="button">Owner Dashboard</button>
       <button class="menu-item" id="mHelp" type="button">How to Use Me</button>
@@ -2923,7 +2940,7 @@ function flushTime(){ tickTime(); if(unsavedMs){ unsavedMs = 0; save(); } }
 ["click","keydown","input","touchstart","wheel"].forEach(t => document.addEventListener(t, markActive, { passive:true }));
 document.addEventListener("visibilitychange", () => {
   if(document.hidden){ flushTime(); if(sbUser){ flushActivity(); pushProgress(); } }
-  else { lastTick = Date.now(); markActive(); if(sbUser) pullMerge(); }
+  else { lastTick = Date.now(); markActive(); renderCountdown(); if(sbUser) pullMerge(); }
 });
 setInterval(tickTime, 1000);
 
@@ -2975,7 +2992,7 @@ function toggleBookmark(id){
 // Open a side screen (bookmarks or weaknesses) and remember where to come back to.
 function openSide(m){
   if(mode === "cards") persistPlace();
-  if(!["bm", "weakdash", "notes", "account", "owner"].includes(mode)) backTo = mode;
+  if(!["bm", "weakdash", "notes", "account", "owner", "mcatdate"].includes(mode)) backTo = mode;
   show(m);
 }
 function goBack(){ show(backTo === "cards" && !deck[pos] ? "welcome" : backTo); }
@@ -3041,7 +3058,61 @@ function applyImport(){
 function show(m){ hideTip(); mode = m; render(); }
 const esc = s => s.replace(/[&<>"]/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[ch]));
 
-function render(){ renderScreen(); wireListTabs(); applyTips(); }
+function render(){ renderScreen(); wireListTabs(); applyTips(); renderCountdown(); }
+/* ---------- MCAT countdown (Package 2, Phase 6) ----------
+   Calendar days between today's date and the exam date (not 24-hour periods). Only her own date, only when she gave one. */
+function countdownState(){
+  const t = progress.testDate;
+  if(!t || !/^\d{4}-\d{2}-\d{2}$/.test(t)) return null;
+  const left = daysUntil(t);
+  if(left > 0) return { kind:"left", left, text: `${left} ${left === 1 ? "Day" : "Days"} Until Your MCAT` };
+  if(left === 0) return { kind:"day", left:0, text:"MCAT Day" };
+  return { kind:"past", left, text:"Update your MCAT date" };
+}
+let cdDay = "";
+function renderCountdown(){
+  const b = $("countdown"); if(!b) return;
+  cdDay = today();
+  const c = (AUTH_ON && !sbUser) || mode === "auth" ? null : countdownState();
+  b.hidden = !c;
+  if(!c) return;
+  b.className = "countdown" + (c.kind === "day" ? " day" : c.kind === "past" ? " past" : "");
+  if(c.kind === "left"){ $("cdN").textContent = String(c.left); $("cdL").textContent = `${c.left === 1 ? "Day" : "Days"} Until Your MCAT`; }
+  else { $("cdN").textContent = ""; $("cdL").textContent = c.text; }
+  b.setAttribute("aria-label", `${c.text}. Open MCAT date settings.`);
+}
+// Roll over at midnight (and when she comes back to the tab) without a reload.
+if(typeof setInterval === "function"){ const cdt = setInterval(() => { if(today() !== cdDay) renderCountdown(); }, 60000); if(cdt && cdt.unref) cdt.unref(); }
+let dateMsg = "";
+function openDate(){ dateMsg = ""; openSide("mcatdate"); }
+function renderDate(scr){
+  const t = progress.testDate || "", none = !t && !!progress.mcatNone;
+  const max = (() => { const d = new Date(); d.setFullYear(d.getFullYear() + 3); return dstr(d); })();
+  scr.innerHTML = `<p class="sec-title">MCAT date</p>
+    <p class="lede" style="margin:0">Your date sets the countdown at the top of the page and keeps reviews spaced so everything you've learned comes up again before your exam. It's saved with your study progress.</p>
+    <form class="auth-form date-form" id="dateForm" novalidate>
+      <label class="field">MCAT test date<input type="date" id="dDate" min="${today()}" max="${max}" value="${esc(t)}"></label>
+      <label class="check small"><input type="checkbox" id="dNone"${none ? " checked" : ""}><span>My MCAT date isn't scheduled yet.</span></label>
+      ${dateMsg ? `<p class="auth-msg${dateMsg === "Saved." ? " ok" : ""}" role="${dateMsg === "Saved." ? "status" : "alert"}">${esc(dateMsg)}</p>` : ""}
+      <div class="controls"><button class="btn" type="button" id="sideBack">Back</button><button class="btn primary" type="submit">Save</button></div>
+    </form>`;
+  $("sideBack").onclick = goBack;
+  $("dNone").onchange = e => { if(e.target.checked) $("dDate").value = ""; };
+  $("dDate").oninput = e => { if(e.target.value) $("dNone").checked = false; };
+  $("dateForm").onsubmit = e => { e.preventDefault(); saveDate($("dDate").value, $("dNone").checked); };
+  (dateMsg && dateMsg !== "Saved." ? $("dDate") : $("dDate")).focus();
+}
+function saveDate(v, none){
+  v = (v || "").trim();
+  if(none){ delete progress.testDate; progress.mcatNone = true; }
+  else {
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(v)){ dateMsg = "Please enter your MCAT date, or check “My MCAT date isn't scheduled yet.”"; render(); return false; }
+    const left = daysUntil(v);
+    if(left < 0 || left > 366 * 3){ dateMsg = "Please enter an MCAT date between today and three years from now."; render(); return false; }
+    progress.testDate = v; progress.mcatNone = false; clampToTest();
+  }
+  save(); dateMsg = "Saved."; render(); return true;
+}
 // Bookmarks and My Card Notes share one page: two headlines side by side, each one switches the list.
 function listTabs(){
   const tab = (m, id, label) => `<button class="list-tab" id="${id}" type="button" role="tab" aria-selected="${mode === m}">${label}</button>`;
@@ -3076,13 +3147,16 @@ function renderScreen(){
   showTimer();
   if(inSession) $("topicname").textContent = topicName(filter);
   const nbm = Object.keys(progress.bookmarks).filter(id => BY_ID[id]).length;
-  $("bmNav").textContent = $("bmNav2").textContent = $("mBm").textContent = `Bookmarks (${nbm})`;
+  $("bmNav2").textContent = $("mBm").textContent = `Bookmarks (${nbm})`;
+  $("bmNav").innerHTML = `<span class="np-w">Bookmarks </span><span class="np-c">(${nbm})</span>`;   // words hidden visually on tablets (still read aloud)
   const nnotes = Object.keys(progress.notes).filter(id => BY_ID[id] && progress.notes[id].trim()).length;
-  $("notesNav").textContent = $("notesNav2").textContent = $("mNotes").textContent = `My Card Notes (${nnotes})`;
+  $("notesNav2").textContent = $("mNotes").textContent = `My Card Notes (${nnotes})`;
+  $("notesNav").innerHTML = `<span class="np-w">My Card Notes </span><span class="np-c">(${nnotes})</span>`;
   scr.className = "screen" + (mode==="quote" ? " quote" : "");
 
   if(mode === "auth"){ renderAuth(scr); return; }
   if(mode === "account"){ renderAccount(scr); return; }
+  if(mode === "mcatdate"){ renderDate(scr); return; }
   if(mode === "owner"){ renderOwner(scr); return; }
   if(mode === "welcome"){
     const keys = Object.keys(SECTIONS).concat(["all"]);
@@ -3093,7 +3167,7 @@ function renderScreen(){
     const cell = (k, r, label) => `<span class="sc${k !== "all" && top[r] > 0 && scores[k][r] === top[r] ? " lead" : ""}"><span class="v">${scores[k][r]}</span><span class="l">${label}</span></span>`;
     const unseen = CARDS.filter(c => !seenCard(c[3])).length;
     let pace = "";
-    if(!progress.testDate) pace = "Add your test date to see your pace.";
+    if(!progress.testDate) pace = progress.mcatNone ? "" : `<button class="link" type="button" id="addDate">Add your MCAT date</button> to see your pace.`;
     else if(daysUntil(progress.testDate) > 0){
       const goal = (() => { const [y,m,d] = progress.testDate.split("-").map(Number); const g = new Date(y, m-1, d - RULES.finishWeeks*7); return dstr(g); })();
       const toGoal = daysUntil(goal), toTest = daysUntil(progress.testDate);
@@ -3120,7 +3194,7 @@ function renderScreen(){
           <span class="t-full">${k==="all" ? "Every section" : SECTIONS[k].full}</span>
           <span class="t-score">${cell(k,"good","Known")}${cell(k,"hard","Struggled")}${cell(k,"again","Didn't know")}</span>
         </button>`).join("")}</div>
-      ${progress.testDate && pace ? `<div class="test-row"><span class="pace">${pace}</span></div>` : ""}
+      ${pace ? `<div class="test-row"><span class="pace">${pace}</span></div>` : ""}
       <button class="btn wide-btn" id="weakBtn" type="button">View My Weaknesses</button>
       <div class="backup">
         <button class="link" id="helpBtn" type="button" aria-haspopup="dialog">How to Use Me</button>
@@ -3142,6 +3216,7 @@ function renderScreen(){
     $("tipsToggle").onchange = e => { progress.tips = !!e.target.checked; save(); hideTip(); };
     if($("undoRestore") && readRecovery()) $("undoRestore").onclick = () => { const r = readRecovery(); if(!r) return; pendingImport = r; backupMsg = ""; show("import"); };
     $("weakBtn").onclick = () => openSide("weakdash");
+    if($("addDate")) $("addDate").onclick = openDate;
     $("importBtn").onclick = () => { $("importFile").value = ""; $("importFile").click(); };
     return;
   }
@@ -3631,7 +3706,7 @@ function mergeProgress(list){
     if(!out.testDate && p.testDate) out.testDate = p.testDate;
     if(p.boosted){ out.boosted = Object.assign({}, p.boosted, out.boosted || {}); for(const [id, d] of Object.entries(p.boosted)) if(d > out.boosted[id]) out.boosted[id] = d; }
     if(Array.isArray(p.quoteSeen)) out.quoteSeen = Array.from(new Set((out.quoteSeen || []).concat(p.quoteSeen)));
-    ["bg", "view", "tips", "skipWrite", "mandOff"].forEach(k => { if(out[k] === undefined && p[k] !== undefined) out[k] = p[k]; });
+    ["bg", "view", "tips", "skipWrite", "mandOff", "mcatNone"].forEach(k => { if(out[k] === undefined && p[k] !== undefined) out[k] = p[k]; });
     const nd = out.newDay || { date:"", count:0 }, pd = p.newDay || { date:"", count:0 };
     out.newDay = pd.date > nd.date ? pd : pd.date === nd.date ? { date:nd.date, count:Math.max(nd.count, pd.count) } : nd;
   }
@@ -3761,6 +3836,7 @@ async function enterAccount(user){
   const meta = user.user_metadata || {};
   if(!progress.mcatFromSignup){
     if(!progress.testDate && meta.mcat_date && /^\d{4}-\d{2}-\d{2}$/.test(meta.mcat_date) && daysUntil(meta.mcat_date) > 0) progress.testDate = meta.mcat_date;
+    if(!progress.testDate && (meta.mcat_unscheduled === true || meta.mcat_unscheduled === "true")) progress.mcatNone = true;   // declined at sign-up: no countdown
     progress.mcatFromSignup = true;
   }
   clampToTest();
@@ -4123,6 +4199,7 @@ const TIPS = {
   "#ownerBtn": "See who has signed up, when they last studied, how many cards they reviewed and for how long. No scores or answers.",
   "#card .bm": "Save this card to your Bookmarks.",
   "#confRow [data-c=\"1\"]": "Optional: before revealing, pick how sure you are (1 = not confident, 10 = very confident). It's saved with your rating and never changes your schedule.",
+  "#countdown": "Days until your MCAT, counted by calendar date. Click to change your MCAT date.",
   "#mandToggle": "On: cards you've missed need a written answer before you flip them (until mastered), and Struggled / Didn't know need one before the next card. Off: writing is optional, and you'll be asked before skipping it.",
   "#toQuote": "Start your session, or pick up where you left off.",
   "#anotherQuote": "Show a different quote.",
@@ -4393,6 +4470,7 @@ function renderMenu(){
   $("mAcct").hidden = $("mOut").hidden = !signedIn;
   $("mOwner").hidden = !owner;
   $("mHelp").hidden = mode === "auth";
+  $("mDate").hidden = mode === "auth" || (AUTH_ON && !sbUser);
   $("mnav").hidden = (AUTH_ON && !signedIn) || !(mode === "welcome" || SESSION_MODES.includes(mode));
 }
 let menuFrom = null;
@@ -4408,6 +4486,8 @@ $("avatarBtn").onclick = () => setMenu($("menu").hidden || menuFrom !== $("avata
 $("mBm").onclick = menuGo(() => openSide("bm"));
 $("mNotes").onclick = menuGo(() => openSide("notes"));
 $("mAcct").onclick = menuGo(openAccount);
+$("mDate").onclick = menuGo(openDate);
+$("countdown").onclick = openDate;
 $("mOwner").onclick = menuGo(() => { openSide("owner"); loadOwner(); });
 $("mHelp").onclick = menuGo(back => openHelp(back));
 $("mMode").onclick = menuGo(() => $("modeBtn").onclick());
