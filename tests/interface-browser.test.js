@@ -6,7 +6,7 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
 (async () => {
   const b = await chromium.launch(); const errs = [];
   for (const w of [360, 390, 440, 768, 1280]) for (const bg of ['dark', 'light']) {
-    const ctx = await b.newContext({ viewport:{ width:w, height:900 } }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage();   // no account library: the page runs in its local (signed-out) mode p.on('pageerror', e => errs.push(e.message));
+    const ctx = await b.newContext({ viewport:{ width:w, height:900 } }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
     await p.addInitScript(s => { if(!sessionStorage.getItem('seeded')){ localStorage.setItem('mcat-progress-v2', s); sessionStorage.setItem('seeded','1'); } }, JSON.stringify({ cards:{}, newDay:{date:'',count:0}, open:{}, view:'q', tips:{off:true}, bg }));
     await p.goto(URL); await p.click('[data-k=ps]'); await p.click('#toQuote'); await p.waitForTimeout(200);
     for (const side of ['Question', 'Answer']) {
@@ -28,7 +28,7 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
     await ctx.close();
   }
   // Longest category name on the smallest phone
-  { const ctx = await b.newContext({ viewport:{ width:360, height:800 } }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage();   // no account library: the page runs in its local (signed-out) mode p.on('pageerror', e => errs.push(e.message));
+  { const ctx = await b.newContext({ viewport:{ width:360, height:800 } }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
     await p.addInitScript(() => { if(!sessionStorage.getItem('seeded')){ localStorage.setItem('mcat-progress-v2', JSON.stringify({ cards:{}, newDay:{date:'',count:0}, open:{}, view:'q', tips:{off:true} })); sessionStorage.setItem('seeded','1'); } });
     await p.goto(URL); await p.click('[data-k=ps]'); await p.click('#toQuote');
     await p.evaluate(() => { deck.unshift('7A-001'); progress.open.ps.ids = deck.slice(); resetCard(); render(); });
@@ -38,7 +38,7 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
     await ctx.close();
   }
   // Hidden entries and the popup in a real page
-  { const ctx = await b.newContext({ viewport:{ width:1280, height:1000 } }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage();   // no account library: the page runs in its local (signed-out) mode p.on('pageerror', e => errs.push(e.message));
+  { const ctx = await b.newContext({ viewport:{ width:1280, height:1000 } }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
     const id = '1A-001';
     await p.addInitScript(s => { if(!sessionStorage.getItem('seeded')){ localStorage.setItem('mcat-progress-v2', s); sessionStorage.setItem('seeded','1'); } }, JSON.stringify({ view:'q', tips:{off:true}, newDay:{date:'',count:0}, open:{}, notes:{ [id]:'ZZ-NOTE-TEXT' },
       cards:{ [id]:{ status:'learning', writing:true, last:d(-1), due:d(0), interval:0, reps:0, total:1, good:0, bad:1, history:[{ d:d(-1), r:'again', t:1, w:'ZZ-OLD-ANSWER' }] } } }));
@@ -61,15 +61,18 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
     ok('H8 Yes moves on', await p.evaluate(() => idOf(curKey)) !== id);
     await ctx.close();
   }
-  // Real refresh in the middle of a written answer
-  { const ctx = await b.newContext({ viewport:{ width:390, height:844 } }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage();   // no account library: the page runs in its local (signed-out) mode p.on('pageerror', e => errs.push(e.message));
+  // Real refresh in the middle of a written answer. Served over http: Chrome can drop localStorage when reloading a file:// page.
+  { const file = decodeURIComponent(URL.replace(/^file:\/\//, '')), srv = require('http').createServer((q, s) => { s.setHeader('content-type', 'text/html; charset=utf-8'); s.end(require('fs').readFileSync(file)); });
+    await new Promise(r => srv.listen(0, '127.0.0.1', r)); const HTTP = `http://127.0.0.1:${srv.address().port}/index.html`;
+    const ctx = await b.newContext({ viewport:{ width:390, height:844 } }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
     await p.addInitScript(() => { if(!sessionStorage.getItem('seeded')){ localStorage.setItem('mcat-progress-v2', JSON.stringify({ cards:{}, newDay:{date:'',count:0}, open:{}, view:'q', tips:{off:true} })); sessionStorage.setItem('seeded','1'); } });
-    await p.goto(URL); await p.click('[data-k=cp]'); await p.click('#toQuote'); await p.click('#reveal'); await p.waitForTimeout(450);
+    await p.goto(HTTP); await p.click('[data-k=cp]'); await p.click('#toQuote'); await p.click('#reveal'); await p.waitForTimeout(450);
     const k = await p.evaluate(() => curKey);
     await p.click('[data-r=again]'); await p.keyboard.type('Typed before the page reloaded');
-    await p.reload(); await p.click('[data-k=cp]'); await p.click('#toQuote'); await p.waitForTimeout(300);
+    await p.waitForTimeout(700); await p.reload(); await p.click('[data-k=cp]'); await p.click('#toQuote');
+    await p.waitForFunction(k => typeof curKey !== 'undefined' && curKey === k && mode === 'cards', k, { timeout: 5000 }).catch(() => {});
     ok('RF1 browser refresh mid-answer: same card, answer side, text restored', await p.evaluate(() => curKey) === k && await p.evaluate(() => revealed) && (await p.inputValue('#curAnswer')) === 'Typed before the page reloaded');
-    await ctx.close();
+    await ctx.close(); srv.close();
   }
   ok('H9 no page errors', errs.length === 0, errs.join(' | '));
   await b.close(); console.log(`${pass} passed, ${fail} failed`); process.exit(fail ? 1 : 0);
