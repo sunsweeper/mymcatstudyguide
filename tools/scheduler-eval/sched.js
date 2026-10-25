@@ -68,7 +68,7 @@ const RANK = { unseen:0, learning:1, developing:2, attention:2, provisional:3, m
 function memoryFrom(entries){
   let m = null, lastDay = null, succ = [], peak = 0, lastR = null;
   for(const e of entries){
-    if(e.b && e.r === 'good') continue;
+    if((e.b || e.e) && e.r === 'good') continue;
     if(e.day === lastDay) continue;
     const gap = lastDay === null ? null : e.day - lastDay;
     m = fsrsUpdate(m, G[e.r], gap || 0);

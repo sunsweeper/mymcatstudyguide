@@ -3,7 +3,7 @@
 'use strict';
 const fs = require('fs'), path = require('path');
 const M = f => JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'metadata', f), 'utf8'));
-const cards = M('cards.json').cards, cat = M('concepts.json'), pre = M('prerequisites.json').edges;
+const cards = M('cards.json').cards, cat = M('concepts.json'), pre = M('prerequisites.json').edges, rel = M('card_relations.json').relations;
 const stName = Object.fromEntries(cat.subtopics.map(s => [s.id, s.name])), cName = Object.fromEntries(cat.concepts.map(c => [c.id, c.name]));
 const st = [], stIx = {}, co = [], coIx = {};
 const sIx = id => (id in stIx) ? stIx[id] : (stIx[id] = st.push([id.split('.')[0], stName[id] || id]) - 1);
@@ -14,4 +14,6 @@ for(const r of cards) c[r.card_id] = [sIx(r.subtopic_ids[0]), cIx(r.primary_conc
 // prerequisite links between concepts that have cards: dependent -> [prerequisite]
 const p = {};
 for(const e of pre){ if(e.prerequisite_concept_id in coIx && e.dependent_concept_id in coIx){ const d = coIx[e.dependent_concept_id]; (p[d] = p[d] || []).push(coIx[e.prerequisite_concept_id]); } }
-process.stdout.write(JSON.stringify({ v: M('cards.json').metadata_version, st, co, c, p }));
+// near-duplicate card pairs (same fact, different wording) so sessions don't show them back to back
+const d = rel.filter(r => r.relation === 'near_duplicate' || r.relation === 'same_fact_different_wording').map(r => [r.card_id_a, r.card_id_b]);
+process.stdout.write(JSON.stringify({ v: M('cards.json').metadata_version, st, co, c, p, d }));
