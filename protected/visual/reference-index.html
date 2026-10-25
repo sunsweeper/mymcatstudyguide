@@ -879,6 +879,66 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .owner-glist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:.95rem;overflow-wrap:anywhere}
 .owner-gname{font-weight:700;color:var(--forest)}
 .owner-empty{margin:0;font-size:.92rem;color:var(--muted)}
+/* ---------- Interface update (Oct 25, 2026): card header/footer, link row, writing workspace ---------- */
+:root{--i-pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15.5 4.5l4 4L8.5 19.5l-5 1 1-5z' fill='black'/%3E%3Cpath d='M13.5 6.5l4 4'/%3E%3C/svg%3E");--i-lock:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='10.5' width='14' height='10' rx='2' fill='black'/%3E%3Cpath d='M8 10.5V7.5a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E")}
+#card .meta{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px}
+#card .meta .side{grid-column:2}
+#card .meta-r{grid-column:3;justify-self:end;margin-left:0;align-self:center}
+.card .foot{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;font-family:var(--f-ui);font-size:1.08rem;color:var(--ink)}
+.card .foot .cid{flex-shrink:0;text-align:right}
+:root[data-bg="dark"] .card .foot{color:#4F5E57}
+.face.back{justify-content:flex-start}
+.face.back .asked{font-size:1.1rem;margin-top:4px}
+.face.back .ans-wrap{flex:1;display:flex;align-items:center;justify-content:center;width:100%}
+.report-row{justify-content:space-between}
+.report-row .report-flash{margin-left:auto}
+#noteLink{--ico:var(--i-pencil);display:inline-flex;align-items:center;gap:12px;font-size:1.05rem;text-decoration:none;
+  background:linear-gradient(var(--accent),var(--accent)) no-repeat right bottom / calc(100% - 34px) 1.5px;padding-bottom:3px}
+#noteLink::before{content:"";display:inline-block;flex-shrink:0;background:currentColor;color:var(--accent);width:22px;height:22px;
+  -webkit-mask:var(--ico) center / contain no-repeat;mask:var(--ico) center / contain no-repeat}
+#noteLink{color:var(--on-page)}
+.ws{gap:0}
+.ws-tabs{display:flex;justify-content:flex-end;gap:4px}
+.ws-tab{font:400 .98rem var(--f-ui);color:var(--on-page);background:none;border:1px solid var(--line);border-bottom:0;border-radius:8px 8px 0 0;padding:8px 16px;min-height:40px;cursor:pointer}
+.ws-tab[aria-selected="true"]{background:var(--primary);border-color:var(--primary-edge);color:var(--primary-ink)}
+:root[data-bg="dark"] .ws-tab[aria-selected="true"]{background:#D86B81;border-color:#D86B81;color:#fff;font-weight:700}
+.ws-tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ws-panel{display:flex;flex-direction:column;gap:8px}
+.ws-panel[hidden]{display:none}
+#noteText{border-top-right-radius:0}
+:root[data-bg="dark"] .toggle[aria-pressed="true"] .switch{background:#D86B81}
+.ws-lock{display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;min-height:96px;box-sizing:border-box;padding:12px 14px;
+  font:400 .98rem var(--f-ui);color:var(--on-page);background:var(--field);border:1px solid var(--line);border-radius:var(--r);border-top-right-radius:0}
+.ws-lock[hidden]{display:none}
+.lock-ico{display:inline-block;flex-shrink:0;width:18px;height:18px;background:currentColor;-webkit-mask:var(--i-lock) center / contain no-repeat;mask:var(--i-lock) center / contain no-repeat}
+.ws-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:1.2em}
+.ws-foot .btn{min-width:140px}
+.ws-foot .link{font-size:.95rem}
+.ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ans-cur, .ans-prev{display:flex;flex-direction:column;gap:6px;min-width:0}
+.ans-lab{font:700 .95rem var(--f-ui);color:var(--on-page)}
+.ans-cur textarea{flex:1}
+.prev-list{min-height:96px;max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;box-sizing:border-box;padding:10px;
+  background:var(--field);border:1px solid var(--line);border-radius:var(--r);color:var(--on-page)}
+.prev-list .ws-lock{border:0;min-height:72px;background:none;padding:4px}
+.prev-item{display:flex;flex-direction:column;gap:2px;font:1rem/1.5 var(--f-card);overflow-wrap:anywhere;border-bottom:1px solid var(--line);padding-bottom:8px}
+.prev-item:last-child{border-bottom:0;padding-bottom:0}
+.prev-date{font:400 .82rem var(--f-ui);opacity:.8}
+.prev-cap{font:400 .82rem var(--f-ui);opacity:.8}
+.ref-row{display:flex;justify-content:center}
+.ref-link{display:inline-flex;align-items:center;min-height:44px;box-sizing:border-box;font:400 1.12rem var(--f-ui);color:var(--on-page);text-decoration:underline;text-underline-offset:3px;padding:6px 4px}
+.ref-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+@media (max-width:760px){.ans-grid{grid-template-columns:1fr}.prev-list{max-height:180px}}
+@media (max-width:560px){.card .foot{font-size:.92rem}.face.back .asked{font-size:1rem}.ws-tab{padding:8px 12px;font-size:.95rem}}
+@media (max-width:480px){#card .bm{font-size:0;gap:0;padding:0;width:40px;justify-content:center}#card .bm .bm-g{font-size:0}}
+
+/* Mastered-card sparkle (Package 2, Phase 1): an overlay above the card, never part of it. */
+.sparkle-fx{position:fixed;pointer-events:none;z-index:40}
+.sparkle-fx i{position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:#E9B8C4;box-shadow:0 0 6px 1px rgba(233,184,196,.8);opacity:0;animation:sparkle .5s ease-out var(--dl) forwards}
+.sparkle-fx i:nth-child(3n){background:#F3D9A4;box-shadow:0 0 6px 1px rgba(243,217,164,.8)}
+.sparkle-fx i:nth-child(3n+1){background:#BFD9C2;box-shadow:0 0 6px 1px rgba(191,217,194,.8)}
+@keyframes sparkle{0%{opacity:0;transform:translate(0,0) scale(.4)}25%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1)}}
+@media (prefers-reduced-motion: reduce){.sparkle-fx{display:none}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -947,48 +1007,50 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
         <button type="button" role="radio" data-v="mix"><span class="ic" aria-hidden="true"></span>Random Mix</button>
       </div>
       <div class="card" id="card" tabindex="0" role="group" aria-roledescription="flashcard" aria-label="Flashcard" aria-live="polite"></div>
-      <div class="report-row"><span class="report-flash" id="reportFlash" role="status"></span><button class="link" id="reportBtn" type="button" aria-expanded="false" aria-controls="reportBox">Report this card</button></div>
+      <div class="report-row"><button class="link" id="noteLink" type="button" aria-controls="panelNotes">Write Card Note</button><span class="report-flash" id="reportFlash" role="status"></span><button class="link" id="reportBtn" type="button" aria-expanded="false" aria-controls="reportBox">Report this card</button></div>
       <div class="report-box" id="reportBox" hidden>
         <label for="reportNote">What looks wrong?</label>
         <textarea id="reportNote" rows="2" placeholder="Optional"></textarea>
         <div class="report-actions"><button class="btn" id="reportCancel" type="button">Cancel</button><button class="btn primary" id="reportSend" type="button">Send</button></div>
         <span class="report-msg" id="reportMsg" role="status"></span>
       </div>
-      <div class="write" id="recall" hidden>
-        <label for="recallText" id="recallLabel">Active Recall</label>
-        <textarea id="recallText" rows="4" placeholder="Type what you remember..." spellcheck="true" aria-describedby="recallHelp"></textarea>
-        <span class="sr" id="recallHelp">Write what you remember, then reveal the answer to compare. Nothing here is graded or saved.</span>
-        <div class="recall-actions"><button class="btn" id="recallCancel" type="button">Cancel</button><button class="btn primary" id="recallReveal" type="button">Reveal Answer</button></div>
-      </div>
-      <div class="write" id="write" hidden>
-        <label for="answer">Write your answer before revealing the card.</label>
-        <textarea id="answer" rows="3" autocomplete="off" spellcheck="true"></textarea>
-      </div>
       <div class="controls prevrow" id="revealRow">
         <button class="btn" id="prev" type="button"><span>Previous<span class="d-only"> Card</span></span></button>
         <button class="btn primary" id="reveal" type="button">Reveal Answer</button>
-        <button class="btn" id="recallBtn" type="button" aria-expanded="false" aria-controls="recall">Active Recall</button>
+        <button class="btn" id="recallBtn" type="button" aria-controls="panelAns">Active Recall</button>
       </div>
       <div class="controls three" id="rateRow" hidden>
-        <button class="btn primary" type="button" data-r="good" aria-keyshortcuts="1">Got it</button>
-        <button class="btn" type="button" data-r="hard" aria-keyshortcuts="2">Struggled</button>
-        <button class="btn" type="button" data-r="again" aria-keyshortcuts="3">Didn't know</button>
+        <button class="btn primary" type="button" data-r="good">Got it</button>
+        <button class="btn" type="button" data-r="hard">Struggled</button>
+        <button class="btn" type="button" data-r="again">Didn't know</button>
       </div>
-      <div class="write" id="reinforce" hidden>
-        <label for="reinforceText">Write the answer in your own words, and why it's correct.</label>
-        <textarea id="reinforceText" rows="4" spellcheck="true"></textarea>
-        <div class="reinforce-foot"><span class="char-hint" id="reinforceHint" aria-live="polite"></span><button class="btn primary" id="reinforceNext" type="button" disabled>Next card</button></div>
-      </div>
-      <div class="explain" id="explainWrap" hidden>
-        <div class="controls two">
-          <button class="btn" id="explainBtn" type="button" aria-haspopup="dialog">Write Card Note</button>
-          <a class="btn link-btn" id="outlineLink" href="3-2020_whats_on_the_mcat_content_outline.pdf" target="_blank" rel="noopener">What's on the MCAT?</a>
+      <div class="write ws" id="ws">
+        <div class="ws-tabs" role="tablist" aria-label="Notes and written answers">
+          <button class="ws-tab" role="tab" id="tabNotes" type="button" aria-controls="panelNotes" aria-selected="true">Notes</button>
+          <button class="ws-tab" role="tab" id="tabAns" type="button" aria-controls="panelAns" aria-selected="false" tabindex="-1">My Written Answers</button>
         </div>
-        <span class="notes-status" id="notesStatus" role="status"></span>
-        <div class="note-text" id="notePeek" hidden></div>
+        <div class="ws-panel" role="tabpanel" id="panelNotes" aria-labelledby="tabNotes">
+          <textarea id="noteText" rows="4" spellcheck="true" aria-label="Your note for this card" placeholder="Type your personal notes here…"></textarea>
+          <div class="ws-lock" id="noteLock" hidden><span class="lock-ico" aria-hidden="true"></span>Your note appears after you reveal the card.</div>
+          <div class="ws-foot" id="noteFoot"><span class="char-hint" id="noteStatus" role="status"></span><button class="link" id="noteSaveLink" type="button" hidden>Save note</button></div>
+        </div>
+        <div class="ws-panel" role="tabpanel" id="panelAns" aria-labelledby="tabAns" hidden>
+          <div class="ans-grid">
+            <div class="ans-cur">
+              <label class="ans-lab" for="curAnswer" id="curLabel">Current Answer</label>
+              <textarea id="curAnswer" rows="4" autocomplete="off" spellcheck="true" placeholder="Type your answer in your own words…"></textarea>
+              <div class="ws-foot"><span class="char-hint" id="curHint" aria-live="polite"></span><button class="btn primary" id="curNext" type="button" hidden>Next card</button></div>
+            </div>
+            <div class="ans-prev">
+              <span class="ans-lab" id="prevLabel">Previous Answers</span>
+              <div class="prev-list" id="prevList" role="region" tabindex="0" aria-labelledby="prevLabel"></div>
+            </div>
+          </div>
+        </div>
       </div>
+      <div class="ref-row"><a class="ref-link" id="outlineLink" href="3-2020_whats_on_the_mcat_content_outline.pdf" target="_blank" rel="noopener">What's on the MCAT?</a></div>
       <span class="hint" id="hint" aria-live="polite"></span>
-      <div class="skip-row"><button class="toggle" id="skipToggle" type="button" aria-pressed="false"><span class="switch" aria-hidden="true"></span>Skip reinforcement input</button><button class="toggle" id="writeToggle" type="button" aria-pressed="false"><span class="switch" aria-hidden="true"></span>Skip writing before flip</button></div>
+      <div class="skip-row"><button class="toggle" id="mandToggle" type="button" aria-pressed="true"><span class="switch" aria-hidden="true"></span>Mandatory Response</button></div>
     </div>
   </div>
   <input type="file" id="importFile" accept=".json,application/json" hidden>
@@ -1015,6 +1077,13 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
       <button class="btn" id="noteCancel" type="button">Cancel</button>
       <button class="btn primary" id="noteSave" type="button">Save Note</button>
     </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="askModal" hidden>
+  <div class="modal" id="askDialog" role="alertdialog" aria-modal="true" aria-labelledby="askText">
+    <p class="modal-title" id="askText"></p>
+    <div class="modal-actions"><button class="btn" id="askNo" type="button">No</button><button class="btn primary" id="askYes" type="button">Yes</button></div>
   </div>
 </div>
 
@@ -2137,7 +2206,13 @@ const RULES = {
   maxRepeats: 0,          // in-session repeats of "Didn't know" cards. 0: missed cards get one optional second try after the session instead (set to 3 to bring back the old repeats)
   missWindow: 8,          // how many past review days are checked for misses
   historyKeep: 50,        // ratings kept per card direction
-  finishWeeks: 8          // aim to see every card this many weeks before the test
+  finishWeeks: 8,         // aim to see every card this many weeks before the test
+  scheduler: "fsrs",      // "fsrs" (since Package 2) or "ladder" (the earlier fixed steps above). Review history is the same either way, so switching back is safe.
+  targetRecall: 0.9,      // FSRS: schedule each review for when she's expected to still remember it 90% of the time
+  maxInterval: 180,       // FSRS: longest gap in days (the test-date cap still applies)
+  boostAfter: 3,          // confidence insertion: after this many Struggled / Didn't know in a row, show one mastered card
+  boostPerSession: 2,     //   at most this many insertions per session
+  boostGapDays: 14        //   the same card isn't inserted again within this many days
 };
 
 /* ---------- Saved progress (this browser) ---------- */
@@ -2226,9 +2301,83 @@ function lastRating(id){
   return best;
 }
 
-function rate(key, r, written){
+/* ---------- Spaced repetition: FSRS memory model and mastery (Package 2, Phase 1) ----------
+   Memory strength is worked out from the card's review history every time (nothing new is stored), so it always matches
+   the history that syncs between devices. Only the first counted rating of each day changes memory: repeating a card the
+   same day never lengthens its interval. Criteria are documented in docs/package-2/MASTERY_CRITERIA.md. */
+const FSRS_W = [0.40255, 1.18385, 3.173, 15.69105, 7.1949, 0.5345, 1.4604, 0.0046, 1.54575, 0.1192, 1.01925, 1.9395, 0.11, 0.29605, 2.2698, 0.2315, 2.9898, 0.51655, 0.6621];
+const FSRS_DECAY = -0.5, FSRS_FACTOR = 19 / 81, FSRS_G = { again:1, hard:2, good:3 };
+const fsrsD = d => Math.min(10, Math.max(1, d));
+const fsrsD0 = g => fsrsD(FSRS_W[4] - Math.exp(FSRS_W[5] * (g - 1)) + 1);
+const fsrsR = (t, S) => Math.pow(1 + FSRS_FACTOR * t / S, FSRS_DECAY);
+function fsrsUpdate(m, g, elapsed){
+  const W = FSRS_W;
+  if(!m) return { S: W[g - 1], D: fsrsD0(g) };
+  const R = fsrsR(Math.max(0, elapsed), m.S);
+  const S = g === 1 ? Math.min(m.S, W[11] * Math.pow(m.D, -W[12]) * (Math.pow(m.S + 1, W[13]) - 1) * Math.exp(W[14] * (1 - R)))
+                    : m.S * (Math.exp(W[8]) * (11 - m.D) * Math.pow(m.S, -W[9]) * (Math.exp(W[10] * (1 - R)) - 1) * (g === 2 ? W[15] : 1) + 1);
+  const Dp = m.D - W[6] * (g - 3) * (10 - m.D) / 9;
+  return { S: Math.max(0.1, S), D: fsrsD(W[7] * fsrsD0(4) + (1 - W[7]) * Dp) };
+}
+const fsrsInterval = S => S / FSRS_FACTOR * (Math.pow(RULES.targetRecall, 1 / FSRS_DECAY) - 1);
+const MASTERY = { provisional:{ succ:2, gap:7, S:21 }, mastered:{ succ:3, gap:21, S:60 } };
+const LEVEL_RANK = { unseen:0, learning:1, developing:2, attention:2, provisional:3, mastered:4 };
+function levelFrom(m, succ, lastR){
+  const meets = c => lastR === "good" && succ.length >= c.succ && Math.max(0, ...succ) >= c.gap && m.S >= c.S;
+  return meets(MASTERY.mastered) ? "mastered" : meets(MASTERY.provisional) ? "provisional" : succ.length ? "developing" : "learning";
+}
+// Replays one card direction's history. A "Got it" on a confidence insertion (b) is never counted.
+function memoryFrom(history){
+  let m = null, last = null, succ = [], peak = 0, lastR = null, needs = false;
+  const list = (history || []).slice().sort((x, y) => x.d < y.d ? -1 : x.d > y.d ? 1 : 0);   // oldest first (same-day order kept)
+  for(const h of list){
+    if(h.b && h.r === "good") continue;
+    const day = dayNum(h.d); if(day === last || !FSRS_G[h.r]) continue;
+    const gap = last === null ? null : day - last;
+    m = fsrsUpdate(m, FSRS_G[h.r], gap || 0);
+    if(h.r === "again") succ = []; else if(h.r === "good" && gap !== null && gap >= 1) succ.push(gap);
+    last = day; lastR = h.r;
+    const lv = levelFrom(m, succ, lastR);
+    peak = Math.max(peak, LEVEL_RANK[lv]);
+    if(h.r === "again") needs = true; else if(lv === "mastered") needs = false;   // Mandatory Response: from a miss until mastered
+  }
+  let level = m ? levelFrom(m, succ, lastR) : "unseen";
+  if(peak >= LEVEL_RANK.provisional && LEVEL_RANK[level] < LEVEL_RANK.provisional) level = "attention";   // previously mastered, needs renewed attention
+  return { m, last, level, peak, succ: succ.length, needs };
+}
+const memCache = {};
+function memOf(key){
+  const s = st(key), h = s ? s.history : [], tip = h.length ? h[h.length - 1] : null;
+  const sig = h.length + ":" + (tip ? (tip.t || tip.d) + tip.r : "");
+  const c = memCache[key]; if(c && c.sig === sig) return c.mem;
+  const mem = memoryFrom(h); memCache[key] = { sig, mem }; return mem;
+}
+const levelOf = key => memOf(key).level;
+// A card's level: the lowest level among the directions she has studied (a card is mastered only when every studied direction is).
+function cardLevel(id){
+  const lv = [id, id + REV].filter(k => st(k) && st(k).history.length).map(levelOf);
+  return lv.length ? lv.reduce((a, b) => LEVEL_RANK[b] < LEVEL_RANK[a] || (b === "attention" && LEVEL_RANK[b] === LEVEL_RANK[a]) ? b : a) : "unseen";
+}
+function fsrsDays(S, r){
+  const raw = fsrsInterval(S);
+  let iv = Math.max(1, Math.round(r === "hard" ? raw * 0.8 : raw));
+  const cap = testCap();
+  if(iv >= 4){ const f = Math.max(1, Math.round(iv * 0.05)); iv += Math.round(Math.random() * 2 * f) - f; }   // spread reviews a little so they don't bunch up on one day
+  iv = Math.min(iv, RULES.maxInterval); if(cap !== null) iv = Math.min(iv, cap);   // limits applied after the spread, so a capped card lands exactly on the cap
+  return Math.max(1, iv);
+}
+
+function rate(key, r, written, boost, extra){
+  const x = extra || {};
   const t = today();
   let s = st(key);
+  if(boost && s && r === "good"){
+    // Confidence insertion answered correctly: kept in the history (marked b) but changes nothing about the card's schedule.
+    const be = { d:t, r, t:Date.now(), b:1 }; if(written) be.w = written; if(x.p) be.p = x.p; if(x.k) be.k = 1;
+    s.history.push(be);
+    if(s.history.length > RULES.historyKeep) s.history = s.history.slice(-RULES.historyKeep);
+    return save();
+  }
   const isNew = !s;
   if(isNew){
     s = progress.cards[key] = { status:"learning", writing:false, last:null, due:t, interval:0, reps:0, total:0, good:0, bad:0, history:[] };
@@ -2241,10 +2390,28 @@ function rate(key, r, written){
   const daily = s.history.filter((h,i,a) => i === 0 || a[i-1].d !== h.d).slice(-RULES.missWindow);
   const misses = daily.filter(h => h.r !== "good").length;
 
-  s.history.push(written ? { d:t, r, t:Date.now(), w:written } : { d:t, r, t:Date.now() });   // w = what she wrote after Struggled / Didn't know
+  const entry = { d:t, r, t:Date.now() }; if(boost) entry.b = 1; if(written) entry.w = written; if(x.p) entry.p = x.p; if(x.k) entry.k = 1;
+  // w = written after Struggled / Didn't know; p = written before the reveal; k = a required response was skipped; b = confidence insertion
+  s.history.push(entry);
   if(s.history.length > RULES.historyKeep) s.history = s.history.slice(-RULES.historyKeep);
   if(firstToday){ s.total++; if(r === "good") s.good++; else s.bad++; }
 
+  if(RULES.scheduler === "fsrs"){
+    if(r === "again"){ s.reps = 0; s.interval = 0; s.due = t; s.writing = true; s.status = "learning"; }
+    else {
+      s.writing = false;
+      if(!firstToday){ if(s.interval === 0){ s.interval = 1; s.due = addDays(1); } }   // same-day repeat: never pushes the card further out
+      else {
+        const mem = memOf(key);
+        s.reps = r === "good" ? s.reps + 1 : 0;
+        s.interval = fsrsDays(mem.m.S, r);
+        s.due = addDays(s.interval);
+        s.status = r === "good" ? "review" : "learning";
+      }
+    }
+    s.last = t;
+    return save();
+  }
   if(r === "again"){
     s.reps = 0; s.interval = 0; s.due = t; s.writing = true; s.status = "learning";
   } else if(r === "hard"){
@@ -2450,7 +2617,7 @@ function resolveKey(key){
   if(view === "a") return id + REV;
   return Math.random() < 0.5 ? id : id + REV;
 }
-function resetCard(){ flipped = false; revealed = false; draft = ""; shownKey = null; recallOpen = false; recallText = ""; $("recallText").value = ""; pendingR = null; reinforceDraft = ""; reportOpen = false; reportFlashFor = null; curKey = deck[pos] ? resolveKey(deck[pos]) : null; }
+function resetCard(){ flipped = false; revealed = false; draft = ""; shownKey = null; recallOpen = false; recallText = ""; pendingR = null; reinforceDraft = ""; reportOpen = false; reportFlashFor = null; curKey = deck[pos] ? resolveKey(deck[pos]) : null; }
 
 /* ---------- Sessions and study time ---------- */
 // A session counts once, when she reveals her first answer in it.
@@ -2872,50 +3039,121 @@ function renderScreen(){
   const front = rev ? (rv[0] || `<span class="lab">Which term or concept is described by:</span>${a}`) : q;
   const asked = rev ? (rv[0] || a) : q, back = rev ? rv[1] : a;
   document.querySelectorAll("#view [data-v]").forEach(b => { const on = b.dataset.v === progress.view; b.setAttribute("aria-checked", String(on)); b.tabIndex = on ? 0 : -1; });
-  const needWrite = mustWrite(curKey);
-  if(shownKey !== curKey){ shownKey = curKey; $("answer").value = draft; }
-  const yours = needWrite && draft.trim() ? `<div class="yours"><span class="lab">Your answer</span><div>${esc(draft).replace(/\n/g,"<br>")}</div></div>` : "";
+  const needWrite = mustWrite(curKey);   // a written answer is due before the flip (whether or not Mandatory Response is on)
+  if(shownKey !== curKey){ shownKey = curKey; noteVal = progress.notes[id] || ""; wsTab = needWrite && !revealed ? "ans" : "notes"; clearTimeout(noteTimer); $("noteStatus").textContent = ""; }
   const marked = !!progress.bookmarks[id];
-  $("card").innerHTML = `<div class="meta"><span>${id} · ${CATEGORIES[id.split("-")[0]]}</span><span class="meta-r"><button class="bm" type="button" aria-pressed="${marked}" aria-label="${marked ? "Remove bookmark" : "Bookmark this card"}"><span class="bm-g" aria-hidden="true">${marked ? "★" : "☆"}</span> ${marked ? "Bookmarked" : "Bookmark"}</button><span class="side">${flipped ? "Answer" : "Question"}</span></span></div>
-    <div class="face">${flipped
-      ? `<div class="asked">${asked}</div>${yours}<div class="ans">${yours ? `<span class="lab">Correct answer</span>` : ""}${back}</div>`
-      : `<div>${front}</div>`}</div>`;
-  $("write").hidden = !(needWrite && !revealed);
+  $("card").innerHTML = `<div class="meta"><span class="meta-l" aria-hidden="true"></span><span class="side">${flipped ? "Answer" : "Question"}</span><span class="meta-r"><button class="bm" type="button" aria-pressed="${marked}" aria-label="${marked ? "Remove bookmark" : "Bookmark this card"}"><span class="bm-g" aria-hidden="true">${marked ? "★" : "☆"}</span> ${marked ? "Bookmarked" : "Bookmark"}</button></span></div>
+    <div class="face${flipped ? " back" : ""}">${flipped
+      ? `<div class="asked">${asked}</div><div class="ans-wrap"><div class="ans">${back}</div></div>`
+      : `<div>${front}</div>`}</div>
+    <div class="foot"><span class="cat">${CATEGORIES[id.split("-")[0]]}</span><span class="cid">${id}</span></div>`;
   $("revealRow").hidden = revealed;
   $("rateRow").hidden = !revealed;
   document.querySelectorAll("#rateRow [data-r]").forEach(b => b.setAttribute("aria-pressed", String(pendingR === b.dataset.r)));
-  $("reinforce").hidden = !(revealed && pendingR);
-  if(revealed && pendingR && $("reinforceText").value !== reinforceDraft) $("reinforceText").value = reinforceDraft;
-  const nChars = reinforceDraft.trim().length;
-  $("reinforceNext").disabled = nChars < MIN_REINFORCE;
-  $("reinforceHint").textContent = nChars < MIN_REINFORCE ? `${nChars} / ${MIN_REINFORCE} characters` : "";
-  const sess = progress.open[filter];
-  $("skipToggle").setAttribute("aria-pressed", String(!!(sess && sess.skip)));
-  $("writeToggle").setAttribute("aria-pressed", String(!!progress.skipWrite));
+  renderWorkspace(id, needWrite);
+  $("mandToggle").setAttribute("aria-pressed", String(mandatoryOn()));
   $("reportBox").hidden = !reportOpen;
   $("reportBtn").setAttribute("aria-expanded", String(reportOpen));
   $("reportSend").disabled = reportBusy;
   $("reportSend").textContent = reportBusy ? "Sending…" : "Send";
   $("reportFlash").textContent = reportFlashFor === curKey ? "Thanks, flagged" : "";
-  $("reveal").disabled = needWrite && !draft.trim();
+  $("reveal").disabled = needWrite && mandatoryOn() && !draft.trim();
   $("prev").disabled = !undo.length;
-  // Card note: written in a popup after the answer is revealed. A saved note is shown under the buttons.
-  const myNote = (progress.notes[id] || "").trim() ? progress.notes[id] : "";
-  $("explainWrap").hidden = !revealed;
-  $("notePeek").hidden = !(revealed && myNote);
-  $("notePeek").innerHTML = myNote ? `<span class="lab">My note</span>${esc(myNote).replace(/\n/g, "<br>")}` : "";
-  // Active Recall: optional, only when the question is shown first and Writing Required isn't already asking for an answer.
-  const recallWhy = rev ? "Active Recall is available when the question is shown first." : needWrite ? "Writing Required is on for this card: write your answer in the box above." : "";
-  $("recallBtn").disabled = revealed || !!recallWhy;
-  $("recallBtn").title = recallWhy;
-  $("recallBtn").setAttribute("aria-expanded", String(recallOpen));
-  $("recall").hidden = !recallOpen;
-  $("recallText").readOnly = revealed;
-  $("recallReveal").hidden = revealed;
-  $("recallCancel").style.gridColumn = revealed ? "1 / -1" : "";   // alone on its row once the answer is showing
-  $("recallLabel").textContent = revealed ? "Your response" : "Active Recall";
-  $("hint").textContent = revealed ? (pendingR ? "" : "Compare with the answer, then rate yourself. Keys: 1, 2, 3.") : needWrite || recallOpen ? "" : "Tap the card, press Space, or use Reveal Answer.";
+  $("recallBtn").disabled = revealed;   // Active Recall opens My Written Answers with the cursor in Current Answer
+  $("hint").textContent = revealed ? (pendingR ? "" : "Compare with the answer, then rate yourself.") : needWrite ? "" : "Tap the card or use Reveal Answer.";
 }
+/* ---------- Writing workspace: Notes / My Written Answers ----------
+   A saved note and previous written answers stay out of the page until the card is revealed (every card). */
+let wsTab = "notes", noteVal = "", noteTimer = null;
+const mandatoryOn = () => progress.mandOff === undefined ? !progress.skipWrite : !progress.mandOff;   // the old "Skip writing before flip" carries over
+const noteSaved = id => progress.notes[id] || "";
+const noteDestructive = id => noteVal !== noteSaved(id) && !noteVal.startsWith(noteSaved(id));   // saved text was deleted or changed
+const noteAdditive = id => noteVal !== noteSaved(id) && noteVal.startsWith(noteSaved(id));       // only added to
+const noteLocked = id => !revealed && !!noteSaved(id).trim();
+function prevAnswersHTML(k){
+  const s = st(k), items = [];
+  if(pendingR && draft.trim()) items.push(["Just now · before reveal", draft.trim()]);
+  const h = (s && s.history) || [];
+  for(let i = h.length - 1; i >= 0; i--){
+    const e = h[i];
+    if(e.w) items.push([`${niceDate(e.d)} · after ${e.r === "hard" ? "Struggled" : "Didn't know"}`, e.w]);
+    if(e.p) items.push([`${niceDate(e.d)} · before reveal`, e.p]);
+  }
+  let html = items.map(([when, text]) => `<div class="prev-item"><span class="prev-date">${when}</span><div>${esc(text).replace(/\n/g, "<br>")}</div></div>`).join("");
+  if(h.length >= RULES.historyKeep) html += `<span class="prev-cap">Only answers from this card's latest ${RULES.historyKeep} ratings are kept.</span>`;
+  return html;
+}
+const hasPrevAnswers = k => { const s = st(k); return !!(s && s.history.some(e => e.w || e.p)); };
+function renderWorkspace(id, needWrite){
+  const notes = wsTab === "notes";
+  $("tabNotes").setAttribute("aria-selected", String(notes)); $("tabNotes").tabIndex = notes ? 0 : -1;
+  $("tabAns").setAttribute("aria-selected", String(!notes)); $("tabAns").tabIndex = notes ? -1 : 0;
+  $("panelNotes").hidden = !notes; $("panelAns").hidden = notes;
+  const locked = noteLocked(id);
+  $("noteText").hidden = locked; $("noteLock").hidden = !locked;
+  const nv = locked ? "" : noteVal;
+  if($("noteText").value !== nv) $("noteText").value = nv;
+  noteBits(id);
+  const cur = $("curAnswer"), writing = revealed && !!pendingR;
+  const val = writing ? reinforceDraft : draft;
+  cur.readOnly = revealed && !writing;
+  if(cur.value !== val) cur.value = val;
+  const n = reinforceDraft.trim().length;
+  $("curNext").hidden = !writing;
+  $("curNext").disabled = writing && mandatoryOn() && n < MIN_REINFORCE;
+  $("curHint").textContent = writing ? (n < MIN_REINFORCE ? `${n} / ${MIN_REINFORCE} characters` : "")
+    : !revealed && needWrite && mandatoryOn() && !draft.trim() ? "Type your answer to unlock Reveal Answer." : "";
+  $("prevList").innerHTML = revealed ? prevAnswersHTML(curKey)
+    : hasPrevAnswers(curKey) ? `<div class="ws-lock"><span class="lock-ico" aria-hidden="true"></span>Your previous answers appear after you reveal the card.</div>` : "";
+}
+function noteBits(id){
+  const d = noteDestructive(id);
+  $("noteSaveLink").hidden = !d;
+  if(d) $("noteStatus").textContent = "Changes not saved.";
+  else if($("noteStatus").textContent === "Changes not saved.") $("noteStatus").textContent = "";
+}
+function flashNote(msg){ $("noteStatus").textContent = msg; clearTimeout(noteFlashTimer); noteFlashTimer = setTimeout(() => { if($("noteStatus").textContent === msg) $("noteStatus").textContent = ""; }, 3000); }
+function commitNote(id){
+  clearTimeout(noteTimer);
+  const before = progress.notes[id];
+  if(noteVal.trim()) progress.notes[id] = noteVal; else delete progress.notes[id];
+  if(save()){ noteVal = noteSaved(id); flashNote(noteVal.trim() ? "Note saved." : before ? "Note deleted." : ""); }
+  else { if(before === undefined) delete progress.notes[id]; else progress.notes[id] = before; flashNote("Your note couldn't be saved. Please check your browser storage settings."); }
+  if(mode === "cards" && curKey && idOf(curKey) === id) noteBits(id);
+}
+function onNoteInput(v){
+  if(!curKey) return;
+  const id = idOf(curKey); noteVal = v; clearTimeout(noteTimer);
+  if(noteAdditive(id)) noteTimer = setTimeout(() => { if(curKey && idOf(curKey) === id && noteAdditive(id)) commitNote(id); }, 1200);   // only added: saves itself
+  noteBits(id);
+}
+function saveNoteLink(){
+  if(!curKey) return; const id = idOf(curKey);
+  if(!noteVal.trim() && noteSaved(id).trim()){ ask({ text:"Delete your note for this card?", yes:"Delete", no:"Keep", onYes: () => commitNote(id), onNo: () => $("noteText").focus() }); return; }
+  commitNote(id);
+}
+// Before leaving a card: notes that were only added to are saved; deleted or changed text asks first.
+function leaveCard(next){
+  if(mode !== "cards" || !curKey){ next(); return; }
+  const id = idOf(curKey);
+  if(noteAdditive(id)) commitNote(id);
+  if(noteDestructive(id)){
+    const del = !noteVal.trim();
+    ask({ text: del ? "Delete your note for this card?" : "Save the changes to your note?", yes: del ? "Delete" : "Save", no: del ? "Keep note" : "Discard",
+      onYes: () => { commitNote(id); next(); }, onNo: () => { noteVal = noteSaved(id); next(); } });
+    return;
+  }
+  next();
+}
+function setWsTab(t, focus){
+  wsTab = t; render();
+  if(focus === "field"){ const f = t === "notes" ? (noteLocked(idOf(curKey)) ? $("tabNotes") : $("noteText")) : $("curAnswer"); f.focus(); }
+  else if(focus === "tab") $(t === "notes" ? "tabNotes" : "tabAns").focus();
+}
+/* ---------- Ask popup (Yes / No) ---------- */
+let askCfg = null, askReturn = null;
+function ask(cfg){ askCfg = cfg; askReturn = document.activeElement || null; renderModals(); $("askNo").focus(); }
+function askDone(yes){ const c = askCfg; if(!c) return; askCfg = null; renderModals(); if(askReturn && askReturn.focus) askReturn.focus(); (yes ? c.onYes : c.onNo)(); }
 
 /* ---------- Card actions ---------- */
 let flipping = false;
@@ -2934,20 +3172,21 @@ function animateFlip(change, after){
     back.onfinish = back.oncancel = () => { flipping = false; done(); };
   };
 }
-// Write-before-flip: only for a card whose last rating was "Didn't know", and only while she hasn't turned it off.
+// Mandatory Response: a card direction needs a written answer before its flip from the time it's rated Didn't know until
+// it is Mastered (see docs/package-2/MASTERY_CRITERIA.md). This says whether it's due; the switch decides whether it blocks.
 function mustWrite(k){
   const s = k && st(k);
-  if(!s || !s.writing || progress.skipWrite) return false;
-  const last = s.history && s.history[s.history.length - 1];
-  return !last || last.r === "again";      // older saves with no history keep their setting
+  if(!s) return false;
+  if(!s.history || !s.history.length) return !!s.writing;   // older saves with no history keep their setting
+  return memOf(k).needs;
 }
 function focusCard(){
   const k = curKey; if(!k) return;
-  if(mustWrite(k) && !revealed) $("answer").focus(); else $("card").focus();
+  if(mustWrite(k) && !revealed) $("curAnswer").focus(); else $("card").focus();
 }
 function reveal(){
   if(mode!=="cards" || flipping || revealed) return;
-  if(mustWrite(curKey) && !draft.trim()) { $("answer").focus(); return; }
+  if(mustWrite(curKey) && mandatoryOn() && !draft.trim()) { setWsTab("ans", "field"); return; }
   const o = progress.open[filter];
   if(o && !o.counted){ o.counted = true; progress.stats.sessions++; save(); }
   animateFlip(() => { revealed = true; flipped = true; }, () => $("card").focus());
@@ -2955,8 +3194,10 @@ function reveal(){
 // Go back to the card she just rated, undo that rating completely, and show it answered so she can rate it again.
 function previousCard(){
   if(flipping || !undo.length) return;
+  if(mode === "cards" && curKey && !previousCard.go){ leaveCard(() => { previousCard.go = true; try { previousCard(); } finally { previousCard.go = false; } }); return; }
   const u = undo.pop();
   if(u.card) progress.cards[u.key] = u.card; else delete progress.cards[u.key];
+  if(u.boosted) progress.boosted = u.boosted;
   progress.newDay = u.newDay;
   const cur = progress.open[filter];
   // Study time, session counting and settings stay as they are now; only the rating is taken back.
@@ -2973,14 +3214,10 @@ function tapCard(){
 }
 /* ---------- Active Recall ---------- */
 function openRecall(){
-  if(mode !== "cards" || revealed || !curKey || isRevKey(curKey) || mustWrite(curKey)) return;
-  if(!recallOpen){ recallOpen = true; recallText = ""; $("recallText").value = ""; }
-  render(); $("recallText").focus();
+  if(mode !== "cards" || revealed || !curKey) return;
+  setWsTab("ans", "field");
 }
-function cancelRecall(){
-  recallOpen = false; recallText = ""; $("recallText").value = "";
-  render(); if(revealed) $("card").focus(); else $("recallBtn").focus();
-}
+function cancelRecall(){ setWsTab("notes"); }
 
 /* ---------- Accounts (Supabase) ---------- */
 // Sign-up, email verification and password resets are handled by Supabase. Each account's progress is kept in the
@@ -3030,8 +3267,9 @@ function mergeProgress(list){
     out.open = Object.assign({}, p.open || {}, out.open || {});
     for(const k of Object.keys(p.open || {})){ if(out.open[k] && p.open[k] && p.open[k].date > out.open[k].date) out.open[k] = deepCopy(p.open[k]); }
     if(!out.testDate && p.testDate) out.testDate = p.testDate;
+    if(p.boosted){ out.boosted = Object.assign({}, p.boosted, out.boosted || {}); for(const [id, d] of Object.entries(p.boosted)) if(d > out.boosted[id]) out.boosted[id] = d; }
     if(Array.isArray(p.quoteSeen)) out.quoteSeen = Array.from(new Set((out.quoteSeen || []).concat(p.quoteSeen)));
-    ["bg", "view", "tips", "skipWrite"].forEach(k => { if(out[k] === undefined && p[k] !== undefined) out[k] = p[k]; });
+    ["bg", "view", "tips", "skipWrite", "mandOff"].forEach(k => { if(out[k] === undefined && p[k] !== undefined) out[k] = p[k]; });
     const nd = out.newDay || { date:"", count:0 }, pd = p.newDay || { date:"", count:0 };
     out.newDay = pd.date > nd.date ? pd : pd.date === nd.date ? { date:nd.date, count:Math.max(nd.count, pd.count) } : nd;
   }
@@ -3508,22 +3746,21 @@ const TIPS = {
   "#view [data-v=a]": "Show the answer first and recall what it describes (on cards that have a reverse side).",
   "#view [data-v=mix]": "Mix both directions at random.",
   "#prev": "Go back to the card you just rated and change your rating.",
-  "#reveal": "Flip the card to see the answer. Shortcut: Space.",
-  "#recallBtn": "Type what you remember before revealing the answer, then compare. Nothing is graded or saved.",
-  "#recallReveal": "Show the answer. What you typed stays on screen so you can compare.",
-  "#recallCancel": "Close this box and discard what you typed. Nothing is recorded.",
-  "#rateRow [data-r=good]": "You knew it. The card comes back later, a little further out each time. Key: 1.",
-  "#rateRow [data-r=hard]": "You got it with effort. The card comes back tomorrow. Key: 2.",
-  "#rateRow [data-r=again]": "You didn't know it. You'll write the answer in your own words, and you can try it again at the end. Key: 3.",
-  "#reinforceNext": "Save what you wrote and go to the next card (at least 20 characters).",
-  "#explainBtn": "Write or edit your own note for this card. It shows every time you see the card.",
+  "#reveal": "Flip the card to see the answer.",
+  "#recallBtn": "Type what you remember in My Written Answers before revealing, then compare. It's saved with your rating; nothing is graded.",
+  "#rateRow [data-r=good]": "You knew it. The card comes back later, further out each time you know it.",
+  "#rateRow [data-r=hard]": "You got it with effort. The card comes back sooner, and you'll write the answer in your own words.",
+  "#rateRow [data-r=again]": "You didn't know it. You'll write the answer in your own words, and you can try it again at the end.",
+  "#curNext": "Save what you wrote and go to the next card (at least 20 characters).",
+  "#noteLink": "Write or edit your own note for this card in the Notes tab below.",
+  "#tabNotes": "Your own note for this card. It appears after you reveal the card.",
+  "#tabAns": "What you've written for this card. Earlier answers appear after you reveal the card.",
   "#outlineLink": "Open the AAMC's official list of what the MCAT covers (PDF, new tab).",
   "#reportBtn": "Flag a problem with this card. It's sent to the site owner.",
   "#acctBtn": "Your account: change your name, log out, or delete your account.",
   "#ownerBtn": "See who has signed up, when they last studied, how many cards they reviewed and for how long. No scores or answers.",
   "#card .bm": "Save this card to your Bookmarks.",
-  "#skipToggle": "Skip the writing step after Struggled or Didn't know, for this session only.",
-  "#writeToggle": "Flip cards you marked Didn't know without writing your answer first. Stays on until you turn it off.",
+  "#mandToggle": "On: cards you've missed need a written answer before you flip them (until mastered), and Struggled / Didn't know need one before the next card. Off: writing is optional, and you'll be asked before skipping it.",
   "#toQuote": "Start your session, or pick up where you left off.",
   "#anotherQuote": "Show a different quote.",
   "#back": "Go back to the welcome screen.",
@@ -3596,7 +3833,9 @@ window.addEventListener("scroll", () => { if(tipFor) queueTip(tipFor); }, { pass
 function renderModals(){
   $("noteModal").hidden = !noteModalOpen;
   $("helpModal").hidden = !helpOpen;
-  const open = noteModalOpen || helpOpen;
+  $("askModal").hidden = !askCfg;
+  if(askCfg){ $("askText").textContent = askCfg.text; $("askYes").textContent = askCfg.yes || "Yes"; $("askNo").textContent = askCfg.no || "No"; }
+  const open = noteModalOpen || helpOpen || !!askCfg;
   $("app").inert = open;   // nothing behind a popup can be clicked or focused
   if(open) $("app").setAttribute("aria-hidden", "true"); else if($("app").removeAttribute) $("app").removeAttribute("aria-hidden");
   if(noteModalOpen){
@@ -3667,39 +3906,90 @@ function openHelp(trigger){
 }
 function closeHelp(){ const v = $("helpVideo"); if(v.pause) v.pause(); helpOpen = false; renderModals(); if(lastFocus) lastFocus.focus(); }
 function trapTab(e){
-  const box = $(noteModalOpen ? "noteDialog" : "helpDialog");
+  const box = $(askCfg ? "askDialog" : noteModalOpen ? "noteDialog" : "helpDialog");
   const items = Array.from(box.querySelectorAll("button, textarea, video, a[href]")).filter(x => !x.disabled && !x.hidden && x.offsetParent !== null);
   if(!items.length) return;
   const first = items[0], last = items[items.length - 1], at = document.activeElement;
   if(e.shiftKey && (at === first || !box.contains(at))){ e.preventDefault(); last.focus(); }
   else if(!e.shiftKey && (at === last || !box.contains(at))){ e.preventDefault(); first.focus(); }
 }
+// Confidence insertion: after a run of difficult cards, one mastered card (provisionally mastered if none) from this
+// session's topic that isn't due, wasn't studied today, isn't already in the session and wasn't inserted recently.
+function pickBoost(o){
+  const t = today(), inSession = new Set((deck || []).map(idOf)), recent = progress.boosted || {};
+  const ok = id => !inSession.has(id) && !(recent[id] && daysUntil(recent[id]) > -RULES.boostGapDays);
+  const keys = poolFor(filter).map(c => c[3]).filter(ok).reduce((a, id) => a.concat(keysFor(id, o.view || progress.view)), [])
+    .filter(k => { const s = st(k); return s && s.due > t && s.last !== t; });
+  for(const want of ["mastered", "provisional"]){ const c = keys.filter(k => levelOf(k) === want); if(c.length) return c[Math.floor(Math.random() * c.length)]; }
+  return null;
+}
+// A brief sparkle over the card after a mastered card is answered correctly: always when it has just become mastered,
+// otherwise now and then. No message, nothing to click, and the next card is already showing underneath.
+let sinceSparkle = 99;
+function maybeCelebrate(justMastered){
+  sinceSparkle++;
+  if(!justMastered && (sinceSparkle < 6 || Math.random() >= 0.5)) return false;
+  sinceSparkle = 0;
+  if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+  const card = $("card"); if(!card || !card.getBoundingClientRect || !document.body || !document.body.appendChild) return false;
+  const r = card.getBoundingClientRect(), fx = document.createElement("div");
+  fx.className = "sparkle-fx"; fx.setAttribute("aria-hidden", "true");
+  fx.style.left = r.left + "px"; fx.style.top = r.top + "px"; fx.style.width = r.width + "px"; fx.style.height = r.height + "px";
+  let html = "";
+  for(let i = 0; i < 12; i++){
+    const a = i / 12 * Math.PI * 2 + Math.random() * 0.4, d = 70 + Math.random() * 60;
+    html += `<i style="--dx:${Math.round(Math.cos(a) * d)}px;--dy:${Math.round(Math.sin(a) * d * 0.7)}px;--dl:${Math.round(Math.random() * 80)}ms"></i>`;
+  }
+  fx.innerHTML = html; document.body.appendChild(fx);
+  setTimeout(() => { if(fx.remove) fx.remove(); }, 650);
+  return true;
+}
 // Got it moves on. Struggled / Didn't know open the writing box first, unless "Skip reinforcement input" is on.
 function chooseRating(r){
-  if(mode!=="cards" || flipping || !revealed || noteModalOpen) return;
-  const o = progress.open[filter];
-  if(r === "good" || (o && o.skip)){ answer(r); return; }
-  if(pendingR !== r){ pendingR = r; }
-  render(); $("reinforceText").focus();
+  if(mode!=="cards" || flipping || !revealed || noteModalOpen || askCfg) return;
+  if(r === "good"){ finishCard("good"); return; }
+  pendingR = r; setWsTab("ans", "field");   // Struggled / Didn't know: write it in Current Answer
 }
-function submitReinforce(){
-  if(!pendingR || reinforceDraft.trim().length < MIN_REINFORCE) return;
-  answer(pendingR, reinforceDraft.trim());
+function submitReinforce(){ if(pendingR) finishCard(pendingR, reinforceDraft.trim()); }
+// Leaving a rated card. With Mandatory Response on, missing writing can't get this far (Reveal / Next card stay disabled).
+// With it off, missing writing asks "Continue anyway?" on every such card; Yes saves the rating marked as skipped (k).
+function finishCard(r, written){
+  if(mode!=="cards" || !revealed || askCfg) return;
+  const missingPre = mustWrite(curKey) && !draft.trim(), missingPost = r !== "good" && (written || "").length < MIN_REINFORCE;
+  if(missingPost && mandatoryOn()) return;
+  const go = skipped => leaveCard(() => answer(r, written || undefined, { p: draft.trim() || undefined, k: skipped }));
+  if(missingPre || missingPost){
+    ask({ text:"You didn't type the mandatory response for this card. Continue anyway?", yes:"Yes", no:"No",
+      onYes: () => go(true), onNo: () => setWsTab("ans", "field") });
+    return;
+  }
+  go(false);
 }
-function answer(r, written){
+function answer(r, written, extra){
   if(mode!=="cards" || flipping || !revealed || noteModalOpen) return;
   const key = curKey, o = progress.open[filter];
   const copy = x => x ? JSON.parse(JSON.stringify(x)) : null;
-  if(o) undo.push({ key, card: copy(st(key)), newDay: copy(progress.newDay), open: copy(o), draft });
-  if(o){
+  if(o) undo.push({ key, card: copy(st(key)), newDay: copy(progress.newDay), open: copy(o), draft, boosted: copy(progress.boosted || {}) });
+  const isBoost = !!(o && o.boost && o.boost[idOf(key)] && o.phase !== "retry");
+  const wasMastered = levelOf(key) === "mastered", firstToday = !st(key) || st(key).last !== today();
+  if(o && !isBoost){
     o.results = o.results || {}; if(!(key in o.results)) o.results[key] = r;   // first rating of each card this session
     o.repeats = o.repeats || {};
     o.attempts = (o.attempts || 0) + 1;
     if(o.phase === "retry"){ o.retryResults = o.retryResults || {}; o.retryResults[key] = r; }
     else { o.shown = o.shown || {}; o.shown[idOf(key)] = key; }
   }
-  rate(key, r, written);
+  rate(key, r, written, isBoost, extra);
+  if(isBoost){ progress.boosted = progress.boosted || {}; progress.boosted[idOf(key)] = today(); save(); }
   noteActivity(1, 0);
+  if(r === "good" && (firstToday || isBoost) && levelOf(key) === "mastered") maybeCelebrate(!wasMastered);
+  if(o && !isBoost && (!o.phase || o.phase === "initial")){
+    o.hardRun = r === "good" ? 0 : (o.hardRun || 0) + 1;
+    if(o.hardRun >= RULES.boostAfter && (o.boostCount || 0) < RULES.boostPerSession){
+      const b = pickBoost(o);
+      if(b){ deck.splice(pos + 1, 0, b); total = deck.length; o.boost = o.boost || {}; o.boost[idOf(b)] = 1; o.boostCount = (o.boostCount || 0) + 1; o.hardRun = 0; }
+    }
+  }
   if(o && o.phase === "retry"){ st(key).retry = today(); save(); }   // this was its one more look today
   if(r === "again" && o && o.phase !== "retry" && (o.repeats[key] || 0) < RULES.maxRepeats){
     o.repeats[key] = (o.repeats[key] || 0) + 1;
@@ -3766,9 +4056,6 @@ applyBg();
 $("notesNav").onclick = () => openSide("notes");
 $("reveal").onclick = reveal;
 $("recallBtn").onclick = openRecall;
-$("recallReveal").onclick = reveal;
-$("recallCancel").onclick = cancelRecall;
-$("recallText").oninput = e => { recallText = e.target.value; };
 $("noteSave").onclick = saveNote;
 $("noteCancel").onclick = cancelNote;
 $("delNote").onclick = () => { noteConfirm = "delete"; renderModals(); $("noteConfirmNo").focus(); };
@@ -3776,13 +4063,22 @@ $("noteConfirmNo").onclick = confirmNo;
 $("noteConfirmYes").onclick = confirmYes;
 $("helpClose").onclick = closeHelp;
 $("prev").onclick = previousCard;
-$("explainBtn").onclick = openNoteModal;
-$("answer").oninput = e => { draft = e.target.value; $("reveal").disabled = !draft.trim(); };
+$("noteLink").onclick = () => setWsTab("notes", "field");
+$("noteText").oninput = e => onNoteInput(e.target.value);
+$("noteSaveLink").onclick = saveNoteLink;
+$("tabNotes").onclick = () => setWsTab("notes");
+$("tabAns").onclick = () => setWsTab("ans");
+["tabNotes", "tabAns"].forEach(t => { $(t).onkeydown = e => { if(["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)){ e.preventDefault(); setWsTab(wsTab === "notes" ? "ans" : "notes", "tab"); } }; });
+$("curAnswer").oninput = e => {
+  const v = e.target.value;
+  if(!revealed){ draft = v; $("reveal").disabled = mustWrite(curKey) && mandatoryOn() && !draft.trim(); $("curHint").textContent = $("reveal").disabled ? "Type your answer to unlock Reveal Answer." : ""; }
+  else if(pendingR){ reinforceDraft = v; const n = v.trim().length; $("curNext").disabled = mandatoryOn() && n < MIN_REINFORCE; $("curHint").textContent = n < MIN_REINFORCE ? `${n} / ${MIN_REINFORCE} characters` : ""; }
+};
+$("curNext").onclick = submitReinforce;
+$("askYes").onclick = () => askDone(true);
+$("askNo").onclick = () => askDone(false);
 document.querySelectorAll("#rateRow [data-r]").forEach(b => b.onclick = () => chooseRating(b.dataset.r));
-$("reinforceText").oninput = e => { reinforceDraft = e.target.value; const n = reinforceDraft.trim().length; $("reinforceNext").disabled = n < MIN_REINFORCE; $("reinforceHint").textContent = n < MIN_REINFORCE ? `${n} / ${MIN_REINFORCE} characters` : ""; };
-$("reinforceNext").onclick = submitReinforce;
-$("writeToggle").onclick = () => { progress.skipWrite = !progress.skipWrite; save(); render(); };
-$("skipToggle").onclick = () => { const o = progress.open[filter]; if(!o) return; o.skip = !o.skip; save(); render(); };
+$("mandToggle").onclick = () => { progress.mandOff = mandatoryOn(); save(); render(); };
 $("reportBtn").onclick = () => { reportOpen = !reportOpen; $("reportMsg").textContent = ""; render(); if(reportOpen) $("reportNote").focus(); };
 $("reportCancel").onclick = () => { reportOpen = false; $("reportNote").value = ""; $("reportMsg").textContent = ""; render(); $("card").focus(); };
 $("reportSend").onclick = sendReport;
@@ -3798,11 +4094,12 @@ viewBtns.forEach((b, i) => {
     setView(nb.dataset.v); nb.focus();
   };
 });
-$("change").onclick = () => { flushTime(); persistPlace(); undo = []; show("welcome"); };
+$("change").onclick = () => leaveCard(() => { flushTime(); persistPlace(); undo = []; show("welcome"); });
 // The logo always goes home: the welcome screen (or Log in, when nobody is logged in). A session in progress is saved, same as Change Topic.
 function goHome(){
   setMenu(false);
   if(mode === "auth"){ if(authView !== "loading" && authView !== "reset"){ authView = "login"; authMsg = ""; render(); } return; }
+  if(mode === "cards" && !goHome.go){ leaveCard(() => { goHome.go = true; try { goHome(); } finally { goHome.go = false; } }); return; }
   if(SESSION_MODES.includes(mode)){ flushTime(); persistPlace(); undo = []; }
   show("welcome");
 }
@@ -3810,15 +4107,11 @@ $("logo").onclick = e => { if(e && e.preventDefault) e.preventDefault(); goHome(
 $("importFile").onchange = e => { const f = e.target.files && e.target.files[0]; if(f) readImport(f); };
 document.addEventListener("keydown", e => {
   if(e.key === "Escape") hideTip();
-  if(noteModalOpen || helpOpen){
-    if(e.key === "Escape"){ e.preventDefault(); if(helpOpen) closeHelp(); else cancelNote(); }
+  if(askCfg || noteModalOpen || helpOpen){
+    if(e.key === "Escape"){ e.preventDefault(); if(askCfg) askDone(false); else if(helpOpen) closeHelp(); else cancelNote(); }
     else if(e.key === "Tab") trapTab(e);
-    return;
   }
-  if(mode!=="cards" || e.altKey || e.ctrlKey || e.metaKey) return;
-  if(e.target.closest && e.target.closest("button, textarea, input")) return;
-  if(e.key===" "){ e.preventDefault(); tapCard(); }
-  else if(revealed && ["1","2","3"].includes(e.key)){ e.preventDefault(); chooseRating({ "1":"good", "2":"hard", "3":"again" }[e.key]); }
+  // No keyboard shortcuts on the card screen (Space / 1 / 2 / 3 were removed on Oct 25, 2026).
 });
 window.addEventListener("pagehide", () => { flushTime(); if(SESSION_MODES.includes(mode)) persistPlace(); if(sbUser){ flushActivity(); pushProgress(); } });
 

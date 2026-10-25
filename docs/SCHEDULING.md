@@ -6,7 +6,7 @@ How the study site decides which cards Sarah sees and when. All of these values 
 
 Every card can be studied **question first**. Cards with a reverse version (257 of them, listed in `REVERSE` in `index.html` and in the Reverse columns of `flashcards.csv`) can also be studied **in reverse**.
 
-Each direction has its **own schedule, its own history, and its own Writing Required status**, but both belong to the same card ID. Knowing a card one way doesn't count as knowing it the other way, and struggling in reverse doesn't reset the forward progress.
+Each direction has its **own schedule, its own history, and its own Mandatory Response status**, but both belong to the same card ID. Knowing a card one way doesn't count as knowing it the other way, and struggling in reverse doesn't reset the forward progress.
 
 | Display mode | What she studies |
 |---|---|
@@ -25,35 +25,34 @@ Reverse cards come in two styles:
 
 After revealing a card she rates it. A card cannot be rated until the answer is revealed.
 
-| Button | What happens to that direction | Writing Required |
+| Button | What happens to that direction | Before-flip writing |
 |---|---|---|
-| Didn't know | Stays due today and its memory strength drops. It doesn't repeat during the session; instead it can get **one optional second try** after the session's cards (see Missed-card second try). If she rates it Got it that day, it's due **tomorrow**. | On |
-| Struggled | Scheduled at 80% of what Got it would have given (1 day for a new or weak card, longer for a well-known one). Its streak resets to zero. | On |
-| Got it | Scheduled for when she's expected to still remember it 90% of the time (below). | Off |
+| Didn't know | Stays due today and its memory strength drops. It doesn't repeat during the session; instead it can get **one optional second try** after the session's cards (see Missed-card second try). If she rates it Got it that day, it's due **tomorrow**. | Required from now until the card is Mastered |
+| Struggled | Scheduled at 80% of what Got it would have given (1 day for a new or weak card, longer for a well-known one). Its streak resets to zero. | Unchanged |
+| Got it | Scheduled for when she's expected to still remember it 90% of the time (below). | Ends only when the card reaches Mastered |
 
-Keyboard: Space reveals the card; 1, 2, 3 rate it (Got it, Struggled, Didn't know), matching the button order.
+There are no keyboard shortcuts (Space and 1 / 2 / 3 were removed on Oct 25, 2026). Ordinary keyboard use works: Tab between controls, Enter or Space on a focused button, Enter on the focused card to flip it, Escape to close a popup.
 
-**Previous Card** (left of Reveal Answer, and on the missed-card question and Congratulations screens) takes her back to the card she just rated with the answer showing, so she can pick a different rating. The earlier rating is undone completely: that direction's schedule, history, Writing Required status, any repeat it added, and the session score all go back to how they were. It goes back one card, to the most recent rating in the current session. Starting a new session or using Change Topic clears it.
+**Previous Card** (left of Reveal Answer, and on the missed-card question and Congratulations screens) takes her back to the card she just rated with the answer showing, so she can pick a different rating. The earlier rating is undone completely: that direction's schedule, history, Mandatory Response status, any repeat it added, and the session score all go back to how they were. It goes back one card, to the most recent rating in the current session. Starting a new session or using Change Topic clears it.
 
 ## Active Recall
 
-- Under the card are three buttons: **Previous Card | Reveal Answer | Active Recall**. On phones the labels wrap onto two lines so all three fit.
-- **Active Recall** opens a box right under the card ("Type what you remember...") with **Reveal Answer** and **Cancel**. The answer stays hidden until she reveals it.
-- After revealing, the box stays open (read-only, labeled "Your response") so her words and the correct answer are on screen together. She rates the card as usual; exactly one rating is recorded.
-- **Cancel** closes the box and throws away what she typed. Nothing is rated or saved, and it doesn't move on.
-- It's optional and never saved: moving to another card closes and clears it, and it never becomes a card note.
-- It's available only when the question is shown first: not on a reverse card (Answers First, or a reverse card in Random Mix), and not on a Writing Required card, which already has its own write-first box.
+- Under the card are three buttons: **Previous Card | Reveal Answer | Active Recall**.
+- **Active Recall** switches the writing box below to **My Written Answers** and puts the cursor in **Current Answer**. The answer stays hidden until she reveals it. It works on any card, either direction.
+- What she typed stays on screen (read-only) after the reveal, next to the answer, and is saved with her rating (`p` in the history). It never becomes a card note.
 
-## Card notes
+## Writing box: Notes and My Written Answers
 
-- After she reveals the answer, **Write Card Note** (next to **What's on the MCAT?**, which opens the AAMC content outline PDF in a new tab) opens a popup with the card's question, her saved note if there is one, and **Save Note** / **Cancel**.
-- **Save Note** saves and closes, with a brief "Note saved." It doesn't change ratings or move to another card. Saving an empty note counts as deleting, so it asks first.
-- **Cancel** (or Escape) closes it; if she changed something, it asks "Discard your unsaved changes?" first.
-- **Delete note** (in the popup, when a note exists) asks before deleting.
-- While the popup is open, nothing behind it can be clicked, Tab stays inside it, and the rating keys don't work. Closing it puts focus back on Write Card Note. Tapping outside doesn't close it.
-- A saved note shows under the buttons after she reveals that card (both directions share one note per card).
-- **My Card Notes (N)**, under Bookmarks in the header on every screen, lists every card she has a note on, grouped by AAMC category in outline order.
-- Notes don't affect scheduling and are included in Export/Import backups.
+- A writing box sits under the rating buttons on every card, with two tabs on its top edge: **Notes** and **My Written Answers**. It opens on Notes, and switches to My Written Answers when writing is required, after Struggled / Didn't know, or from Active Recall.
+- **Hidden until the flip, on every card:** before the answer is revealed, a saved note and any previous answers are covered ("…appear after you reveal the card") and are not in the page at all. They appear when the card flips. If the card has no note yet, she can start one before revealing.
+- **Notes:** her own note for the card (shared by both directions). **Write Card Note** (pencil icon, left, under the card) jumps to it.
+  - Only *adding* text saves automatically, after a short pause and when she moves on.
+  - If she deleted or changed saved text, it doesn't autosave: **Save note** appears, and moving to another card or leaving the session asks **Save the changes to your note? Save / Discard**.
+  - Saving an empty note asks "Delete your note for this card?".
+  - Notes never affect scheduling. **My Card Notes (N)** in the header still lists every note, grouped by AAMC category.
+- **My Written Answers:** **Current Answer** (left, editable) and **Previous Answers** (right; stacked on phones). Previous Answers lists what she wrote for that card direction, newest first, with dates: before-flip answers and after-rating answers.
+  - Only answers from the card direction's latest 50 ratings are kept (the history limit), and the box says so when that limit is reached.
+- **What's on the MCAT?** is a text link under the writing box that opens the AAMC content outline PDF in a new tab.
 - Prewritten explanations are not shown on the site yet. The `EXPLAIN` data and the `Detailed_Explanation` column in `flashcards.csv` are kept for later.
 
 ## Bookmarks
@@ -73,9 +72,8 @@ Keyboard: Space reveals the card; 1, 2, 3 rate it (Got it, Struggled, Didn't kno
 
 - After the answer is shown, three buttons appear: **Got it**, **Struggled**, **Didn't know**.
 - **Got it** goes straight to the next card.
-- **Struggled** or **Didn't know** opens a box: "Write the answer in your own words, and why it's correct." The answer stays visible. **Next card** stays disabled until she types at least 20 characters, then saves her entry with that rating (`w` in the history) and moves on. If she tapped the wrong rating, she can tap another one before submitting.
-- **Skip reinforcement input** (toggle at the bottom of the card screen): when on, Struggled and Didn't know go straight to the next card. It lasts for the current session (including resuming it later that day) and is off whenever a new session starts.
-- This is separate from Writing Required, which still asks her to write her answer *before* revealing a card she previously struggled with or didn't know.
+- **Struggled** or **Didn't know** switches the writing box to **My Written Answers** with the cursor in **Current Answer**. **Next card** saves her entry with that rating (`w` in the history) and moves on. If she tapped the wrong rating, she can tap another one before submitting.
+- With **Mandatory Response** on, Next card stays disabled until she types at least 20 characters. With it off, Next card always works, but leaving with less asks "You didn't type the mandatory response for this card. Continue anyway?" (see Mandatory Response).
 
 ## Report this card
 
@@ -146,12 +144,18 @@ Example, with each card reviewed on its due date:
 - Rating a card Got it a second time on the same day never pushes it further out.
 - Rating a card Got it **before it was due** (early review) counts, but strengthens memory much less than an on-time review, because she was very likely to remember it anyway. An early Struggled or Didn't know reschedules it and turns writing on. (Under the earlier ladder, an early Got it never pushed a card further out.)
 
-## Writing Required Mode
+## Mandatory Response
 
-- Turns **on** for a direction whenever she rates it Didn't know or Struggled.
-- While on, a text box appears under the question with "Write your answer before revealing the card." Reveal Answer stays disabled until she types something.
-- After revealing, her answer is shown above the correct answer. Nothing is graded.
-- Turns **off** the next time she rates that direction Got it. The other direction is unaffected.
+- **When it applies:** a card direction needs a written answer before its flip from the moment it's rated **Didn't know** until it reaches **Mastered** (`docs/package-2/MASTERY_CRITERIA.md`). A later Didn't know starts it again. The box opens on My Written Answers for those cards.
+- After Struggled / Didn't know, a written answer of at least 20 characters is needed before the next card.
+- **The switch:** **Mandatory Response**, under the writing box, replaces the old "Skip reinforcement input" and "Skip writing before flip" switches.
+  - It is **on** by default and remembered across sessions and devices (`mandOff` in her progress).
+  - Anyone who had "Skip writing before flip" on starts with it off.
+- **On:** Reveal Answer stays disabled until she types something on a card that needs it, and Next card stays disabled until 20 characters.
+- **Off:** nothing is blocked. On every card where the required writing is missing, leaving the card asks **"You didn't type the mandatory response for this card. Continue anyway?" Yes / No**.
+  - **Yes** saves the rating marked `k` (skipped). It isn't counted as a written retrieval, and the requirement stays for next time.
+  - **No** stays on the card with the cursor in Current Answer.
+- Nothing is graded; she still compares and rates herself.
 
 ## Session limits
 
@@ -209,7 +213,7 @@ Stored in the browser under `mcat-progress-v2`. The forward direction is keyed b
 | Field | Meaning |
 |---|---|
 | `status` | `learning` or `review`. No entry means that direction is new. |
-| `writing` | Whether Writing Required Mode is on |
+| `writing` | Older flag kept for compatibility; Mandatory Response now works from the history (a Didn't know since the card was last Mastered) |
 | `last` | Date last reviewed |
 | `due` | Next scheduled review date |
 | `interval` | Current interval in days (0 = due again today) |
@@ -218,7 +222,7 @@ Stored in the browser under `mcat-progress-v2`. The forward direction is keyed b
 | `good` | Review days rated Got it |
 | `bad` | Review days rated Didn't know or Struggled |
 | `retry` | Date a still-missed card last got its extra look in a later session |
-| `history` | Each rating with its date and time, `w` with her reinforcement writing after Struggled / Didn't know, and `b` on a confidence insertion (latest 50) |
+| `history` | Each rating with its date and time; `w` her writing after Struggled / Didn't know; `p` what she wrote before the reveal; `k` when a required response was skipped; `b` on a confidence insertion (latest 50) |
 
 The welcome screen's scoreboard and "cards unseen by you" count **cards**, not directions: a card counts as seen once she's seen it either way, and the scoreboard uses her most recent rating in either direction.
 

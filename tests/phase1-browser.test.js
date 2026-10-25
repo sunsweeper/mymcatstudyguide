@@ -32,8 +32,8 @@ const seed = () => ({ cards: { "1A-001": { status:"review", writing:false, last:
     }
     const st = await p.evaluate(() => ({ active: document.activeElement && document.activeElement.id, mode, pos }));
     ok(`S6-${motion} no interruption: the next card is showing and has keyboard focus`, st.mode === "cards" && st.pos === 1 && st.active === "card", JSON.stringify(st));
-    await p.keyboard.press('Space'); await p.waitForTimeout(500);
-    ok(`S7-${motion} keyboard still works on the next card (Space reveals it)`, await p.evaluate(() => revealed));
+    await p.keyboard.press('Enter'); await p.waitForTimeout(500);
+    ok(`S7-${motion} keyboard still works on the next card (Enter on the focused card reveals it)`, await p.evaluate(() => revealed));
     await ctx.close();
   }
   // Confidence insertion in the real page
@@ -46,7 +46,7 @@ const seed = () => ({ cards: { "1A-001": { status:"review", writing:false, last:
     await p.goto(URL); await p.click('[data-k=bb]'); await p.click('#toQuote');
     for(let i = 0; i < 3; i++){
       await p.click('#reveal'); await p.waitForTimeout(450); await p.click('#rateRow [data-r=again]');
-      if(await p.locator('#reinforceText').isVisible()){ await p.fill('#reinforceText', 'my reinforcement answer here'); await p.click('#reinforceNext'); }
+      if(await p.locator('#curNext').isVisible()){ await p.fill('#curAnswer', 'my reinforcement answer here'); await p.click('#curNext'); }
       await p.waitForTimeout(100);
     }
     const cur = await p.evaluate(() => idOf(curKey));

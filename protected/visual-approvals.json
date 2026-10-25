@@ -4,6 +4,11 @@
    "date": "2026-10-25",
    "approved_by": "Aaron Walch (Package 1 instructions)",
    "reason": "Initial baseline of the card interface as deployed on 2026-10-25"
+  },
+  {
+   "date": "2026-10-25",
+   "approved_by": "Aaron Walch",
+   "reason": "Flashcard interface update (Oct 25, 2026): Question/Answer label centered, Bookmark moved to the upper right, category moved to the lower left and card ID to the lower right, revealed question moved up and slightly larger, answer centered; the 'Your answer' block moved off the card into the writing workspace. No card text or IDs changed. See docs/package-2/INTERFACE-UPDATE.md."
   }
  ]
 }
