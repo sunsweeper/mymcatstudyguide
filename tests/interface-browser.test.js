@@ -15,7 +15,8 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
         return { card:r('#card'), side:r('#card .side'), bm:r('#card .bm'), cat:r('#card .foot .cat'), cid:r('#card .foot .cid'), face:r('#card .face'), asked:r('#card .asked'), ans:r('#card .ans'), meta:r('#card .meta'),
           sideText:document.querySelector('#card .side').textContent, sw:document.documentElement.scrollWidth, pad:parseFloat(getComputedStyle(document.querySelector('#card')).paddingLeft) }; });
       const tag = `${w}-${bg}-${side}`, cx = g.card.x + g.card.w / 2;
-      ok(`C1 ${tag} label centered on the card`, Math.abs((g.side.x + g.side.w / 2) - cx) <= 2 && g.sideText === side, `${Math.round(g.side.x + g.side.w/2 - cx)}px`);
+      const sf = await p.evaluate(() => { const c = getComputedStyle(document.querySelector('#card .side')); return { ff:c.fontFamily, bw:c.borderTopWidth, fs:parseFloat(c.fontSize) }; });
+      ok(`C1 ${tag} label in the upper-left corner, in the cursive script, no pill border`, Math.abs(g.side.x - (g.card.x + g.pad)) <= 2 && g.sideText === side && /Dancing Script/.test(sf.ff) && sf.bw === '0px' && sf.fs >= 26 && sf.fs <= 36, `${sf.fs}px`);
       ok(`C2 ${tag} bookmark at the right of the header, not touching the label`, g.bm.r <= g.card.r - g.pad + 1 && g.bm.r >= g.card.r - g.pad - 2 && g.bm.x >= g.side.r + 4 && Math.abs((g.bm.y + g.bm.h/2) - (g.side.y + g.side.h/2)) < 3);
       ok(`C3 ${tag} category lower-left, ID lower-right, inside the card, no overlap`, g.cat.x <= g.card.x + g.pad + 4 && g.cid.r >= g.card.r - g.pad - 4 && g.cid.r <= g.card.r && g.cat.b <= g.card.b && g.cid.b <= g.card.b && g.cat.y > g.face.y && (g.cat.r <= g.cid.x || g.cat.b <= g.cid.y + 1));
       if (side === 'Answer') {

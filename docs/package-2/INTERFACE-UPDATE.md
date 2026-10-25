@@ -80,3 +80,10 @@ This revises "Complete Flashcard Interface Update — Developer Instructions" wi
 - `visual-check`: it failed on the authorized markup change, as expected. The baseline was then regenerated with Aaron's approval, recorded in `protected/visual-approvals.json`, and passes.
 
 **Also included:** a small Phase 1 fix that the previous deploy missed. A card limited by the test date now lands exactly on the limit, instead of sometimes a day earlier.
+
+## Follow-up (Oct 25, 2026): card label
+
+- **Label:** the Question / Answer label moved from the center to the card's **upper-left corner**, as plain cursive text with no pill border. It uses Dancing Script, the script already used for "My" in the logo, at about 34 px on desktop and 29 px on phones.
+- **Card text** sits slightly lower.
+- **Phone Bookmark:** the label is no longer centered, so on phones Bookmark shows its word again. The icon-only version is gone.
+- **Approval and tests:** the visual baseline was regenerated with Aaron's approval (logged). Card text checks are unchanged, and all suites and the layout audit pass.
