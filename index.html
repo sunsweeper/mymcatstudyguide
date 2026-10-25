@@ -934,6 +934,25 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 @media (max-width:560px){.card .foot{font-size:.92rem}.face.back .asked{font-size:1rem}.ws-tab{padding:8px 12px;font-size:.95rem}}
 @media (max-width:560px){#card .meta .side{font-size:1.8rem}#card .face{margin-top:8px}}
 
+/* Confidence scale (Package 2, Phase 3): outside the card, question side only, nothing preselected */
+:root{--conf-1:#C8505F;--conf-2:#CF6152;--conf-3:#D57545;--conf-4:#D88B3D;--conf-5:#D6A13F;--conf-6:#C4AE48;--conf-7:#A6B254;--conf-8:#87AE61;--conf-9:#6FA66B;--conf-10:#5A9C72}
+.conf{display:flex;flex-direction:column;gap:8px;align-items:stretch}
+.conf[hidden]{display:none}
+.conf-q{font:400 1.02rem var(--f-ui);color:var(--on-page);text-align:center}
+.conf-opt{font-size:.85rem;opacity:.75;margin-left:6px}
+.conf-scale{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px}
+.conf-scale button{min-height:44px;font:700 1rem var(--f-ui);color:var(--on-page);background:none;border:1px solid var(--line);border-radius:8px;cursor:pointer;
+  box-shadow:inset 0 -4px 0 var(--cc);padding:0}
+.conf-scale button:hover{border-color:var(--cc)}
+.conf-scale button[aria-checked="true"]{background:var(--cc);border-color:var(--cc);color:#1E1316;box-shadow:none}
+.conf-scale button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.conf-ends{display:flex;justify-content:space-between;font:400 .85rem var(--f-ui);color:var(--on-page);opacity:.8}
+@media (max-width:420px){.conf-scale{gap:4px}.conf-scale button{font-size:.92rem;border-radius:6px}}
+.cal{display:flex;flex-direction:column;gap:8px}
+.cal table{border-collapse:collapse;width:100%;font:400 .95rem var(--f-ui)}
+.cal th, .cal td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+.cal td.n{text-align:right;white-space:nowrap}
+
 /* Mastered-card sparkle (Package 2, Phase 1): an overlay above the card, never part of it. */
 .sparkle-fx{position:fixed;pointer-events:none;z-index:40}
 .sparkle-fx i{position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:#E9B8C4;box-shadow:0 0 6px 1px rgba(233,184,196,.8);opacity:0;animation:sparkle .5s ease-out var(--dl) forwards}
@@ -1015,6 +1034,11 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
         <textarea id="reportNote" rows="2" placeholder="Optional"></textarea>
         <div class="report-actions"><button class="btn" id="reportCancel" type="button">Cancel</button><button class="btn primary" id="reportSend" type="button">Send</button></div>
         <span class="report-msg" id="reportMsg" role="status"></span>
+      </div>
+      <div class="conf" id="confRow">
+        <span class="conf-q" id="confQ">How confident are you in your answer? <span class="conf-opt">Optional</span></span>
+        <div class="conf-scale" role="radiogroup" aria-labelledby="confQ" aria-describedby="confEnds"><button type="button" role="radio" aria-checked="false" data-c="1" tabindex="0" style="--cc:var(--conf-1)">1</button><button type="button" role="radio" aria-checked="false" data-c="2" tabindex="-1" style="--cc:var(--conf-2)">2</button><button type="button" role="radio" aria-checked="false" data-c="3" tabindex="-1" style="--cc:var(--conf-3)">3</button><button type="button" role="radio" aria-checked="false" data-c="4" tabindex="-1" style="--cc:var(--conf-4)">4</button><button type="button" role="radio" aria-checked="false" data-c="5" tabindex="-1" style="--cc:var(--conf-5)">5</button><button type="button" role="radio" aria-checked="false" data-c="6" tabindex="-1" style="--cc:var(--conf-6)">6</button><button type="button" role="radio" aria-checked="false" data-c="7" tabindex="-1" style="--cc:var(--conf-7)">7</button><button type="button" role="radio" aria-checked="false" data-c="8" tabindex="-1" style="--cc:var(--conf-8)">8</button><button type="button" role="radio" aria-checked="false" data-c="9" tabindex="-1" style="--cc:var(--conf-9)">9</button><button type="button" role="radio" aria-checked="false" data-c="10" tabindex="-1" style="--cc:var(--conf-10)">10</button></div>
+        <div class="conf-ends" id="confEnds"><span>1 = not confident</span><span>10 = very confident</span></div>
       </div>
       <div class="controls prevrow" id="revealRow">
         <button class="btn" id="prev" type="button"><span>Previous<span class="d-only"> Card</span></span></button>
@@ -2299,6 +2323,19 @@ function weakest(){
   return list.map(([cat, o]) => ({ cat, pct: o.sum / o.n, n: o.n })).sort((a, b) => a.pct - b.pct || b.n - a.n).slice(0, 3);
 }
 function weakCats(){ const o = progress.open.weak; return o && o.cats ? o.cats : weakest().map(w => w.cat); }
+// Confidence calibration (Phase 3.2): confidence chosen before the reveal vs. her own rating afterwards. Self-rated, not graded.
+function confidenceStats(){
+  const all = [];
+  Object.values(progress.cards).forEach(s => (s.history || []).forEach(h => { if(h.c >= 1 && h.c <= 10 && SCORE[h.r] !== undefined) all.push(h); }));
+  all.sort((a, b) => (a.t || 0) - (b.t || 0));
+  const band = (lo, hi) => { const xs = all.filter(h => h.c >= lo && h.c <= hi), n = xs.length;
+    return { n, good: xs.filter(h => h.r === "good").length, hard: xs.filter(h => h.r === "hard").length, again: xs.filter(h => h.r === "again").length }; };
+  const gap = xs => xs.reduce((a, h) => a + Math.abs((h.c - 1) / 9 - SCORE[h.r]), 0) / xs.length;
+  const half = Math.floor(all.length / 2);
+  return { n: all.length, low: band(1, 3), mid: band(4, 7), high: band(8, 10),
+    surprises: { highMiss: all.filter(h => h.c >= 8 && h.r === "again").length, lowKnew: all.filter(h => h.c <= 3 && h.r === "good").length },
+    trend: all.length >= 40 ? { earlier: gap(all.slice(0, half)), recent: gap(all.slice(half)) } : null };
+}
 // Most recent rating of a card in either direction.
 function lastRating(id){
   let best = null, bt = -1;
@@ -2378,7 +2415,7 @@ function rate(key, r, written, boost, extra){
   let s = st(key);
   if(boost && s && r === "good"){
     // Confidence insertion answered correctly: kept in the history (marked b) but changes nothing about the card's schedule.
-    const be = { d:t, r, t:Date.now(), b:1 }; if(written) be.w = written; if(x.p) be.p = x.p; if(x.k) be.k = 1;
+    const be = { d:t, r, t:Date.now(), b:1 }; if(written) be.w = written; if(x.p) be.p = x.p; if(x.k) be.k = 1; if(x.c) be.c = x.c;
     s.history.push(be);
     if(s.history.length > RULES.historyKeep) s.history = s.history.slice(-RULES.historyKeep);
     return save();
@@ -2395,7 +2432,7 @@ function rate(key, r, written, boost, extra){
   const daily = s.history.filter((h,i,a) => i === 0 || a[i-1].d !== h.d).slice(-RULES.missWindow);
   const misses = daily.filter(h => h.r !== "good").length;
 
-  const entry = { d:t, r, t:Date.now() }; if(boost) entry.b = 1; if(written) entry.w = written; if(x.p) entry.p = x.p; if(x.k) entry.k = 1;
+  const entry = { d:t, r, t:Date.now() }; if(boost) entry.b = 1; if(written) entry.w = written; if(x.p) entry.p = x.p; if(x.k) entry.k = 1; if(x.c) entry.c = x.c;   // c = confidence 1-10, chosen before the reveal
   // w = written after Struggled / Didn't know; p = written before the reveal; k = a required response was skipped; b = confidence insertion
   s.history.push(entry);
   if(s.history.length > RULES.historyKeep) s.history = s.history.slice(-RULES.historyKeep);
@@ -2623,7 +2660,7 @@ function resolveKey(key){
   if(view === "a") return id + REV;
   return Math.random() < 0.5 ? id : id + REV;
 }
-function resetCard(){ flipped = false; revealed = false; draft = ""; shownKey = null; recallOpen = false; recallText = ""; pendingR = null; reinforceDraft = ""; reportOpen = false; reportFlashFor = null; curKey = deck[pos] ? resolveKey(deck[pos]) : null; }
+function resetCard(){ flipped = false; revealed = false; draft = ""; shownKey = null; recallOpen = false; recallText = ""; pendingR = null; reinforceDraft = ""; reportOpen = false; reportFlashFor = null; conf = null; curKey = deck[pos] ? resolveKey(deck[pos]) : null; }
 
 /* ---------- Sessions and study time ---------- */
 // A session counts once, when she reveals her first answer in it.
@@ -2919,7 +2956,7 @@ function renderScreen(){
             <span class="wk-name">${g} ${CATEGORIES[g]}</span>
             <span class="wk-val">${o.n ? `${pct(o.sum, o.n)}% · ${o.n} reviewed` : "Not Studied Yet"}</span>
             ${o.n ? `<span class="wk-bar" aria-hidden="true"><span style="width:${pct(o.sum, o.n)}%"></span></span>` : ""}</li>`; }).join("")}</ul></div>`;
-      }).join("")}`;
+      }).join("")}${calibrationHTML()}`;
     $("sideBack").onclick = goBack;
     if(weak.length) $("weakStudy").onclick = () => pick("weak");
     $("sideBack").focus();
@@ -3059,6 +3096,7 @@ function renderScreen(){
   $("rateRow").hidden = !revealed;
   document.querySelectorAll("#rateRow [data-r]").forEach(b => b.setAttribute("aria-pressed", String(pendingR === b.dataset.r)));
   renderWorkspace(id, needWrite);
+  renderConf();
   $("mandToggle").setAttribute("aria-pressed", String(mandatoryOn()));
   $("reportBox").hidden = !reportOpen;
   $("reportBtn").setAttribute("aria-expanded", String(reportOpen));
@@ -3072,7 +3110,7 @@ function renderScreen(){
 }
 /* ---------- Writing workspace: Notes / My Written Answers ----------
    A saved note and previous written answers stay out of the page until the card is revealed (every card). */
-let wsTab = "notes", noteVal = "", noteTimer = null;
+let wsTab = "notes", noteVal = "", noteTimer = null, conf = null;   // conf: 1-10 picked before the reveal, or null
 const mandatoryOn = () => progress.mandOff === undefined ? !progress.skipWrite : !progress.mandOff;   // the old "Skip writing before flip" carries over
 const noteSaved = id => progress.notes[id] || "";
 const noteDestructive = id => noteVal !== noteSaved(id) && !noteVal.startsWith(noteSaved(id));   // saved text was deleted or changed
@@ -3098,7 +3136,7 @@ let restoredNote = null, draftTimer = null;
 function stashDraft(){
   const o = progress.open[filter]; if(!o || mode !== "cards" || !curKey) return;
   const id = idOf(curKey), noteDirty = noteVal !== noteSaved(id);
-  const d = (draft || reinforceDraft || pendingR || noteDirty || revealed) ? { key:curKey, pre:draft, post:reinforceDraft, r:pendingR, rev:revealed, note: noteDirty ? noteVal : null } : null;
+  const d = (draft || reinforceDraft || pendingR || noteDirty || revealed || conf) ? { key:curKey, pre:draft, post:reinforceDraft, r:pendingR, rev:revealed, note: noteDirty ? noteVal : null, c:conf } : null;
   if(JSON.stringify(d) === JSON.stringify(o.draft || null)) return;
   if(d) o.draft = d; else delete o.draft;
   clearTimeout(draftTimer); draftTimer = setTimeout(save, 500);
@@ -3109,6 +3147,33 @@ function restoreDraft(o){
   draft = d.pre || ""; reinforceDraft = d.post || ""; pendingR = d.r || null;
   revealed = flipped = !!(d.rev || d.r);
   restoredNote = typeof d.note === "string" ? d.note : null;
+  conf = d.c || null;
+}
+function calibrationHTML(){
+  const c = confidenceStats(), MIN = 10;
+  const row = (label, b) => `<tr><th scope="row">${label}</th><td class="n">${b.n}</td><td class="n">${b.n ? Math.round(b.good / b.n * 100) + "%" : "–"}</td><td class="n">${b.n ? Math.round(b.again / b.n * 100) + "%" : "–"}</td></tr>`;
+  if(c.n < MIN) return `<div class="wk-sec cal"><div class="wk-head"><span class="t-name">Confidence check</span></div>
+    <p class="lede" style="margin:0">Pick a number on "How confident are you in your answer?" before you reveal a card. After ${MIN} or more (you have ${c.n}), you'll see how your confidence lines up with how you rate yourself.</p></div>`;
+  let trend = "";
+  if(c.trend){ const d = c.trend.earlier - c.trend.recent;
+    trend = `<p class="lede" style="margin:0">${d > 0.03 ? "Lately your confidence has been lining up with your ratings more closely than before." : d < -0.03 ? "Lately your confidence and your ratings have been lining up a little less closely than before. That's common when you move on to new material." : "How well your confidence lines up with your ratings has stayed about the same."}</p>`; }
+  return `<div class="wk-sec cal"><div class="wk-head"><span class="t-name">Confidence check</span><span class="wk-val">${c.n} cards</span></div>
+    <table><thead><tr><th scope="col">Your confidence</th><th scope="col" class="n">Cards</th><th scope="col" class="n">Then: Got it</th><th scope="col" class="n">Then: Didn't know</th></tr></thead>
+    <tbody>${row("Low (1–3)", c.low)}${row("Middle (4–7)", c.mid)}${row("High (8–10)", c.high)}</tbody></table>
+    <p class="lede" style="margin:0">Felt sure (8–10) but didn't know it: <b>${c.surprises.highMiss}</b>. Felt unsure (1–3) but knew it: <b>${c.surprises.lowKnew}</b>. Both are useful to notice; neither is a score.</p>
+    ${trend}
+    <p class="hint" style="margin:0">These compare your confidence with your own Got it / Struggled / Didn't know ratings, not with graded answers.</p></div>`;
+}
+function renderConf(){
+  $("confRow").hidden = revealed;
+  const bs = document.querySelectorAll("#confRow [data-c]");
+  bs.forEach(b => { const on = conf === +b.dataset.c; b.setAttribute("aria-checked", String(on)); b.tabIndex = (conf ? on : b.dataset.c === "1") ? 0 : -1; });
+}
+function setConf(n, focus){
+  if(mode !== "cards" || revealed) return;            // locked once the answer is showing
+  conf = conf === n && !focus ? null : n;              // tapping the chosen number again clears it
+  stashDraft(); renderConf();
+  if(focus){ const b = document.querySelector(`#confRow [data-c="${n}"]`); if(b && b.focus) b.focus(); }
 }
 function renderWorkspace(id, needWrite){
   const notes = wsTab === "notes";
@@ -3788,6 +3853,7 @@ const TIPS = {
   "#acctBtn": "Your account: change your name, log out, or delete your account.",
   "#ownerBtn": "See who has signed up, when they last studied, how many cards they reviewed and for how long. No scores or answers.",
   "#card .bm": "Save this card to your Bookmarks.",
+  "#confRow [data-c=\"1\"]": "Optional: before revealing, pick how sure you are (1 = not confident, 10 = very confident). It's saved with your rating and never changes your schedule.",
   "#mandToggle": "On: cards you've missed need a written answer before you flip them (until mastered), and Struggled / Didn't know need one before the next card. Off: writing is optional, and you'll be asked before skipping it.",
   "#toQuote": "Start your session, or pick up where you left off.",
   "#anotherQuote": "Show a different quote.",
@@ -3985,7 +4051,7 @@ function finishCard(r, written){
   if(mode!=="cards" || !revealed || askCfg) return;
   const missingPre = mustWrite(curKey) && !draft.trim(), missingPost = r !== "good" && (written || "").length < MIN_REINFORCE;
   if(missingPost && mandatoryOn()) return;
-  const go = skipped => leaveCard(() => answer(r, written || undefined, { p: draft.trim() || undefined, k: skipped }));
+  const go = skipped => leaveCard(() => answer(r, written || undefined, { p: draft.trim() || undefined, k: skipped, c: conf || undefined }));
   if(missingPre || missingPost){
     ask({ text:"You didn't type the mandatory response for this card. Continue anyway?", yes:"Yes", no:"No",
       onYes: () => go(true), onNo: () => setWsTab("ans", "field") });
@@ -4104,6 +4170,13 @@ $("curAnswer").oninput = e => {
   else if(pendingR){ reinforceDraft = v; stashDraft(); const n = v.trim().length; $("curNext").disabled = mandatoryOn() && n < MIN_REINFORCE; $("curHint").textContent = n < MIN_REINFORCE ? `${n} / ${MIN_REINFORCE} characters` : ""; }
 };
 $("curNext").onclick = submitReinforce;
+document.querySelectorAll("#confRow [data-c]").forEach(b => {
+  b.onclick = () => setConf(+b.dataset.c);
+  b.onkeydown = e => {
+    const n = +b.dataset.c, to = { ArrowRight:n + 1, ArrowUp:n + 1, ArrowLeft:n - 1, ArrowDown:n - 1, Home:1, End:10 }[e.key];
+    if(!to) return; e.preventDefault(); setConf(Math.min(10, Math.max(1, to)), true);
+  };
+});
 $("askYes").onclick = () => askDone(true);
 $("askNo").onclick = () => askDone(false);
 document.querySelectorAll("#rateRow [data-r]").forEach(b => b.onclick = () => chooseRating(b.dataset.r));
