@@ -1,0 +1,366 @@
+{
+ "metadata_version": "1.0.0",
+ "edges": [
+  {
+   "prerequisite_concept_id": "4E.valence-electrons",
+   "dependent_concept_id": "5B.lewis-electron-dot-formulas",
+   "rationale": "Lewis structures are drawn from valence electron counts.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4E.electronegativity",
+   "dependent_concept_id": "5B.partial-ionic-character",
+   "rationale": "Bond polarity follows from electronegativity differences.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4E.conventional-notation-for-electronic-structure",
+   "dependent_concept_id": "5B.and-bonds",
+   "rationale": "Sigma/pi bonding and hybridization build on orbital structure.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "5B.lewis-electron-dot-formulas",
+   "dependent_concept_id": "5B.stereochemistry-of-covalently-bonded-molecules",
+   "rationale": "Molecular shape and stereochemistry start from the bonding picture.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "5B.partial-ionic-character",
+   "dependent_concept_id": "5B.hydrogen-bonding",
+   "rationale": "Hydrogen bonding requires a strongly polarized X–H bond.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "5B.hydrogen-bonding",
+   "dependent_concept_id": "1A.protein-structure-structure",
+   "rationale": "Secondary structure is stabilized by backbone hydrogen bonds.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1A.amino-acids-description",
+   "dependent_concept_id": "1A.protein-structure-structure",
+   "rationale": "Protein structure depends on amino acid side-chain properties.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1A.amino-acids-acidic-or-basic",
+   "dependent_concept_id": "1A.separation-techniques",
+   "rationale": "Isoelectric point and electrophoresis depend on side-chain ionization.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1A.protein-structure-structure",
+   "dependent_concept_id": "1A.active-site-model",
+   "rationale": "Active sites arise from the folded three-dimensional structure.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1A.protein-structure-structure",
+   "dependent_concept_id": "1A.conformational-stability",
+   "rationale": "Stability and denaturation refer to the folded structure.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1A.function-of-enzymes-in-catalyzing-biological-reactions",
+   "dependent_concept_id": "1A.kinetics",
+   "rationale": "Enzyme kinetics assumes knowing what enzymes do.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1A.kinetics",
+   "dependent_concept_id": "1A.inhibition-types",
+   "rationale": "Inhibitor types are defined by their effects on Km and Vmax.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1A.active-site-model",
+   "dependent_concept_id": "1A.inhibition-types",
+   "rationale": "Competitive inhibition is defined relative to the active site.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1A.kinetics",
+   "dependent_concept_id": "1A.regulatory-enzymes",
+   "rationale": "Allosteric/cooperative behavior is read from kinetic curves.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "5E.reaction-rate",
+   "dependent_concept_id": "1A.reduction-of-activation-energy",
+   "rationale": "Catalysis is explained through activation energy and rate.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "5A.br-nsted-lowry-definition-of-acid-base",
+   "dependent_concept_id": "5A.weak-acids-and-bases-e-g-acetic-benzoic",
+   "rationale": "Weak acids are defined within the Brønsted-Lowry framework.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "5A.weak-acids-and-bases-e-g-acetic-benzoic",
+   "dependent_concept_id": "5A.equilibrium-constants-ka-and-kb-pka-pkb",
+   "rationale": "Ka and pKa quantify weak-acid dissociation.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "5A.equilibrium-constants-ka-and-kb-pka-pkb",
+   "dependent_concept_id": "5A.buffers",
+   "rationale": "Buffer behavior (Henderson–Hasselbalch) depends on pKa.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "5E.equilibrium-in-reversible-chemical-reactions",
+   "dependent_concept_id": "5A.equilibrium-constants-ka-and-kb-pka-pkb",
+   "rationale": "Ka is an equilibrium constant.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "5E.equilibrium-in-reversible-chemical-reactions",
+   "dependent_concept_id": "5A.solubility-product-constant-the-equilibrium-expression-ksp",
+   "rationale": "Ksp is an equilibrium constant.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "5E.second-law-concept-of-entropy",
+   "dependent_concept_id": "1D.free-energy-g",
+   "rationale": "Gibbs free energy combines enthalpy and entropy.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1D.free-energy-g",
+   "dependent_concept_id": "1D.phosphoryl-group-transfers-and-atp",
+   "rationale": "ATP coupling is explained through free-energy changes.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1D.biological-oxidation-reduction",
+   "dependent_concept_id": "1D.electron-transport-chain-and-oxidative-phosphorylation-subst",
+   "rationale": "The ETC is a sequence of redox reactions.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1D.glycolysis-aerobic-substrates-and-products",
+   "dependent_concept_id": "1D.fermentation-anaerobic-glycolysis",
+   "rationale": "Fermentation regenerates NAD+ for glycolysis.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1D.electron-transport-chain-and-oxidative-phosphorylation-subst",
+   "dependent_concept_id": "1D.atp-synthase-chemiosmotic-coupling",
+   "rationale": "ATP synthase uses the gradient built by the ETC.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "2A.membrane-potential",
+   "dependent_concept_id": "3A.resting-potential-electrochemical-gradient",
+   "rationale": "The neuronal resting potential is a membrane potential.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "2A.sodium-potassium-pump",
+   "dependent_concept_id": "3A.resting-potential-electrochemical-gradient",
+   "rationale": "The Na+/K+ pump maintains the gradients behind the resting potential.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "3A.resting-potential-electrochemical-gradient",
+   "dependent_concept_id": "3A.action-potential",
+   "rationale": "An action potential is a departure from the resting potential.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "3A.gated-ion-channels",
+   "dependent_concept_id": "3A.action-potential",
+   "rationale": "Voltage-gated channels produce depolarization and repolarization.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "3A.action-potential",
+   "dependent_concept_id": "3A.synaptic-activity-transmitter-molecules",
+   "rationale": "Transmitter release is triggered when the action potential reaches the terminal.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "3A.major-types-of-hormones",
+   "dependent_concept_id": "3A.cellular-mechanisms-of-hormone-action",
+   "rationale": "Peptide vs. steroid hormone signaling follows from hormone chemistry.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1B.central-dogma-dna-rna-protein",
+   "dependent_concept_id": "1B.mechanism-of-transcription",
+   "rationale": "Transcription is one step of the central dogma.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1B.mechanism-of-transcription",
+   "dependent_concept_id": "1B.mrna-processing-in-eukaryotes-introns-exons",
+   "rationale": "Processing acts on the primary transcript.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1B.deoxyribonucleic-acid-dna-double-helix-watson-crick-model-of",
+   "dependent_concept_id": "1B.semiconservative-nature-of-replication",
+   "rationale": "Semiconservative replication relies on complementary strands.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1C.significance-of-meiosis",
+   "dependent_concept_id": "1C.segregation-of-genes",
+   "rationale": "Mendelian segregation is explained by meiosis.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1C.allele-single-and-multiple",
+   "dependent_concept_id": "1C.hardy-weinberg-principle",
+   "rationale": "Hardy–Weinberg tracks allele frequencies.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1C.gene-pool",
+   "dependent_concept_id": "1C.natural-selection",
+   "rationale": "Selection acts on variation in the gene pool.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4A.vectors-components",
+   "dependent_concept_id": "4A.vector-analysis-of-forces-acting-on-a-point-object",
+   "rationale": "Force analysis uses vector components.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4A.newtons-second-law-f-ma",
+   "dependent_concept_id": "4A.vector-analysis-of-forces-acting-on-a-point-object",
+   "rationale": "Net-force problems apply F = ma.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4A.work-done-by-a-constant-force-w-fd-cos",
+   "dependent_concept_id": "4A.work-kinetic-energy-theorem",
+   "rationale": "The work–energy theorem relates work to kinetic energy.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4A.kinetic-energy-ke-mv2-units",
+   "dependent_concept_id": "4A.conservation-of-energy",
+   "rationale": "Energy conservation sums kinetic and potential energy.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4A.potential-energy",
+   "dependent_concept_id": "4A.conservation-of-energy",
+   "rationale": "Energy conservation sums kinetic and potential energy.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4B.continuity-equation-a-v-constant",
+   "dependent_concept_id": "4B.bernoullis-equation",
+   "rationale": "Bernoulli problems usually combine continuity with energy conservation.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4A.conservation-of-energy",
+   "dependent_concept_id": "4B.bernoullis-equation",
+   "rationale": "Bernoulli's equation is energy conservation for flowing fluid.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4B.ideal-gas",
+   "dependent_concept_id": "4B.deviation-of-real-gas-behavior-from-ideal-gas-law",
+   "rationale": "Real-gas deviations are measured against ideal behavior.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4B.partial-pressure-mole-fraction",
+   "dependent_concept_id": "3B.alveolar-gas-exchange",
+   "rationale": "Gas exchange is driven by partial-pressure gradients.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4C.coulombs-law",
+   "dependent_concept_id": "4C.electric-field-e",
+   "rationale": "The electric field is force per unit charge.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4C.electric-field-e",
+   "dependent_concept_id": "4C.electrostatic-energy-electric-potential-at-a-point-in-space",
+   "rationale": "Potential is related to the field.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4C.current-i-q-t-sign-conventions-units",
+   "dependent_concept_id": "4C.resistance",
+   "rationale": "Ohm's law relates current to resistance.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "1D.biological-oxidation-reduction",
+   "dependent_concept_id": "4C.galvanic-or-voltaic-cells",
+   "rationale": "Galvanic cells are redox reactions separated into half-cells.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "4D.refraction-refractive-index-n-snells-law-n1-sin-1-n2-sin-2",
+   "dependent_concept_id": "4D.thin-lenses",
+   "rationale": "Lenses work by refraction.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "3B.nephron-structure",
+   "dependent_concept_id": "3B.formation-of-urine",
+   "rationale": "Filtration, reabsorption and secretion happen in nephron segments.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "3B.presence-of-troponin-and-tropomyosin",
+   "dependent_concept_id": "3B.calcium-regulation-of-contraction",
+   "rationale": "Calcium acts by binding troponin.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "6A.sensory-receptors",
+   "dependent_concept_id": "6A.sensation",
+   "rationale": "Thresholds and adaptation describe receptor responses.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "6B.encoding",
+   "dependent_concept_id": "6B.storage",
+   "rationale": "Information must be encoded before it can be stored.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "6B.storage",
+   "dependent_concept_id": "6B.retrieval",
+   "rationale": "Retrieval accesses stored information.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "7C.classical-conditioning",
+   "dependent_concept_id": "7C.operant-conditioning",
+   "rationale": "Operant conditioning is usually taught by contrast with classical conditioning.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "S4.measures-of-central-tendency-and-dispersion",
+   "dependent_concept_id": "S4.uncertainty-and-statistical-testing-significance-confidence-",
+   "rationale": "Standard error and confidence intervals build on mean and SD.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "S3.manipulating-and-controlling-variables-experimental-design-c",
+   "dependent_concept_id": "S4.correlation-versus-causation-drawing-inferences-from-results",
+   "rationale": "Causal inference depends on experimental control.",
+   "review_status": "proposed"
+  },
+  {
+   "prerequisite_concept_id": "S3.confounding-factors-and-alternative-explanations",
+   "dependent_concept_id": "S4.correlation-versus-causation-drawing-inferences-from-results",
+   "rationale": "Confounding is why correlation is not causation.",
+   "review_status": "proposed"
+  }
+ ],
+ "acyclic": true
+}

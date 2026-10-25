@@ -1,0 +1,26 @@
+name: Card protection
+# Fails if any original flashcard's text, ID or appearance changed without an authorized correction,
+# or if the card metadata is incomplete or inconsistent. See docs/package-1/CARD-CORRECTIONS.md.
+on:
+  push:
+  pull_request:
+jobs:
+  protect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Original cards unchanged
+        run: node tools/check-cards.js
+      - name: Card metadata valid
+        run: node tools/validate-metadata.js
+      - name: Install visual-check tools
+        working-directory: tools
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Card interface looks the same
+        working-directory: tools
+        run: node visual-check.js

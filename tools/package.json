@@ -1,0 +1,16 @@
+{
+  "name": "mymcatstudyguide-tools",
+  "private": true,
+  "description": "Checks that protect the original flashcard library and validate card metadata.",
+  "scripts": {
+    "check-cards": "node check-cards.js",
+    "validate-metadata": "node validate-metadata.js",
+    "visual-check": "node visual-check.js",
+    "check-all": "node check-cards.js && node validate-metadata.js && node visual-check.js"
+  },
+  "devDependencies": {
+    "playwright": "1.56.0",
+    "pixelmatch": "5.3.0",
+    "pngjs": "7.0.0"
+  }
+}
