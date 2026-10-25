@@ -87,3 +87,19 @@ This revises "Complete Flashcard Interface Update — Developer Instructions" wi
 - **Card text** sits slightly lower.
 - **Phone Bookmark:** the label is no longer centered, so on phones Bookmark shows its word again. The icon-only version is gone.
 - **Approval and tests:** the visual baseline was regenerated with Aaron's approval (logged). Card text checks are unchanged, and all suites and the layout audit pass.
+
+## Follow-up (Oct 25, 2026): unfinished writing survives a refresh; remaining test conditions
+
+- **Draft restore:** if the page is refreshed or closed in the middle of writing, coming back to the session restores:
+  - the same card, still revealed if it was;
+  - the chosen Struggled / Didn't know rating;
+  - the text in Current Answer;
+  - any unsaved note change, which still asks Save / Discard when she moves on.
+- **Where it's kept:** the draft lives with that day's session (`open[topic].draft`) and is cleared as soon as the card is finished. Like the rest of a session, it resumes only on the same day.
+- **Newly tested:**
+  - refresh mid-answer (#18), in Node and in a real browser;
+  - opening Report this card while a note is being typed (#21);
+  - the longest category name on a 360 px phone (#5);
+  - the screen-reader accessibility tree (#25): tabs announced as a tab list, the selected tab announced, fields labeled, hidden notes and answers not readable. This is a structural check, not a session with an actual screen reader.
+- **Already covered:** connection loss (#19), by the existing offline tests OF1–OF2. Progress stays on the device, a notice shows, and it syncs when the connection is back.
+- **Not changed, by Aaron's decision:** sync still sends a device's whole copy. See KNOWN_LIMITATIONS.

@@ -2542,6 +2542,7 @@ function start(fresh){
   undo = [];
   resetCard();
   const real = progress.open[filter], m = phaseMode(real);
+  restoreDraft(real);
   if(m === "cards" && !total){ show("done"); return; }
   // The study timer starts when the first card of the session is shown, once per session.
   if(!real.started){ real.started = true; save(); }
@@ -3042,7 +3043,9 @@ function renderScreen(){
   const asked = rev ? (rv[0] || a) : q, back = rev ? rv[1] : a;
   document.querySelectorAll("#view [data-v]").forEach(b => { const on = b.dataset.v === progress.view; b.setAttribute("aria-checked", String(on)); b.tabIndex = on ? 0 : -1; });
   const needWrite = mustWrite(curKey);   // a written answer is due before the flip (whether or not Mandatory Response is on)
-  if(shownKey !== curKey){ shownKey = curKey; noteVal = progress.notes[id] || ""; wsTab = needWrite && !revealed ? "ans" : "notes"; clearTimeout(noteTimer); $("noteStatus").textContent = ""; }
+  if(shownKey !== curKey){ shownKey = curKey; noteVal = progress.notes[id] || ""; wsTab = needWrite && !revealed ? "ans" : "notes"; clearTimeout(noteTimer); $("noteStatus").textContent = "";
+    if(restoredNote !== null){ noteVal = restoredNote; restoredNote = null; }
+    if(pendingR) wsTab = "ans"; }
   const marked = !!progress.bookmarks[id];
   $("card").innerHTML = `<div class="meta"><span class="side">${flipped ? "Answer" : "Question"}</span><span class="meta-r"><button class="bm" type="button" aria-pressed="${marked}" aria-label="${marked ? "Remove bookmark" : "Bookmark this card"}"><span class="bm-g" aria-hidden="true">${marked ? "★" : "☆"}</span> ${marked ? "Bookmarked" : "Bookmark"}</button></span></div>
     <div class="face${flipped ? " back" : ""}">${flipped
@@ -3086,6 +3089,24 @@ function prevAnswersHTML(k){
   return html;
 }
 const hasPrevAnswers = k => { const s = st(k); return !!(s && s.history.some(e => e.w || e.p)); };
+/* Unfinished writing survives a refresh or a closed tab: what's typed in Current Answer, the rating it belongs to,
+   whether the card was revealed, and note edits that weren't saved. Kept with the day's session (open[topic].draft). */
+let restoredNote = null, draftTimer = null;
+function stashDraft(){
+  const o = progress.open[filter]; if(!o || mode !== "cards" || !curKey) return;
+  const id = idOf(curKey), noteDirty = noteVal !== noteSaved(id);
+  const d = (draft || reinforceDraft || pendingR || noteDirty || revealed) ? { key:curKey, pre:draft, post:reinforceDraft, r:pendingR, rev:revealed, note: noteDirty ? noteVal : null } : null;
+  if(JSON.stringify(d) === JSON.stringify(o.draft || null)) return;
+  if(d) o.draft = d; else delete o.draft;
+  clearTimeout(draftTimer); draftTimer = setTimeout(save, 500);
+}
+function restoreDraft(o){
+  const d = o && o.draft;
+  if(!d || d.key !== curKey || o.phase === "retry" && !(o.retryIds || []).includes(d.key)) return;
+  draft = d.pre || ""; reinforceDraft = d.post || ""; pendingR = d.r || null;
+  revealed = flipped = !!(d.rev || d.r);
+  restoredNote = typeof d.note === "string" ? d.note : null;
+}
 function renderWorkspace(id, needWrite){
   const notes = wsTab === "notes";
   $("tabNotes").setAttribute("aria-selected", String(notes)); $("tabNotes").tabIndex = notes ? 0 : -1;
@@ -3105,6 +3126,7 @@ function renderWorkspace(id, needWrite){
   $("curNext").disabled = writing && mandatoryOn() && n < MIN_REINFORCE;
   $("curHint").textContent = writing ? (n < MIN_REINFORCE ? `${n} / ${MIN_REINFORCE} characters` : "")
     : !revealed && needWrite && mandatoryOn() && !draft.trim() ? "Type your answer to unlock Reveal Answer." : "";
+  stashDraft();
   $("prevList").innerHTML = revealed ? prevAnswersHTML(curKey)
     : hasPrevAnswers(curKey) ? `<div class="ws-lock"><span class="lock-ico" aria-hidden="true"></span>Your previous answers appear after you reveal the card.</div>` : "";
 }
@@ -3125,7 +3147,7 @@ function commitNote(id){
 }
 function onNoteInput(v){
   if(!curKey) return;
-  const id = idOf(curKey); noteVal = v; clearTimeout(noteTimer);
+  const id = idOf(curKey); noteVal = v; clearTimeout(noteTimer); stashDraft();
   if(noteAdditive(id)) noteTimer = setTimeout(() => { if(curKey && idOf(curKey) === id && noteAdditive(id)) commitNote(id); }, 1200);   // only added: saves itself
   noteBits(id);
 }
@@ -3204,6 +3226,7 @@ function previousCard(){
   const cur = progress.open[filter];
   // Study time, session counting and settings stay as they are now; only the rating is taken back.
   if(cur){ ["ms", "started", "counted", "skip", "rfPicks"].forEach(k => { if(cur[k] !== undefined) u.open[k] = cur[k]; }); }
+  delete u.open.draft;
   progress.open[filter] = u.open;
   syncDeck(u.open);
   curKey = u.key; shownKey = null; draft = u.draft || ""; revealed = true; flipped = true; recallOpen = false; recallText = ""; pendingR = null; reinforceDraft = ""; reportOpen = false; reportFlashFor = null;
@@ -3998,6 +4021,7 @@ function answer(r, written, extra){
     const at = Math.min(deck.length, pos + 1 + RULES.requeueGap);
     deck.splice(at, 0, key); total = deck.length;
   }
+  if(o) delete o.draft;
   pos++; resetCard(); persistPlace();
   if(pos >= deck.length) endOfPass(); else { render(); focusCard(); }
 }
@@ -4073,8 +4097,8 @@ $("tabAns").onclick = () => setWsTab("ans");
 ["tabNotes", "tabAns"].forEach(t => { $(t).onkeydown = e => { if(["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)){ e.preventDefault(); setWsTab(wsTab === "notes" ? "ans" : "notes", "tab"); } }; });
 $("curAnswer").oninput = e => {
   const v = e.target.value;
-  if(!revealed){ draft = v; $("reveal").disabled = mustWrite(curKey) && mandatoryOn() && !draft.trim(); $("curHint").textContent = $("reveal").disabled ? "Type your answer to unlock Reveal Answer." : ""; }
-  else if(pendingR){ reinforceDraft = v; const n = v.trim().length; $("curNext").disabled = mandatoryOn() && n < MIN_REINFORCE; $("curHint").textContent = n < MIN_REINFORCE ? `${n} / ${MIN_REINFORCE} characters` : ""; }
+  if(!revealed){ draft = v; stashDraft(); $("reveal").disabled = mustWrite(curKey) && mandatoryOn() && !draft.trim(); $("curHint").textContent = $("reveal").disabled ? "Type your answer to unlock Reveal Answer." : ""; }
+  else if(pendingR){ reinforceDraft = v; stashDraft(); const n = v.trim().length; $("curNext").disabled = mandatoryOn() && n < MIN_REINFORCE; $("curHint").textContent = n < MIN_REINFORCE ? `${n} / ${MIN_REINFORCE} characters` : ""; }
 };
 $("curNext").onclick = submitReinforce;
 $("askYes").onclick = () => askDone(true);

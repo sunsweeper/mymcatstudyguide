@@ -106,4 +106,24 @@ const prep = (hist, opts) => { const r = fresh(opts); setCard(r.A, r.k, hist); r
 { const { h, A } = fresh(); A.reveal(); type(h, "noteText", "x"); const id = A.idOf(A.curKey); A.progress.notes[id] = "y"; type(h, "noteText", "z"); A.chooseRating("good");
   h.sb._key({ key:"Escape", preventDefault(){} });
   ok("M46 Escape closes the popup as 'No' (Discard)", h.els.askModal.hidden===true && A.progress.notes[id]==="y"); }
+
+/* Unfinished writing survives a refresh */
+const reload = (h, topic="bb") => { const h2 = boot({ store:h.store }); const B = h2.api; B.pick(topic); B.start(); return h2; };
+{ const { h, A, k } = fresh(); A.reveal(); A.chooseRating("hard"); type(h, "curAnswer", "Half of my written ans");
+  const h2 = reload(h), B = h2.api;
+  ok("R1 refresh after Struggled: same card, still revealed, Struggled still chosen, text back in Current Answer", B.curKey===k && B.revealed===true && B.pendingR==="hard" && h2.els.curAnswer.value==="Half of my written ans" && h2.els.tabAns.attrs["aria-selected"]==="true");
+  type(h2, "curAnswer", "Half of my written answer, finished."); B.submitReinforce();
+  ok("R2 ...she can finish and submit it normally", B.st(k).history.slice(-1)[0].w==="Half of my written answer, finished." && B.curKey!==k);
+  ok("R3 ...and the saved draft is cleared once the card is done", !B.progress.open.bb.draft || B.progress.open.bb.draft.key!==k); }
+{ const { h, A, k } = prep(missed); type(h, "curAnswer", "before reveal draft");
+  const h2 = reload(h), B = h2.api;
+  ok("R4 refresh before revealing: her typed answer is back and Reveal is unlocked", B.curKey===k && B.revealed===false && h2.els.curAnswer.value==="before reveal draft" && h2.els.reveal.disabled===false); }
+{ const { h, A, k } = fresh(); const id = A.idOf(k); A.progress.notes[id] = "Original note"; A.resetCard(); A.show("cards"); A.reveal(); type(h, "noteText", "Changed note text");
+  const h2 = reload(h), B = h2.api;
+  ok("R5 refresh with an unsaved note change: the change is back, not yet saved", h2.els.noteText.value==="Changed note text" && B.progress.notes[id]==="Original note" && h2.els.noteSaveLink.hidden===false);
+  B.chooseRating("good");
+  ok("R6 ...and moving on still asks Save / Discard", h2.els.askModal.hidden===false && h2.els.askText.textContent==="Save the changes to your note?"); }
+{ const { h, A, k } = fresh(); const id = A.idOf(k); A.reveal(); type(h, "noteText", "typing a note"); h.els.reportBtn.onclick();
+  ok("R7 opening Report this card doesn't touch a note being typed", h.els.reportBox.hidden===false && h.els.noteText.value==="typing a note");
+  h.els.reportCancel.onclick(); ok("R8 ...nor does closing it", h.els.noteText.value==="typing a note"); }
 console.log(`\n${pass} passed, ${fail} failed`); process.exit(fail ? 1 : 0);

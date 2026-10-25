@@ -27,6 +27,16 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
     }
     await ctx.close();
   }
+  // Longest category name on the smallest phone
+  { const ctx = await b.newContext({ viewport:{ width:360, height:800 } }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage();   // no account library: the page runs in its local (signed-out) mode p.on('pageerror', e => errs.push(e.message));
+    await p.addInitScript(() => { if(!sessionStorage.getItem('seeded')){ localStorage.setItem('mcat-progress-v2', JSON.stringify({ cards:{}, newDay:{date:'',count:0}, open:{}, view:'q', tips:{off:true} })); sessionStorage.setItem('seeded','1'); } });
+    await p.goto(URL); await p.click('[data-k=ps]'); await p.click('#toQuote');
+    await p.evaluate(() => { deck.unshift('7A-001'); progress.open.ps.ids = deck.slice(); resetCard(); render(); });
+    const g = await p.evaluate(() => { const r = s => document.querySelector(s).getBoundingClientRect(); const c = r('#card'), a = r('#card .cat'), i = r('#card .cid'); return { txt: document.querySelector('#card .cat').textContent, ok: a.left >= c.left && i.right <= c.right && (a.right <= i.left || a.bottom <= i.top + 1) && a.bottom <= c.bottom, sw: document.documentElement.scrollWidth }; });
+    ok('C7 longest category ("Biology, personality, motivation, and disorders") wraps at 360px without hitting the card ID', g.txt.startsWith('Biology, personality') && g.ok && g.sw <= 360, JSON.stringify(g));
+    await p.screenshot({ path:require('os').tmpdir() + '/long-category-360.png' });
+    await ctx.close();
+  }
   // Hidden entries and the popup in a real page
   { const ctx = await b.newContext({ viewport:{ width:1280, height:1000 } }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage();   // no account library: the page runs in its local (signed-out) mode p.on('pageerror', e => errs.push(e.message));
     const id = '1A-001';
@@ -38,6 +48,8 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
     ok('H1 before the flip, the saved note and previous answer are nowhere in the page (screen readers can\'t reach them)', !html.includes('ZZ-NOTE-TEXT') && !html.includes('ZZ-OLD-ANSWER'));
     ok('H2 ...and the panels say they appear after the reveal', (await p.textContent('#prevList')).includes('appear after you reveal') && (await p.click('#tabNotes'), await p.isVisible('#noteLock')));
     ok('H3 Reveal stays disabled until she writes', await p.isDisabled('#reveal'));
+    const aria = await p.locator('#study').ariaSnapshot();
+    ok('SR1 screen-reader tree: tabs announced as a tab list with the selected tab, fields labeled, hidden note/answers not readable', /tablist "Notes and written answers"/.test(aria) && /tab "(Notes|My Written Answers)" \[selected\]/.test(aria) && /tabpanel "(Notes|My Written Answers)"/.test(aria) && !/ZZ-/.test(aria));
     await p.click('#tabAns'); await p.fill('#curAnswer', 'my try'); await p.click('#reveal'); await p.waitForTimeout(500);
     ok('H4 after the flip, previous answers and the note appear', (await p.textContent('#prevList')).includes('ZZ-OLD-ANSWER') && (await p.click('#tabNotes'), (await p.inputValue('#noteText')) === 'ZZ-NOTE-TEXT'));
     await p.click('#mandToggle'); await p.click('[data-r=again]');
@@ -47,6 +59,16 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
     await p.click('#askNo'); ok('H7 No keeps her on the card', await p.evaluate(() => idOf(curKey)) === id && !(await p.isVisible('#askModal')));
     await p.click('#curNext'); await p.click('#askYes'); await p.waitForTimeout(200);
     ok('H8 Yes moves on', await p.evaluate(() => idOf(curKey)) !== id);
+    await ctx.close();
+  }
+  // Real refresh in the middle of a written answer
+  { const ctx = await b.newContext({ viewport:{ width:390, height:844 } }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage();   // no account library: the page runs in its local (signed-out) mode p.on('pageerror', e => errs.push(e.message));
+    await p.addInitScript(() => { if(!sessionStorage.getItem('seeded')){ localStorage.setItem('mcat-progress-v2', JSON.stringify({ cards:{}, newDay:{date:'',count:0}, open:{}, view:'q', tips:{off:true} })); sessionStorage.setItem('seeded','1'); } });
+    await p.goto(URL); await p.click('[data-k=cp]'); await p.click('#toQuote'); await p.click('#reveal'); await p.waitForTimeout(450);
+    const k = await p.evaluate(() => curKey);
+    await p.click('[data-r=again]'); await p.keyboard.type('Typed before the page reloaded');
+    await p.reload(); await p.click('[data-k=cp]'); await p.click('#toQuote'); await p.waitForTimeout(300);
+    ok('RF1 browser refresh mid-answer: same card, answer side, text restored', await p.evaluate(() => curKey) === k && await p.evaluate(() => revealed) && (await p.inputValue('#curAnswer')) === 'Typed before the page reloaded');
     await ctx.close();
   }
   ok('H9 no page errors', errs.length === 0, errs.join(' | '));

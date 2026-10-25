@@ -23,3 +23,9 @@ These are places where the instructions conflicted with how the site already wor
 10. **How to Use Me video.** There's no video yet, so the popup shows a fallback message. The storage explanation is written in the popup, so it's there even without the video.
 
 11. **Not verified on real devices, Safari/Firefox, or screen readers.** See TEST_REPORT.md, "Not tested."
+
+## Sync between devices sends a whole copy (kept by decision, Oct 25, 2026)
+
+- **How it works:** each device sends its entire progress to the account about 4 seconds after a change. It picks up other devices' work only at login, or when returning to the tab outside a study session (at most once a minute).
+- **The risk:** studying on two devices close together can replace one device's recent study in the account. That's usually repaired the next time the other device syncs, but it's lost for good if that device logs out or its browser data is cleared first.
+- **Fix, if wanted later:** fetch and merge before every send.
