@@ -13,6 +13,13 @@ const c = {};
 const SK = { retrieval:0, conceptual_understanding:1, application:2, reasoning:3 };
 // [subtopic, concept, curriculum weight %, priority 1-3, skill (0 recall, 1 conceptual, 2 application, 3 reasoning), difficulty 1-3]
 for(const r of cards) c[r.card_id] = [sIx(r.subtopic_ids[0]), cIx(r.primary_concept_id), +(r.curriculum_weight_pct || 0).toFixed(2), PR[r.curriculum_priority] || 0, SK[r.cognitive_skill] || 0, r.difficulty_level || 1];
+// graphical cards (drafts included; the site only studies the ones it lists as published)
+try {
+  const g = M('graphic-cards.json').cards, conc = Object.fromEntries(cat.concepts.map(x => [x.id, x]));
+  for(const r of g){ const k = conc[r.primary_concept_id]; const st0 = (k.subtopic_ids || []).find(x => x.startsWith(r.content_category + '.')) || k.subtopic_ids[0];
+    const twin = cards.find(x => x.content_category === r.content_category);
+    c[r.card_id] = [sIx(st0), cIx(r.primary_concept_id), +((twin && twin.curriculum_weight_pct) || 0).toFixed(2), PR[(twin && twin.curriculum_priority)] || 0, SK[r.cognitive_skill] || 0, 2]; }
+} catch(e){ if(e.code !== 'ENOENT') throw e; }
 // prerequisite links between concepts that have cards: dependent -> [prerequisite]
 const p = {};
 for(const e of pre){ if(e.prerequisite_concept_id in coIx && e.dependent_concept_id in coIx){ const d = coIx[e.dependent_concept_id]; (p[d] = p[d] || []).push(coIx[e.prerequisite_concept_id]); } }

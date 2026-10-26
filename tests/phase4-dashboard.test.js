@@ -11,7 +11,7 @@ const conceptsOf = (A, ids) => new Set(ids.map(id => A.META.c[id][1]));
 const mk = () => { const h = boot({ clock:T0 }); return { h, A:h.api }; };
 
 { const { A } = mk();
-  ok("D1 the embedded index covers all 1000 cards and 131 subtopics", Object.keys(A.META.c).length === 1000 && A.META.st.length === 131 && A.CARDS.every(c => A.META.c[c[3]]));
+  ok("D1 the embedded index covers all 1000 cards (plus the graphical-card drafts) and their subtopics", A.CARDS.length === 1000 && A.CARDS.every(c => A.META.c[c[3]]) && Object.keys(A.META.c).filter(id => !/-G\d\d$/.test(id)).length === 1000 && A.META.st.length >= 131);
   ok("D2 nothing studied: every subtopic 'unseen', no priorities", A.dashModel().subs.every(s => s.status === "unseen") && A.dashModel().top.length === 0); }
 { const { A } = mk(); const ids = idsOf(A, "Fluids");
   setH(A, ids[0], [[3, "again"]]);

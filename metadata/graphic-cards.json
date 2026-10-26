@@ -1,0 +1,188 @@
+{
+ "metadata_version": "graphics-draft-1",
+ "published": [],
+ "cards": [
+  {
+   "card_id": "1A-G01",
+   "mcat_section": "BB",
+   "content_category": "1A",
+   "primary_concept_id": "1A.kinetics.michaelis-menten",
+   "retrieval_format": [
+    "graphical_identification"
+   ],
+   "cognitive_skill": "conceptual_understanding",
+   "related_text_concept": "same concept as existing text cards; counts once toward concept evidence",
+   "content_version": "graphics-draft-1",
+   "review_status": "draft_pending_owner_review",
+   "classified_by": "AI-authored draft; diagrams generated from equations; needs owner/content-expert review before publication"
+  },
+  {
+   "card_id": "1A-G02",
+   "mcat_section": "BB",
+   "content_category": "1A",
+   "primary_concept_id": "1A.inhibition-types",
+   "retrieval_format": [
+    "graphical_identification"
+   ],
+   "cognitive_skill": "conceptual_understanding",
+   "related_text_concept": "same concept as existing text cards; counts once toward concept evidence",
+   "content_version": "graphics-draft-1",
+   "review_status": "draft_pending_owner_review",
+   "classified_by": "AI-authored draft; diagrams generated from equations; needs owner/content-expert review before publication"
+  },
+  {
+   "card_id": "1A-G03",
+   "mcat_section": "BB",
+   "content_category": "1A",
+   "primary_concept_id": "1A.inhibition-types",
+   "retrieval_format": [
+    "graphical_identification"
+   ],
+   "cognitive_skill": "conceptual_understanding",
+   "related_text_concept": "same concept as existing text cards; counts once toward concept evidence",
+   "content_version": "graphics-draft-1",
+   "review_status": "draft_pending_owner_review",
+   "classified_by": "AI-authored draft; diagrams generated from equations; needs owner/content-expert review before publication"
+  },
+  {
+   "card_id": "5A-G01",
+   "mcat_section": "CP",
+   "content_category": "5A",
+   "primary_concept_id": "5A.interpretation-of-the-titration-curves",
+   "retrieval_format": [
+    "graphical_identification"
+   ],
+   "cognitive_skill": "application",
+   "related_text_concept": "same concept as existing text cards; counts once toward concept evidence",
+   "content_version": "graphics-draft-1",
+   "review_status": "draft_pending_owner_review",
+   "classified_by": "AI-authored draft; diagrams generated from equations; needs owner/content-expert review before publication"
+  },
+  {
+   "card_id": "5E-G01",
+   "mcat_section": "CP",
+   "content_category": "5E",
+   "primary_concept_id": "5E.phase-diagram-pressure-and-temperature",
+   "retrieval_format": [
+    "graphical_identification"
+   ],
+   "cognitive_skill": "conceptual_understanding",
+   "related_text_concept": "same concept as existing text cards; counts once toward concept evidence",
+   "content_version": "graphics-draft-1",
+   "review_status": "draft_pending_owner_review",
+   "classified_by": "AI-authored draft; diagrams generated from equations; needs owner/content-expert review before publication"
+  },
+  {
+   "card_id": "1C-G01",
+   "mcat_section": "BB",
+   "content_category": "1C",
+   "primary_concept_id": "1C.recessiveness",
+   "retrieval_format": [
+    "diagram_interpretation"
+   ],
+   "cognitive_skill": "application",
+   "related_text_concept": "same concept as existing text cards; counts once toward concept evidence",
+   "content_version": "graphics-draft-1",
+   "review_status": "draft_pending_owner_review",
+   "classified_by": "AI-authored draft; diagrams generated from equations; needs owner/content-expert review before publication"
+  },
+  {
+   "card_id": "1C-G02",
+   "mcat_section": "BB",
+   "content_category": "1C",
+   "primary_concept_id": "1C.tetrad.sex-linked-characteristics",
+   "retrieval_format": [
+    "diagram_interpretation"
+   ],
+   "cognitive_skill": "application",
+   "related_text_concept": "same concept as existing text cards; counts once toward concept evidence",
+   "content_version": "graphics-draft-1",
+   "review_status": "draft_pending_owner_review",
+   "classified_by": "AI-authored draft; diagrams generated from equations; needs owner/content-expert review before publication"
+  },
+  {
+   "card_id": "3B-G01",
+   "mcat_section": "BB",
+   "content_category": "3B",
+   "primary_concept_id": "3B.oxygen-transport-by-blood.hemoglobin-hematocrit",
+   "retrieval_format": [
+    "graphical_identification"
+   ],
+   "cognitive_skill": "conceptual_understanding",
+   "related_text_concept": "same concept as existing text cards; counts once toward concept evidence",
+   "content_version": "graphics-draft-1",
+   "review_status": "draft_pending_owner_review",
+   "classified_by": "AI-authored draft; diagrams generated from equations; needs owner/content-expert review before publication"
+  },
+  {
+   "card_id": "1A-G04",
+   "mcat_section": "BB",
+   "content_category": "1A",
+   "primary_concept_id": "1A.reduction-of-activation-energy",
+   "retrieval_format": [
+    "graphical_identification"
+   ],
+   "cognitive_skill": "conceptual_understanding",
+   "related_text_concept": "same concept as existing text cards; counts once toward concept evidence",
+   "content_version": "graphics-draft-1",
+   "review_status": "draft_pending_owner_review",
+   "classified_by": "AI-authored draft; diagrams generated from equations; needs owner/content-expert review before publication"
+  },
+  {
+   "card_id": "7A-G01",
+   "mcat_section": "PS",
+   "content_category": "7A",
+   "primary_concept_id": "7A.factors-that-influence-motivation.arousal",
+   "retrieval_format": [
+    "graphical_identification"
+   ],
+   "cognitive_skill": "conceptual_understanding",
+   "related_text_concept": "same concept as existing text cards; counts once toward concept evidence",
+   "content_version": "graphics-draft-1",
+   "review_status": "draft_pending_owner_review",
+   "classified_by": "AI-authored draft; diagrams generated from equations; needs owner/content-expert review before publication"
+  },
+  {
+   "card_id": "S4-G01",
+   "mcat_section": "SIRS",
+   "content_category": "S4",
+   "primary_concept_id": "S4.measures-of-central-tendency-and-dispersion",
+   "retrieval_format": [
+    "graphical_identification"
+   ],
+   "cognitive_skill": "conceptual_understanding",
+   "related_text_concept": "same concept as existing text cards; counts once toward concept evidence",
+   "content_version": "graphics-draft-1",
+   "review_status": "draft_pending_owner_review",
+   "classified_by": "AI-authored draft; diagrams generated from equations; needs owner/content-expert review before publication"
+  },
+  {
+   "card_id": "S4-G02",
+   "mcat_section": "SIRS",
+   "content_category": "S4",
+   "primary_concept_id": "S4.measures-of-central-tendency-and-dispersion",
+   "retrieval_format": [
+    "graphical_identification"
+   ],
+   "cognitive_skill": "conceptual_understanding",
+   "related_text_concept": "same concept as existing text cards; counts once toward concept evidence",
+   "content_version": "graphics-draft-1",
+   "review_status": "draft_pending_owner_review",
+   "classified_by": "AI-authored draft; diagrams generated from equations; needs owner/content-expert review before publication"
+  },
+  {
+   "card_id": "S4-G03",
+   "mcat_section": "SIRS",
+   "content_category": "S4",
+   "primary_concept_id": "S4.correlation-versus-causation-drawing-inferences-from-results",
+   "retrieval_format": [
+    "graphical_identification"
+   ],
+   "cognitive_skill": "application",
+   "related_text_concept": "same concept as existing text cards; counts once toward concept evidence",
+   "content_version": "graphics-draft-1",
+   "review_status": "draft_pending_owner_review",
+   "classified_by": "AI-authored draft; diagrams generated from equations; needs owner/content-expert review before publication"
+  }
+ ]
+}

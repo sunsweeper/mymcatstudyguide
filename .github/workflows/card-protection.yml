@@ -16,6 +16,8 @@ jobs:
         run: node tools/check-cards.js
       - name: Card metadata valid
         run: node tools/validate-metadata.js
+      - name: Graphical cards valid (new IDs, text alternatives, approval before publishing)
+        run: node tools/validate-graphics.js
       - name: Install visual-check tools
         working-directory: tools
         run: |
