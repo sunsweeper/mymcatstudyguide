@@ -3826,7 +3826,7 @@ let authView = "loading", authMsg = "", authOk = false, authEmail = "", authBusy
 let pushTimer = null, lastPull = 0, pendingAct = { cards:0, ms:0 }, lastActFlush = Date.now();
 const userStore = id => "mcat-progress-v2:u:" + id;
 const deepCopy = x => JSON.parse(JSON.stringify(x));
-const siteUrl = () => location.origin + location.pathname;
+const siteUrl = () => location.origin + "/login";
 
 function normalizeProgress(p){
   p = Object.assign(blank(), p || {});
@@ -3949,7 +3949,7 @@ async function startAuth(){
     await enterAccount(session.user);
     if(after && sbUser){ openAccount(); emailNote = after; render(); }
   }
-  else { if(after && after.ok){ authMsg = after.text; authOk = true; } authView = "login"; mode = "auth"; render(); }
+  else { if(after && after.ok){ authMsg = after.text; authOk = true; } authView = location.pathname.replace(/\/$/, "") === "/signup" && !linkErr && !after ? "signup" : "login"; mode = "auth"; render(); }
 }
 async function enterAccount(user){
   authView = "loading"; mode = "auth"; render();
