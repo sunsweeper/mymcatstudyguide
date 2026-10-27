@@ -26,6 +26,8 @@ async function openPage(browser, w, h, theme, file = path.join(root, 'index.html
   await p.addInitScript(t => { try { localStorage.setItem('mcat-progress-v2', JSON.stringify({ bg: t, tips: false })); } catch(e){} }, theme);
   await p.goto('file://' + file);
   await p.evaluate(() => { pick('all'); start(true); });
+  // Imported homepage fonts must settle before style/geometry/pixel comparisons.
+  await p.evaluate(() => document.fonts.ready);
   await p.addStyleTag({ content: '*{animation:none!important;transition:none!important;caret-color:transparent!important}' });
   return p;
 }
@@ -93,7 +95,7 @@ const showCard = (p, key, back) => p.evaluate(([key, back]) => {
     if(pct > 0.5) problems.push(`${k}: ${pct.toFixed(2)}% of pixels differ from the approved reference build`);
   }
   if(problems.length){
-    console.error(`VISUAL CHECK FAILED: ${problems.length} problem(s)`); problems.slice(0, 40).forEach(x => console.error(' -', x));
+    console.error(`VISUAL CHECK FAILED: ${problems.length} problem(s)`); problems.forEach(x => console.error(' -', x));
     if(process.env.GITHUB_ACTIONS) problems.slice(0, 10).forEach(x => console.log(`::error title=Visual check::${x}`));   // shown on the GitHub check
     process.exit(1);
   }

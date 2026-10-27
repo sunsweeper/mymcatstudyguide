@@ -8,19 +8,19 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
   for (const w of [360, 390, 440, 768, 1280]) for (const bg of ['dark', 'light']) {
     const ctx = await b.newContext({ viewport:{ width:w, height:900 } }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
     await p.addInitScript(s => { if(!sessionStorage.getItem('seeded')){ localStorage.setItem('mcat-progress-v2', s); sessionStorage.setItem('seeded','1'); } }, JSON.stringify({ cards:{}, newDay:{date:'',count:0}, open:{}, view:'q', tips:{off:true}, bg }));
-    await p.goto(URL); await p.click('[data-k=ps]'); await p.click('#toQuote'); await p.waitForTimeout(200);
+    await p.goto(URL); await p.click('[data-k=ps]'); await p.click('#toQuote'); await p.evaluate(()=>document.fonts.ready);
     for (const side of ['Question', 'Answer']) {
-      if (side === 'Answer') { await p.click('#reveal'); await p.waitForTimeout(500); }
+      if (side === 'Answer') { await p.click('#reveal'); await p.waitForFunction(()=>revealed&&!flipping); }
       const g = await p.evaluate(() => { const r = s => { const e = document.querySelector(s); if(!e) return null; const b = e.getBoundingClientRect(); return { x:b.x, y:b.y, w:b.width, h:b.height, r:b.right, b:b.bottom }; };
         return { card:r('#card'), side:r('#card .side'), bm:r('#card .bm'), cat:r('#card .foot .cat'), cid:r('#card .foot .cid'), face:r('#card .face'), asked:r('#card .asked'), ans:r('#card .ans'), meta:r('#card .meta'),
           sideText:document.querySelector('#card .side').textContent, sw:document.documentElement.scrollWidth, pad:parseFloat(getComputedStyle(document.querySelector('#card')).paddingLeft) }; });
       const tag = `${w}-${bg}-${side}`, cx = g.card.x + g.card.w / 2;
       const sf = await p.evaluate(() => { const c = getComputedStyle(document.querySelector('#card .side')); return { ff:c.fontFamily, bw:c.borderTopWidth, fs:parseFloat(c.fontSize) }; });
-      ok(`C1 ${tag} label in the upper-left corner, in the cursive script, no pill border`, Math.abs(g.side.x - (g.card.x + g.pad)) <= 2 && g.sideText === side && /Dancing Script/.test(sf.ff) && sf.bw === '0px' && sf.fs >= 26 && sf.fs <= 36, `${sf.fs}px`);
-      ok(`C2 ${tag} bookmark at the right of the header, not touching the label`, g.bm.r <= g.card.r - g.pad + 1 && g.bm.r >= g.card.r - g.pad - 2 && g.bm.x >= g.side.r + 4 && Math.abs((g.bm.y + g.bm.h/2) - (g.side.y + g.side.h/2)) < 3);
-      ok(`C3 ${tag} category lower-left, ID lower-right, inside the card, no overlap`, g.cat.x <= g.card.x + g.pad + 4 && g.cid.r >= g.card.r - g.pad - 4 && g.cid.r <= g.card.r && g.cat.b <= g.card.b && g.cid.b <= g.card.b && g.cat.y > g.face.y && (g.cat.r <= g.cid.x || g.cat.b <= g.cid.y + 1));
+      ok(`C1 ${tag} centered sans-serif face label, no pill border`, Math.abs(g.side.x+g.side.w/2-cx)<=2 && g.sideText===side && /DM Sans/.test(sf.ff) && sf.bw==='0px' && sf.fs>=17 && sf.fs<=22 && g.side.y>=g.bm.b, `${sf.fs}px`);
+      ok(`C2 ${tag} bookmark upper-left, above label, with a usable target`, Math.abs(g.bm.x-(g.card.x+g.pad))<=2 && g.bm.b<=g.side.y && g.bm.w>=40 && g.bm.h>=40);
+      ok(`C3 ${tag} category and ID upper-right, separate from bookmark and label`, Math.abs(g.cid.r-(g.card.r-g.pad))<=2 && g.cat.r<=g.card.r-g.pad+2 && g.cat.x>=g.bm.r && g.cat.b<=g.cid.y+1 && g.cid.b<=g.side.y);
       if (side === 'Answer') {
-        ok(`C4 ${tag} question sits about 0.25 in below the header`, g.asked.y - g.meta.b >= 14 && g.asked.y - g.meta.b <= 40, `${Math.round(g.asked.y - g.meta.b)}px`);
+        ok(`C4 ${tag} retained question context below face label`, g.asked.y>=g.side.b+3 && g.asked.b<=g.card.b && g.asked.x>=g.card.x+g.pad-2);
         ok(`C5 ${tag} answer centered horizontally, below the question`, Math.abs((g.ans.x + g.ans.w / 2) - cx) <= 2 && g.ans.y >= g.asked.b);
       }
       ok(`C6 ${tag} no sideways scroll`, g.sw <= w, g.sw);
@@ -62,14 +62,16 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
     await ctx.close();
   }
   // Real refresh in the middle of a written answer. Served over http: Chrome can drop localStorage when reloading a file:// page.
-  { const file = decodeURIComponent(URL.replace(/^file:\/\//, '')), srv = require('http').createServer((q, s) => { s.setHeader('content-type', 'text/html; charset=utf-8'); s.end(require('fs').readFileSync(file)); });
+  { const srv = require('../tools/preview-server')();
     await new Promise(r => srv.listen(0, '127.0.0.1', r)); const HTTP = `http://127.0.0.1:${srv.address().port}/index.html`;
-    const ctx = await b.newContext({ viewport:{ width:390, height:844 } }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
+    const ctx = await b.newContext({ viewport:{ width:390, height:844 } });
+    // Signed-in fixture exercises the real router and persistence without live accounts.
+    await ctx.route('**/supabase.js',r=>r.fulfill({contentType:'text/javascript',body:`window.supabase={createClient:()=>({auth:{onAuthStateChange(){},async getSession(){return {data:{session:{user:{id:'refresh-fixture',email:'fixture@example.invalid',user_metadata:{first_name:'Fixture'}}}}}}},from(table){return {select(){return this},eq(){return this},async maybeSingle(){return {data:table==='profiles'?{first_name:'Fixture',is_admin:false}:null,error:null}},async upsert(){return {error:null}}}},async rpc(){return {data:null,error:null}}})};`})); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
     await p.addInitScript(() => { if(!sessionStorage.getItem('seeded')){ localStorage.setItem('mcat-progress-v2', JSON.stringify({ cards:{}, newDay:{date:'',count:0}, open:{}, view:'q', tips:{off:true} })); sessionStorage.setItem('seeded','1'); } });
-    await p.goto(HTTP); await p.click('[data-k=cp]'); await p.click('#toQuote'); await p.click('#reveal'); await p.waitForTimeout(450);
+    await p.goto(HTTP); await p.click('[data-k=cp]'); await p.click('#toQuote'); await p.click('#reveal'); await p.waitForFunction(()=>revealed&&!flipping);
     const k = await p.evaluate(() => curKey);
-    await p.click('[data-r=again]'); await p.keyboard.type('Typed before the page reloaded');
-    await p.waitForTimeout(700); await p.reload(); await p.click('[data-k=cp]'); await p.click('#toQuote');
+    await p.click('[data-r=again]'); await p.waitForFunction(()=>document.activeElement.id==='curAnswer'); await p.keyboard.type('Typed before the page reloaded');
+    await p.waitForTimeout(700); await p.reload();
     await p.waitForFunction(k => typeof curKey !== 'undefined' && curKey === k && mode === 'cards', k, { timeout: 5000 }).catch(() => {});
     ok('RF1 browser refresh mid-answer: same card, answer side, text restored', await p.evaluate(() => curKey) === k && await p.evaluate(() => revealed) && (await p.inputValue('#curAnswer')) === 'Typed before the page reloaded');
     await ctx.close(); srv.close();

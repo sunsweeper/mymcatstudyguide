@@ -1117,6 +1117,20 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 @media(max-width:620px){#study>div{padding:16px}#study #card{padding:20px;min-height:285px}#study #card .meta .side{top:72px;left:20px;right:20px;width:calc(100% - 40px)}#study #card .foot{top:20px;right:20px;left:78px;font-size:10px}#study #card .face{padding-top:52px;min-height:205px}#study #card .face .asked{font-size:13px}}
 
 #study{--f-ui:'DM Sans','Atkinson Hyperlegible',sans-serif;--f-card:'Playfair Display','Source Serif 4',serif}
+/* Homepage parity refinements verified against the rendered live demo. */
+#study #card{min-height:315px;border:0;box-shadow:none;gap:0;font-family:var(--f-ui);line-height:1.65}
+#study #card .meta .side{top:78px;line-height:1.65}
+#study #card .face{font-weight:700;padding:52px 0 34px}
+#study #card .face .ans{font-weight:400}
+@media(max-width:620px){#study #card{min-height:315px}#study #card .meta .side{top:68px}#study #card .face{min-height:210px;padding:52px 0 34px}}
+/* Let long taxonomy wrap without colliding with the face label. DOM order is unchanged. */
+#study #card{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(140px,1fr);row-gap:12px}
+#study #card .meta{display:contents}
+#study #card .meta-r{display:flex;grid-row:1;grid-column:1;justify-self:start;align-self:start}
+#study #card .meta .side{position:static;grid-row:2;grid-column:1;width:100%;justify-self:stretch}
+#study #card .foot{position:static;grid-row:1;grid-column:1;justify-self:end;align-self:start;margin-left:60px;max-width:calc(100% - 60px)}
+#study #card .face{grid-row:3;grid-column:1;min-height:140px;padding:0 0 30px}
+@media(max-width:620px){#study #card .face{min-height:140px;padding:0 0 30px}}
 </style>
 </head>
 <body>
