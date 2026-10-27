@@ -1,3 +1,4 @@
+const openRating = require('./study-rating-helper');
 // Interface update (Oct 25 2026) in a real browser: card header/footer positions, workspace, hidden entries, Mandatory Response popup.
 const { chromium } = require('playwright');
 const URL = 'file://' + require('path').join(__dirname, '..', 'index.html');
@@ -16,11 +17,11 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
           sideText:document.querySelector('#card .side').textContent, sw:document.documentElement.scrollWidth, pad:parseFloat(getComputedStyle(document.querySelector('#card')).paddingLeft) }; });
       const tag = `${w}-${bg}-${side}`, cx = g.card.x + g.card.w / 2;
       const sf = await p.evaluate(() => { const c = getComputedStyle(document.querySelector('#card .side')); return { ff:c.fontFamily, bw:c.borderTopWidth, fs:parseFloat(c.fontSize) }; });
-      ok(`C1 ${tag} label in the upper-left corner, in the cursive script, no pill border`, Math.abs(g.side.x - (g.card.x + g.pad)) <= 2 && g.sideText === side && /Dancing Script/.test(sf.ff) && sf.bw === '0px' && sf.fs >= 26 && sf.fs <= 36, `${sf.fs}px`);
-      ok(`C2 ${tag} bookmark at the right of the header, not touching the label`, g.bm.r <= g.card.r - g.pad + 1 && g.bm.r >= g.card.r - g.pad - 2 && g.bm.x >= g.side.r + 4 && Math.abs((g.bm.y + g.bm.h/2) - (g.side.y + g.side.h/2)) < 3);
-      ok(`C3 ${tag} category lower-left, ID lower-right, inside the card, no overlap`, g.cat.x <= g.card.x + g.pad + 4 && g.cid.r >= g.card.r - g.pad - 4 && g.cid.r <= g.card.r && g.cat.b <= g.card.b && g.cid.b <= g.card.b && g.cat.y > g.face.y && (g.cat.r <= g.cid.x || g.cat.b <= g.cid.y + 1));
+      ok(`C1 ${tag} V24 face label centered above the text, with no pill border`, Math.abs(g.side.x + g.side.w/2 - cx) <= 2 && g.sideText === side && sf.bw === '0px' && sf.fs >= 16 && sf.fs <= 20, `${sf.fs}px`);
+      ok(`C2 ${tag} V24 bookmark at the upper left, separated from the face label`, g.bm.x >= g.card.x && g.bm.r < cx && g.bm.b <= g.side.y + 2);
+      ok(`C3 ${tag} V24 category and ID at the upper right, inside the card, no overlap`, g.cat.x > g.bm.r && g.cid.r <= g.card.r && g.cat.b <= g.cid.y + 1 && g.cid.b < g.side.y);
       if (side === 'Answer') {
-        ok(`C4 ${tag} question sits about 0.25 in below the header`, g.asked.y - g.meta.b >= 14 && g.asked.y - g.meta.b <= 40, `${Math.round(g.asked.y - g.meta.b)}px`);
+        ok(`C4 ${tag} question stays below the face label`, g.asked.y >= g.side.b, `${Math.round(g.asked.y - g.meta.b)}px`);
         ok(`C5 ${tag} answer centered horizontally, below the question`, Math.abs((g.ans.x + g.ans.w / 2) - cx) <= 2 && g.ans.y >= g.asked.b);
       }
       ok(`C6 ${tag} no sideways scroll`, g.sw <= w, g.sw);
@@ -52,7 +53,7 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
     ok('SR1 screen-reader tree: tabs announced as a tab list with the selected tab, fields labeled, hidden note/answers not readable', /tablist "Notes and written answers"/.test(aria) && /tab "(Notes|My Written Answers)" \[selected\]/.test(aria) && /tabpanel "(Notes|My Written Answers)"/.test(aria) && !/ZZ-/.test(aria));
     await p.click('#tabAns'); await p.fill('#curAnswer', 'my try'); await p.click('#reveal'); await p.waitForTimeout(500);
     ok('H4 after the flip, previous answers and the note appear', (await p.textContent('#prevList')).includes('ZZ-OLD-ANSWER') && (await p.click('#tabNotes'), (await p.inputValue('#noteText')) === 'ZZ-NOTE-TEXT'));
-    await p.click('#mandToggle'); await p.click('[data-r=again]');
+    await p.click('#mandToggle'); await openRating(p); await p.click('[data-r=again]');
     ok('H5 switch off: Didn\'t know opens Current Answer with Next card enabled', await p.evaluate(() => document.activeElement.id) === 'curAnswer' && !(await p.isDisabled('#curNext')));
     await p.click('#curNext'); await p.waitForTimeout(150);
     ok('H6 leaving without the response shows the Yes/No popup', await p.isVisible('#askModal') && (await p.textContent('#askText')).startsWith("You didn't type the mandatory response"));
@@ -62,13 +63,13 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
     await ctx.close();
   }
   // Real refresh in the middle of a written answer. Served over http: Chrome can drop localStorage when reloading a file:// page.
-  { const file = decodeURIComponent(URL.replace(/^file:\/\//, '')), srv = require('http').createServer((q, s) => { s.setHeader('content-type', 'text/html; charset=utf-8'); s.end(require('fs').readFileSync(file)); });
+  { const file = decodeURIComponent(URL.replace(/^file:\/\//, '')), srv = require('../tools/preview-server')();
     await new Promise(r => srv.listen(0, '127.0.0.1', r)); const HTTP = `http://127.0.0.1:${srv.address().port}/index.html`;
     const ctx = await b.newContext({ viewport:{ width:390, height:844 } }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
     await p.addInitScript(() => { if(!sessionStorage.getItem('seeded')){ localStorage.setItem('mcat-progress-v2', JSON.stringify({ cards:{}, newDay:{date:'',count:0}, open:{}, view:'q', tips:{off:true} })); sessionStorage.setItem('seeded','1'); } });
     await p.goto(HTTP); await p.click('[data-k=cp]'); await p.click('#toQuote'); await p.click('#reveal'); await p.waitForTimeout(450);
     const k = await p.evaluate(() => curKey);
-    await p.click('[data-r=again]'); await p.keyboard.type('Typed before the page reloaded');
+    await openRating(p); await p.click('[data-r=again]'); await p.keyboard.type('Typed before the page reloaded');
     await p.waitForTimeout(700); await p.reload(); await p.click('[data-k=cp]'); await p.click('#toQuote');
     await p.waitForFunction(k => typeof curKey !== 'undefined' && curKey === k && mode === 'cards', k, { timeout: 5000 }).catch(() => {});
     ok('RF1 browser refresh mid-answer: same card, answer side, text restored', await p.evaluate(() => curKey) === k && await p.evaluate(() => revealed) && (await p.inputValue('#curAnswer')) === 'Typed before the page reloaded');

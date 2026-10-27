@@ -14,6 +14,11 @@
    "date": "2026-10-25",
    "approved_by": "Aaron Walch",
    "reason": "Card label (Oct 25, 2026): Question/Answer label moved to the card's upper-left corner as plain cursive text (Dancing Script, the logo's script font), no pill border; card text moved down slightly. No card text or IDs changed."
+  },
+  {
+   "date": "2026-10-27",
+   "approved_by": "User: Project 2 redesign request",
+   "reason": "Authorized V24 study presentation and Next Card rating dialog. Candidate preview baseline only; protected card content and learning/data functions remain unchanged."
   }
  ]
 }

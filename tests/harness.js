@@ -31,7 +31,7 @@ module.exports = function boot(opts = {}){
     fetch: async (url, init) => { (sandbox._sent = sandbox._sent || []).push({ url, body: JSON.parse(init.body) }); if(opts.fetchFail) throw new Error('offline'); return { ok: !opts.fetchBad, json: async () => ({ success: opts.fetchBad ? 'false' : 'true' }) }; },
     Date: FakeDate,
   };
-  const page = require('fs').readFileSync(require('path').join(__dirname, '..', 'index.html'), 'utf8');
+  const page = require('fs').readFileSync(opts.file || require('path').join(__dirname, '..', 'index.html'), 'utf8');
   const src = page.split('<script>')[1].split('</script>')[0];   // the page's own script
   const fn = new Function(...Object.keys(sandbox), src + `
     if(typeof process !== 'undefined' && process.env.SCHED) RULES.scheduler = process.env.SCHED;

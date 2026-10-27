@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -36,5 +38,12 @@ jobs:
 
       - name: Screen URLs, refresh, history and protected routes
         run: node tests/screen-routing-browser.test.js
+        env:
+          NODE_PATH: ./tools/node_modules
+
+      - name: Before-and-after scheduling and mastery parity
+        run: node tests/v24-scheduling-parity.test.js
+      - name: V24 real study interface and data protections
+        run: node tests/v24-study-browser.test.js
         env:
           NODE_PATH: ./tools/node_modules
