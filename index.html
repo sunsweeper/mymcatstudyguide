@@ -3487,9 +3487,9 @@ function renderScreen(){
     scr.className += " doc quote-spacing";   // consistent spacing across the motivational quote deck
     scr.innerHTML = `<p class="q-intro">${intro}</p>
       <div><div class="q-text">“${quote[0]}”</div><div class="q-by">${quote[1]}</div></div>
-      ${note ? `<p class="lede" style="margin:0">${note}</p>` : ""}
       <div class="controls"><button class="btn quote-alt" id="anotherQuote" type="button">Another Quote</button>
-      <button class="btn primary" id="toQuote" type="button">Begin Flashcards</button></div>`;
+      <button class="btn primary" id="toQuote" type="button">Begin Flashcards</button></div>
+      ${note ? `<p class="lede quote-resume-note" style="margin:-10px 0 0;text-align:right">${note}</p>` : ""}`;
     $("anotherQuote").onclick = () => { quote = nextQuote(); quoteKeepFocus = true; render(); quoteKeepFocus = false; $("anotherQuote").focus(); };
     $("toQuote").onclick = () => start(); if(!quoteKeepFocus) $("toQuote").focus();
     return;
