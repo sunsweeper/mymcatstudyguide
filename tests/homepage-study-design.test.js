@@ -26,11 +26,11 @@ const styles=(page,selector)=>page.locator(selector).evaluate(e=>{
   check(`${width}: centered label`,Math.abs(label.x+label.w/2-(actual.x+actual.w/2))<1);
   check(`${width}: label within 16px of demo header position`,Math.abs((label.y-actual.y)-(dl.y-demo.y))<=16);
   // No selectors or events are replaced: exercise the real flip and retain extra context.
-  await study.click('#reveal');await study.waitForFunction(()=>revealed&&!flipping);
+  await study.fill('#curAnswer','A test retrieval');await study.click('#reveal');await study.waitForFunction(()=>revealed&&!flipping);
   await home.fill('#recallDraft','A test retrieval');await home.click('#demoReveal');
   const answer=await styles(study,'#card .ans'),da=await styles(home,'.workspace-answer');
   for(const prop of ['font','size','weight','line','color','align'])check(`${width}: answer ${prop} matches demo`,answer[prop]===da[prop]);
-  check(`${width}: real answer retains question and inline ratings`,await study.locator('#card .asked').isVisible()&&await study.locator('#rateRow').isVisible());
+  check(`${width}: answer-only face and popup workflow`,!(await study.locator('#card .asked').isVisible())&&!(await study.locator('#rateRow').isVisible()));await study.click('#studyNext');check(`${width}: Next opens rating dialog`,await study.locator('#studyRatingDialog').isVisible());await study.keyboard.press('Escape');
   check(`${width}: controls fit page`,await study.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   if(process.env.DESIGN_SCREENSHOTS){const fs=require('fs');fs.mkdirSync(process.env.DESIGN_SCREENSHOTS,{recursive:true});for(const [p,sel,name] of [[home,'#tour-card','demo'],[study,'#card','study']]){await p.locator(sel).evaluate(e=>e.scrollIntoView({block:'center'}));await p.locator(sel).screenshot({path:path.join(process.env.DESIGN_SCREENSHOTS,`${name}-answer-${width}.png`)});}}
   await ctx.close();

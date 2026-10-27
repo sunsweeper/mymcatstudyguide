@@ -1,3 +1,5 @@
+> Historical record of the CSS-only reconciliation at commit 13dfd50. The later expanded interaction integration is documented in [HOMEPAGE-STUDY-INTEGRATION.md](HOMEPAGE-STUDY-INTEGRATION.md).
+
 # PR #5: approved visual expectations, protected study behavior
 
 This reconciliation follows Aaron's explicit request to update legitimate visual expectations after checking the operational cards against the live homepage. It does not authorize a production release. PR #5 remains a draft for personal appearance review.

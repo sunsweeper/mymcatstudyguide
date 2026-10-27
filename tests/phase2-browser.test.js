@@ -7,7 +7,7 @@ let pass = 0, fail = 0; const ok = (n, c, x = "") => { c ? pass++ : fail++; cons
   for (const [w, mobile] of [[1280, false], [390, true]]) {
     const ctx = await b.newContext({ viewport:{ width:w, height:900 }, isMobile:mobile, hasTouch:mobile }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
     await p.addInitScript(() => { if(!sessionStorage.getItem('seeded')){ localStorage.setItem('mcat-progress-v2', JSON.stringify({ cards:{}, newDay:{date:'',count:0}, open:{}, view:'q', tips:{off:true} })); sessionStorage.setItem('seeded','1'); } });
-    await p.goto(URL); await p.click('[data-k=bb]'); await p.click('#toQuote'); await p.click('#recallBtn');
+    await p.goto(URL); await p.click('[data-k=bb]'); await p.click('#toQuote'); await p.evaluate(()=>window.MCATStudyUI?.setRecall(false)); await p.check('#activeRecallSwitch'); await p.focus('#curAnswer');
     const a = await p.evaluate(() => { const e = document.getElementById('curAnswer'), at = n => e.getAttribute(n);
       return { spell:e.spellcheck, ac:at('autocomplete'), acorr:at('autocorrect'), acap:at('autocapitalize'), capProp:e.autocapitalize, name:e.name, inForm:!!e.form, gramm:at('data-gramm'), lt:at('data-lt-active'), lp:at('data-lpignore'), op:e.hasAttribute('data-1p-ignore'), desc:document.getElementById(at('aria-describedby')).textContent,
         noteSpell:document.getElementById('noteText').spellcheck }; });
