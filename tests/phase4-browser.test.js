@@ -16,7 +16,7 @@ let pass = 0, fail = 0; const ok = (n, c, x = "") => { c ? pass++ : fail++; cons
       ok('BD3 top priority is Fluids (4B) with action links', (await p.textContent('.prio-item >> nth=0')).includes('4B Fluids and gases'));
       await p.click('.prio-item >> nth=0 >> [data-act="0"]'); await p.waitForTimeout(150);
       ok('BD4 clicking an action goes to that focused session', await p.evaluate(() => filter) === 'focus' && /missed cards/.test(await p.evaluate(() => progress.open.focus.label)));
-      await p.click('#toQuote'); await p.waitForTimeout(200);
+      await p.click('#toQuote'); await p.evaluate(()=>window.MCATStudyUI?.setRecall(false)); await p.waitForTimeout(200);
       ok('BD5 ...and its cards are all from that subtopic', await p.evaluate(() => deck.every(k => progress.open.focus.list.includes(idOf(k)))) && await p.evaluate(() => deck.length) > 0);
       await p.click('#logo'); await p.click('#weakBtn'); await p.click('.wk-det >> nth=1 >> summary');
       ok('BD6 sections expand to categories and subtopics with status chips', await p.isVisible('.wk-det[open] .sub-list') && (await p.textContent('.wk-det[open]')).includes('Fluids'));

@@ -13,7 +13,7 @@ const d = n => { const t = new Date(); t.setDate(t.getDate() + n); return `${t.g
     ok(`FB2 ${w}px turned on: stage, Begin button, readiness readout`, (await p.textContent('.f21')).includes('16 days to go') && await p.isVisible('#f21Go') && await p.isVisible('.ready'));
     const sw = await p.evaluate(() => document.documentElement.scrollWidth);
     ok(`FB3 ${w}px fits (no sideways scroll)`, sw <= w, sw);
-    await p.click('#f21Go'); await p.click('#toQuote'); await p.waitForTimeout(200);
+    await p.click('#f21Go'); await p.click('#toQuote'); await p.evaluate(()=>window.MCATStudyUI?.setRecall(false)); await p.waitForTimeout(200);
     ok(`FB4 ${w}px Begin Today's Final 21 Review starts the session`, await p.evaluate(() => filter) === 'f21' && await p.evaluate(() => mode) === 'cards' && await p.evaluate(() => deck.length) > 0);
     ok(`FB5 ${w}px the session header names it`, (await p.textContent('#topicname')).includes('Final 21'));
     await p.click('#logo'); await p.click('#f21Off'); await p.waitForTimeout(100);

@@ -1,3 +1,4 @@
+const {rate:rateThroughPopup}=require('./study-ui-helpers');
 // Package 2, Phase 1 in a real browser: the mastered-card sparkle and confidence insertion.
 const { chromium } = require('playwright');
 const URL = 'file://' + require('path').join(__dirname, '..', 'index.html');
@@ -11,13 +12,13 @@ const seed = () => ({ cards: { "1A-001": { status:"review", writing:false, last:
     const ctx = await browser.newContext({ viewport:{ width:1280, height:900 }, reducedMotion: motion }); await ctx.route(/supabase/, r => r.abort()); const p = await ctx.newPage();   // no account library: the page runs in its local (signed-out) mode
     p.on('pageerror', e => errs.push(e.message));
     await p.addInitScript(s => { if(!sessionStorage.getItem('seeded')){ localStorage.setItem('mcat-progress-v2', s); sessionStorage.setItem('seeded', '1'); } }, JSON.stringify(seed()));
-    await p.goto(URL); await p.click('[data-k=bb]'); await p.click('#toQuote');
+    await p.goto(URL); await p.click('[data-k=bb]'); await p.click('#toQuote'); await p.evaluate(()=>window.MCATStudyUI?.setRecall(false));
     const first = await p.evaluate(() => document.querySelector('#card').textContent);
     ok(`S0-${motion} the card that's about to become mastered comes first (it's the only one due)`, /1A-001|./.test(first));
     const level0 = await p.evaluate(() => levelOf("1A-001"));
     await p.click('#reveal'); await p.waitForTimeout(450);
     const cardBefore = await p.evaluate(() => document.querySelector('#card').outerHTML.length);
-    await p.click('#rateRow [data-r=good]');
+    await rateThroughPopup(p,'#rateRow [data-r=good]');
     const fx = await p.evaluate(() => { const f = document.querySelector('.sparkle-fx'); return f ? { inCard: !!f.closest('#card'), pe: getComputedStyle(f).pointerEvents, hidden: f.getAttribute('aria-hidden'), n: f.children.length, text: f.textContent.trim() } : null; });
     const level1 = await p.evaluate(() => levelOf("1A-001"));
     ok(`S1-${motion} setup: the card moved from provisionally mastered to mastered`, level0 === "provisional" && level1 === "mastered", `${level0} → ${level1}`);
@@ -43,10 +44,10 @@ const seed = () => ({ cards: { "1A-001": { status:"review", writing:false, last:
     masters.forEach(id => s.cards[id] = { status:"review", writing:false, last:d(-40), due:d(60), interval:100, reps:4, total:4, good:4, bad:0, history:[{d:d(-120),r:"good"},{d:d(-117),r:"good"},{d:d(-106),r:"good"},{d:d(-71),r:"good"},{d:d(-40),r:"good"}] });
     s.skipWrite = true;
     await p.addInitScript(x => { if(!sessionStorage.getItem('seeded')){ localStorage.setItem('mcat-progress-v2', x); sessionStorage.setItem('seeded', '1'); } }, JSON.stringify(s));
-    await p.goto(URL); await p.click('[data-k=bb]'); await p.click('#toQuote');
+    await p.goto(URL); await p.click('[data-k=bb]'); await p.click('#toQuote'); await p.evaluate(()=>window.MCATStudyUI?.setRecall(false));
     for(let i = 0; i < 3; i++){
-      await p.click('#reveal'); await p.waitForTimeout(450); await p.click('#rateRow [data-r=again]');
-      if(await p.locator('#curNext').isVisible()){ await p.fill('#curAnswer', 'my reinforcement answer here'); await p.click('#curNext'); }
+      await p.click('#reveal'); await p.waitForTimeout(450); await rateThroughPopup(p,'#rateRow [data-r=again]');
+      if(await p.evaluate(()=>!!pendingR)){ await p.fill('#curAnswer', 'my reinforcement answer here'); await p.click('#studyNext'); }
       await p.waitForTimeout(100);
     }
     const cur = await p.evaluate(() => idOf(curKey));

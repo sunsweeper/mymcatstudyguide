@@ -1031,6 +1031,108 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
+<style id="quote-intro-presentation">
+.screen.doc.quote-spacing{min-height:512px}
+.screen.doc.quote-spacing .q-intro + div{margin-top:96px;margin-bottom:96px;text-align:center}
+</style>
+<style id="study-demo-visual-match">
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap");
+/* Project 2: visual presentation only. No controls, states or actions are added. */
+#study{width:100%;max-width:900px;align-self:center;min-width:0}
+#study>div{box-sizing:border-box;display:flex;flex-direction:column;gap:18px;padding:28px;border:1px solid #3b5646;border-radius:22px;background:#122b22;color:#f8f2e8;box-shadow:0 22px 55px #0002}
+#study #view{gap:8px}
+#study #view button{border-radius:10px;border-color:#52705c;background:#17392b;color:#f1f3e8;min-height:44px}
+#study #view button[aria-checked="true"]{background:#345b43;color:#fffaf1;border-color:#81a184;box-shadow:inset 0 0 0 1px #81a184}
+#study #card{--surface:#fffaf1;--bg:#f1ecdf;--ink:#24382d;--forest:#24382d;--muted:#657365;--line:#dfd6c9;--margin:#d697a9;background:#fffaf1;color:#24382d;border-color:#e5c7cf;border-radius:18px;box-shadow:0 14px 35px #0002}
+#study #card::before{background:#e3bbc7}
+#study #card .side{color:#a65370}
+#study #card .face{text-align:center;color:#24382d}
+#study #card .asked{color:#657365}
+#study #card .ans{color:#24382d}
+#study #card .foot{color:#596e60}
+#study #card .bm{background:#fffaf1;color:#91566c;border-color:#dfc3cb;border-radius:10px}
+#study #card .bm[aria-pressed="true"]{background:#f6e4eb;border-color:#b56a84;color:#9a4567}
+#study #card .bm-g{--ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8'%3E%3Cpath d='m12 2 3 6.1 6.7 1-4.9 4.7 1.2 6.7-6-3.2-6 3.2 1.2-6.7-4.9-4.7 6.7-1z'/%3E%3C/svg%3E")}
+#study #card .bm[aria-pressed="true"] .bm-g{--ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 2 3 6.1 6.7 1-4.9 4.7 1.2 6.7-6-3.2-6 3.2 1.2-6.7-4.9-4.7 6.7-1z'/%3E%3C/svg%3E")}
+#study .controls{gap:10px}
+#study .controls .btn,#study #curNext{min-width:0;min-height:48px;border-radius:10px;border-color:#6e8a73;background:#3e644a;color:#fffaf1}
+#study .controls .btn.primary,#study #curNext{border-color:#e2a0b4;background:#f0adbd;color:#203528}
+#study .controls .btn:hover:not(:disabled){filter:brightness(1.08)}
+#study .controls .btn:disabled{background:#344c3e;border-color:#59735f;color:#afbeb1;opacity:.8}
+#study #rateRow{padding:16px;border:1px solid #e8b4c3;border-radius:14px;background:#fffaf1}
+#study #rateRow .btn{font-size:1rem;font-weight:700;line-height:1.35}
+#study #rateRow .btn[aria-pressed="true"]{outline:2px solid #9b526c;outline-offset:3px}
+#study .report-row{flex-wrap:wrap;gap:12px}
+#study .report-row .link,#study .ref-link{color:#f1c6d2;text-decoration-color:#d97790}
+#study .report-box{background:#1b382b;border-color:#53705a;color:#f8f2e8;border-radius:12px}
+#study .report-box textarea{background:#fffaf1;color:#24382d}
+#study #confRow{padding:12px;border:1px solid #47644e;border-radius:12px;background:#18382a;color:#e8efe5}
+#study .conf-q{color:#e8efe5}
+#study .conf-opt,#study .conf-ends{color:#c3d3c6}
+#study #ws{padding:16px;border:1px solid #47644e;border-radius:14px;background:#18382a;color:#f8f2e8;min-width:0}
+#study .ws-tab{color:#d4e0d1;border-color:#66826b}
+#study .ws-tab[aria-selected="true"]{color:#203528;background:#f0adbd;border-color:#f0adbd}
+#study .ans-lab,#study .char-hint,#study .prev-date,#study .prev-cap{color:#d3e0d0}
+#study .ws-lock,#study .prev-list{background:#21442f;border-color:#47644e;color:#fffaf1}
+#study #curAnswer,#study #noteText{box-sizing:border-box;background:#fffaf1;color:#24382d;border-color:#d9d6c8;border-radius:10px}
+#study #curAnswer::placeholder,#study #noteText::placeholder{color:#6d776c}
+#study #curAnswer[readonly]{background:#eee9df}
+#study #hint,#study #mandToggle{color:#e3ebdf}
+#study #mandToggle[aria-pressed="true"] .switch{background:#d97790}
+#study button:focus-visible{outline:3px solid #f0adbd;outline-offset:3px}
+@media(max-width:620px){#study>div{padding:16px;border-radius:16px;gap:14px}#study #view{gap:6px}#study .controls{gap:8px}#study #rateRow{padding:12px}#study #rateRow .btn{font-size:.88rem;padding-inline:5px;white-space:normal}#study #ws{padding:12px}#study #confRow{padding:10px}}
+/* Keep text readable in both existing themes without changing either theme's behavior. */
+#study{--on-page:#f8f2e8;--ink:#eae5dc;--forest:#f6f2eb;--muted:#bfd0c3;--line:#47644e;--field:#21442f;--bg:#18382a;--surface:#18382a}
+#study .ws-foot .link{color:#f1c6d2}
+
+/* Match the homepage workspace using the existing study DOM and controls. */
+#study{max-width:920px}
+#study>div{background:#13271f;border-color:#486555;padding:28px;box-shadow:0 25px 80px #0005}
+#study #card{background:#f8f2e8;border:1px solid #dfd8ca;border-radius:16px;min-height:305px;padding:30px 38px;gap:12px;--surface:#f8f2e8}
+#study #card::before{display:none}
+#study #card .meta{display:flex;flex-direction:row;justify-content:flex-start;align-items:center;min-height:36px}
+#study #card .meta-r{margin:0;align-self:center}
+#study #card .meta .side{display:block}
+#study #card .meta .side{position:absolute;top:82px;left:38px;right:38px;width:calc(100% - 76px);text-align:center;font:700 clamp(17px,2.2vw,22px)/1.35 var(--f-ui);letter-spacing:.3px;color:#a65370;pointer-events:none}
+#study #card .bm{border:0;background:transparent;color:#9d6276;padding:0;min-width:40px;min-height:40px;font-size:0;box-shadow:none}
+#study #card .bm-g{width:29px;height:29px}
+#study #card .bm[aria-pressed="true"]{background:#f3d5dc;color:#a65370}
+#study #card .foot{position:absolute;top:30px;right:38px;left:100px;display:flex;flex-direction:column;align-items:flex-end;gap:3px;padding:0;margin:0;border:0;color:#9d6276;text-align:right;font:700 11px/1.5 var(--f-ui);letter-spacing:1px;pointer-events:none}
+#study #card .cat{overflow-wrap:anywhere;max-width:100%}
+#study #card .cid{font-size:10px;font-weight:400;letter-spacing:.3px}
+#study #card,#study #card .face{box-sizing:border-box}
+#study #card .face{justify-content:center;align-items:center;text-align:center;min-height:210px;width:100%;padding:52px 0 20px;font:600 clamp(24px,3vw,32px)/1.4 var(--f-card)}
+#study #card .face>div{max-width:650px;width:100%}
+#study #card .face.back{justify-content:flex-start}
+#study #card .face .asked{font:400 14px/1.5 var(--f-ui);color:#657365;margin:0 0 14px}
+#study #card .face .ans{font:500 clamp(22px,2.7vw,29px)/1.45 var(--f-card);color:#24382d}
+#study #card .fig{max-width:100%;height:auto}
+#study #view button[aria-checked="true"]{background:#e8a4b6;color:#1b2c21;border-color:#e8a4b6;box-shadow:none}
+#study .controls .btn{background:#203c30;border-color:#58705f}
+#study .controls .btn.primary,#study #curNext{background:#f0adbd;color:#152a1d;border-color:#f0adbd}
+#study #rateRow{background:transparent;border-color:#3d5a49}
+#study #rateRow [data-r="good"]{background:#8dc5a1;color:#17251d;border-color:#8dc5a1}
+#study #rateRow [data-r="hard"]{background:#d3b69c;color:#17251d;border-color:#d3b69c}
+#study #rateRow [data-r="again"]{background:#d5768d;color:#17251d;border-color:#d5768d}
+@media(max-width:620px){#study>div{padding:16px}#study #card{padding:20px;min-height:285px}#study #card .meta .side{top:72px;left:20px;right:20px;width:calc(100% - 40px)}#study #card .foot{top:20px;right:20px;left:78px;font-size:10px}#study #card .face{padding-top:52px;min-height:205px}#study #card .face .asked{font-size:13px}}
+
+#study{--f-ui:'DM Sans','Atkinson Hyperlegible',sans-serif;--f-card:'Playfair Display','Source Serif 4',serif}
+/* Homepage parity refinements verified against the rendered live demo. */
+#study #card{min-height:315px;border:0;box-shadow:none;gap:0;font-family:var(--f-ui);line-height:1.65}
+#study #card .meta .side{top:78px;line-height:1.65}
+#study #card .face{font-weight:700;padding:52px 0 34px}
+#study #card .face .ans{font-weight:400}
+@media(max-width:620px){#study #card{min-height:315px}#study #card .meta .side{top:68px}#study #card .face{min-height:210px;padding:52px 0 34px}}
+/* Let long taxonomy wrap without colliding with the face label. DOM order is unchanged. */
+#study #card{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(140px,1fr);row-gap:12px}
+#study #card .meta{display:contents}
+#study #card .meta-r{display:flex;grid-row:1;grid-column:1;justify-self:start;align-self:start}
+#study #card .meta .side{position:static;grid-row:2;grid-column:1;width:100%;justify-self:stretch}
+#study #card .foot{position:static;grid-row:1;grid-column:1;justify-self:end;align-self:start;margin-left:60px;max-width:calc(100% - 60px)}
+#study #card .face{grid-row:3;grid-column:1;min-height:140px;padding:0 0 30px}
+@media(max-width:620px){#study #card .face{min-height:140px;padding:0 0 30px}}
+</style>
+<link rel="stylesheet" href="study-ui.css">
 </head>
 <body>
 <div class="wrap" id="app">
@@ -1083,12 +1185,7 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
   </div>
 
   <section class="screen" id="screen"></section>
-  <div class="trial" id="trial" aria-label="Free 72-hour trial" hidden>
-    <svg class="trial-ico" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><circle cx="20" cy="20" r="17" fill="#FFFDF9" stroke="#263D35" stroke-width="1.8"/><path d="M14 11h12M14 29h12M15.5 11c0 5 9 5 9 9s-9 4-9 9M24.5 11c0 5-9 5-9 9s9 4 9 9" fill="none" stroke="#263D35" stroke-width="1.7" stroke-linecap="round"/><path d="M17.5 26.5c1-1.3 4-1.3 5 0" fill="none" stroke="#A85C6D" stroke-width="2" stroke-linecap="round"/></svg>
-    <span class="trial-text"><span class="trial-free">FREE</span><span class="trial-len">72-hour trial</span></span>
-    <svg class="trial-spark s1" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2 6.5 6.5 2-6.5 2-2 6.5-2-6.5-6.5-2 6.5-2z" fill="#A85C6D"/></svg>
-    <svg class="trial-spark s2" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2 6.5 6.5 2-6.5 2-2 6.5-2-6.5-6.5-2 6.5-2z" fill="#8FA58D"/></svg>
-  </div>
+
 
   <div id="study" hidden>
     <div>
@@ -1205,6 +1302,7 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
   </div>
 </div>
 
+<script src="/app-router.js"></script>
 <script src="supabase.js"></script>
 <script>
 const SECTIONS = {
@@ -3168,7 +3266,7 @@ function applyImport(){
 function show(m){ hideTip(); mode = m; render(); }
 const esc = s => s.replace(/[&<>"]/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[ch]));
 
-function render(){ renderScreen(); wireListTabs(); applyTips(); renderCountdown(); }
+function render(){ renderScreen(); wireListTabs(); applyTips(); renderCountdown(); if(window.MCATRoutes) window.MCATRoutes.sync(); }
 /* ---------- MCAT countdown (Package 2, Phase 6) ----------
    Calendar days between today's date and the exam date (not 24-hour periods). Only her own date, only when she gave one. */
 function countdownState(){
@@ -3284,7 +3382,6 @@ function renderScreen(){
   $("stats").hidden = !inSession;
   $("progressBar").hidden = !inStudy;
   if(inSession){ const ic = ICONS[filter] || ICONS.all; if($("crumbIco").innerHTML !== ic) $("crumbIco").innerHTML = ic; }
-  $("trial").hidden = !(mode === "auth" && authView === "login");
   if(AUTH_ON){
     const nm = profile && profile.first_name ? profile.first_name.trim() : "";
     $("hello").innerHTML = nm ? `Welcome <span class="nm">${esc(nm)}.</span>` : "Welcome.";
@@ -3485,12 +3582,12 @@ function renderScreen(){
     // Intro line above the quote: physicians get the "sat in the same seat" line; everyone else gets "your turn is coming".
     const intro = quote[2] === "doc" ? "Before you start: a word from someone who once sat in the same seat you are now. Not better than you, just earlier."
       : "A little wisdom from people who changed the world. Your turn is coming.";
-    scr.className += " doc";   // faint Staff of Asclepius behind every quote
+    scr.className += " doc quote-spacing";   // consistent spacing across the motivational quote deck
     scr.innerHTML = `<p class="q-intro">${intro}</p>
       <div><div class="q-text">“${quote[0]}”</div><div class="q-by">${quote[1]}</div></div>
-      ${note ? `<p class="lede" style="margin:0">${note}</p>` : ""}
       <div class="controls"><button class="btn quote-alt" id="anotherQuote" type="button">Another Quote</button>
-      <button class="btn primary" id="toQuote" type="button">Begin Studying</button></div>`;
+      <button class="btn primary" id="toQuote" type="button">Begin Flashcards</button></div>
+      ${note ? `<p class="lede quote-resume-note" style="margin:-10px 0 0;text-align:right">${note}</p>` : ""}`;
     $("anotherQuote").onclick = () => { quote = nextQuote(); quoteKeepFocus = true; render(); quoteKeepFocus = false; $("anotherQuote").focus(); };
     $("toQuote").onclick = () => start(); if(!quoteKeepFocus) $("toQuote").focus();
     return;
@@ -3826,7 +3923,7 @@ let authView = "loading", authMsg = "", authOk = false, authEmail = "", authBusy
 let pushTimer = null, lastPull = 0, pendingAct = { cards:0, ms:0 }, lastActFlush = Date.now();
 const userStore = id => "mcat-progress-v2:u:" + id;
 const deepCopy = x => JSON.parse(JSON.stringify(x));
-const siteUrl = () => location.origin + location.pathname;
+const siteUrl = () => location.origin + "/login";
 
 function normalizeProgress(p){
   p = Object.assign(blank(), p || {});
@@ -3949,7 +4046,7 @@ async function startAuth(){
     await enterAccount(session.user);
     if(after && sbUser){ openAccount(); emailNote = after; render(); }
   }
-  else { if(after && after.ok){ authMsg = after.text; authOk = true; } authView = "login"; mode = "auth"; render(); }
+  else { if(after && after.ok){ authMsg = after.text; authOk = true; } authView = !linkErr && !after && window.MCATRoutes ? window.MCATRoutes.authViewForPath() : location.pathname.replace(/\/$/, "") === "/signup" && !linkErr && !after ? "signup" : "login"; mode = "auth"; render(); }
 }
 async function enterAccount(user){
   authView = "loading"; mode = "auth"; render();
@@ -4002,7 +4099,7 @@ async function enterAccount(user){
   lastPull = Date.now();
   try { sb.rpc("log_activity", { p_day:today(), p_cards:0, p_seconds:0 }); } catch(e){}
   authMsg = ""; authOk = false; undo = [];
-  applyBg(); mode = "welcome"; render();
+  applyBg(); mode = "welcome"; if(window.MCATRoutes) window.MCATRoutes.enter(); else render();
 }
 async function logOut(){
   flushTime(); if(SESSION_MODES.includes(mode)) persistPlace();
@@ -4731,5 +4828,6 @@ else if(AUTH_ON){ mode = "auth"; authView = "loading"; render(); startAuth(); }
 else render();
 </script>
 
+<script src="study-ui.js"></script>
 </body>
 </html>
