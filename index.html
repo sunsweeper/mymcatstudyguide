@@ -1083,12 +1083,7 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
   </div>
 
   <section class="screen" id="screen"></section>
-  <div class="trial" id="trial" aria-label="Free 72-hour trial" hidden>
-    <svg class="trial-ico" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><circle cx="20" cy="20" r="17" fill="#FFFDF9" stroke="#263D35" stroke-width="1.8"/><path d="M14 11h12M14 29h12M15.5 11c0 5 9 5 9 9s-9 4-9 9M24.5 11c0 5-9 5-9 9s9 4 9 9" fill="none" stroke="#263D35" stroke-width="1.7" stroke-linecap="round"/><path d="M17.5 26.5c1-1.3 4-1.3 5 0" fill="none" stroke="#A85C6D" stroke-width="2" stroke-linecap="round"/></svg>
-    <span class="trial-text"><span class="trial-free">FREE</span><span class="trial-len">72-hour trial</span></span>
-    <svg class="trial-spark s1" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2 6.5 6.5 2-6.5 2-2 6.5-2-6.5-6.5-2 6.5-2z" fill="#A85C6D"/></svg>
-    <svg class="trial-spark s2" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2 6.5 6.5 2-6.5 2-2 6.5-2-6.5-6.5-2 6.5-2z" fill="#8FA58D"/></svg>
-  </div>
+
 
   <div id="study" hidden>
     <div>
@@ -1205,6 +1200,7 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
   </div>
 </div>
 
+<script src="/app-router.js"></script>
 <script src="supabase.js"></script>
 <script>
 const SECTIONS = {
@@ -3168,7 +3164,7 @@ function applyImport(){
 function show(m){ hideTip(); mode = m; render(); }
 const esc = s => s.replace(/[&<>"]/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[ch]));
 
-function render(){ renderScreen(); wireListTabs(); applyTips(); renderCountdown(); }
+function render(){ renderScreen(); wireListTabs(); applyTips(); renderCountdown(); if(window.MCATRoutes) window.MCATRoutes.sync(); }
 /* ---------- MCAT countdown (Package 2, Phase 6) ----------
    Calendar days between today's date and the exam date (not 24-hour periods). Only her own date, only when she gave one. */
 function countdownState(){
@@ -3284,7 +3280,6 @@ function renderScreen(){
   $("stats").hidden = !inSession;
   $("progressBar").hidden = !inStudy;
   if(inSession){ const ic = ICONS[filter] || ICONS.all; if($("crumbIco").innerHTML !== ic) $("crumbIco").innerHTML = ic; }
-  $("trial").hidden = !(mode === "auth" && authView === "login");
   if(AUTH_ON){
     const nm = profile && profile.first_name ? profile.first_name.trim() : "";
     $("hello").innerHTML = nm ? `Welcome <span class="nm">${esc(nm)}.</span>` : "Welcome.";
@@ -3826,7 +3821,7 @@ let authView = "loading", authMsg = "", authOk = false, authEmail = "", authBusy
 let pushTimer = null, lastPull = 0, pendingAct = { cards:0, ms:0 }, lastActFlush = Date.now();
 const userStore = id => "mcat-progress-v2:u:" + id;
 const deepCopy = x => JSON.parse(JSON.stringify(x));
-const siteUrl = () => location.origin + location.pathname;
+const siteUrl = () => location.origin + "/login";
 
 function normalizeProgress(p){
   p = Object.assign(blank(), p || {});
@@ -3949,7 +3944,7 @@ async function startAuth(){
     await enterAccount(session.user);
     if(after && sbUser){ openAccount(); emailNote = after; render(); }
   }
-  else { if(after && after.ok){ authMsg = after.text; authOk = true; } authView = "login"; mode = "auth"; render(); }
+  else { if(after && after.ok){ authMsg = after.text; authOk = true; } authView = !linkErr && !after && window.MCATRoutes ? window.MCATRoutes.authViewForPath() : location.pathname.replace(/\/$/, "") === "/signup" && !linkErr && !after ? "signup" : "login"; mode = "auth"; render(); }
 }
 async function enterAccount(user){
   authView = "loading"; mode = "auth"; render();
@@ -4002,7 +3997,7 @@ async function enterAccount(user){
   lastPull = Date.now();
   try { sb.rpc("log_activity", { p_day:today(), p_cards:0, p_seconds:0 }); } catch(e){}
   authMsg = ""; authOk = false; undo = [];
-  applyBg(); mode = "welcome"; render();
+  applyBg(); mode = "welcome"; if(window.MCATRoutes) window.MCATRoutes.enter(); else render();
 }
 async function logOut(){
   flushTime(); if(SESSION_MODES.includes(mode)) persistPlace();

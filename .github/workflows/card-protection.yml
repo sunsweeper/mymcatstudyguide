@@ -26,3 +26,15 @@ jobs:
       - name: Card interface looks the same
         working-directory: tools
         run: node visual-check.js
+
+      - name: Website navigation, demo, responsive layout and auth entry routes
+        run: node tests/website-browser.test.js
+        env:
+          NODE_PATH: ./tools/node_modules
+      - name: Contact validation and delivery responses
+        run: node tests/contact.test.js
+
+      - name: Screen URLs, refresh, history and protected routes
+        run: node tests/screen-routing-browser.test.js
+        env:
+          NODE_PATH: ./tools/node_modules
