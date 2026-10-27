@@ -1,42 +1,45 @@
 {
   "buildCommand": "node tools/check-cards.js && node tools/validate-graphics.js",
   "outputDirectory": ".",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/",
-      "destination": "/homepage.html"
+      "src": "^/$",
+      "dest": "/homepage.html"
     },
     {
-      "source": "/login",
-      "destination": "/index.html"
+      "src": "^/login$",
+      "dest": "/index.html"
     },
     {
-      "source": "/signup",
-      "destination": "/index.html"
+      "src": "^/signup$",
+      "dest": "/index.html"
     },
     {
-      "source": "/why-it-works",
-      "destination": "/why-it-works.html"
+      "src": "^/why-it-works$",
+      "dest": "/why-it-works.html"
     },
     {
-      "source": "/community",
-      "destination": "/community.html"
+      "src": "^/community$",
+      "dest": "/community.html"
     },
     {
-      "source": "/free-trial",
-      "destination": "/free-trial.html"
+      "src": "^/free-trial$",
+      "dest": "/free-trial.html"
     },
     {
-      "source": "/contact",
-      "destination": "/contact.html"
+      "src": "^/contact$",
+      "dest": "/contact.html"
     },
     {
-      "source": "/privacy-policy",
-      "destination": "/privacy-policy.html"
+      "src": "^/privacy-policy$",
+      "dest": "/privacy-policy.html"
     },
     {
-      "source": "/terms-of-use",
-      "destination": "/terms-of-use.html"
+      "src": "^/terms-of-use$",
+      "dest": "/terms-of-use.html"
+    },
+    {
+      "handle": "filesystem"
     }
   ]
 }

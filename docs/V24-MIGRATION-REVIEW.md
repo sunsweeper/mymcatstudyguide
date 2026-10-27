@@ -41,4 +41,4 @@ These are implementation findings, not finalized legal advice. Preserve draft no
 - Supplied ownership attribution is JSA Knowledge & Cattle LLC throughout new pages. No business email or postal address was invented.
 
 ## Local review
-Install tools/package.json dependencies. Run node tests/website-browser.test.js and node tests/contact.test.js. The test server uses Vercel route definitions; actual deployed routing requires preview checks as well. Screenshots and raw test logs accompany the output handoff.
+Install tools/package.json dependencies. Run node tests/website-browser.test.js and node tests/contact.test.js. The test server uses explicit ordered Vercel routes. Deployed-preview verification caught filesystem precedence overriding the initial root rewrite; explicit routes before the filesystem phase correct this while preserving index.html for card checks. Screenshots and raw test logs accompany the output handoff.
