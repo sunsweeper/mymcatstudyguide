@@ -1,4 +1,3 @@
-const openRating = require('./study-rating-helper');
 // Package 2, Phase 3 in a real browser: confidence scale.
 const { chromium } = require('playwright');
 const URL = 'file://' + require('path').join(__dirname, '..', 'index.html');
@@ -21,7 +20,7 @@ let pass = 0, fail = 0; const ok = (n, c, x = "") => { c ? pass++ : fail++; cons
   await p.keyboard.press('End'); ok('CB5 End jumps to 10', await p.evaluate(() => conf) === 10);
   await p.click('#reveal'); await p.waitForTimeout(450);
   ok('CB6 hidden once the answer is revealed', await p.isHidden('#confRow'));
-  await openRating(p); await p.click('[data-r=good]'); await p.waitForTimeout(150);
+  await p.click('[data-r=good]'); await p.waitForTimeout(150);
   ok('CB7 saved with the rating', await p.evaluate(() => { const s = Object.values(progress.cards)[0]; return s.history[s.history.length - 1].c; }) === 10);
   ok('CB8 next card: visible again, nothing selected', await p.isVisible('#confRow') && await p.evaluate(() => document.querySelectorAll('#confRow [aria-checked="true"]').length) === 0);
   ok('CB9 no page errors', errs.length === 0, errs.join(' | '));

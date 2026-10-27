@@ -1,26 +1,42 @@
-# Project 2 pre-implementation audit
+# Project 2 audit — styling-only revision
 
-Base: production Project 1 commit 08a3b86b19cf8d07bbeaef53be129941b274b407, verified from production alias. Branch: feature/v24-study-redesign. Homepage, supporting pages and application routes are integration boundaries, not redesign targets. No merge or production deployment is authorized.
+Authority: the latest Project 2 request explicitly limits changes to presentation. It supersedes the earlier request for a new rating popup and toggle interaction. The earlier interaction-changing preview is withdrawn from the final candidate.
 
-Reviewed docs/SCHEDULING.md, docs/package-2/MASTERY_CRITERIA.md, docs/package-2/INTERFACE-UPDATE.md, docs/KNOWN_LIMITATIONS.md, existing Node/browser regression tests, index.html rendering/event handlers, and the V24 homepage demo.
+Starting point: tested Project 1 commit 08a3b86b19cf8d07bbeaef53be129941b274b407, including screen URLs and login trial removal. Branch: feature/v24-study-redesign. Production remains on this Project 1 base.
 
-| Area | Authoritative production behavior | Prototype difference / redesign constraint |
+Read docs/SCHEDULING.md, docs/package-2/MASTERY_CRITERIA.md, docs/package-2/INTERFACE-UPDATE.md, docs/KNOWN_LIMITATIONS.md, the application source and existing regression/interface tests. The V24 design source is the supplied MCAT_V24_Work_Handoff_2026-10-26.zip; its homepage file has a V23 review-only filename. The approved deployed homepage was also used as the visual reference.
+
+Before applying the CSS-only revision, all 19 original suites and three content/metadata/graphics checks were run against the exact Project 1 source. Eighteen suites passed. The existing interface-browser suite reported 112 passes and one failure because its HTTP fixture returns HTML for script URLs, producing two Unexpected token '<' errors. This baseline failure was reported before proceeding and has not been fixed. Original visual regression passed.
+
+## Existing behavior retained
+- FSRS-5, 90% target recall, maximum 180 days, test-date cap, per-direction schedules, same-day and early-review safeguards are unchanged.
+- Mastery evidence thresholds, confidence calculations, confidence insertions and celebrations are unchanged.
+- Active Recall remains the original action that opens My Written Answers. Missed directions retain pre-flip writing until mastery; Mandatory Response retains the original enforcement/skip-confirmation behavior. Post-rating reinforcement retains its 20-character threshold.
+- Pre-flip p, post-rating w, skip k and confidence c history fields, history limits and hiding of saved notes/answers before reveal are unchanged.
+- All three inline rating buttons appear immediately after the original reveal. Got it advances immediately; Struggled/Didn't know retain their writing step. No new popup or Next Card interaction is introduced.
+- Session queues, 50-card length, same-day resume, timer rules, optional missed second try, saved ungraded reinforcement and completion remain unchanged.
+- Previous Card restores the original prior schedule, history, session state and draft. Bookmarks, shared notes, auto-save/Save/Discard rules and reporting are unchanged.
+- Local/account keys, whole-copy sync requests, merge behavior, user ownership, authentication and all routes are unchanged.
+- All 1,000 active card texts/IDs and 257 reverse definitions are untouched. All 13 graphical drafts remain unpublished; SVG content and text alternatives are unchanged.
+- Existing loading, error, modal, focus, keyboard and screen-reader behavior remain accessible through exactly the same markup and event handlers.
+
+## Visual mapping and limits
+| V24 visual element | Existing control/surface | CSS-only treatment |
 |---|---|---|
-| Rendering | renderScreen builds #card; stable ID, category, direction, question/answer and graphic SVG support | Restyle surface, headings, spacing and controls; preserve all card content and IDs |
-| Scheduling | FSRS-5 history replay, 90% target recall, max 180 days, exam cap, per-direction state, same-day/early safeguards | Demo has no scheduler; never copy its deck/rating implementation |
-| Mastery | Evidence thresholds: provisional 2 delayed successes including 7-day gap and S>=21; mastery 3 including 21-day gap and S>=60 | Demo ratings do not establish mastery |
-| Active Recall | Voluntary writing available on every card; missed directions require pre-flip writing until mastery; Mandatory Response controls enforcement | Demo requires all cards to have writing. New Active Recall toggle must open/close existing workspace, not rewrite requirement semantics |
-| Written answers | Pre-flip p, post-rating w, skipped k, optional confidence c saved in direction history, last 50 ratings; prior answers hidden until flip | Demo stores temporary drafts only; retain full answer history and privacy-before-reveal |
-| Rating | good goes through finishCard; hard/again open reinforcement; >=20 chars when enforcement on, explicit existing confirmation when off | New Next Card popup routes to existing chooseRating and finishCard, never straight to rate or session advance |
-| Session | 50 distinct cards, saved same-day position, active-time accounting, optional missed second pass, persisted reinforcement picks | Demo cycles five cards; no completion trial popup in real study |
-| Previous/undo | Restores exact prior direction schedule/history, writing status, session queue/results and confidence insertion state | Preserve previousCard unchanged |
-| Notes/bookmarks | Notes shared by card ID; additive auto-save; destructive edits require Save/Discard; bookmarks do not flip or schedule | Restyle and relabel entry points; preserve save rules and tab accessibility |
-| Reporting | Existing FormSubmit report includes actual card/direction and optional reporter reply address; delivery activation external | Keep sendReport and endpoint unchanged; mock delivery in tests, do not send real reports |
-| Persistence/sync | Local/account keys, merge-on-login, whole-copy push after changes, minute-limited pull outside sessions | Preserve schema, user ownership and sync. Known concurrent-device whole-copy limitation is out of scope |
-| Confidence/modes | Optional 1-10 confidence and calibration; mode changes take effect next card with independent reverse scheduling | Keep confidence control and accessible mode semantics; do not copy demo shuffle |
-| Reinforcement | After hard/again: post-rating writing. At session end: saved ungraded reinforcement and optional one-time missed-card retry | Preserve both; prototype lacks them |
-| Graphics | 13 new-ID draft graphical cards, none published. Existing figure rendering and text alternatives | Restyle containing surface only, test drafts and simulated publication |
-| Community | No community code or schema in repository; backend metadata checked separately | Clearly state unavailable; do not create fake posting, persistence, accounts or moderation |
-| Tests | Card data protection, metadata/graphics, scheduler parity, Node behavior, browser responsive/accessibility/persistence, visual hashes/styles/screenshots | Run existing suites. Only adapt assertions tied to explicitly authorized presentation/interaction changes; preserve behavioral coverage |
+| Cream card, soft edges and depth | #card | Cream surface, forest ink, softer border, radius and shadow |
+| Refined question/answer presentation | Existing .face, .asked, .ans | Color and text alignment; original content, font resources and geometry contracts retained |
+| Face label | Existing .side | Rose color; original upper-left cursive placement retained because original tests require it |
+| Bookmark star | Existing bookmark button and .bm-g | Decorative CSS star mask and selected colors; button action, accessible name and top-right position retained |
+| Category and ID | Existing card footer | Forest typography; footer placement retained because original tests require it |
+| Green/rose controls | Existing reveal, recall, previous and rating buttons | Backgrounds, borders, radii, shadows and spacing only |
+| Rating interface | Existing #rateRow | Cream panel with forest/rose buttons; original inline appearance and submission sequence retained |
+| Active Recall | Original #recallBtn | Button styling only; not converted into a new on/off interaction |
+| Written answers and notes | Existing #ws and tabs | Forest panels, cream fields, readable labels and focus styling |
+| Reinforcement and missed-card screens | Existing #screen states | CSS :has selectors target existing controls; no state or markup changes |
+| Bookmarks and notes lists | Existing list tabs and rows | Matching forest surfaces and rose accents |
+| Existing confirmations | Existing note/ask modals | Cream/forest visual treatment; no modal logic changes |
+| Responsive layout | Existing DOM and controls | CSS spacing/target sizing; original control order and visibility are retained |
 
-Implementation approach: keep learning, scheduling, session, undo, history, persistence, reporting and account functions unchanged; add presentation CSS and a rating/availability dialog adapter. Accessibility includes labels, selected states, focus management, Tab containment, Escape/backdrop dismiss and reduced motion. Old visual baselines are retained until the new design is validated; explicitly authorized V24 visual baselines may be updated with an approval record, without changing content baselines.
+No Raise Your Hand control is added: it does not exist in the baseline and would introduce a new interaction. Read-only metadata inspection found only profiles, progress and activity tables and no deployed Supabase edge functions; community posting/search/moderation was not found. Nothing was built or claimed as a community backend.
+
+The final application diff is a single style block. Removing that block reproduces the entire Project 1 index.html exactly. All JavaScript, markup outside the style block, controls, handlers, tests, CI settings, approved website files and visual baselines are unchanged.

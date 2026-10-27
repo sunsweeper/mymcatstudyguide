@@ -1,4 +1,3 @@
-const openRating = require('./study-rating-helper');
 // Package 2, Phase 1 in a real browser: the mastered-card sparkle and confidence insertion.
 const { chromium } = require('playwright');
 const URL = 'file://' + require('path').join(__dirname, '..', 'index.html');
@@ -18,7 +17,7 @@ const seed = () => ({ cards: { "1A-001": { status:"review", writing:false, last:
     const level0 = await p.evaluate(() => levelOf("1A-001"));
     await p.click('#reveal'); await p.waitForTimeout(450);
     const cardBefore = await p.evaluate(() => document.querySelector('#card').outerHTML.length);
-    await openRating(p); await p.click('#rateRow [data-r=good]');
+    await p.click('#rateRow [data-r=good]');
     const fx = await p.evaluate(() => { const f = document.querySelector('.sparkle-fx'); return f ? { inCard: !!f.closest('#card'), pe: getComputedStyle(f).pointerEvents, hidden: f.getAttribute('aria-hidden'), n: f.children.length, text: f.textContent.trim() } : null; });
     const level1 = await p.evaluate(() => levelOf("1A-001"));
     ok(`S1-${motion} setup: the card moved from provisionally mastered to mastered`, level0 === "provisional" && level1 === "mastered", `${level0} → ${level1}`);
@@ -46,7 +45,7 @@ const seed = () => ({ cards: { "1A-001": { status:"review", writing:false, last:
     await p.addInitScript(x => { if(!sessionStorage.getItem('seeded')){ localStorage.setItem('mcat-progress-v2', x); sessionStorage.setItem('seeded', '1'); } }, JSON.stringify(s));
     await p.goto(URL); await p.click('[data-k=bb]'); await p.click('#toQuote');
     for(let i = 0; i < 3; i++){
-      await p.click('#reveal'); await p.waitForTimeout(450); await openRating(p); await p.click('#rateRow [data-r=again]');
+      await p.click('#reveal'); await p.waitForTimeout(450); await p.click('#rateRow [data-r=again]');
       if(await p.locator('#curNext').isVisible()){ await p.fill('#curAnswer', 'my reinforcement answer here'); await p.click('#curNext'); }
       await p.waitForTimeout(100);
     }

@@ -1031,106 +1031,72 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
-<style id="v24-study-presentation">
-/* V24 study presentation. Scoped to real study surfaces; marketing pages are untouched. */
+<style id="project2-visual-only">
+/* Project 2: visual presentation only. No controls, states or actions are added. */
 #study{width:100%;max-width:900px;align-self:center;min-width:0}
-#study .v24-workspace{box-sizing:border-box;display:flex;flex-direction:column;gap:18px;background:#122b22;border:1px solid #3b5646;border-radius:22px;padding:30px;box-shadow:0 24px 65px #0003;color:#f8f2e8}
-.v24-session-heading{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
-.v24-session-heading h2{font:600 32px/1.2 var(--f-card);margin:0;color:#f8f2e8}
-.v24-session-heading>span{font-size:11px;line-height:1.5;color:#bfd0c3;text-align:right}
-#study #view{display:flex;justify-content:flex-start;flex-wrap:wrap;gap:8px}
-#study #view button{border:1px solid #52705c;background:#17392b;color:#e8eee7;border-radius:10px;min-height:44px;padding:10px 14px;font-size:13px;line-height:1.35;flex:0 1 auto}
-#study #view button[aria-checked="true"]{background:#345b43;color:#fffaf1;border-color:#81a184;box-shadow:0 0 0 1px #81a184}
-.v24-recall-row{display:flex;align-items:center;justify-content:space-between;gap:16px}
-#study #recallBtn{display:inline-flex;align-items:center;flex-shrink:0;gap:9px;color:#f4eae0;background:none;border:0;padding:4px 0;min-height:44px;font-size:14px;font-weight:700;text-align:left}
-#study #recallBtn .switch{background:#53645a;border-color:#829386}
-#study #recallBtn[aria-checked="true"] .switch{background:#d97790;border-color:#e4a7b8}
-#study #recallBtn[aria-checked="true"] .switch::after{transform:translateX(16px)}
-#study #recallBtn:disabled{opacity:.75}
-#studyRecallStatus{font-size:12px;line-height:1.5;max-width:370px;color:#d5e2d5;text-align:right}
-#study #card{background:#fffaf1;color:#24382d;border:1px solid #e7ded1;border-radius:18px;box-shadow:0 14px 35px #0002;padding:25px 28px 24px;min-height:350px;gap:12px;overflow:visible;--surface:#fffaf1;--bg:#f3eee4;--ink:#24382d;--forest:#24382d;--muted:#657365;--line:#dfd6c9;--margin:#d697a9}
-#study #card::before{display:none}
-#study #card .meta{min-height:36px;justify-content:flex-start}
-#study #card .side{position:absolute;top:77px;left:0;width:100%;text-align:center;font:700 18px/1.35 var(--f-ui);color:#a65370;pointer-events:none;letter-spacing:.2px}
-#study #card .bm{border:0;background:transparent;color:#9b6479;padding:0;min-height:36px;box-shadow:none;font-size:0}
-#study #card .bm-g{font-size:32px;line-height:1}
-#study #card .bm[aria-pressed="true"]{color:#ba526e;background:transparent}
-#study #card .foot{position:absolute;top:24px;right:28px;left:85px;display:flex;flex-direction:column;align-items:flex-end;gap:3px;text-align:right;border:0;padding:0;margin:0;color:#925f72;font-size:11px;line-height:1.4}
-#study #card .cat{max-width:100%;overflow-wrap:anywhere;font-weight:700}
-#study #card .cid{font-size:10px;color:#746e65}
-#study #card .face{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:38px 0 12px;min-height:240px;font:600 clamp(23px,2.5vw,29px)/1.45 var(--f-card);overflow-wrap:anywhere;width:100%}
-#study #card .face>div{width:100%}
-#study #card .asked{font:400 13px/1.5 var(--f-ui);color:#6e766b;margin:0 0 15px}
-#study #card .ans{font:500 clamp(20px,2.2vw,26px)/1.5 var(--f-card);color:#24382d}
-#study #card .ans-wrap{display:flex;align-items:center;justify-content:center;width:100%}
-#study #card .fig{max-width:100%;height:auto}
-#study .report-row{order:6;flex-wrap:wrap;gap:12px;margin:0}
-#study .report-row .link,#study .ref-link{color:#f1c6d2;text-decoration-color:#d97790;font-size:13px}
-#study .report-box{background:#1b382b;border-color:#53705a;color:#f8f2e8}
+#study>div{box-sizing:border-box;display:flex;flex-direction:column;gap:18px;padding:28px;border:1px solid #3b5646;border-radius:22px;background:#122b22;color:#f8f2e8;box-shadow:0 22px 55px #0002}
+#study #view{gap:8px}
+#study #view button{border-radius:10px;border-color:#52705c;background:#17392b;color:#f1f3e8;min-height:44px}
+#study #view button[aria-checked="true"]{background:#345b43;color:#fffaf1;border-color:#81a184;box-shadow:inset 0 0 0 1px #81a184}
+#study #card{--surface:#fffaf1;--bg:#f1ecdf;--ink:#24382d;--forest:#24382d;--muted:#657365;--line:#dfd6c9;--margin:#d697a9;background:#fffaf1;color:#24382d;border-color:#e5c7cf;border-radius:18px;box-shadow:0 14px 35px #0002}
+#study #card::before{background:#e3bbc7}
+#study #card .side{color:#a65370}
+#study #card .face{text-align:center;color:#24382d}
+#study #card .asked{color:#657365}
+#study #card .ans{color:#24382d}
+#study #card .foot{color:#596e60}
+#study #card .bm{background:#fffaf1;color:#91566c;border-color:#dfc3cb;border-radius:10px}
+#study #card .bm[aria-pressed="true"]{background:#f6e4eb;border-color:#b56a84;color:#9a4567}
+#study #card .bm-g{--ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8'%3E%3Cpath d='m12 2 3 6.1 6.7 1-4.9 4.7 1.2 6.7-6-3.2-6 3.2 1.2-6.7-4.9-4.7 6.7-1z'/%3E%3C/svg%3E")}
+#study #card .bm[aria-pressed="true"] .bm-g{--ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 2 3 6.1 6.7 1-4.9 4.7 1.2 6.7-6-3.2-6 3.2 1.2-6.7-4.9-4.7 6.7-1z'/%3E%3C/svg%3E")}
+#study .controls{gap:10px}
+#study .controls .btn,#study #curNext{min-width:0;min-height:48px;border-radius:10px;border-color:#6e8a73;background:#3e644a;color:#fffaf1}
+#study .controls .btn.primary,#study #curNext{border-color:#e2a0b4;background:#f0adbd;color:#203528}
+#study .controls .btn:hover:not(:disabled){filter:brightness(1.08)}
+#study .controls .btn:disabled{background:#344c3e;border-color:#59735f;color:#afbeb1;opacity:.8}
+#study #rateRow{padding:16px;border:1px solid #e8b4c3;border-radius:14px;background:#fffaf1}
+#study #rateRow .btn{font-size:1rem;font-weight:700;line-height:1.35}
+#study #rateRow .btn[aria-pressed="true"]{outline:2px solid #9b526c;outline-offset:3px}
+#study .report-row{flex-wrap:wrap;gap:12px}
+#study .report-row .link,#study .ref-link{color:#f1c6d2;text-decoration-color:#d97790}
+#study .report-box{background:#1b382b;border-color:#53705a;color:#f8f2e8;border-radius:12px}
 #study .report-box textarea{background:#fffaf1;color:#24382d}
-#study #confRow{border:1px solid #47644e;border-radius:12px;background:#18382a;padding:12px 16px;margin:0;color:#e8efe5}
-#study .conf-q{color:#e8efe5;font-size:13px}
+#study #confRow{padding:12px;border:1px solid #47644e;border-radius:12px;background:#18382a;color:#e8efe5}
+#study .conf-q{color:#e8efe5}
 #study .conf-opt,#study .conf-ends{color:#c3d3c6}
-#study #revealRow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;order:5}
-#study #revealRow .btn{min-width:0;min-height:52px;padding:12px 9px;font-size:13px;font-weight:700;line-height:1.3;border-radius:10px;border:1px solid #7d9880;background:#476c4e;color:#fffaf1}
-#study #revealRow .btn.primary{background:#f0adbd;border-color:#f6c1cf;color:#203528}
-#study #revealRow .v24-next{background:#f0adbd;border-color:#f6c1cf;color:#203528}
-#study #revealRow .btn:disabled{background:#344c3e;border-color:#59735f;color:#aebeb1;opacity:.75;cursor:not-allowed}
-#study #ws{order:4;background:#18382a;border:1px solid #47644e;border-radius:14px;margin:0;padding:16px;color:#f8f2e8;min-width:0}
-#study .ws-tabs{border-color:#66826b;margin-bottom:14px}
-#study .ws-tab{color:#bcd0bd;background:transparent;border-color:transparent;font-size:13px}
-#study .ws-tab[aria-selected="true"]{color:#fffaf1;border-color:#e6a6b7;background:#294c37}
-#study .ans-grid{gap:16px}
-#study .ans-lab,#study .ws-lock,#study .prev-date,#study .prev-cap{color:#d3e0d0}
-#study .ws-lock{background:#21442f;border-color:#66826b}
-#study #curAnswer,#study #noteText{box-sizing:border-box;background:#fffaf1;color:#24382d;border:1px solid #d9d6c8;border-radius:10px;font:16px/1.5 var(--f-card);min-height:105px}
+#study #ws{padding:16px;border:1px solid #47644e;border-radius:14px;background:#18382a;color:#f8f2e8;min-width:0}
+#study .ws-tab{color:#d4e0d1;border-color:#66826b}
+#study .ws-tab[aria-selected="true"]{color:#203528;background:#f0adbd;border-color:#f0adbd}
+#study .ans-lab,#study .char-hint,#study .prev-date,#study .prev-cap{color:#d3e0d0}
+#study .ws-lock,#study .prev-list{background:#21442f;border-color:#47644e;color:#fffaf1}
+#study #curAnswer,#study #noteText{box-sizing:border-box;background:#fffaf1;color:#24382d;border-color:#d9d6c8;border-radius:10px}
 #study #curAnswer::placeholder,#study #noteText::placeholder{color:#6d776c}
 #study #curAnswer[readonly]{background:#eee9df}
-#study .char-hint{color:#dbe6d8}
-#study .prev-item{background:#21442f;border-color:#47644e;color:#fffaf1}
-#study #curNext{font-size:13px;min-height:44px;background:#f0adbd;color:#203528;border-color:#f6c1cf}
-#study .v24-rating-status{order:3;margin:0;padding:12px 15px;background:#2c4536;border-left:3px solid #f0adbd;border-radius:8px;font-size:14px;color:#fffaf1}
-#study .v24-change-rating{order:3;align-self:flex-start;color:#f1c6d2}
-#study .ref-row,#study .skip-row,#study #hint{order:6;margin:0}
-#study .skip-row{justify-content:flex-start}
-#study #mandToggle{color:#f8f2e8;font-size:13px}
-#study #mandToggle .switch{background:#53645a}
+#study #hint,#study #mandToggle{color:#e3ebdf}
 #study #mandToggle[aria-pressed="true"] .switch{background:#d97790}
-#study #hint{font-size:12px;color:#d3e0d0;min-height:0}
-.v24-dialog-bg{position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;padding:20px;background:#06100bd9;backdrop-filter:blur(5px)}
-.v24-dialog{position:relative;width:100%;max-width:560px;max-height:calc(100dvh - 40px);overflow:auto;box-sizing:border-box;background:#fffaf1;color:#24382d;border:2px solid #e8b4c3;border-radius:20px;padding:35px;box-shadow:0 25px 100px #0007}
-.v24-dialog h2{font:600 30px/1.2 var(--f-card);color:#24382d;margin:12px 0 16px}
-.v24-dialog p{font:400 15px/1.6 var(--f-ui);color:#485c4d;margin:0 0 20px}
-.v24-eyebrow{color:#9b526c;letter-spacing:2px;font-size:11px;font-weight:700}
-.v24-dialog-close{position:absolute;top:10px;right:12px;min-width:44px;min-height:44px;background:transparent;border:0;color:#6f4b5e;font-size:28px;cursor:pointer;border-radius:8px}
-.v24-dialog .controls{gap:10px;margin-top:22px}
-.v24-dialog .btn{background:#244a33;color:#fffaf1;border:1px solid #315b40;border-radius:10px;min-height:52px;padding:10px;font-size:14px;font-weight:700}
-.v24-dialog .btn.primary{background:#e8a5b7;color:#203528;border-color:#d18ca0}
-.v24-dialog .btn[aria-pressed="true"]{outline:2px solid #a65370;outline-offset:3px}
-.v24-dialog button:focus-visible,#study button:focus-visible{outline:3px solid #f0adbd;outline-offset:3px}
-.v24-dialog button:focus-visible{outline-color:#9b526c}
-@media(max-width:620px){
- #study .v24-workspace{padding:16px;border-radius:16px;gap:14px}
- .v24-session-heading{align-items:flex-start;flex-direction:column;gap:5px}.v24-session-heading h2{font-size:27px}.v24-session-heading>span{text-align:left;font-size:10px}
- #study #view{gap:6px}#study #view button{padding:9px;font-size:11px;flex:1;white-space:normal}
- .v24-recall-row{align-items:flex-start;flex-direction:column;gap:4px}#studyRecallStatus{text-align:left;font-size:11px}
- #study #card{padding:20px 17px;min-height:330px;border-radius:14px}#study #card .foot{right:17px;left:60px;top:20px;font-size:10px}#study #card .side{top:90px;font-size:16px}
- #study #card .face{font-size:23px;min-height:230px;padding-top:40px}#study #card .ans{font-size:21px}
- #study #revealRow{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#study #revealRow .btn{min-height:48px;font-size:12px}
- #study #confRow{padding:10px}#study .conf-scale{gap:3px}#study .conf-scale button{min-width:0;padding:0;width:auto;font-size:11px;min-height:38px;flex:1}
- #study #ws{padding:12px}.v24-dialog-bg{padding:14px}.v24-dialog{padding:28px 20px;max-height:calc(100dvh - 28px)}.v24-dialog h2{font-size:27px}.v24-dialog .controls.three{grid-template-columns:1fr}.v24-dialog .btn{min-height:48px}
-}
-@media(prefers-reduced-motion:reduce){#study *, .v24-dialog-bg *{scroll-behavior:auto!important}}
-
-
-#study #card .meta{display:flex}
-#study #card .meta-r{justify-self:start}
-#study #card .side{justify-content:center}
-#study #card .bm{position:absolute;left:24px;top:24px;display:inline-flex;min-width:38px}
-#study #card .bm-g{display:inline-block;width:36px;height:36px;mask:none;-webkit-mask:none;background:none;font-size:32px;line-height:36px}
-#study #recallBtn::before{display:none}
-@media(max-width:620px){#study #card .bm{left:16px;top:18px}}
-</style></head>
+#study button:focus-visible{outline:3px solid #f0adbd;outline-offset:3px}
+#screen:is(.quote,.doc),#screen:has(#rfBegin),#screen:has(#rfSkip),#screen:has(#rfFinish),#screen:has(#askYes),#screen:has(#other),#screen:has(.list-tabs),#screen:has(.gprev){background:#122b22;border-color:#3b5646;border-radius:18px;color:#f8f2e8}
+#screen:is(.quote,.doc) .btn,#screen:has(#rfBegin) .btn,#screen:has(#rfSkip) .btn,#screen:has(#rfFinish) .btn,#screen:has(#askYes) .btn,#screen:has(#other) .btn,#screen:has(.list-tabs) .btn{border-radius:10px;background:#3e644a;border-color:#6e8a73;color:#fffaf1}
+#screen:is(.quote,.doc) .btn.primary,#screen:has(#rfBegin) .btn.primary,#screen:has(#rfSkip) .btn.primary,#screen:has(#rfFinish) .btn.primary,#screen:has(#askYes) .btn.primary,#screen:has(#other) .btn.primary,#screen:has(.list-tabs) .btn.primary{background:#f0adbd;border-color:#e2a0b4;color:#203528}
+#screen:is(.quote,.doc) .q-text{color:#f0adbd}
+#screen:has(#rfSkip) .rf-q,#screen:has(#rfSkip) .yours{background:#fffaf1;color:#24382d;border-color:#e3bbc7;border-radius:12px}
+#screen:has(#rfSkip) textarea{background:#fffaf1;color:#24382d;border-color:#d9d6c8;border-radius:10px}
+#screen:has(.list-tabs) .bm-row{background:#18382a;color:#f8f2e8;border-color:#47644e;border-radius:12px}
+#screen:has(.list-tabs) .list-tab{border-radius:10px;border-color:#66826b}
+#screen:has(.list-tabs) .list-tab[aria-selected="true"]{background:#f0adbd;color:#203528}
+#noteModal .modal,#askModal .modal{background:#fffaf1;border-color:#e8b4c3;border-radius:18px;color:#24382d}
+#noteModal .modal-title,#askModal .modal-title{color:#24382d}
+#noteModal #notes{background:#f3eee4;color:#24382d;border-color:#d9d6c8;border-radius:10px}
+#noteModal .btn,#askModal .btn{background:#3e644a;border-color:#6e8a73;color:#fffaf1;border-radius:10px}
+#noteModal .btn.primary,#askModal .btn.primary{background:#f0adbd;border-color:#e2a0b4;color:#203528}
+@media(max-width:620px){#study>div{padding:16px;border-radius:16px;gap:14px}#study #view{gap:6px}#study .controls{gap:8px}#study #rateRow{padding:12px}#study #rateRow .btn{font-size:.88rem;padding-inline:5px;white-space:normal}#study #ws{padding:12px}#study #confRow{padding:10px}}
+/* Keep text readable in both existing themes without changing either theme's behavior. */
+#study{--on-page:#f8f2e8;--ink:#eae5dc;--forest:#f6f2eb;--muted:#bfd0c3;--line:#47644e;--field:#21442f;--bg:#18382a;--surface:#18382a}
+#study .ws-foot .link{color:#f1c6d2}
+#screen:is(.quote,.doc),#screen:has(#rfBegin),#screen:has(#rfSkip),#screen:has(#rfFinish),#screen:has(#askYes),#screen:has(#other),#screen:has(.list-tabs),#screen:has(.gprev){--ink:#f8f2e8;--forest:#f8f2e8;--muted:#c3d3c6;--on-page:#f8f2e8;--line:#47644e;--surface:#18382a;--bg:#21442f}
+#screen:has(#rfSkip) .yours .lab{color:#596e60}
+</style>
+</head>
 <body>
 <div class="wrap" id="app">
   <header class="topbar">
@@ -1185,16 +1151,14 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 
 
   <div id="study" hidden>
-    <div class="v24-workspace">
-      <div class="v24-session-heading"><h2>My study session</h2><span>Focused practice for the MCAT</span></div>
+    <div>
       <div class="seg" id="view" role="radiogroup" aria-label="Card display">
         <button type="button" role="radio" data-v="q"><span class="ic" aria-hidden="true"></span>Questions First</button>
         <button type="button" role="radio" data-v="a"><span class="ic" aria-hidden="true"></span>Answers First</button>
         <button type="button" role="radio" data-v="mix"><span class="ic" aria-hidden="true"></span>Random Mix</button>
       </div>
-      <div class="v24-recall-row"><button class="toggle" id="recallBtn" type="button" role="switch" aria-checked="false" aria-controls="panelAns"><span class="switch" aria-hidden="true"></span>Active Recall</button><span id="studyRecallStatus">Write from memory when you choose, or when this card requires it.</span></div>
       <div class="card" id="card" tabindex="0" role="group" aria-roledescription="flashcard" aria-label="Flashcard" aria-live="polite"></div>
-      <div class="report-row"><button class="link" id="noteLink" type="button" aria-controls="panelNotes">My Card Notes</button><span class="report-flash" id="reportFlash" role="status"></span><button class="link" id="reportBtn" type="button" aria-expanded="false" aria-controls="reportBox">Report this card</button></div>
+      <div class="report-row"><button class="link" id="noteLink" type="button" aria-controls="panelNotes">Write Card Note</button><span class="report-flash" id="reportFlash" role="status"></span><button class="link" id="reportBtn" type="button" aria-expanded="false" aria-controls="reportBox">Report this card</button></div>
       <div class="report-box" id="reportBox" hidden>
         <label for="reportNote">What looks wrong?</label>
         <textarea id="reportNote" rows="2" placeholder="Optional"></textarea>
@@ -1208,12 +1172,14 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
       </div>
       <div class="controls prevrow" id="revealRow">
         <button class="btn" id="prev" type="button"><span>Previous<span class="d-only"> Card</span></span></button>
-        <button class="btn primary" id="reveal" type="button">Flip Card</button>
-        <button class="btn" id="raiseHand" type="button" aria-haspopup="dialog" aria-controls="studyCommunityModal">Raise Your Hand</button>
-        <button class="btn v24-next" id="studyNext" type="button" aria-haspopup="dialog" aria-controls="studyRatingModal" disabled>Next Card →</button>
+        <button class="btn primary" id="reveal" type="button">Reveal Answer</button>
+        <button class="btn" id="recallBtn" type="button" aria-controls="panelAns">Active Recall</button>
       </div>
-      <p class="v24-rating-status" id="studyRatingStatus" role="status" hidden></p>
-      <button class="link v24-change-rating" id="changeStudyRating" type="button" hidden>Change rating</button>
+      <div class="controls three" id="rateRow" hidden>
+        <button class="btn primary" type="button" data-r="good">Got it</button>
+        <button class="btn" type="button" data-r="hard">Struggled</button>
+        <button class="btn" type="button" data-r="again">Didn't know</button>
+      </div>
       <div class="write ws" id="ws">
         <div class="ws-tabs" role="tablist" aria-label="Notes and written answers">
           <button class="ws-tab" role="tab" id="tabNotes" type="button" aria-controls="panelNotes" aria-selected="true">Notes</button>
@@ -1250,28 +1216,6 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
   <footer class="legal"><span><a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a> · <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a></span>
     <span class="tm">MCAT is a registered trademark of the Association of American Medical Colleges, which has not endorsed this site.</span>
     <span class="tm crawler-note">*“Crawler” is a nod to the wonderfully chaotic characters of Matt Dinniman's <i>Dungeon Crawler Carl</i> series. Some stumble blindly through impossible challenges. Others survive through intelligence, preparation, and a little ingenuity.<br>At myMCATstudyguide.com, we're here to help make sure you're one of the latter.</span></footer>
-</div>
-
-<div class="v24-dialog-bg" id="studyRatingModal" hidden>
-  <div class="v24-dialog" id="studyRatingDialog" role="dialog" aria-modal="true" aria-labelledby="studyRatingTitle" aria-describedby="studyRatingDescription" tabindex="-1">
-    <button class="v24-dialog-close" id="closeStudyRating" type="button" aria-label="Close rating prompt">×</button>
-    <span class="v24-eyebrow">YOUR RECALL</span><h2 id="studyRatingTitle">Did you remember the answer?</h2>
-    <p id="studyRatingDescription">Choose how well you remembered. Your existing review and writing requirements still apply.</p>
-    <div class="controls three" id="rateRow" hidden>
-      <button class="btn" type="button" data-r="again">Didn't know</button>
-      <button class="btn" type="button" data-r="hard">Struggled</button>
-      <button class="btn primary" type="button" data-r="good">Got it!</button>
-    </div>
-  </div>
-</div>
-<div class="v24-dialog-bg" id="studyCommunityModal" hidden>
-  <div class="v24-dialog" id="studyCommunityDialog" role="dialog" aria-modal="true" aria-labelledby="studyCommunityTitle" aria-describedby="studyCommunityDescription" tabindex="-1">
-    <button class="v24-dialog-close" id="closeStudyCommunity" type="button" aria-label="Close community information">×</button>
-    <span class="v24-eyebrow">RAISE YOUR HAND</span><h2 id="studyCommunityTitle">A little help goes a long way.</h2>
-    <p id="studyCommunityDescription">Community questions and peer answers are not available yet. This button does not post or save a question.</p>
-    <p>If you spot an error in this card, you can use the existing card-reporting service.</p>
-    <button class="btn" id="studyCommunityReport" type="button">Report this card</button>
-  </div>
 </div>
 
 <div class="tip" id="tip" role="tooltip" hidden></div>
@@ -3285,7 +3229,7 @@ function applyImport(){
 function show(m){ hideTip(); mode = m; render(); }
 const esc = s => s.replace(/[&<>"]/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[ch]));
 
-function render(){ renderScreen(); wireListTabs(); applyTips(); renderCountdown(); renderStudyDialogs(); if(window.MCATRoutes) window.MCATRoutes.sync(); }
+function render(){ renderScreen(); wireListTabs(); applyTips(); renderCountdown(); if(window.MCATRoutes) window.MCATRoutes.sync(); }
 /* ---------- MCAT countdown (Package 2, Phase 6) ----------
    Calendar days between today's date and the exam date (not 24-hour periods). Only her own date, only when she gave one. */
 function countdownState(){
@@ -3708,8 +3652,8 @@ function renderScreen(){
       ? `<div class="asked">${asked}</div><div class="ans-wrap"><div class="ans">${back}</div></div>`
       : `<div>${front}</div>`}</div>
     <div class="foot"><span class="cat">${CATEGORIES[id.split("-")[0]]}</span><span class="cid">${id}</span></div>`;
-  $("revealRow").hidden = false;
-  $("rateRow").hidden = !studyRatingOpen;
+  $("revealRow").hidden = revealed;
+  $("rateRow").hidden = !revealed;
   document.querySelectorAll("#rateRow [data-r]").forEach(b => b.setAttribute("aria-pressed", String(pendingR === b.dataset.r)));
   renderWorkspace(id, needWrite);
   renderConf();
@@ -3721,9 +3665,8 @@ function renderScreen(){
   $("reportFlash").textContent = reportFlashFor === curKey ? "Thanks, flagged" : "";
   $("reveal").disabled = needWrite && mandatoryOn() && !draft.trim();
   $("prev").disabled = !undo.length;
-  $("recallBtn").disabled = revealed;   // Existing writing remains editable through its workspace.
-  renderStudyControls();
-  $("hint").textContent = revealed ? (pendingR ? "" : "Compare with the answer, then rate yourself.") : needWrite ? "" : "Tap the card or use Flip Card.";
+  $("recallBtn").disabled = revealed;   // Active Recall opens My Written Answers with the cursor in Current Answer
+  $("hint").textContent = revealed ? (pendingR ? "" : "Compare with the answer, then rate yourself.") : needWrite ? "" : "Tap the card or use Reveal Answer.";
 }
 /* ---------- Writing workspace: Notes / My Written Answers ----------
    A saved note and previous written answers stay out of the page until the card is revealed (every card). */
@@ -3928,86 +3871,6 @@ function openRecall(){
   setWsTab("ans", "field");
 }
 function cancelRecall(){ setWsTab("notes"); }
-
-/* Presentation adapter: all learning decisions remain in the existing application. */
-let studyRatingOpen = false, studyRatingKey = null, studyDialogReturn = null, studyCommunityOpen = false;
-function renderStudyControls(){
-  if(mode !== "cards") return;
-  const on = wsTab === "ans";
-  $("recallBtn").setAttribute("aria-checked", String(on));
-  $("studyRecallStatus").textContent = pendingR
-    ? "Write your response below to complete this rating."
-    : mustWrite(curKey) && mandatoryOn() && !revealed
-      ? "A written answer is required for this card before flipping."
-      : revealed ? "Compare your answer, then select Next Card." : on ? "Write from memory before flipping." : "Active Recall is optional on this card.";
-  $("studyNext").disabled = !revealed || !!(pendingR && mandatoryOn() && reinforceDraft.trim().length < MIN_REINFORCE);
-  $("studyNext").textContent = pendingR ? "Save & Next Card →" : "Next Card →";
-  $("changeStudyRating").hidden = !pendingR;
-  $("studyRatingStatus").hidden = !pendingR;
-  $("studyRatingStatus").textContent = pendingR ? `${pendingR === "hard" ? "Struggled" : "Didn't know"} selected. ${mandatoryOn() ? `Write at least ${MIN_REINFORCE} characters, then continue.` : "Write your response, or use the existing confirmation to continue without it."}` : "";
-}
-function toggleStudyRecall(){
-  if(mode !== "cards" || revealed) return;
-  if(wsTab !== "ans"){ openRecall(); return; }
-  if(mustWrite(curKey) && mandatoryOn()){
-    setWsTab("ans", "field");
-    $("studyRecallStatus").textContent = "This card requires a written answer. The Mandatory Response setting below controls enforcement.";
-    return;
-  }
-  setWsTab("notes");
-}
-function nextStudyCard(){
-  if(mode !== "cards" || flipping || !revealed) return;
-  if(pendingR){ submitReinforce(); return; }
-  openStudyRating();
-}
-function openStudyRating(){
-  if(mode !== "cards" || flipping || !revealed || askCfg || noteModalOpen) return;
-  studyDialogReturn = document.activeElement || $("studyNext");
-  studyRatingOpen = true; studyRatingKey = curKey; renderStudyDialogs();
-  const first = $("studyRatingDialog").querySelector("[data-r]");
-  if(first && first.focus) first.focus();
-}
-function closeStudyRating(restore = true){
-  studyRatingOpen = false; studyRatingKey = null; renderStudyDialogs();
-  if(restore && studyDialogReturn && studyDialogReturn.focus) studyDialogReturn.focus();
-}
-function rateFromStudyDialog(r){
-  if(!studyRatingOpen || studyRatingKey !== curKey || !["good", "hard", "again"].includes(r)) return;
-  // Close synchronously before delegating, so a double click cannot rate the next card.
-  closeStudyRating(false); chooseRating(r);
-}
-function openStudyCommunity(){
-  if(mode !== "cards" || studyRatingOpen || askCfg || noteModalOpen) return;
-  studyDialogReturn = document.activeElement || $("raiseHand");
-  studyCommunityOpen = true; renderStudyDialogs(); $("closeStudyCommunity").focus();
-}
-function closeStudyCommunity(){
-  studyCommunityOpen = false; renderStudyDialogs();
-  if(studyDialogReturn && studyDialogReturn.focus) studyDialogReturn.focus();
-}
-function renderStudyDialogs(){
-  if(mode !== "cards" || studyRatingKey && studyRatingKey !== curKey){ studyRatingOpen = false; studyRatingKey = null; }
-  if(mode !== "cards") studyCommunityOpen = false;
-  $("studyRatingModal").hidden = !studyRatingOpen;
-  $("rateRow").hidden = !studyRatingOpen;
-  $("studyCommunityModal").hidden = !studyCommunityOpen;
-  const shell = $("study").closest ? $("study").closest(".wrap") : null;
-  if(shell) shell.inert = studyRatingOpen || studyCommunityOpen;
-}
-document.addEventListener("keydown", e => {
-  if(!studyRatingOpen && !studyCommunityOpen) return;
-  if(e.key === "Escape"){
-    e.preventDefault(); if(studyRatingOpen) closeStudyRating(); else closeStudyCommunity(); return;
-  }
-  if(e.key !== "Tab") return;
-  const dialog = $(studyRatingOpen ? "studyRatingDialog" : "studyCommunityDialog");
-  const items = Array.from(dialog.querySelectorAll("button, a[href], [tabindex='0']")).filter(el => !el.disabled && el.offsetParent !== null);
-  const first = items[0], last = items[items.length - 1];
-  if(!first){ e.preventDefault(); dialog.focus(); return; }
-  if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
-  else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
-});
 
 /* ---------- Accounts (Supabase) ---------- */
 // Sign-up, email verification and password resets are handled by Supabase. Each account's progress is kept in the
@@ -4853,8 +4716,8 @@ $("bmNav2").onclick = () => openSide("bm");
 $("notesNav2").onclick = () => openSide("notes");
 applyBg();
 $("notesNav").onclick = () => openSide("notes");
-$("reveal").onclick = () => revealed ? tapCard() : reveal();
-$("recallBtn").onclick = toggleStudyRecall;
+$("reveal").onclick = reveal;
+$("recallBtn").onclick = openRecall;
 $("noteSave").onclick = saveNote;
 $("noteCancel").onclick = cancelNote;
 $("delNote").onclick = () => { noteConfirm = "delete"; renderModals(); $("noteConfirmNo").focus(); };
@@ -4871,17 +4734,9 @@ $("tabAns").onclick = () => setWsTab("ans");
 $("curAnswer").oninput = e => {
   const v = e.target.value;
   if(!revealed){ draft = v; stashDraft(); $("reveal").disabled = mustWrite(curKey) && mandatoryOn() && !draft.trim(); $("curHint").textContent = $("reveal").disabled ? "Type your answer to unlock Reveal Answer." : ""; }
-  else if(pendingR){ reinforceDraft = v; stashDraft(); const n = v.trim().length; $("curNext").disabled = mandatoryOn() && n < MIN_REINFORCE; renderStudyControls(); $("curHint").textContent = n < MIN_REINFORCE ? `${n} / ${MIN_REINFORCE} characters` : ""; }
+  else if(pendingR){ reinforceDraft = v; stashDraft(); const n = v.trim().length; $("curNext").disabled = mandatoryOn() && n < MIN_REINFORCE; $("curHint").textContent = n < MIN_REINFORCE ? `${n} / ${MIN_REINFORCE} characters` : ""; }
 };
 $("curNext").onclick = submitReinforce;
-$("studyNext").onclick = nextStudyCard;
-$("changeStudyRating").onclick = () => openStudyRating();
-$("closeStudyRating").onclick = () => closeStudyRating();
-$("raiseHand").onclick = openStudyCommunity;
-$("closeStudyCommunity").onclick = closeStudyCommunity;
-$("studyCommunityReport").onclick = () => { closeStudyCommunity(); reportOpen = true; render(); $("reportNote").focus(); };
-$("studyRatingModal").onclick = e => { if(e.target === $("studyRatingModal")) closeStudyRating(); };
-$("studyCommunityModal").onclick = e => { if(e.target === $("studyCommunityModal")) closeStudyCommunity(); };
 document.querySelectorAll("#confRow [data-c]").forEach(b => {
   b.onclick = () => setConf(+b.dataset.c);
   b.onkeydown = e => {
@@ -4891,7 +4746,7 @@ document.querySelectorAll("#confRow [data-c]").forEach(b => {
 });
 $("askYes").onclick = () => askDone(true);
 $("askNo").onclick = () => askDone(false);
-document.querySelectorAll("#rateRow [data-r]").forEach(b => b.onclick = () => rateFromStudyDialog(b.dataset.r));
+document.querySelectorAll("#rateRow [data-r]").forEach(b => b.onclick = () => chooseRating(b.dataset.r));
 $("mandToggle").onclick = () => { progress.mandOff = mandatoryOn(); save(); render(); };
 $("reportBtn").onclick = () => { reportOpen = !reportOpen; $("reportMsg").textContent = ""; render(); if(reportOpen) $("reportNote").focus(); };
 $("reportCancel").onclick = () => { reportOpen = false; $("reportNote").value = ""; $("reportMsg").textContent = ""; render(); $("card").focus(); };
