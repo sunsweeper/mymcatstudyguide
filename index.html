@@ -1031,6 +1031,10 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
+<style id="quote-intro-presentation">
+.screen.doc.quote-spacing{min-height:512px}
+.screen.doc.quote-spacing .q-intro + div{margin-top:96px;margin-bottom:96px;text-align:center}
+</style>
 </head>
 <body>
 <div class="wrap" id="app">
@@ -3480,12 +3484,12 @@ function renderScreen(){
     // Intro line above the quote: physicians get the "sat in the same seat" line; everyone else gets "your turn is coming".
     const intro = quote[2] === "doc" ? "Before you start: a word from someone who once sat in the same seat you are now. Not better than you, just earlier."
       : "A little wisdom from people who changed the world. Your turn is coming.";
-    scr.className += " doc";   // faint Staff of Asclepius behind every quote
+    scr.className += " doc quote-spacing";   // consistent spacing across the motivational quote deck
     scr.innerHTML = `<p class="q-intro">${intro}</p>
       <div><div class="q-text">“${quote[0]}”</div><div class="q-by">${quote[1]}</div></div>
-      ${note ? `<p class="lede" style="margin:0">${note}</p>` : ""}
       <div class="controls"><button class="btn quote-alt" id="anotherQuote" type="button">Another Quote</button>
-      <button class="btn primary" id="toQuote" type="button">Begin Studying</button></div>`;
+      <button class="btn primary" id="toQuote" type="button">Begin Flashcards</button></div>
+      ${note ? `<p class="lede quote-resume-note" style="margin:-10px 0 0;text-align:right">${note}</p>` : ""}`;
     $("anotherQuote").onclick = () => { quote = nextQuote(); quoteKeepFocus = true; render(); quoteKeepFocus = false; $("anotherQuote").focus(); };
     $("toQuote").onclick = () => start(); if(!quoteKeepFocus) $("toQuote").focus();
     return;
