@@ -1,3 +1,4 @@
+const {rate:rateThroughPopup}=require('./study-ui-helpers');
 // Package 2, Phase 8 in a real browser: draft preview, and how a published graphical card behaves in study.
 const { chromium } = require('playwright');
 const fs = require('fs'), os = require('os'), path = require('path');
@@ -27,12 +28,12 @@ let pass = 0, fail = 0; const ok = (n, c, x = "") => { c ? pass++ : fail++; cons
     const tmp = path.join(os.tmpdir(), 'gfx-published.html'); fs.writeFileSync(tmp, src);
     for (const w of [360, 1280]) { const p = await b.newPage({ viewport:{ width:w, height:900 } }); p.on('pageerror', e => errs.push(e.message)); await p.route(/supabase/, r => r.abort());
       await p.addInitScript(() => { if(!localStorage.getItem('mcat-progress-v2')) localStorage.setItem('mcat-progress-v2', JSON.stringify({ cards:{}, newDay:{date:'',count:0}, open:{}, view:'q', tips:{off:true} })); });
-      await p.goto('file://' + tmp); await p.click('[data-k=bb]'); await p.click('#toQuote');
+      await p.goto('file://' + tmp); await p.click('[data-k=bb]'); await p.click('#toQuote'); await p.evaluate(()=>window.MCATStudyUI?.setRecall(false));
       await p.evaluate(() => { deck.unshift('1C-G01'); progress.open.bb.ids = deck.slice(); resetCard(); render(); });
       const q = await p.evaluate(() => { const s = document.querySelector('#card svg.fig'), c = document.getElementById('card').getBoundingClientRect(), b = s && s.getBoundingClientRect();
         return { has: !!s, fit: !!b && b.left >= c.left && b.right <= c.right, side: document.querySelector('#card .side').textContent, id: document.querySelector('#card .cid').textContent }; });
       ok(`GX7 ${w}px a published graphical card appears in the normal card component with its figure`, q.has && q.fit && q.side === 'Question' && q.id === '1C-G01');
-      await p.click('#reveal'); await p.waitForTimeout(450); await p.click('[data-r=good]'); await p.waitForTimeout(100);
+      await p.click('#reveal'); await p.waitForTimeout(450); await rateThroughPopup(p,'[data-r=good]'); await p.waitForTimeout(100);
       ok(`GX8 ${w}px it's rated and scheduled like any other card`, await p.evaluate(() => !!(progress.cards['1C-G01'] && progress.cards['1C-G01'].history.length === 1)));
       if (w === 1280) {
         ok('GX9 its mastery is tracked per card, and it shares its concept with the text cards (counted once as concept evidence)', await p.evaluate(() => { const m = META.c['1C-G01']; return !!m && cardLevel('1C-G01') !== 'unseen' && CARDS.some(c => c[3] !== '1C-G01' && META.c[c[3]] && META.c[c[3]][1] === m[1]); }));

@@ -19,13 +19,17 @@ const sha = s => crypto.createHash('sha256').update(s, 'utf8').digest('hex');
 const SAMPLES = [['1A-001', false], ['1A-038', true], ['5D-011', false], ['S4-003', true]];   // [card, show answer side]
 const VIEWS = [[1280, 900, 'desktop'], [390, 844, 'phone']], THEMES = ['dark', 'light'];
 const STYLE_PROPS = ['font-family', 'font-size', 'font-weight', 'line-height', 'color', 'background-color', 'border-top-width', 'border-top-color', 'border-radius', 'padding-top', 'padding-left', 'text-align', 'box-shadow'];
-const STYLE_SELECTORS = ['#card', '#card .meta', '#card .face', '#card .bm', '#card .side', '#reveal', '#prev', '#recallBtn'];
+const STYLE_SELECTORS = ['#card', '#card .meta', '#card .face', '#card .bm', '#card .side', '#reveal', '#prev', '#activeRecallSwitch', '#recallEntry', '#curAnswer', '#studyNext', '#studyTools', '#studyRatingDialog'];
 async function openPage(browser, w, h, theme, file = path.join(root, 'index.html')){
   const p = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });
   await p.route('**/supabase.js', r => r.fulfill({ status: 200, contentType: 'text/javascript', body: '' }));   // run without accounts
+  // Reference assets are frozen with the approved HTML; never share mutable candidate CSS/JS.
+  for(const asset of ['study-ui.js','study-ui.css'])await p.route('**/'+asset,r=>r.fulfill({contentType:asset.endsWith('.js')?'text/javascript':'text/css',body:fs.readFileSync(file===path.join(dir,'reference-index.html')?path.join(dir,'reference-'+asset):path.join(root,asset),'utf8')}));
   await p.addInitScript(t => { try { localStorage.setItem('mcat-progress-v2', JSON.stringify({ bg: t, tips: false })); } catch(e){} }, theme);
   await p.goto('file://' + file);
   await p.evaluate(() => { pick('all'); start(true); });
+  // Imported homepage fonts must settle before style/geometry/pixel comparisons.
+  await p.evaluate(() => document.fonts.ready);
   await p.addStyleTag({ content: '*{animation:none!important;transition:none!important;caret-color:transparent!important}' });
   return p;
 }
@@ -33,6 +37,11 @@ const showCard = (p, key, back) => p.evaluate(([key, back]) => {
   deck[pos] = key.replace('~r', ''); resetCard(); curKey = key; if(back){ flipped = true; revealed = true; }
   render(); return document.getElementById('card').outerHTML;
 }, [key, back]);
+async function interactionShots(pg,dest,key){
+  await showCard(pg,'1A-001',false);dest['workspace-'+key]=await pg.locator('#study').screenshot();
+  await showCard(pg,'1A-001',true);await pg.evaluate(()=>window.MCATStudyUI.openRating());
+  dest['rating-'+key]=await pg.locator('#studyRatingDialog').screenshot();await pg.evaluate(()=>window.MCATStudyUI.closeRating(false));
+}
 (async () => {
   const browser = await chromium.launch(); const problems = [];
   if(UPDATE) fs.mkdirSync(dir, { recursive: true });
@@ -48,6 +57,7 @@ const showCard = (p, key, back) => p.evaluate(([key, back]) => {
   if(!UPDATE && fs.existsSync(refFile)) for(const [w, h, vname] of VIEWS) for(const theme of THEMES){
     const pg = await openPage(browser, w, h, theme, refFile);
     for(const [id, back] of SAMPLES){ await showCard(pg, id, back); refShots[`${id}-${back ? 'back' : 'front'}-${vname}-${theme}`] = await pg.locator('#card').screenshot(); }
+    await interactionShots(pg,refShots,`${vname}-${theme}`);
     await pg.close();
   }
   for(const [w, h, vname] of VIEWS) for(const theme of THEMES){
@@ -58,6 +68,7 @@ const showCard = (p, key, back) => p.evaluate(([key, back]) => {
       await showCard(pg, id, back);
       shots[`${id}-${back ? 'back' : 'front'}-${vname}-${theme}`] = await pg.locator('#card').screenshot();
     }
+    await interactionShots(pg,shots,`${vname}-${theme}`);
     await pg.close();
   }
   await browser.close();
@@ -72,6 +83,7 @@ const showCard = (p, key, back) => p.evaluate(([key, back]) => {
     fs.writeFileSync(path.join(dir, 'card-markup-hashes.json'), JSON.stringify(dom, null, 0));
     fs.writeFileSync(path.join(dir, 'card-styles.json'), JSON.stringify(styles, null, 1));
     fs.copyFileSync(path.join(root, 'index.html'), refFile);
+    for(const asset of ['study-ui.js','study-ui.css'])fs.copyFileSync(path.join(root,asset),path.join(dir,'reference-'+asset));
     for(const f of fs.readdirSync(dir)) if(f.endsWith('.png')) fs.unlinkSync(path.join(dir, f));
     console.log(`Visual baseline written: ${Object.keys(dom).length} card sides, ${Object.keys(styles).length} style sets, reference build for ${Object.keys(shots).length} screenshots.`);
     return;
@@ -93,7 +105,7 @@ const showCard = (p, key, back) => p.evaluate(([key, back]) => {
     if(pct > 0.5) problems.push(`${k}: ${pct.toFixed(2)}% of pixels differ from the approved reference build`);
   }
   if(problems.length){
-    console.error(`VISUAL CHECK FAILED: ${problems.length} problem(s)`); problems.slice(0, 40).forEach(x => console.error(' -', x));
+    console.error(`VISUAL CHECK FAILED: ${problems.length} problem(s)`); problems.forEach(x => console.error(' -', x));
     if(process.env.GITHUB_ACTIONS) problems.slice(0, 10).forEach(x => console.log(`::error title=Visual check::${x}`));   // shown on the GitHub check
     process.exit(1);
   }

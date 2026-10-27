@@ -1,0 +1,60 @@
+{
+  "source_commit": "13dfd503dcb760c4a9a13740f326df8be5962eb4",
+  "functions": {
+    "rate": "018ae485eb9365139088d26feeb16b260c69f3cd7c6faceed0ea0fe30ca8ceb9",
+    "memOf": "c8ee16c8950fbb897dbeb7cf333e5c14632b3a7fa25b8692f65b3700e9c945f5",
+    "memoryFrom": "be60ec710a11c638795cd792dd83e0c6ebc55470de8e2ccecdf621cc39e5e839",
+    "fsrsInterval": "0f79766f3063418f11b078cc82ea69d6db1876e56142b4624706d18039fa6d52",
+    "fsrsDays": "121d608571ce8ac71e9b777f9f5dc18f5a775b565d86d845aa540738abcdaafc",
+    "levelOf": "ffada7dcd6fc0aa551f5bb5ff70900182b66d9f50c501ff6d7ecf966b7750c67",
+    "cardLevel": "7a916c29c81a9e07709aa69044177b3db75d703c7576747f13409fd6c856836e",
+    "buildQueue": "924b9b4c5663654cc3285c30dd29ff9a386aeed94c9dc02f93db6e16d1b1ee90",
+    "buildFocus": "d83f4c3cbfd25d7b53f9813da53088dbd3be8e7e1099fccaeb998ab236d4f78f",
+    "buildFinal21": "2a6c38ccbe41421bc4eb3d4288c47e50a6edbee83854f1a53a1f3d8b42b00ef3",
+    "pickReinforce": "c1c3115cad3931e5a4d9a761097bc84191bb20b985565ac98bb187abfb0ab2e2",
+    "pickBoost": "4bc620a27e3834ca9dd88b3b4e3ed2f29ac82655f6defbefdf7c57e721881280",
+    "interleave": "badab0c62ff73cef92a8b71db2a908b09456b94172c574785614951d2eae2340",
+    "origKeys": "41827bb838c5b472684c2053e7c80a52342592bd6224337e96c4c6973c692808",
+    "finishSession": "eaeff077e39b13019b2483a165e154646868ad7dc979dff2e09c8ad676ef0839",
+    "persistPlace": "ddf30dd54f7691c4ca139cb61a0131ca36e7b0e839dd9cbe315e6ca646129126",
+    "startRetry": "6d872b53f0812cf30b7a83037f2e4600b2a6ff9eb27099603bc73c364ef97b9e",
+    "endOfPass": "e812946c18ea92b7b1d0917e5f1e896ead49bbd82dacaee65d8b1cd0f9bf02a0",
+    "answer": "d3dd16ae872ffc8fec68ab5cb6af9982d3845083e4a4b873b1b7db9b032dd504",
+    "chooseRating": "4d136a09edaa5966997904a7f6d32ee88e9dafce93a38a8e8539fd8578c295f1",
+    "submitReinforce": "b5859342273957d5e0bb2c0307674e00aab0def84013431e9c102986d178f5cd",
+    "mergeProgress": "895cc8c5c47b91c31c4a11bb2a4e7049f3929831b8e157177225d18ad407dc77",
+    "pushProgress": "06773ec268dc8e843224c2a924c86f264464d3d36a632722ae866bcbbd4de6e0",
+    "flushActivity": "08f61fc165580342b1dc42e806807aeb369947b55b5073f4c99393e6261ff068",
+    "validBackup": "584f0a16ac956cc6af916b1e104d134859550664706f13f0ed99e73a0b759eec",
+    "readRecovery": "847d223c8eef1d364e8a96d1201237cd6aec87cdae810ce1555f4d0a601c0eed",
+    "exportProgress": "3409ae280526f7040dd1992ef5895e045c71de196a29ed492cdcd4ba90e6bc48",
+    "readImport": "121ab29495d9e6e136cff1b9ad50b52b2d04d46118a3883635aa0dd3d0ff8b8e",
+    "applyImport": "437afed11ba5351fbca78f4c2472e2ada9e4a1eb8ea33f5e836ef2cf370dcc3c"
+  },
+  "RULES": {
+    "sessionSize": 50,
+    "requeueGap": 4,
+    "maxRepeats": 0,
+    "missWindow": 8,
+    "historyKeep": 50,
+    "finishWeeks": 8,
+    "scheduler": "fsrs",
+    "targetRecall": 0.9,
+    "maxInterval": 180,
+    "boostAfter": 3,
+    "boostPerSession": 2,
+    "boostGapDays": 14
+  },
+  "MASTERY": {
+    "provisional": {
+      "succ": 2,
+      "gap": 7,
+      "S": 21
+    },
+    "mastered": {
+      "succ": 3,
+      "gap": 21,
+      "S": 60
+    }
+  }
+}
