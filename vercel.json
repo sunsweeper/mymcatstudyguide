@@ -15,6 +15,14 @@
       "dest": "/index.html"
     },
     {
+      "src": "^/(dashboard|bookmarks|notes|weaknesses|account|owner-dashboard|test-date|import-progress|graphics-preview|forgot-password|reset-password|check-email|verify-email)/?$",
+      "dest": "/index.html"
+    },
+    {
+      "src": "^/study/(bio-biochem|chem-phys|psych-soc|cars|all-topics|weakest-topics|focused-review)(/start|/missed-cards|/reinforcement(/start|/complete)?|/complete)?/?$",
+      "dest": "/index.html"
+    },
+    {
       "src": "^/why-it-works$",
       "dest": "/why-it-works.html"
     },

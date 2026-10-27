@@ -33,3 +33,8 @@ jobs:
           NODE_PATH: ./tools/node_modules
       - name: Contact validation and delivery responses
         run: node tests/contact.test.js
+
+      - name: Screen URLs, refresh, history and protected routes
+        run: node tests/screen-routing-browser.test.js
+        env:
+          NODE_PATH: ./tools/node_modules

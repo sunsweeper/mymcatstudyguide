@@ -1200,6 +1200,7 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
   </div>
 </div>
 
+<script src="/app-router.js"></script>
 <script src="supabase.js"></script>
 <script>
 const SECTIONS = {
@@ -3163,7 +3164,7 @@ function applyImport(){
 function show(m){ hideTip(); mode = m; render(); }
 const esc = s => s.replace(/[&<>"]/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[ch]));
 
-function render(){ renderScreen(); wireListTabs(); applyTips(); renderCountdown(); }
+function render(){ renderScreen(); wireListTabs(); applyTips(); renderCountdown(); if(window.MCATRoutes) window.MCATRoutes.sync(); }
 /* ---------- MCAT countdown (Package 2, Phase 6) ----------
    Calendar days between today's date and the exam date (not 24-hour periods). Only her own date, only when she gave one. */
 function countdownState(){
@@ -3943,7 +3944,7 @@ async function startAuth(){
     await enterAccount(session.user);
     if(after && sbUser){ openAccount(); emailNote = after; render(); }
   }
-  else { if(after && after.ok){ authMsg = after.text; authOk = true; } authView = location.pathname.replace(/\/$/, "") === "/signup" && !linkErr && !after ? "signup" : "login"; mode = "auth"; render(); }
+  else { if(after && after.ok){ authMsg = after.text; authOk = true; } authView = !linkErr && !after && window.MCATRoutes ? window.MCATRoutes.authViewForPath() : location.pathname.replace(/\/$/, "") === "/signup" && !linkErr && !after ? "signup" : "login"; mode = "auth"; render(); }
 }
 async function enterAccount(user){
   authView = "loading"; mode = "auth"; render();
@@ -3996,7 +3997,7 @@ async function enterAccount(user){
   lastPull = Date.now();
   try { sb.rpc("log_activity", { p_day:today(), p_cards:0, p_seconds:0 }); } catch(e){}
   authMsg = ""; authOk = false; undo = [];
-  applyBg(); mode = "welcome"; render();
+  applyBg(); mode = "welcome"; if(window.MCATRoutes) window.MCATRoutes.enter(); else render();
 }
 async function logOut(){
   flushTime(); if(SESSION_MODES.includes(mode)) persistPlace();
