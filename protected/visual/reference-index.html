@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8"><link rel="icon" href="/favicon.ico" sizes="any"/><link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32.png"/><link rel="icon" type="image/png" sizes="192x192" href="/brand/icon-192.png"/><link rel="apple-touch-icon" href="/brand/apple-touch-icon.png"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="MCAT flashcards with spaced repetition.">
 <style>
@@ -1138,7 +1138,7 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 <div class="wrap" id="app">
   <header class="topbar">
     <button class="iconbtn" id="menuBtn" type="button" aria-label="Menu" aria-haspopup="true" aria-expanded="false" aria-controls="menu"></button>
-    <a class="logo" id="logo" href="./" aria-label="TabiPrep.com, home"><svg class="logo-ico" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><rect x="2" y="2" width="44" height="44" rx="12" fill="#FFFFFF"/><rect x="8.5" y="8.5" width="31" height="31" rx="7.5" fill="#15241F"/><path d="M12 25h6l2.6-6.2 4 11.2 3-8.6 1.8 3.6H36" fill="none" stroke="#E0708A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="logo-word" aria-hidden="true"><span class="lw-1"><span class="lw-my">Tabi</span><span class="lw-mcat">Prep</span></span><span class="lw-2">.com</span></span></a>
+    <a class="logo" id="logo" href="./" aria-label="TabiPrep.com, home"><img class="logo-img" src="/brand/tabiprep-logo-480.png" width="480" height="203" alt=""></a>
     <h1 id="title" class="sr">TabiPrep.com</h1>
     <nav class="topnav" aria-label="Site">
       <button class="navpill" id="bmNav" type="button">Bookmarks</button>
@@ -1201,11 +1201,6 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
         <textarea id="reportNote" rows="2" placeholder="Optional"></textarea>
         <div class="report-actions"><button class="btn" id="reportCancel" type="button">Cancel</button><button class="btn primary" id="reportSend" type="button">Send</button></div>
         <span class="report-msg" id="reportMsg" role="status"></span>
-      </div>
-      <div class="conf" id="confRow">
-        <span class="conf-q" id="confQ">How confident are you in your answer? <span class="conf-opt">Optional</span></span>
-        <div class="conf-scale" role="radiogroup" aria-labelledby="confQ" aria-describedby="confEnds"><button type="button" role="radio" aria-checked="false" data-c="1" tabindex="0" style="--cc:var(--conf-1)">1</button><button type="button" role="radio" aria-checked="false" data-c="2" tabindex="-1" style="--cc:var(--conf-2)">2</button><button type="button" role="radio" aria-checked="false" data-c="3" tabindex="-1" style="--cc:var(--conf-3)">3</button><button type="button" role="radio" aria-checked="false" data-c="4" tabindex="-1" style="--cc:var(--conf-4)">4</button><button type="button" role="radio" aria-checked="false" data-c="5" tabindex="-1" style="--cc:var(--conf-5)">5</button><button type="button" role="radio" aria-checked="false" data-c="6" tabindex="-1" style="--cc:var(--conf-6)">6</button><button type="button" role="radio" aria-checked="false" data-c="7" tabindex="-1" style="--cc:var(--conf-7)">7</button><button type="button" role="radio" aria-checked="false" data-c="8" tabindex="-1" style="--cc:var(--conf-8)">8</button><button type="button" role="radio" aria-checked="false" data-c="9" tabindex="-1" style="--cc:var(--conf-9)">9</button><button type="button" role="radio" aria-checked="false" data-c="10" tabindex="-1" style="--cc:var(--conf-10)">10</button></div>
-        <div class="conf-ends" id="confEnds"><span>1 = not confident</span><span>10 = very confident</span></div>
       </div>
       <div class="controls prevrow" id="revealRow">
         <button class="btn" id="prev" type="button"><span>Previous<span class="d-only"> Card</span></span></button>
@@ -3523,7 +3518,7 @@ function renderScreen(){
       <button class="btn primary" id="weakStudy" type="button" ${top.length ? "" : "disabled"}>Study My Top Priorities</button></div>
       <div class="wk-sec"><div class="wk-head"><span class="t-name">How clear is the picture?</span></div>
         <p class="lede" style="margin:0">Keep studying! As you review more concepts and complete practice questions, we'll develop a clearer picture of your strengths and weaknesses.</p>
-        <p class="hint" style="margin:0">This shows how much evidence there is, not how well you're doing. It's separate from your 1–10 confidence ratings.</p>
+        <p class="hint" style="margin:0">This shows how much evidence there is, not how well you're doing.</p>
         <div class="thermos">${dm.secs.map(x => thermo(x.stage, x.name)).join("")}${thermo(dm.overallStage, "Overall", true)}</div></div>
       <div class="dash-tiles">
         <div class="tile"><span class="tile-n">${mastered}</span><span class="tile-l">cards mastered${prov ? ` · ${prov} almost there` : ""}</span><span class="tile-s">of ${seenCards} you've studied (estimated)</span></div>
@@ -3549,7 +3544,7 @@ function renderScreen(){
               <span class="wk-val">${seenN} of ${tot} cards seen${seenN ? ` · estimated mastery ${["low", "low", "some", "good", "high"][Math.min(4, Math.floor(m * 5))]}` : ""}</span>
               ${seenN ? `<span class="wk-bar" aria-hidden="true"><span style="width:${Math.round(m * 100)}%"></span></span>` : ""}
               <ul class="sub-list">${ss.map(s => `<li><span>${esc(s.name)}</span>${chip(s.status)}</li>`).join("")}</ul></li>`; }).join("")}</ul></details>`; }).join("")}
-      </div>${calibrationHTML()}`;
+      </div>`;
     $("sideBack").onclick = goBack;
     if(top.length) $("weakStudy").onclick = () => {
       const ids = []; top.slice(0, 3).forEach(x => [x.missedIds, x.overdueIds, x.ids].forEach(l => l.forEach(id => { if(!ids.includes(id)) ids.push(id); })));
@@ -3762,6 +3757,7 @@ function calibrationHTML(){
     <p class="hint" style="margin:0">These compare your confidence with your own Got it / Struggled / Didn't know ratings, not with graded answers.</p></div>`;
 }
 function renderConf(){
+  if(!$("confRow")) return;   // the confidence scale was removed from the study screen
   $("confRow").hidden = revealed;
   const bs = document.querySelectorAll("#confRow [data-c]");
   bs.forEach(b => { const on = conf === +b.dataset.c; b.setAttribute("aria-checked", String(on)); b.tabIndex = (conf ? on : b.dataset.c === "1") ? 0 : -1; });
@@ -4451,7 +4447,6 @@ const TIPS = {
   "#acctBtn": "Your account: change your name, log out, or delete your account.",
   "#ownerBtn": "See who has signed up, when they last studied, how many cards they reviewed and for how long. No scores or answers.",
   "#card .bm": "Save this card to your Bookmarks.",
-  "#confRow [data-c=\"1\"]": "Optional: before revealing, pick how sure you are (1 = not confident, 10 = very confident). It's saved with your rating and never changes your schedule.",
   "#countdown": "Days until your MCAT, counted by calendar date. Click to change your MCAT date.",
   "#mandToggle": "On: cards you've missed need a written answer before you flip them (until mastered), and Struggled / Didn't know need one before the next card. Off: writing is optional, and you'll be asked before skipping it.",
   "#toQuote": "Start your session, or pick up where you left off.",
@@ -4829,5 +4824,6 @@ else render();
 </script>
 
 <script src="study-ui.js"></script>
+<script src="study-stats.js"></script>
 </body>
 </html>
