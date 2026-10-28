@@ -1,0 +1,149 @@
+4A-019: angular velocity / spins faster / faster / rotation speeds up / speeds up / ω increases ; moment of inertia / inertia / i decreases
+4A-020: rf / r f / r times f / force times lever arm / lever arm times force / τ = rf
+4A-021: i = icm + md² / icm + md^2 / icm + md2 / i cm + md^2 / md² / md^2 / md2 / center of mass plus md squared
+4A-021~r: parallel-axis theorem / parallel axis theorem / parallel axis
+4A-022: net force zero / net force / forces sum to zero / force / sum of forces ; net torque zero / net torque / torques / torque
+4A-023: mgh / δu = mgh / increases by mgh
+4A-024: √(k/m) / sqrt(k/m) / square root of k over m / root k over m / √k/m / sqrt k/m / (k/m)^1/2 / (k/m)^0.5
+4A-025: 2π√(l/g) / 2pi sqrt(l/g) / 2π sqrt(l/g) / 2 pi root l over g / 2π√l/g / 2pi√(l/g) / 2 pi sqrt l/g
+4A-026: normal force / normal ; horizontal / centripetal / toward the center / inward / component
+4A-027: constant / steady / maximum ; air resistance / drag ; weight / gravity / mg ; net force zero / zero net force / balances / equal / no acceleration / net force is zero
+4A-027~r: terminal velocity
+4A-028: f · v / f·v / fv / f v / force times velocity / force dot velocity / f dot v / fvcos
+4A-029: gm1m2/r² / gm1m2/r^2 / gm1m2/r2 / g m1 m2 / r^2 / gmm/r^2 / gmm/r² / g times masses over r squared
+4B-001: m/v / mass over volume / mass/volume / mass divided by volume ; water / 1000 / 1 g/cm3 / ratio / relative to water / divided by density of water
+4B-001~r: floats / float / floating
+4B-002: p0 + ρgh / p0 + rho g h / p = p0 + ρgh / patm + ρgh / p0+ρgh / ρgh / rho g h / pgh
+4B-003: pressure / pressure applied ; equally / transmitted / undiminished / everywhere / throughout / all directions
+4B-004: r⁴ / r^4 / r4 / fourth power / radius to the fourth / radius^4
+4B-005: pv = nrt / pv=nrt ; 22.4 / 22.4 l / 22.4 liters
+4B-006: a1v1 = a2v2 / a₁v₁ = a₂v₂ / a1v1=a2v2 / av = constant / av constant / area times velocity
+4B-007: p + ½ρv² + ρgh / p + 1/2ρv^2 + ρgh / p + 1/2 rho v^2 + rho g h / p+1/2pv2+pgh / p + 1/2pv^2 + pgh / ½ρv² / 1/2ρv^2 / 1/2pv^2 ; constant / conserved / same
+4B-008: ρvg / ρ v g / rho v g / pvg / ρfluid v g / density of fluid / displaced volume / ρgv / rho g v / weight of displaced fluid / displaced fluid
+4B-008~r: buoyant force / buoyancy
+4B-009: gauge ; excludes / excluding / minus / relative to / without / not including ; atmospheric / atm ; absolute ; gauge + atmospheric / plus atmospheric / gauge plus atm / total / includes
+4B-010: ρobject/ρfluid / ρ object / ρ fluid / object density / density of object / ratio of densities / density ratio / specific gravity / ρo/ρf / rho object over rho fluid
+4B-011: narrows / narrow / constriction / smaller ; speeds up / faster / velocity increases / speed increases / increases speed ; pressure drops / pressure decreases / lower pressure / pressure falls / less pressure / pressure lower
+4B-012: resistance to flow / resists flow / thickness / friction / internal friction / resistance
+4B-013: laminar ; smooth / parallel / layers / orderly / streamlined ; turbulent ; chaotic / irregular / eddies / swirling / disordered / random / mixing
+4B-014: sum / add / total / added
+4B-015: boyle ; p1v1 = p2v2 / pv constant / inverse / inversely / p ∝ 1/v / pv = k / constant temperature ; charles ; v/t / v ∝ t / directly / proportional / v1/t1 = v2/t2 / constant pressure
+4B-016: ρgh / rho g h / pgh / density times g times h / ρ g h / dgh
+4B-017: weight equals / weight = / equals ; buoyant force / buoyancy / displaced fluid
+4B-018: pressure decreases / pressure drops / pressure falls / lower pressure / decreases / drops / falls / goes down
+4B-019: 1/r⁴ / 1/r^4 / r⁴ / r^4 / r4 / fourth power / radius to the fourth / r to the fourth
+4B-020: laminar / turbulent / turbulence
+4B-021: doubles / double / 2x / twice / x2 / ×2 / 2 times
+4B-022: inversely / inverse / 1/ / ; square root / sqrt / √ / root ; molar mass / mass / molecular weight / mw / molecular mass
+4B-023: √t / sqrt t / sqrt(t) / square root of t / root t / square root of temperature / t^1/2 / t^0.5 / √(t)
+4B-024: intermolecular / attractions / attraction / forces / imf ; volume / size / finite / particle volume / molecular volume
+4B-025: high temperature / high temp / high t / higher temperature ; low pressure / low p / lower pressure
+4B-026: constant temperature / temperature constant / same temperature / isothermal / t constant / δt = 0 / no temperature change
+4B-026~r: isothermal / isothermal process
+4B-027: no heat / without heat / q = 0 / q=0 / zero heat / heat exchange / insulated / no heat transfer / no heat exchange
+4B-027~r: adiabatic / adiabatic process
+4B-028: pressure difference / pressure / laplace / higher pressure / inside ; curved / curvature / interface / surface / small radius / radius
+4B-029: 16 / 16-fold / 16 fold / 16x / 16 times / sixteen / sixteenfold / x16 / ×16
+4C-001: oxidation ; loss / lose / loses ; electrons / electron ; reduction ; gain / gains
+4C-002: reduced / gets reduced / reduction / gains electrons / gain electrons
+4C-003: nonspontaneous / non-spontaneous / not spontaneous / e < 0 / negative e / δg > 0 ; outside / external / power / battery / electricity / driven / energy input ; anode ; positive / +
+4C-004: negative / − / - / neg
+4C-005: 96,485 / 96485 / 96500 / 96,500 / 9.65 x 10^4 / 9.6 x 10^4 / 96000 / 96,000 / 9.65 × 10^4 / 10^5
+4C-006: e° − (rt/nf) ln q / e - (rt/nf)lnq / e = e° - rt/nf ln q / e0 - rt/nf ln q / rt/nf / 0.0592/n log q / 0.059/n log q / 0.06/n log q / ln q / log q
+4C-006~r: nernst equation / nernst
+4C-007: cathode − anode / cathode - anode / ecathode - eanode / e cathode minus e anode / cathode minus anode / red - ox / reduction minus oxidation
+4C-007~r: standard cell potential / cell potential / e°cell / ecell
+4C-008: kq1q2/r² / kq1q2/r^2 / kq1q2/r2 / k q1 q2 / r^2 / kqq/r^2 / kqq/r² / k times charges over r squared
+4C-009: kq/r² / kq/r^2 / kq/r2 / f/q / force per charge
+4C-010: kq1q2/r / kqq/r / k q1 q2 / r ; kq/r / k q / r
+4C-010~r: electric potential energy / potential energy / electric potential / potential
+4C-011: iv / i v / p = iv ; i²r / i^2r / i2r ; v²/r / v^2/r / v2/r
+4C-012: parallel ; add / sum / adds / c1 + c2 / directly ; series ; reciprocals / 1/c / reciprocal / inverse
+4C-013: raises capacitance / increases capacitance / increases / raises / more capacitance / higher capacitance / increase / multiplies ; κ / k / dielectric constant / kappa / factor
+4C-014: ρl/a / rho l/a / pl/a / resistivity times length over area / ρ l / a / ρl/a
+4C-015: qvb sin θ / qvbsin / qvb sin / qvb / q v b / qv × b / qvxb
+4C-016: −nfe / -nfe / - nfe / negative nfe / δg = -nfe / δg=−nfe ; positive / spontaneous / positive e
+4C-017: oxidation ; anode ; reduction ; cathode ; anode to cathode / from anode to cathode / anode → cathode / toward cathode
+4C-018: v = ir / v=ir / ir ; series ; r1 + r2 / add / sum / r1+r2 ; parallel ; 1/r1 + 1/r2 / reciprocals / 1/r / reciprocal
+4C-019: q/v / c = q/v / charge over voltage ; ½cv² / 1/2cv^2 / 1/2 cv2 / 0.5cv^2 / 1/2 c v^2 / half cv squared / 1/2cv2 / ½qv / qv/2 / q²/2c / q^2/2c
+4C-020: kq/r / k q / r / kq over r ; infinity / zero at infinity / reference
+4C-021: qv / q v / u = qv / charge times potential / charge times voltage / q times v
+4C-022: decreasing / lower / low / high to low / downhill / decreasing potential / lower potential / from high to low ; δv/d / v/d / voltage over distance
+4C-023: εa/d / ea/d / epsilon a/d / ε0a/d / e0a/d ; lowers / decreases / reduces / less / smaller / lower / decrease
+4C-024: conservation of charge / charge conservation / charge is conserved / charge ; entering / in / into ; leaving / out / exiting
+4C-025: sum / add / total ; zero / 0 ; loop / closed loop / closed / around
+4C-025~r: kirchhoff's loop rule / kirchhoff loop / loop rule / kirchhoff's voltage law / kvl / kirchhoff's second
+4C-026: rc / r c / r times c / resistance times capacitance
+4C-027: 63% / 63 / 63 percent / 1 - 1/e / 1-1/e / 0.63
+4C-028: opposite / reverse / opposed / against / other direction / backward
+4C-029: ilb sin θ / ilbsin / ilb sin / ilb / i l b / il × b / bil ; right-hand rule / right hand rule / rhr / right hand
+4C-030: emf / voltage / induced ; change / rate of change / changing / derivative / dφ/dt / δφ/δt ; magnetic flux / flux
+4C-030~r: faraday's law / faraday / faraday's law of induction / faradays law
+4C-031: opposes / oppose / opposite / against / resists ; change / changing ; flux / magnetic flux / magnetic field
+4C-031~r: lenz's law / lenz / lenzs law
+4C-032: doubles / double / 2x / twice / x2 / ×2 / 2 times / increases twofold
+4D-001: n+1 / n + 1 / n plus 1 / neighbors plus one
+4D-002: aldehyde ; 9 / 9-10 / 9–10 / 10 ; carboxylic / acid / cooh ; 10-12 / 10–12 / 11 / 12 / 10 to 12
+4D-003: fλ / f λ / f lambda / v = fλ / frequency times wavelength / λf / lambda f / fl
+4D-004: solids / solid
+4D-005: odd / odd harmonics / odd only / only odd ; 4l/n / 4l / 4 l / n / four l
+4D-006: all / all harmonics / every harmonic / all integers ; 2l/n / 2l / 2 l / n / two l
+4D-007: c/v / c over v / speed of light over speed / speed of light in vacuum / speed in medium
+4D-008: higher to lower / high to low / dense to less dense / higher n / denser / slower to faster / higher index ; critical angle / critical / exceeds / greater than critical / past the critical
+4D-008~r: total internal reflection / tir
+4D-009: real ; inverted / projected / projectable / screen / converge / converging ; virtual ; upright / erect / cannot be projected / can't be projected / not projected / diverge
+4D-010: 1/f / one over f / 1 / f / inverse of focal length / reciprocal of focal ; diopters / diopter / d / meters / m
+4D-011: radio ; microwave / microwaves ; infrared / ir ; visible / light ; ultraviolet / uv ; x-ray / x ray / xray / x-rays ; gamma
+4D-012: 400 ; 700
+4D-012~r: visible light / visible / visible spectrum
+4D-013: hf − w / hf - w / hf-w / hf minus w / hf − φ / hf - φ / hf - work function / hf minus work function / e photon - work function
+4D-014: c=o / carbonyl ; 1700 ; o-h / o–h / oh / alcohol / hydroxyl ; 3200 / 3300 / 3400 / 3500 / 3200-3550 / 3600 / broad
+4D-014~r: ir / infrared / ir spectroscopy / ir peaks
+4D-015: n1 sin θ1 = n2 sin θ2 / n1sinθ1 = n2sinθ2 / n1 sin 1 = n2 sin 2 / n1sin1 = n2sin2 / n1sinθ1=n2sinθ2 / n₁ sin θ₁ = n₂ sin θ₂
+4D-016: 1/f = 1/o + 1/i / 1/f = 1/do + 1/di / 1/f=1/o+1/i / 1/f = 1/p + 1/q ; −i/o / -i/o / -di/do / −di/do / -q/p / m = -i/o
+4D-017: 10 log / 10log / 10 log(i/i0) / 10 log i/i0 / 10 times log ; 10x / 10 times / tenfold / 10-fold / ten times / factor of 10
+4D-017~r: 20 / 20 db / twenty
+4D-018: higher / increases / increase / higher frequency / higher pitch / raised / greater / up
+4D-019: same / unchanged / doesn't change / does not change / constant / stays / remains / no change
+4D-020: n2/n1 / n2 / n1 / n2 over n1 / sin θc = n2/n1 / arcsin
+4D-021: inverted / upside down / flipped / upside-down
+4D-022: 10 / 10 db / ten / 10 decibels
+4D-023: v/(2l) / v/2l / v over 2l / v / 2l
+4D-024: integer multiple / whole number / multiple / n / 0, 2π / m ; 2π / 2pi / 2 pi / 360 / wavelength / in phase / λ
+4D-025: λl/d / λ l / d / lambda l/d / l λ/d / lambda l over d / λl over d
+4D-026: vibrational / vibration / vibrations / bond vibrations / stretching / bending ; dipole / dipole moment
+4D-027: electronic / electron / electrons ; energy levels / levels / orbitals / transitions / homo / lumo / conjugation / excitation
+4D-028: electronic environment / environment / electron density / electrons ; shielding / deshielding / shielded / deshielded
+4D-028~r: chemical shift / shift / ppm
+4D-029: virtual ; upright / erect ; magnified / larger / enlarged / bigger
+4E-001: 6.022 × 10^23 / 6.022 x 10^23 / 6.02 x 10^23 / 6.02 × 10^23 / 6.022e23 / 6.02e23 / 6.022 10 23 / 6.02 10 23 / 6 x 10^23 / 10^23 / 1023
+4E-002: runs out / first / used up / consumed / exhausted ; product / amount / limits / determines / sets
+4E-002~r: limiting reagent / limiting reactant / limiting
+4E-003: actual ; theoretical ; 100 / percent / %
+4E-003~r: percent yield / % yield / yield
+4E-004: n / principal ; l / azimuthal / angular / shape / subshell ; ml / m l / magnetic / orientation ; ms / m s / spin
+4E-005: two electrons / no two / same ; four quantum numbers / quantum numbers / all four / same set
+4E-006: one each / singly / one electron / single / separately / each orbital ; parallel / same spin / same direction / unpaired ; before pairing / before pair / then pair / pairing
+4E-007: increases down / larger down / bigger down / down a group / down ; decreases left to right / smaller across / smaller to the right / across / left to right
+4E-008: increases up / up a group / up / higher up ; left to right / across / to the right / right
+4E-008~r: ionization energy / ionization / ie / first ionization energy
+4E-009: same protons / same number of protons / same atomic number / same element / same z ; different neutrons / different number of neutrons / different mass / different mass number / neutrons
+4E-009~r: isotopes / isotope
+4E-010: hf / h f / h times f / planck ; hc/λ / hc/lambda / hc / λ / hc over λ
+4E-011: mass-to-charge / mass to charge / m/z / mass/charge / m/e
+4E-012: energy / photon / gamma ray / radiation ; no change / don't change / unchanged / same / stay / not change / do not change
+4E-013: atomic number down / decreases by 1 / atomic number decreases / z - 1 / z-1 / down by one / decreases by one / lowers atomic number / minus 1 / -1 ; mass number unchanged / mass unchanged / mass same / mass number same / a unchanged / mass stays / unchanged
+4E-014: atomic number down / decreases by 1 / atomic number decreases / z - 1 / z-1 / down by one / decreases by one / lowers atomic number / minus 1 / -1 ; mass number unchanged / mass unchanged / mass same / mass number same / a unchanged / mass stays / unchanged
+4E-015: increases up / up a group / up / higher up ; left to right / across / to the right / right
+4E-015~r: electronegativity / en
+4E-016: (½)^n / (1/2)^n / 1/2^n / ½ⁿ / 0.5^n / half to the n / one half to the n / (½) n / 1/2 n / 2^-n
+4E-017: alpha ; −4 / -4 / minus 4 / down 4 / loses 4 / 4 ; −2 / -2 / minus 2 / down 2 / loses 2 / 2 ; beta / beta minus ; +1 / plus 1 / up 1 / increases by 1 / increases by one / increases
+4E-018: h/p / h over p / h / p / h/mv / planck over momentum
+4E-019: position / location ; momentum / velocity / energy / time / conjugate / precision / simultaneously
+4E-019~r: heisenberg uncertainty principle / uncertainty principle / heisenberg
+4E-020: 6 / six
+4E-021: shell / energy level / size / distance from nucleus / energy
+4E-022: quantized / discrete / specific / fixed / levels / energy levels / transitions / jumps
+4E-023: minimum / threshold / least / lowest / required ; remove / eject / free / release / liberate / electron
+4E-024: 1/8 / one-eighth / one eighth / 12.5% / 12.5 / 0.125 / an eighth
+4C-011~r: electrical power / power / p = iv / iv

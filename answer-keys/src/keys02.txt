@@ -1,0 +1,150 @@
+2C-013: three germ layers / 3 germ layers / germ layers / ectoderm mesoderm endoderm ; blastopore / anus
+2C-013~r: gastrulation
+2C-014: notochord ; ectoderm ; neural tube / neural plate / fold / folds
+2C-014~r: neurulation
+2C-015: totipotent ; any cell / all cells / placenta / extraembryonic ; pluripotent ; any body cell / body / all body / embryo / any cell of the body ; multipotent ; limited / related / few / some / specific / restricted
+2C-016: dna / damage / integrity ; growth / signals / size / nutrients / conditions / environment
+2C-017: phosphorylate / phosphorylation / phosphorylates / kinase ; cell cycle / progression / checkpoints / phases
+2C-018: arrest / halt / stop / pause / checkpoint ; repair / apoptosis / senescence / cell death
+2C-019: sister chromatids / chromatids ; opposite poles / poles / apart / opposite ends
+2C-020: prophase i / prophase 1 / pachytene / prophase one
+2C-021: pairing / pair / align / come together / synapse ; homologous / homologs / homologues / homologous chromosomes
+2C-021~r: synapsis
+2C-022: sister chromatids / chromatids ; no halving / not halved / same number / doesn't halve / without halving / does not change / stays haploid / no reduction / chromosome number unchanged / like mitosis
+2C-023: hollow / ball ; fluid / cavity / blastocoel ; inner cell mass / icm / trophoblast
+2C-023~r: blastula / blastocyst
+2C-024: mesoderm / notochord ; ectoderm ; neural plate / neural tube
+2C-025: signaling molecule / signal / molecule / chemical ; concentration / gradient ; cell fate / fate / differentiation / development
+2C-025~r: morphogen
+2C-026: specialized / specialization / specific ; gene expression / genes / expression
+2C-026~r: differentiation / cell differentiation
+2C-027: pluripotent ; all body / body cells / embryo / three germ layers / germ layers ; totipotent ; extraembryonic / placenta / supporting
+2C-028: reduced proliferation / stop dividing / stops dividing / cease division / stop growing / reduced division / stop proliferating / growth stops / less division ; contact / touch / crowded / neighbors / confluent
+2C-029: spindle assembly checkpoint / spindle checkpoint / sac / metaphase checkpoint / m checkpoint / mitotic checkpoint / spindle-assembly / metaphase to anaphase / metaphase-anaphase
+3A-001: cns ; oligodendrocytes / oligodendrocyte ; pns ; schwann cells / schwann
+3A-002: jumps / jump / skips / hops / leaps ; nodes of ranvier / nodes / node ; myelinated / myelin / faster / speeds / speed / fast
+3A-002~r: saltatory conduction / saltatory
+3A-003: absolute ; no / impossible / cannot / can't / not possible ; relative ; stronger / larger / bigger / greater / higher / extra
+3A-004: calcium / ca2+ / ca ; influx / enters / entry / rushes in / flows in / voltage-gated / voltage gated
+3A-005: steroid ; lipid / intracellular / nucleus / transcription / gene ; peptide ; surface / membrane / second messenger / second messengers / camp
+3A-006: fsh ; lh ; acth ; tsh ; prolactin / prl ; gh / growth hormone
+3A-007: adh / vasopressin / antidiuretic ; oxytocin
+3A-007~r: posterior pituitary / neurohypophysis
+3A-008: pth ; raises / increases / up / higher ; calcitonin ; lowers / decreases / down / reduces
+3A-009: glucose / blood sugar / gluconeogenesis ; immune / inflammation / immunosuppression / suppresses
+3A-010: adrenal medulla / medulla
+3A-011: t3 / triiodothyronine ; t4 / thyroxine ; metabolic rate / metabolism / bmr ; iodine
+3A-011~r: thyroid hormones / t3 / t4 / thyroxine
+3A-012: insulin ; beta / β ; glucagon ; alpha / α
+3A-013: sodium / na+ / na ; in / influx / enters / into ; potassium / k+ / k ; out / efflux / leaves
+3A-014: 3 na / 3 sodium / three sodium / 3na / 3 na+ ; out ; 2 k / 2 k+ / 2 potassium / two potassium / 2k ; in
+3A-015: sympathetic ; norepinephrine / noradrenaline / ne ; parasympathetic ; acetylcholine / ach
+3A-016: sodium channel inactivation / na inactivation / sodium channels close / na+ channels inactivate / inactivation / sodium channels inactivate ; potassium / k+ / k
+3A-017: nodes / nodes of ranvier / node ; regenerate / jump / jumps / saltatory / skip / insulates / insulation
+3A-018: ionotropic ; ligand-gated / ligand gated / channel / channels / ion channel ; metabotropic ; g protein / g-protein / second messenger / biochemical / indirect / signaling cascade / cascade
+3A-019: releasing / inhibiting / hormones ; portal / hypophyseal portal / blood vessels / portal system
+3A-020: tsh stimulates / tsh / thyroid stimulating hormone / thyrotropin
+3A-021: negative feedback / inhibits / reduces / decreases / feedback ; trh / tsh
+3A-022: angiotensin ii / angiotensin 2 / angiotensin ; potassium / k+ / hyperkalemia
+3A-023: raises / increases / up / higher / elevates
+3A-024: inhibits / decreases / reduces / lowers / suppresses / blocks
+3A-025: gluconeogenesis / glucose / blood sugar / substrates / mobilize ; protein / catabolism / breakdown / proteolysis / fat / lipolysis
+3A-026: cell-surface receptors / surface receptors / membrane receptors / receptors on surface / surface / membrane ; second messengers / second messenger / camp / cascade / g protein
+3A-027: camp / cyclic amp / cyclic adenosine monophosphate
+3A-028: pip2 / pip 2 ; ip3 / ip 3 ; dag / diacylglycerol
+3A-029: less negative / depolarizes / depolarize / more positive / depolarization / rises / increases
+3B-001: h zone / h band / h ; i band / i
+3B-002: troponin ; tropomyosin ; binding sites / myosin-binding / sites / exposes / expose / uncovers
+3B-003: atp
+3B-004: skeletal ; striated / voluntary / multinucleated ; cardiac ; intercalated / involuntary / striated ; smooth ; not striated / nonstriated / unstriated / involuntary
+3B-005: right atrium / ra ; tricuspid ; right ventricle / rv ; pulmonary valve / pulmonic ; pulmonary artery / pulmonary arteries ; lungs ; pulmonary veins / pulmonary vein ; left atrium / la ; mitral / bicuspid ; left ventricle / lv ; aortic valve / aortic ; aorta
+3B-006: arteries / artery ; away / away from the heart / from the heart / leave ; veins / vein ; toward / to the heart / back / return / towards
+3B-007: surface tension ; collapse / collapsing / alveoli / atelectasis
+3B-008: bicarbonate / hco3 / hco3- ; carbonic anhydrase / rbc / red blood cells / rbcs
+3B-009: b cells / b ; antibodies / antibody / humoral ; t cells / t ; helper / cd4 ; cytotoxic / cd8 / kill / killer
+3B-010: mhc i / mhc 1 / class i ; all nucleated / all cells / nucleated cells ; cd8 / cytotoxic ; mhc ii / mhc 2 / class ii ; antigen-presenting / apc / apcs / antigen presenting / macrophages / dendritic / b cells ; cd4 / helper
+3B-011: innate ; fast / quick / rapid / immediate ; nonspecific / non-specific / general ; adaptive ; specific ; memory / slow / slower
+3B-012: lh surge / lh / luteinizing hormone
+3B-013: progesterone
+3B-013~r: corpus luteum
+3B-014: corpus luteum ; maintains / keeps / sustains / preserves / rescues
+3B-015: bile / bile salts ; emulsify / emulsifies / emulsification / break into droplets ; lipase / pancreatic lipase
+3B-016: duodenum ; jejunum ; ileum
+3B-017: secretin ; bicarbonate / hco3 / base ; cck / cholecystokinin ; bile / gallbladder ; enzymes / digestive enzymes / pancreatic enzymes
+3B-018: hydrostatic / blood pressure / pressure
+3B-019: glucose ; amino acids / amino acid ; sodium / na / na+ ; water
+3B-019~r: proximal tubule / pct / proximal convoluted tubule / proximal
+3B-020: co2 / carbon dioxide ; h+ / ph / acid / lower ph / acidity ; temperature / temp / heat ; 2,3-bpg / 2,3 bpg / bpg / 2,3-dpg / dpg
+3B-021: descending ; water ; ascending ; salt / salts / nacl / ions / solutes / sodium ; impermeable / not permeable / no water
+3B-022: water reabsorption / reabsorbs water / water retention / water / reabsorb ; collecting duct / collecting ducts / aquaporins / aquaporin
+3B-023: sodium reabsorption / na reabsorption / reabsorbs sodium / na+ / sodium / na ; potassium secretion / k secretion / k+ / potassium / k
+3B-024: pepsinogen ; chief cells / chief ; hcl / acid / hydrochloric / stomach acid ; parietal
+3B-025: liver ; gallbladder / gall bladder
+3B-026: pacemaker / rhythm / sets heart rate / initiates / starts heartbeat / initiates beat
+3B-027: systemic / body / whole body ; resistance / pressure / harder / higher pressure / farther / more force
+3B-028: mitral / bicuspid
+3B-029: pulmonary veins / pulmonary vein
+3B-030: ventricles contract / contraction / contract / ventricular contraction ; eject / pumps / pump / blood out / ejection / expel
+3B-031: atrial depolarization / atria depolarize / atrial / atria
+3B-032: ventricular depolarization / ventricles depolarize / ventricles depolarizing / ventricle depolarization
+3B-033: ventricular repolarization / ventricles repolarize / repolarization
+3B-034: heart rate / hr ; stroke volume / sv
+3B-034~r: cardiac output / co
+3B-035: co2 / carbon dioxide / ph / acid / h+ / acidity
+3B-036: deoxygenated / deoxyhemoglobin / without oxygen / less oxygen / deoxy ; more co2 / co2 / carbon dioxide / h+
+3B-037: partial pressure / partial pressures / pressure gradient / gradients / diffusion / concentration gradient
+3B-038: surface tension ; small alveoli / alveoli / small
+3B-039: osmolarity / osmotic / concentrated / hypertonic / salty / solute / medulla ; permeable / permeability / water
+3B-040: neutralizes / neutralize / buffers / raise ph / basic ; acid / acidic / chyme / stomach acid
+3B-041: small intestine
+3B-042: b12 / vitamin b12 / cobalamin ; ileum / terminal ileum
+3B-042~r: intrinsic factor / if
+3B-043: plasma cells / plasma / b cells / b lymphocytes / b
+3B-044: bowman / bowman's / capsule ; proximal / pct ; descending ; ascending ; distal / dct ; collecting duct ; calyx / calyces / minor calyx / major calyx ; renal pelvis / pelvis ; ureter
+3B-045: blood cells / cells / rbcs / red blood cells ; proteins / plasma proteins / albumin
+3B-046: filtered ; reabsorbed ; secreted
+3B-047: blood / capillary / peritubular ; tubule / into the tubule / filtrate / urine ; h+ / k+ / drugs / toxins / ammonium / nh4 / penicillin / potassium / hydrogen
+3B-047~r: tubular secretion / secretion
+3B-048: transport maximum / tm / saturated / exceeds / overwhelms / maxed out / capacity / threshold ; reabsorbed / reabsorption / not reabsorbed / transporters / cotransporters / sglt
+3B-049: ascending limb / thick ascending / ascending ; pumps / pump / active / actively / nacl / salt / sodium ; impermeable / not permeable / water ; opposite directions / countercurrent / counter-current / opposite / gradient
+3B-049~r: countercurrent multiplier / counter-current multiplier / countercurrent / counter current
+3B-050: dehydration ; adh up / raises adh / more adh / increases adh / adh increases / increased adh / adh rises / high adh ; concentrated / less urine / small volume / reduced urine ; deficiency / diabetes insipidus / alcohol ; dilute / large volume / more urine / polyuria / increased urine
+3B-051: juxtaglomerular / jg / jg cells ; low pressure / perfusion / low blood pressure / pressure falls / hypotension / low nacl / sympathetic / low bp / decreased pressure ; angiotensin / angiotensinogen / angiotensin ii ; aldosterone / vasoconstriction / blood pressure / constrict / volume
+3B-051~r: renin
+3B-052: secrete h+ / secrete more h+ / excrete h+ / h+ / acid excretion / hydrogen ; bicarbonate / hco3 / hco3- / reabsorb bicarbonate
+3B-053: internal ; smooth / involuntary / autonomic ; external ; skeletal / voluntary / somatic
+3B-054: interstitial fluid / excess fluid / fluid / tissue fluid / lymph ; proteins / plasma proteins / bloodstream / blood / circulation
+3B-054~r: lymphatic system / lymphatic / lymph / lymphatics
+3B-055: fluid / proteins / protein ; interstitium / interstitial / tissue / build up / accumulate / accumulates / swelling / oncotic
+3B-056: lymphatic capillaries / lymphatic / lymph ; villi / intestinal / intestine ; chylomicrons / fats / lipids / fat
+3B-056~r: lacteals / lacteal
+3B-057: thoracic duct ; subclavian / left subclavian / subclavian vein
+3B-058: skeletal muscle / muscle / muscles / contraction ; valves / one-way valves / one way valves / breathing / respiratory / smooth muscle
+3B-059: filter / filters / filtering ; macrophages / pathogens / antigens / immune / lymphocytes / b and t cells / b cells / t cells / activation
+3B-059~r: lymph nodes / lymph node / nodes
+3B-060: primary ; bone marrow / marrow ; thymus ; secondary ; lymph nodes / spleen / tonsils / malt / nodes
+3B-060~r: thymus
+3B-061: blood ; red blood cells / rbcs / old rbcs / erythrocytes / red cells / damaged / old ; immune / antigens / pathogens / white pulp / lymphocytes
+4A-001: vector ; magnitude ; direction ; scalar ; magnitude only / only magnitude / no direction / just magnitude / without direction
+4A-002: 45 / 45° / 45 degrees / forty five
+4A-003: constant / unchanged / same / doesn't change / does not change / stays / no acceleration / uniform
+4A-003~r: horizontal velocity / horizontal
+4A-004: μn / mu n / μkn / μk n / coefficient / normal force / normal ; static / kinetic / up to / maximum / max
+4A-005: mg sin θ / mg sin / mgsin / sin ; mg cos θ / mg cos / mgcos / cos
+4A-006: v²/r / v^2/r / v2/r / v squared over r ; center / centre / inward / toward the center / towards center
+4A-006~r: centripetal acceleration / centripetal
+4A-007: rf sin θ / rfsin / r f sin / rf sin / r x f / r×f / force times lever arm / rf
+4A-008: p = mv / mv / mass times velocity ; fδt / f δt / ft / f t / force times time / δp / change in momentum
+4A-008~r: impulse
+4A-009: momentum / both conserve momentum ; elastic ; kinetic energy / ke ; stick / stick together / perfectly inelastic
+4A-010: f = -kx / f=-kx / -kx / −kx / kx ; ½kx² / 1/2kx^2 / 1/2 kx2 / 0.5kx^2 / 1/2 k x^2 / half kx squared / 1/2kx2
+4A-011: no friction / without friction / nonconservative / no nonconservative / frictionless / conservative ; ke + pe / kinetic plus potential / total / constant / conserved / same
+4A-011~r: conservation of mechanical energy / mechanical energy / energy conservation
+4A-012: v² = v0² + 2aδx / v^2 = v0^2 + 2ad / v2 = v02 + 2ad / v^2=v0^2+2aδx / vf^2 = vi^2 + 2ad / v² = v₀² + 2aδx / 2ax / 2ad / 2aδx
+4A-012~r: v² = v0² + 2aδx / v^2 = v0^2 + 2ad / vf^2 = vi^2 + 2ad / 2ad / 2ax / without time
+4A-013: fd cos θ / fdcos / f d cos / fd cos / force times distance / fd ; joules / joule / j
+4A-014: ½mv² / 1/2mv^2 / 1/2 mv2 / 0.5mv^2 / 1/2 m v^2 / half mv squared / 1/2mv2 ; mgh
+4A-015: w/t / work over time / work/time / work divided by time / energy per time / p = w/t ; watts / watt / w / j/s
+4A-016: zero displacement / no displacement / doesn't move / displacement is zero / no movement / stationary ; perpendicular / 90 / 90° / right angle / normal to
+4A-017: quadruples / 4 times / four times / 4x / factor of 4 / x4 / ×4
+4A-018: no net external / net external force zero / no external force / zero external / external impulse is zero / no external / isolated / closed system
