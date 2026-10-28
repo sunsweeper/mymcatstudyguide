@@ -142,10 +142,10 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
 .stats-modal .stat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .stats-modal .stat{background:#fffaf1;border:1px solid #e3d8c6;border-radius:11px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
 .stats-modal .stat span{font:600 11px 'DM Sans',sans-serif;color:#6b7d71}
-.stats-modal .stat b{font:700 22px 'Playfair Display',serif;color:#1d3326}
+.stats-modal .stat b{font:700 22px 'DM Sans',sans-serif;color:#1d3326;font-variant-numeric:lining-nums tabular-nums}
 .stats-modal .stat.good b{color:#2f7a4f}.stats-modal .stat.hard b{color:#9a6a2e}.stats-modal .stat.again b{color:#a65370}
 .stats-modal .stat-note{font-size:12px;color:#6b7d71;margin:12px 0 0}
-.stats-modal .stats-share{margin-top:18px;width:100%;min-height:50px;border-radius:12px;background:#f0adbd;border:2px solid #e8a4b6;color:#14271e;font:800 16px 'DM Sans',sans-serif;cursor:pointer}
+.stats-modal #statsShare,.stats-modal #statsShare:hover{margin-top:18px;width:100%;min-height:50px;border-radius:12px;background:#f0adbd;border:2px solid #e8a4b6;color:#14271e;font:800 16px 'DM Sans',sans-serif;cursor:pointer}
 .stats-modal #shareImg{display:block;width:100%;max-width:300px;margin:6px auto 14px;border-radius:12px;box-shadow:0 8px 30px #0003}
 .stats-modal .share-buttons{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .stats-modal .share-buttons .btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 14px;border-radius:10px;border:1px solid #c9bfae;background:#fffaf1;color:#24382d;font:700 13px 'DM Sans',sans-serif;text-decoration:none;cursor:pointer}
