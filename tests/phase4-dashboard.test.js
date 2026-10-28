@@ -60,7 +60,7 @@ const mk = () => { const h = boot({ clock:T0 }); return { h, A:h.api }; };
   cs.slice(0, 4).map(c => ids.find(id => A.META.c[id][1] === c)).forEach(id => setH(A, id, [[30, "good"], [25, "again"], [20, "again"], [12, "again"], [6, "again"], [2, "again"]]));
   A.openSide("weakdash"); const html = h.els.screen.innerHTML;
   ok("D19 the screen labels everything as estimates from self-ratings", html.includes("These are estimates, not practice-question scores") && html.includes("self-rated"));
-  ok("D20 thermometer text explains it's evidence, not ability, and separate from the 1–10 ratings", html.includes("Keep studying! As you review more concepts") && html.includes("not how well you're doing") && html.includes("1–10 confidence"));
+  ok("D20 thermometer text explains it's evidence, not ability", html.includes("Keep studying! As you review more concepts") && html.includes("not how well you're doing") && !html.includes("1–10 confidence"));
   ok("D21 progress tiles: mastered, coverage, retention, due; plus activity line", html.includes("cards mastered") && html.includes("MCAT concepts covered") && html.includes("held up after a day+") && html.includes("cards due now") && html.includes("Time is shown for reference"));
   ok("D22 no exact evidence percentage is shown on the thermometers", !/th-word">\d+%/.test(html)); }
 console.log(`\n${pass} passed, ${fail} failed`); process.exit(fail ? 1 : 0);

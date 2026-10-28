@@ -39,6 +39,11 @@
    "date": "2026-10-28",
    "approved_by": "Claude (fix for PR #11 regression; merge requires Aaron's approval)",
    "reason": "Long card category names no longer wrap on phones up to 400px wide (tighter letter-spacing), so the card is shorter. Card content unchanged."
+  },
+  {
+   "date": "2026-10-28",
+   "approved_by": "Aaron Walch",
+   "reason": "Owner asked to remove the 1-10 confidence scale from the study screen (2026-10-28)"
   }
  ]
 }
