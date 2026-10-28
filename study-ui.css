@@ -116,3 +116,25 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
   #study #studyNext{flex-basis:auto;font-size:20px}
 }
 @media(max-width:400px){#study #card .foot .cat{font-size:10px;letter-spacing:.4px}}
+
+/* Answer check (key-concept match, then AI) shown under the written answer after flipping */
+#study .answer-check{margin-top:12px;padding:12px 14px;border-radius:11px;border:1px solid #58705f;background:#203c30;font:13px/1.55 'DM Sans',sans-serif;color:#e6f0e8}
+#study .answer-check[hidden]{display:none}
+#study .answer-check p{margin:0}
+#study .answer-check.checking,#study .answer-check.unavailable{color:#c7d6cb;font-style:italic}
+#study .answer-check .check-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+#study .answer-check .check-source{font:700 10px 'DM Sans',sans-serif;letter-spacing:1.4px;color:#93aa9a}
+#study .answer-check .check-head strong{font-size:14px}
+#study .answer-check.rated-good{border-color:#6fb98d}#study .answer-check.rated-good strong{color:#9fe0b7}
+#study .answer-check.rated-hard{border-color:#c9a37f}#study .answer-check.rated-hard strong{color:#f0cfa8}
+#study .answer-check.rated-again{border-color:#c4768b}#study .answer-check.rated-again strong{color:#f4b5c5}
+#study .answer-check .check-flag{margin-top:8px;font:700 12px 'DM Sans',sans-serif;color:#f0adbd}
+#study .answer-check .check-flag-form{margin-top:10px;display:grid;gap:7px}
+#study .answer-check .check-flag-form[hidden]{display:none}
+#study .answer-check .check-flag-form label{font-weight:700;font-size:12px}
+#study .answer-check .check-flag-form textarea{width:100%;box-sizing:border-box;border:1px solid #6e9879;border-radius:9px;background:#f8f2e8;color:#193c29;padding:8px 10px;font:13px/1.5 'DM Sans',sans-serif}
+#study .answer-check .check-flag-actions{display:flex;gap:8px;justify-content:flex-end}
+#study .answer-check .check-flag-actions .btn{min-height:0;padding:7px 12px;border-radius:9px;font:700 12px 'DM Sans',sans-serif;background:#1a3329;color:#e6f0e8;border:1px solid #58705f}
+#study .answer-check .check-flag-msg,#study .answer-check .check-flagged{font-size:12px;color:#c7e9d0}
+.study-modal #rateRow .btn.suggested{outline:3px solid #24382d;outline-offset:2px;position:relative}
+.study-modal #rateRow .btn.suggested:after{content:'Suggested';position:absolute;top:-10px;right:8px;background:#24382d;color:#f8f2e8;font:700 10px 'DM Sans',sans-serif;letter-spacing:.6px;padding:2px 7px;border-radius:99px}

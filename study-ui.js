@@ -32,10 +32,84 @@
   modal.innerHTML=`<div id="studyRatingDialog" class="study-modal" role="dialog" aria-modal="true" aria-labelledby="studyRatingTitle" aria-describedby="studyRatingDescription" tabindex="-1"><button class="study-close" id="closeStudyRating" aria-label="Close rating prompt">×</button><span class="study-eyebrow">YOUR RECALL</span><h2 id="studyRatingTitle">Did you remember the answer to the last card?</h2><p id="studyRatingDescription">Choose the response that best matches how well you remembered.</p></div>`;
   document.body.append(modal);byId('studyRatingDialog').append(byId('rateRow'));
   function closeRating(restore=true){modal.hidden=true;dialogKey=null;byId('study').inert=false;if(restore&&returnTo?.isConnected)returnTo.focus();}
-  function openRating(){if(mode!=='cards'||!revealed||!flipped||flipping||askCfg||noteModalOpen)return;returnTo=document.activeElement;dialogKey=curKey;modal.hidden=false;byId('rateRow').hidden=false;byId('study').inert=true;modal.querySelector('[data-r]').focus();}
+  function openRating(){if(mode!=='cards'||!revealed||!flipped||flipping||askCfg||noteModalOpen)return;returnTo=document.activeElement;dialogKey=curKey;modal.hidden=false;byId('rateRow').hidden=false;byId('study').inert=true;const g=check.current();
+    byId('rateRow').querySelectorAll('[data-r]').forEach(b=>b.classList.toggle('suggested',!!g&&g.rating===b.dataset.r));
+    byId('studyRatingDescription').textContent=g?`Suggested: ${rateLabel(g.rating)} (${g.source==='ai'?'AI check':'key concepts matched'}). Tap a different rating if you disagree.`:'Choose the response that best matches how well you remembered.';
+    (modal.querySelector('[data-r].suggested')||modal.querySelector('[data-r]')).focus();}
   function next(){if(mode!=='cards'||flipping||!revealed)return;if(pendingR){submitReinforce();return;}openRating();}
   byId('studyNext').onclick=next;byId('closeStudyRating').onclick=()=>closeRating();
+  insert('<section class="answer-check" id="answerCheck" hidden aria-live="polite"></section>',byId('recallEntry'));
   insert('<button class="link" id="studyChangeRating" hidden>Change rating</button>',byId('recallEntry'));
+  // ---- Answer check: layer 1 key-concept match in the browser; anything that isn't a clear match goes to the AI (layer 2). ----
+  // It only suggests a rating. The student still taps the rating and can pick a different one; the engine records that tap.
+  const rateLabel=r=>(byId('rateRow').querySelector(`[data-r="${r}"]`)?.textContent||r).trim();
+  const check=(()=>{
+    let keys=null,keysLoading=null;const state={};   // state[cacheKey] = {status:'checking'|'done'|'unavailable', ...}
+    const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+    const cacheKey=()=>curKey+'|'+draft.trim();
+    const store={get(k){try{return JSON.parse(sessionStorage.getItem('tabi-check:'+k)||'null');}catch(e){return null;}},set(k,v){try{sessionStorage.setItem('tabi-check:'+k,JSON.stringify(v));}catch(e){}}};
+    function loadKeys(){
+      if(keys)return Promise.resolve(keys);
+      return keysLoading||(keysLoading=(window.TabiMatch?Promise.resolve():new Promise((ok,bad)=>{const sc=document.createElement('script');sc.src='/answer-keys/match.js';sc.onload=ok;sc.onerror=bad;document.head.append(sc);}))
+        .then(()=>fetch('/answer-keys/keys.json')).then(r=>{if(!r.ok)throw new Error('keys');return r.json();}).then(k=>keys=k).catch(e=>{keysLoading=null;throw e;}));
+    }
+    async function token(){try{return sb?(await sb.auth.getSession()).data.session?.access_token||null:null;}catch(e){return null;}}
+    async function run(k,key,answer){
+      let result;
+      try{
+        const K=await loadKeys(),m=window.TabiMatch.grade(answer,K.keys[key]||[]);
+        if(m.verdict==='right'&&!K.confirmByAI.includes(key.replace('~r','')))result={status:'done',source:'match',rating:'good',reasoning:'Your answer includes every key concept on this card.'};
+      }catch(e){}
+      if(!result){
+        const t=await token();
+        if(!t)result={status:'unavailable',why:'Sign in to get an AI check of your answer.'};
+        else try{
+          const r=await fetch('/api/grade',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+t},body:JSON.stringify({key,answer})});
+          const d=await r.json().catch(()=>({}));
+          result=r.ok&&d.rating?{status:'done',source:'ai',rating:d.rating,reasoning:d.reasoning,model:d.model}:{status:'unavailable',why:r.status===503?'AI checking isn’t switched on yet.':'The AI check didn’t respond.'};
+        }catch(e){result={status:'unavailable',why:'The AI check didn’t respond.'};}
+      }
+      state[k]=result;if(result.status==='done')store.set(k,result);sync();
+    }
+    function render(k){
+      const el=byId('answerCheck'),g=state[k];
+      if(el.dataset.shown===k+'|'+JSON.stringify(g))return;   // don't rebuild (and wipe a half-typed flag note) on every sync
+      el.dataset.shown=k+'|'+JSON.stringify(g);el.hidden=!g;if(!g)return;
+      if(g.status==='checking'){el.className='answer-check checking';el.innerHTML='<p>Checking your answer…</p>';return;}
+      if(g.status==='unavailable'){el.className='answer-check unavailable';el.innerHTML=`<p>${esc(g.why)} Rate yourself with Next Card.</p>`;return;}
+      el.className='answer-check rated-'+g.rating;
+      el.innerHTML=`<div class="check-head"><span class="check-source">${g.source==='ai'?'AI CHECK':'ANSWER CHECK'}</span><strong>Suggested: ${esc(rateLabel(g.rating))}</strong></div>`+
+        `<p class="check-reasoning">${esc(g.reasoning)}</p>`+
+        (g.source!=='ai'?'':g.flagged?'<p class="check-flagged">Thanks. You flagged this AI judgment for review.</p>':
+          `<button class="link check-flag" type="button">⚑ Flag this judgment</button><div class="check-flag-form" hidden><label for="checkFlagNote">What did the AI get wrong?</label><textarea id="checkFlagNote" rows="2" maxlength="1000"></textarea><div class="check-flag-actions"><button class="btn" type="button" data-flag="cancel">Cancel</button><button class="btn" type="button" data-flag="send">Send flag</button></div><p class="check-flag-msg" role="status"></p></div>`);
+      if(g.source==='ai'&&!g.flagged){
+        const form=el.querySelector('.check-flag-form');
+        el.querySelector('.check-flag').onclick=()=>{form.hidden=false;byId('checkFlagNote').focus();};
+        form.querySelector('[data-flag=cancel]').onclick=()=>{form.hidden=true;};
+        form.querySelector('[data-flag=send]').onclick=()=>flag(k,form);
+      }
+    }
+    // Flags reach the owner's inbox through the same delivery as Report This Card.
+    async function flag(k,form){
+      const g=state[k],key=k.slice(0,k.indexOf('|')),id=key.replace('~r',''),c=BY_ID[id],note=byId('checkFlagNote').value.trim(),btn=form.querySelector('[data-flag=send]'),msg=form.querySelector('.check-flag-msg');
+      const body={_subject:`AI grading flag: ${id}`,_template:'table',_captcha:'false','Card ID':id,'Shown as':key.endsWith('~r')?'Reverse':'Question first','Question':toPlain(c[1]),'Card answer':toPlain(c[2]),
+        'Student answer':k.slice(key.length+1),'AI rating':rateLabel(g.rating),'AI reasoning':g.reasoning,'Model':g.model||'','Student note':note||'(no note)'};
+      if(sbUser){body['Flagged by']=[profile&&profile.first_name,profile&&profile.last_name].filter(Boolean).join(' ')||'(no name)';body['Email']=sbUser.email||'';if(sbUser.email)body._replyto=sbUser.email;}
+      btn.disabled=true;msg.textContent='Sending…';
+      let ok=false;try{const r=await fetch(REPORT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(body)});const d=await r.json().catch(()=>({}));ok=r.ok&&String(d.success)!=='false';}catch(e){}
+      if(ok){state[k]={...g,flagged:true};store.set(k,state[k]);render(k);}else{btn.disabled=false;msg.textContent='Couldn’t send. Try again in a moment.';}
+    }
+    return {
+      current(){const g=state[cacheKey()];return g&&g.status==='done'?g:null;},
+      sync(){
+        const el=byId('answerCheck');
+        if(mode!=='cards'||!curKey||!revealed||!draft.trim()){el.hidden=true;el.dataset.shown='';return;}
+        const k=cacheKey();
+        if(!state[k]){const saved=store.get(k);if(saved)state[k]=saved;else{state[k]={status:'checking'};run(k,curKey,draft.trim());}}
+        render(k);
+      }
+    };
+  })();
   byId('studyChangeRating').onclick=openRating;
   modal.onclick=e=>{if(e.target===modal)closeRating();};
   document.querySelectorAll('#rateRow [data-r]').forEach(b=>b.onclick=()=>{
@@ -61,6 +135,7 @@
   }
   function sync(){
     document.documentElement.classList.toggle('study-cards',mode==='cards');
+    check.sync();
     if(mode!=='cards'){closeRating(false);drawer=null;endTour();return;}
     if(seen!==curKey){seen=curKey;drawer=null;closeRating(false);}
     const required=(mustWrite(curKey)||!!pendingR)&&mandatoryOn(),writing=!!pendingR;

@@ -2,6 +2,7 @@
 // Spelling, grammar, word order and punctuation don't matter. A key is a list of concepts; each concept is a list of
 // acceptable phrasings. A phrasing matches when every word in it appears in the answer (in any order), allowing small
 // typos. Only the verdict "clearly right" or "clearly wrong" is final here; everything in between goes to layer 2 (AI).
+(function(root){
 'use strict';
 
 const GREEK = { 'α':'alpha', 'β':'beta', 'γ':'gamma', 'δ':'delta', 'ω':'omega', 'μ':'mu', 'λ':'lambda', 'θ':'theta', 'σ':'sigma', 'π':'pi', 'ρ':'rho', 'ψ':'psi', 'φ':'phi', 'κ':'kappa', 'ε':'epsilon', 'τ':'tau', 'ν':'nu' };
@@ -58,4 +59,6 @@ function grade(answer, key){
   const verdict = !answerWords.length ? 'wrong' : score === 1 ? 'right' : score === 0 && answerWords.length < 3 ? 'wrong' : 'unsure';
   return { score, matched, missing, verdict };
 }
-module.exports = { grade, norm, words };
+const api = { grade, norm, words };
+if(typeof module === 'object' && module.exports) module.exports = api; else root.TabiMatch = api;
+})(typeof self !== 'undefined' ? self : this);

@@ -37,6 +37,11 @@ Object.keys(keys).forEach(k => { const id = k.replace('~r', ''); if(!ids.has(id)
 const COMPARE = /\bvs\b|versus|differ|distinguish|contrast|compared?\b|effect on k ?m|which way/i;
 const confirmByAI = CARDS.filter(c => COMPARE.test(String(c[1]).replace(/<[^>]+>/g, ' '))).map(c => c[3]);
 fs.writeFileSync(path.join(__dirname, 'keys.json'), JSON.stringify({ version: 1, confirmByAI, keys }));
+// Plain-text card sides for the server-side grader, so it never trusts card text sent by a browser.
+const plain = h => String(h || '').replace(/<\/?(sub|sup)>/g, '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+const cards = {};
+for(const c of CARDS){ cards[c[3]] = { q: plain(c[1]), a: plain(c[2]) }; const r = REVERSE[c[3]]; if(r) cards[c[3] + '~r'] = { q: plain(r[0] || ('Which term or concept is described by: ' + c[2])), a: plain(r[1]) }; }
+fs.writeFileSync(path.join(__dirname, 'cards.json'), JSON.stringify(cards));
 console.log(`${confirmByAI.length} comparison cards always confirm a full match with the AI layer.`);
 console.log(`${Object.keys(keys).length} keys; ${selfPass}/${selfTotal} cards pass their own key.`);
 if(problems.length){ console.log(problems.join('\n')); process.exitCode = 1; }
