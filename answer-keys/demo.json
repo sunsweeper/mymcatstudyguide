@@ -1,0 +1,119 @@
+{
+ "demo-0": {
+  "q": "Which amino acids have acidic side chains at physiological pH?",
+  "a": "Aspartic acid (Asp/D) and glutamic acid (Glu/E). Their side chains are typically negatively charged at physiological pH.",
+  "keys": [
+   [
+    "aspartate",
+    "aspartic acid",
+    "asp",
+    "d"
+   ],
+   [
+    "glutamate",
+    "glutamic acid",
+    "glu",
+    "e"
+   ]
+  ]
+ },
+ "demo-1": {
+  "q": "What happens to atomic number during positron emission?",
+  "a": "The atomic number decreases by one, while the mass number remains unchanged.",
+  "keys": [
+   [
+    "decreases by one",
+    "decreases by 1",
+    "down by one",
+    "down by 1",
+    "down 1",
+    "minus 1",
+    "-1",
+    "drops by 1",
+    "drops by one",
+    "one less",
+    "goes down by one",
+    "goes down by 1",
+    "lowers by one",
+    "lowers by 1"
+   ]
+  ]
+ },
+ "demo-2": {
+  "q": "Why can an answer choice containing true passage details still be incorrect?",
+  "a": "It may include an unsupported inference or extreme qualifier. The entire choice must be supported by the passage.",
+  "keys": [
+   [
+    "unsupported",
+    "not supported",
+    "inference",
+    "extreme",
+    "qualifier",
+    "overreach",
+    "goes beyond",
+    "beyond the passage",
+    "not in the passage"
+   ],
+   [
+    "entire",
+    "whole",
+    "every part",
+    "all of",
+    "each part",
+    "every word",
+    "all parts"
+   ]
+  ]
+ },
+ "demo-3": {
+  "q": "How do classical and operant conditioning differ?",
+  "a": "Classical conditioning associates stimuli; operant conditioning associates behaviors with their consequences.",
+  "keys": [
+   [
+    "classical"
+   ],
+   [
+    "stimuli",
+    "stimulus",
+    "two stimuli",
+    "associates stimuli"
+   ],
+   [
+    "operant"
+   ],
+   [
+    "behavior",
+    "behaviors",
+    "consequences",
+    "consequence",
+    "rewards",
+    "punishment"
+   ]
+  ]
+ },
+ "demo-4": {
+  "q": "What does a p-value describe under the null hypothesis?",
+  "a": "The probability of results at least as extreme as those observed, assuming the null hypothesis is true.",
+  "keys": [
+   [
+    "probability",
+    "chance",
+    "likelihood"
+   ],
+   [
+    "extreme",
+    "as extreme",
+    "at least as extreme"
+   ],
+   [
+    "null",
+    "null hypothesis",
+    "h0",
+    "no effect"
+   ]
+  ]
+ },
+ "confirmByAI": [
+  "demo-3"
+ ]
+}

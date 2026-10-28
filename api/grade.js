@@ -4,10 +4,11 @@
 // server's own copy, never from the browser, so the API key can't be used to grade arbitrary text.
 const CARDS = require('../answer-keys/cards.json');
 const { keys: KEYS } = require('../answer-keys/keys.json');
+const DEMO = require('../answer-keys/demo.json');   // the five homepage sample cards, gradable without signing in
 
 const SB_URL = 'https://kwvcflbzocmalhlekxjv.supabase.co';
 const SB_KEY = 'sb_publishable_cJYYc0VAsaOHsD5KjqIWsQ_z5q-jJMR';   // publishable key, already public in index.html
-const MODEL = () => process.env.GRADER_MODEL || 'claude-haiku-5-5';
+const MODEL = () => process.env.GRADER_MODEL || 'claude-sonnet-5-5';
 const RATING = { knew_it: 'good', struggled: 'hard', didnt_know: 'again' };
 
 const SYSTEM = `You grade a pre-med student's written recall of one MCAT flashcard.
@@ -34,6 +35,16 @@ const TOOL = {
   }
 };
 
+// Homepage visitors aren't signed in, so demo grading is limited per visitor. This counter lives in one server instance
+// (best effort); the real spending cap is the monthly limit set in the Claude Console.
+const DEMO_LIMIT = 30, DEMO_WINDOW = 10 * 60 * 1000, demoHits = new Map();
+function demoAllowed(ip){
+  const now = Date.now(), recent = (demoHits.get(ip) || []).filter(t => now - t < DEMO_WINDOW);
+  if(recent.length >= DEMO_LIMIT){ demoHits.set(ip, recent); return false; }
+  recent.push(now); demoHits.set(ip, recent);
+  if(demoHits.size > 5000) for(const [k, v] of demoHits) if(!v.some(t => now - t < DEMO_WINDOW)) demoHits.delete(k);
+  return true;
+}
 async function signedInUser(auth){
   const token = /^Bearer\s+(.+)$/i.exec(auth || '')?.[1];
   if(!token || token.length > 4096) return null;
@@ -51,12 +62,15 @@ module.exports = async (req, res) => {
   if(req.headers.origin && ![`https://${req.headers.host}`, `http://${req.headers.host}`].includes(req.headers.origin)) return res.status(403).json({ error: 'Invalid origin' });
   if(Number(req.headers['content-length'] || 0) > 8000) return res.status(413).json({ error: 'Too large' });
   let body = req.body; try { if(typeof body === 'string') body = JSON.parse(body); } catch { return res.status(400).json({ error: 'Invalid JSON' }); }
-  const key = body?.key, answer = body?.answer;
-  if(typeof key !== 'string' || !CARDS[key] || typeof answer !== 'string' || !answer.trim() || answer.length > 2000) return res.status(400).json({ error: 'Invalid fields' });
+  const key = body?.key, answer = body?.answer, demo = typeof key === 'string' && /^demo-[0-4]$/.test(key);
+  if(typeof key !== 'string' || !(demo || CARDS[key]) || typeof answer !== 'string' || !answer.trim() || answer.length > (demo ? 600 : 2000)) return res.status(400).json({ error: 'Invalid fields' });
   if(!process.env.ANTHROPIC_API_KEY) return res.status(503).json({ error: 'AI grading not configured' });
-  if(!await signedInUser(req.headers.authorization)) return res.status(401).json({ error: 'Sign in required' });
+  if(demo){
+    const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
+    if(!demoAllowed(ip)) return res.status(429).json({ error: 'Too many sample grades. Try again in a few minutes.' });
+  } else if(!await signedInUser(req.headers.authorization)) return res.status(401).json({ error: 'Sign in required' });
 
-  const card = CARDS[key], concepts = (KEYS[key] || []).map(c => c[0]);
+  const card = demo ? DEMO[key] : CARDS[key], concepts = (demo ? DEMO[key].keys : KEYS[key] || []).map(c => c[0]);
   const prompt = `Card question: ${card.q}\nReference answer: ${card.a}\n` + (concepts.length ? `Key concepts the reference expects: ${concepts.join('; ')}\n` : '') +
     `\n<student_answer>\n${answer.trim()}\n</student_answer>`;
   try {

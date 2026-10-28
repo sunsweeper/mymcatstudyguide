@@ -29,23 +29,40 @@
   byId('raiseHand').onclick=()=>{drawer='assistance';sync();byId('closeStudyDrawer').focus();};
   byId('studyExplain').onclick=()=>{drawer='explanation';sync();byId('closeStudyDrawer').focus();};
   const modal=document.createElement('div');modal.id='studyRatingModal';modal.className='study-modal-bg';modal.hidden=true;
-  modal.innerHTML=`<div id="studyRatingDialog" class="study-modal" role="dialog" aria-modal="true" aria-labelledby="studyRatingTitle" aria-describedby="studyRatingDescription" tabindex="-1"><button class="study-close" id="closeStudyRating" aria-label="Close rating prompt">×</button><span class="study-eyebrow">YOUR RECALL</span><h2 id="studyRatingTitle">Did you remember the answer to the last card?</h2><p id="studyRatingDescription">Choose the response that best matches how well you remembered.</p></div>`;
-  document.body.append(modal);byId('studyRatingDialog').append(byId('rateRow'));
+  modal.innerHTML=`<div id="studyRatingDialog" class="study-modal" role="dialog" aria-modal="true" aria-labelledby="studyRatingTitle" aria-describedby="studyRatingDescription" tabindex="-1"><button class="study-close" id="closeStudyRating" aria-label="Close rating prompt">×</button><span class="study-eyebrow" id="studyRatingEyebrow">YOUR RECALL</span><h2 id="studyRatingTitle">Did you remember the answer to the last card?</h2><p id="studyRatingDescription">Choose the response that best matches how well you remembered.</p><div class="grade-actions" id="gradeActions" hidden><button class="btn" id="gradeAccept" type="button">Next Card →</button><button class="link" id="gradeDispute" type="button">Dispute</button></div><div class="dispute-note" id="disputeNote" hidden><label for="disputeText">Why? <span>(optional)</span></label><textarea id="disputeText" rows="2" maxlength="1000"></textarea></div></div>`;
+  document.body.append(modal);byId('studyRatingDialog').insertBefore(byId('rateRow'),byId('gradeActions'));byId('studyRatingDialog').insertBefore(byId('disputeNote'),byId('rateRow'));   // note first: tapping a rating submits
+  // Popup views: 'grade' (the system's grade + Dispute), 'checking', 'dispute' (pick the right grade), 'manual' (no grade available).
+  let popupView='manual';
+  const VERDICT={good:'Good job, you knew that one.',hard:'Close. You were partly there.',again:'Not this time.'};
   function closeRating(restore=true){modal.hidden=true;dialogKey=null;byId('study').inert=false;if(restore&&returnTo?.isConnected)returnTo.focus();}
-  function openRating(){if(mode!=='cards'||!revealed||!flipped||flipping||askCfg||noteModalOpen)return;returnTo=document.activeElement;dialogKey=curKey;modal.hidden=false;byId('rateRow').hidden=false;byId('study').inert=true;const g=check.current();
-    byId('rateRow').querySelectorAll('[data-r]').forEach(b=>b.classList.toggle('suggested',!!g&&g.rating===b.dataset.r));
-    byId('studyRatingDescription').textContent=g?`Suggested: ${rateLabel(g.rating)} (${g.source==='ai'?'AI check':'key concepts matched'}). Tap a different rating if you disagree.`:'Choose the response that best matches how well you remembered.';
-    (modal.querySelector('[data-r].suggested')||modal.querySelector('[data-r]')).focus();}
+  function showPopup(){
+    const g=check.current(),pending=check.pending();
+    popupView=popupView==='dispute'&&g?'dispute':g&&!pendingR?'grade':pending&&!pendingR?'checking':'manual';
+    const d=byId('studyRatingDialog');d.dataset.view=popupView;d.dataset.grade=g?g.rating:'';
+    byId('gradeActions').hidden=popupView!=='grade';byId('disputeNote').hidden=popupView!=='dispute';byId('rateRow').hidden=!['manual','dispute'].includes(popupView);
+    byId('rateRow').querySelectorAll('[data-r]').forEach(b=>b.disabled=popupView==='dispute'&&b.dataset.r===g?.rating);
+    const T=byId('studyRatingTitle'),D=byId('studyRatingDescription'),E=byId('studyRatingEyebrow');
+    if(popupView==='grade'){E.textContent=g.source==='ai'?'GRADED BY AI':'GRADED';T.textContent=VERDICT[g.rating];D.textContent=g.reasoning;}
+    else if(popupView==='checking'){E.textContent='YOUR RECALL';T.textContent='Checking your answer…';D.textContent='This takes a moment.';}
+    else if(popupView==='dispute'){E.textContent='DISPUTE';T.textContent='How should this card be graded?';D.textContent=`We graded it ${rateLabel(g.rating)}. Your pick is what counts, and we'll review the grade.`;}
+    else{E.textContent='YOUR RECALL';T.textContent='Did you remember the answer to the last card?';D.textContent=check.why()||'Choose the response that best matches how well you remembered.';}
+  }
+  function openRating(manual){if(mode!=='cards'||!revealed||!flipped||flipping||askCfg||noteModalOpen)return;returnTo=document.activeElement;dialogKey=curKey;popupView=manual===true?'manual':'';modal.hidden=false;byId('study').inert=true;
+    if(manual===true){byId('studyRatingDialog').dataset.view='manual';byId('gradeActions').hidden=true;byId('disputeNote').hidden=true;byId('rateRow').hidden=false;byId('rateRow').querySelectorAll('[data-r]').forEach(b=>b.disabled=false);byId('studyRatingTitle').textContent='Did you remember the answer to the last card?';byId('studyRatingDescription').textContent='Choose the response that best matches how well you remembered.';byId('studyRatingEyebrow').textContent='YOUR RECALL';}
+    else showPopup();
+    (modal.querySelector('#gradeActions:not([hidden]) #gradeAccept')||modal.querySelector('#rateRow:not([hidden]) [data-r]:not(:disabled)')||byId('studyRatingDialog')).focus();}
+  function applyRating(r){const key=curKey;closeRating(false);chooseRating(r);if(key===curKey&&pendingR){byId('curAnswer').focus();sync();}}
+  byId('gradeAccept').onclick=()=>{const g=check.current();if(!modal.hidden&&dialogKey===curKey&&g)applyRating(g.rating);};
+  byId('gradeDispute').onclick=()=>{popupView='dispute';showPopup();byId('disputeText').value='';byId('disputeText').focus();};
   function next(){if(mode!=='cards'||flipping||!revealed)return;if(pendingR){submitReinforce();return;}openRating();}
   byId('studyNext').onclick=next;byId('closeStudyRating').onclick=()=>closeRating();
-  insert('<section class="answer-check" id="answerCheck" hidden aria-live="polite"></section>',byId('recallEntry'));
   insert('<button class="link" id="studyChangeRating" hidden>Change rating</button>',byId('recallEntry'));
   // ---- Answer check: layer 1 key-concept match in the browser; anything that isn't a clear match goes to the AI (layer 2). ----
-  // It only suggests a rating. The student still taps the rating and can pick a different one; the engine records that tap.
+  // Runs as soon as the card flips, so the grade is usually ready by the time Next Card is pressed. The student can dispute it,
+  // and whatever they pick is what the engine records.
   const rateLabel=r=>(byId('rateRow').querySelector(`[data-r="${r}"]`)?.textContent||r).trim();
   const check=(()=>{
     let keys=null,keysLoading=null;const state={};   // state[cacheKey] = {status:'checking'|'done'|'unavailable', ...}
-    const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
     const cacheKey=()=>curKey+'|'+draft.trim();
     const store={get(k){try{return JSON.parse(sessionStorage.getItem('tabi-check:'+k)||'null');}catch(e){return null;}},set(k,v){try{sessionStorage.setItem('tabi-check:'+k,JSON.stringify(v));}catch(e){}}};
     function loadKeys(){
@@ -58,63 +75,47 @@
       let result;
       try{
         const K=await loadKeys(),m=window.TabiMatch.grade(answer,K.keys[key]||[]);
-        if(m.verdict==='right'&&!K.confirmByAI.includes(key.replace('~r','')))result={status:'done',source:'match',rating:'good',reasoning:'Your answer includes every key concept on this card.'};
+        if(m.verdict==='right'&&!K.confirmByAI.includes(key.replace('~r','')))result={status:'done',source:'match',rating:'good',reasoning:'Your answer included every key concept on this card.'};
       }catch(e){}
       if(!result){
         const t=await token();
-        if(!t)result={status:'unavailable',why:'Sign in to get an AI check of your answer.'};
+        if(!t)result={status:'unavailable',why:'Sign in to have your answers graded automatically. For now, rate yourself.'};
         else try{
           const r=await fetch('/api/grade',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+t},body:JSON.stringify({key,answer})});
           const d=await r.json().catch(()=>({}));
-          result=r.ok&&d.rating?{status:'done',source:'ai',rating:d.rating,reasoning:d.reasoning,model:d.model}:{status:'unavailable',why:r.status===503?'AI checking isn’t switched on yet.':'The AI check didn’t respond.'};
-        }catch(e){result={status:'unavailable',why:'The AI check didn’t respond.'};}
+          result=r.ok&&d.rating?{status:'done',source:'ai',rating:d.rating,reasoning:d.reasoning,model:d.model}:{status:'unavailable',why:'Automatic grading isn’t available right now. Rate yourself this time.'};
+        }catch(e){result={status:'unavailable',why:'Automatic grading isn’t available right now. Rate yourself this time.'};}
       }
-      state[k]=result;if(result.status==='done')store.set(k,result);sync();
-    }
-    function render(k){
-      const el=byId('answerCheck'),g=state[k];
-      if(el.dataset.shown===k+'|'+JSON.stringify(g))return;   // don't rebuild (and wipe a half-typed flag note) on every sync
-      el.dataset.shown=k+'|'+JSON.stringify(g);el.hidden=!g;if(!g)return;
-      if(g.status==='checking'){el.className='answer-check checking';el.innerHTML='<p>Checking your answer…</p>';return;}
-      if(g.status==='unavailable'){el.className='answer-check unavailable';el.innerHTML=`<p>${esc(g.why)} Rate yourself with Next Card.</p>`;return;}
-      el.className='answer-check rated-'+g.rating;
-      el.innerHTML=`<div class="check-head"><span class="check-source">${g.source==='ai'?'AI CHECK':'ANSWER CHECK'}</span><strong>Suggested: ${esc(rateLabel(g.rating))}</strong></div>`+
-        `<p class="check-reasoning">${esc(g.reasoning)}</p>`+
-        (g.source!=='ai'?'':g.flagged?'<p class="check-flagged">Thanks. You flagged this AI judgment for review.</p>':
-          `<button class="link check-flag" type="button">⚑ Flag this judgment</button><div class="check-flag-form" hidden><label for="checkFlagNote">What did the AI get wrong?</label><textarea id="checkFlagNote" rows="2" maxlength="1000"></textarea><div class="check-flag-actions"><button class="btn" type="button" data-flag="cancel">Cancel</button><button class="btn" type="button" data-flag="send">Send flag</button></div><p class="check-flag-msg" role="status"></p></div>`);
-      if(g.source==='ai'&&!g.flagged){
-        const form=el.querySelector('.check-flag-form');
-        el.querySelector('.check-flag').onclick=()=>{form.hidden=false;byId('checkFlagNote').focus();};
-        form.querySelector('[data-flag=cancel]').onclick=()=>{form.hidden=true;};
-        form.querySelector('[data-flag=send]').onclick=()=>flag(k,form);
-      }
-    }
-    // Flags reach the owner's inbox through the same delivery as Report This Card.
-    async function flag(k,form){
-      const g=state[k],key=k.slice(0,k.indexOf('|')),id=key.replace('~r',''),c=BY_ID[id],note=byId('checkFlagNote').value.trim(),btn=form.querySelector('[data-flag=send]'),msg=form.querySelector('.check-flag-msg');
-      const body={_subject:`AI grading flag: ${id}`,_template:'table',_captcha:'false','Card ID':id,'Shown as':key.endsWith('~r')?'Reverse':'Question first','Question':toPlain(c[1]),'Card answer':toPlain(c[2]),
-        'Student answer':k.slice(key.length+1),'AI rating':rateLabel(g.rating),'AI reasoning':g.reasoning,'Model':g.model||'','Student note':note||'(no note)'};
-      if(sbUser){body['Flagged by']=[profile&&profile.first_name,profile&&profile.last_name].filter(Boolean).join(' ')||'(no name)';body['Email']=sbUser.email||'';if(sbUser.email)body._replyto=sbUser.email;}
-      btn.disabled=true;msg.textContent='Sending…';
-      let ok=false;try{const r=await fetch(REPORT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(body)});const d=await r.json().catch(()=>({}));ok=r.ok&&String(d.success)!=='false';}catch(e){}
-      if(ok){state[k]={...g,flagged:true};store.set(k,state[k]);render(k);}else{btn.disabled=false;msg.textContent='Couldn’t send. Try again in a moment.';}
+      state[k]=result;if(result.status==='done')store.set(k,result);
+      if(!modal.hidden&&dialogKey===key&&cacheKey()===k&&popupView==='checking'){showPopup();(modal.querySelector('#gradeActions:not([hidden]) #gradeAccept')||modal.querySelector('#rateRow [data-r]')).focus();}
     }
     return {
       current(){const g=state[cacheKey()];return g&&g.status==='done'?g:null;},
+      pending(){return state[cacheKey()]?.status==='checking';},
+      why(){const g=state[cacheKey()];return g&&g.status==='unavailable'?g.why:'';},
+      // Disputes reach the owner's inbox through the same delivery as Report This Card.
+      dispute(picked,note){
+        const k=cacheKey(),g=state[k];if(!g||g.status!=='done')return;
+        const key=curKey,id=idOf(key),c=BY_ID[id];
+        const body={_subject:`Grade disputed: ${id}`,_template:'table',_captcha:'false','Card ID':id,'Shown as':isRevKey(key)?'Reverse':'Question first','Question':toPlain(c[1]),'Card answer':toPlain(c[2]),
+          'Student answer':draft.trim(),'Graded as':rateLabel(g.rating),'Graded by':g.source==='ai'?`AI (${g.model||'model not reported'})`:'Key-concept match','Grade reasoning':g.reasoning,'Student says':rateLabel(picked),'Student note':note||'(no note)'};
+        if(sbUser){body['Disputed by']=[profile&&profile.first_name,profile&&profile.last_name].filter(Boolean).join(' ')||'(no name)';body['Email']=sbUser.email||'';if(sbUser.email)body._replyto=sbUser.email;}
+        state[k]={...g,disputed:picked};store.set(k,state[k]);
+        fetch(REPORT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(body)}).catch(()=>{});
+      },
       sync(){
-        const el=byId('answerCheck');
-        if(mode!=='cards'||!curKey||!revealed||!draft.trim()){el.hidden=true;el.dataset.shown='';return;}
+        if(mode!=='cards'||!curKey||!revealed||!draft.trim())return;
         const k=cacheKey();
         if(!state[k]){const saved=store.get(k);if(saved)state[k]=saved;else{state[k]={status:'checking'};run(k,curKey,draft.trim());}}
-        render(k);
       }
     };
   })();
-  byId('studyChangeRating').onclick=openRating;
+  byId('studyChangeRating').onclick=()=>openRating(true);
   modal.onclick=e=>{if(e.target===modal)closeRating();};
   document.querySelectorAll('#rateRow [data-r]').forEach(b=>b.onclick=()=>{
-    if(modal.hidden||dialogKey!==curKey)return;const key=curKey;closeRating(false);chooseRating(b.dataset.r);
-    if(key===curKey&&pendingR){byId('curAnswer').focus();sync();}
+    if(modal.hidden||dialogKey!==curKey||b.disabled)return;
+    if(popupView==='dispute')check.dispute(b.dataset.r,byId('disputeText').value.trim());
+    applyRating(b.dataset.r);
   });
   function flip(){if(mode!=='cards'||flipping||!modal.hidden)return;if(!revealed&&recall&&!draft.trim()){byId('curAnswer').focus();byId('recallMessage').textContent='Write your answer before flipping, or turn Active Recall off.';return;}tapCard();}
   byId('reveal').onclick=flip;
@@ -167,7 +168,7 @@
   document.addEventListener('keydown',e=>{
     if(modal.hidden)return;
     if(e.key==='Escape'){e.preventDefault();closeRating();return;}
-    if(e.key==='Tab'){const items=[...modal.querySelectorAll('button')].filter(b=>!b.disabled),first=items[0],last=items.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}
+    if(e.key==='Tab'){const items=[...modal.querySelectorAll('button,textarea')].filter(b=>!b.disabled&&b.offsetParent!==null),first=items[0],last=items.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}
   });
   // The walkthrough targets the real controls. No separate demo learning logic is used.
   const tour=[['view','Choose your study mode','Choose Questions First, Answers First or Random Mix. The existing session order is preserved; the setting applies to subsequent cards.'],['card','Meet your flashcard','Read the prompt and recall the answer.'],['recallEntry','Your Active Recall answer','Write your answer before flipping when Active Recall is on.'],['reveal','Flip the card','Once you’ve written your answer, Flip Card lights up. Use the Flip Card button or click the card itself, or press Enter or Space on the card.'],['studyToolbar','Active Recall','Turn optional recall on or off. A card with mandatory writing stays required; the existing Mandatory Response setting remains available.'],['studyNext','Tell the system how it went','Next Card opens the recall prompt. Got it records the review. Struggled and Didn’t know require the existing reinforcement response before advancing.'],['raiseHand','Get help','Existing explanations are available on supported cards after flipping. Peer questions and answers are planned, not available yet.'],['prev','Previous card','Previous returns to the last rated card and undoes that rating, preserving the existing learning behavior.']];

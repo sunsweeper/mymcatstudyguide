@@ -33,6 +33,17 @@ const call = async (over = {}) => { let status = 200, body; const res = { setHea
     ok('Upstream error -> 502', (await call()).status === 502);
     global.fetch = fake({ ok: true, json: async () => ({ content: [{ type: 'tool_use', input: { rating: 'excellent', reasoning: 'x' } }] }) });
     ok('Unexpected rating -> 502', (await call()).status === 502);
+    global.fetch = fake({ ok: true, json: async () => ({ content: [{ type: 'tool_use', input: { rating: 'knew_it', reasoning: 'Both named.' } }] }) });
+    const anon = { host: 'tabiprep.com', 'x-forwarded-for': '203.0.113.9' };
+    ok('Demo card graded without signing in', (await call({ headers: anon, body: { key: 'demo-0', answer: 'aspartate glutamate' } })).body.rating === 'good');
+    ok('Demo prompt uses server demo text', sent.messages[0].content.includes('Which amino acids have acidic side chains'));
+    ok('Default model is Sonnet 5.5', sent.model === 'claude-sonnet-5-5');
+    ok('Demo answers capped shorter', (await call({ headers: anon, body: { key: 'demo-0', answer: 'x'.repeat(601) } })).status === 400);
+    ok('Only the five demo cards are open', (await call({ headers: anon, body: { key: 'demo-5', answer: 'x' } })).status === 400);
+    ok('Library cards still need sign-in', (await call({ headers: anon })).status === 401);
+    let last; for(let i = 0; i < 31; i++) last = await call({ headers: { host: 'tabiprep.com', 'x-forwarded-for': '198.51.100.7' }, body: { key: 'demo-1', answer: 'decreases' } });
+    ok('Demo grading rate-limited per visitor', last.status === 429);
+    ok('Other visitors unaffected', (await call({ headers: anon, body: { key: 'demo-1', answer: 'decreases' } })).status === 200);
     console.log(`${count} grading API checks passed (mocked Supabase and Claude; no real calls).`);
   } finally { global.fetch = realFetch; if(realKey === undefined) delete process.env.ANTHROPIC_API_KEY; else process.env.ANTHROPIC_API_KEY = realKey; }
 })().catch(e => { console.error(e); process.exitCode = 1; });
