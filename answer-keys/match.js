@@ -18,7 +18,7 @@ function norm(s){
   return s;
 }
 // Words: letters/digits plus a few symbols that carry meaning in science answers.
-const words = s => { const ws = norm(s).split(/[^a-z0-9+\-=/^%.']+/).map(w => w.replace(/^[.'\-]+|[.'\-]+$/g, '')).filter(Boolean);
+const words = s => { const ws = norm(s).split(/[^a-z0-9+\-=/^%.']+/).map(w => w.replace(/^[.']+|[.'\-]+$/g, '').replace(/^-+(?!\d)/, ''))   /* keep the minus on numbers: "-1" is not "1" */.filter(Boolean);
   return ws.concat(ws.filter(w => /[a-z]-[a-z]/.test(w)).flatMap(w => w.split('-')).filter(Boolean)); };   // "y-axis" also counts as "y" and "axis"
 const STOP = new Set(['the','a','an','of','to','is','are','and','or','in','on','at','by','for','its','it','that','this','be','as','with','from']);
 const stem = w => w.length > 4 ? w.replace(/(ization|isation|ations|ation|ings|ing|ies|ied|ers|er|es|ed|ly|s)$/, '') : w;

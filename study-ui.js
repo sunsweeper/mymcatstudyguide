@@ -29,7 +29,7 @@
   byId('raiseHand').onclick=()=>{drawer='assistance';sync();byId('closeStudyDrawer').focus();};
   byId('studyExplain').onclick=()=>{drawer='explanation';sync();byId('closeStudyDrawer').focus();};
   const modal=document.createElement('div');modal.id='studyRatingModal';modal.className='study-modal-bg';modal.hidden=true;
-  modal.innerHTML=`<div id="studyRatingDialog" class="study-modal" role="dialog" aria-modal="true" aria-labelledby="studyRatingTitle" aria-describedby="studyRatingDescription" tabindex="-1"><button class="study-close" id="closeStudyRating" aria-label="Close rating prompt">×</button><span class="study-eyebrow" id="studyRatingEyebrow">YOUR RECALL</span><h2 id="studyRatingTitle">Did you remember the answer to the last card?</h2><p id="studyRatingDescription">Choose the response that best matches how well you remembered.</p><div class="grade-actions" id="gradeActions" hidden><button class="btn" id="gradeAccept" type="button">Next Card →</button><button class="link" id="gradeDispute" type="button">Dispute</button></div><div class="dispute-note" id="disputeNote" hidden><label for="disputeText">Why? <span>(optional)</span></label><textarea id="disputeText" rows="2" maxlength="1000"></textarea></div></div>`;
+  modal.innerHTML=`<div id="studyRatingDialog" class="study-modal" role="dialog" aria-modal="true" aria-labelledby="studyRatingTitle" aria-describedby="studyRatingDescription" tabindex="-1"><button class="study-close" id="closeStudyRating" aria-label="Close rating prompt">×</button><span class="study-eyebrow" id="studyRatingEyebrow">YOUR RECALL</span><h2 id="studyRatingTitle">Did you remember the answer to the last card?</h2><p id="studyRatingDescription">Choose the response that best matches how well you remembered.</p><div class="grade-actions" id="gradeActions" hidden><button class="btn" id="gradeAccept" type="button">Next Card →</button><button class="link" id="gradeDispute" type="button">Dispute</button></div><div class="dispute-note" id="disputeNote" hidden><label for="disputeText">What did we get wrong? <span>(optional)</span></label><textarea id="disputeText" rows="3" maxlength="1000"></textarea><div class="dispute-actions"><button class="link" id="disputeBack" type="button">← Back</button><button class="btn" id="disputeSend" type="button">Send and continue →</button></div></div></div>`;
   document.body.append(modal);byId('studyRatingDialog').insertBefore(byId('rateRow'),byId('gradeActions'));byId('studyRatingDialog').insertBefore(byId('disputeNote'),byId('rateRow'));   // note first: tapping a rating submits
   // Popup views: 'grade' (the system's grade + Dispute), 'checking', 'dispute' (pick the right grade), 'manual' (no grade available).
   let popupView='manual';
@@ -39,12 +39,12 @@
     const g=check.current(),pending=check.pending();
     popupView=popupView==='dispute'&&g?'dispute':g&&!pendingR?'grade':pending&&!pendingR?'checking':'manual';
     const d=byId('studyRatingDialog');d.dataset.view=popupView;d.dataset.grade=g?g.rating:'';
-    byId('gradeActions').hidden=popupView!=='grade';byId('disputeNote').hidden=popupView!=='dispute';byId('rateRow').hidden=!['manual','dispute'].includes(popupView);
-    byId('rateRow').querySelectorAll('[data-r]').forEach(b=>b.disabled=popupView==='dispute'&&b.dataset.r===g?.rating);
+    byId('gradeActions').hidden=popupView!=='grade';byId('disputeNote').hidden=popupView!=='dispute';byId('rateRow').hidden=popupView!=='manual';
+    byId('rateRow').querySelectorAll('[data-r]').forEach(b=>b.disabled=false);
     const T=byId('studyRatingTitle'),D=byId('studyRatingDescription'),E=byId('studyRatingEyebrow');
     if(popupView==='grade'){E.textContent=g.source==='ai'?'GRADED BY AI':'GRADED';T.textContent=VERDICT[g.rating];D.textContent=g.reasoning;}
     else if(popupView==='checking'){E.textContent='YOUR RECALL';T.textContent='Checking your answer…';D.textContent='This takes a moment.';}
-    else if(popupView==='dispute'){E.textContent='DISPUTE';T.textContent='How should this card be graded?';D.textContent=`We graded it ${rateLabel(g.rating)}. Your pick is what counts, and we'll review the grade.`;}
+    else if(popupView==='dispute'){E.textContent='DISPUTE';T.textContent='Dispute this grade';D.textContent=`We graded it ${rateLabel(g.rating)}. That grade stays for scheduling, and we'll review your dispute.`;}
     else{E.textContent='YOUR RECALL';T.textContent='Did you remember the answer to the last card?';D.textContent=check.why()||'Choose the response that best matches how well you remembered.';}
   }
   function openRating(manual){if(mode!=='cards'||!revealed||!flipped||flipping||askCfg||noteModalOpen)return;returnTo=document.activeElement;dialogKey=curKey;popupView=manual===true?'manual':'';modal.hidden=false;byId('study').inert=true;
@@ -54,6 +54,9 @@
   function applyRating(r){const key=curKey;closeRating(false);chooseRating(r);if(key===curKey&&pendingR){byId('curAnswer').focus();sync();}}
   byId('gradeAccept').onclick=()=>{const g=check.current();if(!modal.hidden&&dialogKey===curKey&&g)applyRating(g.rating);};
   byId('gradeDispute').onclick=()=>{popupView='dispute';showPopup();byId('disputeText').value='';byId('disputeText').focus();};
+  // The system's grade is what the scheduler records; a dispute only sends the card for review.
+  byId('disputeSend').onclick=()=>{const g=check.current();if(modal.hidden||dialogKey!==curKey||!g)return;check.dispute(byId('disputeText').value.trim());applyRating(g.rating);};
+  byId('disputeBack').onclick=()=>{popupView='';showPopup();byId('gradeAccept').focus();};
   function next(){if(mode!=='cards'||flipping||!revealed)return;if(pendingR){submitReinforce();return;}openRating();}
   byId('studyNext').onclick=next;byId('closeStudyRating').onclick=()=>closeRating();
   insert('<button class="link" id="studyChangeRating" hidden>Change rating</button>',byId('recallEntry'));
@@ -94,13 +97,13 @@
       pending(){return state[cacheKey()]?.status==='checking';},
       why(){const g=state[cacheKey()];return g&&g.status==='unavailable'?g.why:'';},
       // Disputes reach the owner's inbox through the same delivery as Report This Card.
-      dispute(picked,note){
+      dispute(note){
         const k=cacheKey(),g=state[k];if(!g||g.status!=='done')return;
         const key=curKey,id=idOf(key),c=BY_ID[id];
         const body={_subject:`Grade disputed: ${id}`,_template:'table',_captcha:'false','Card ID':id,'Shown as':isRevKey(key)?'Reverse':'Question first','Question':toPlain(c[1]),'Card answer':toPlain(c[2]),
-          'Student answer':draft.trim(),'Graded as':rateLabel(g.rating),'Graded by':g.source==='ai'?`AI (${g.model||'model not reported'})`:'Key-concept match','Grade reasoning':g.reasoning,'Student says':rateLabel(picked),'Student note':note||'(no note)'};
+          'Student answer':draft.trim(),'Graded as':rateLabel(g.rating),'Graded by':g.source==='ai'?`AI (${g.model||'model not reported'})`:'Key-concept match','Grade reasoning':g.reasoning,'Student note':note||'(no note)'};
         if(sbUser){body['Disputed by']=[profile&&profile.first_name,profile&&profile.last_name].filter(Boolean).join(' ')||'(no name)';body['Email']=sbUser.email||'';if(sbUser.email)body._replyto=sbUser.email;}
-        state[k]={...g,disputed:picked};store.set(k,state[k]);
+        state[k]={...g,disputed:true};store.set(k,state[k]);
         fetch(REPORT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(body)}).catch(()=>{});
       },
       sync(){
@@ -114,7 +117,6 @@
   modal.onclick=e=>{if(e.target===modal)closeRating();};
   document.querySelectorAll('#rateRow [data-r]').forEach(b=>b.onclick=()=>{
     if(modal.hidden||dialogKey!==curKey||b.disabled)return;
-    if(popupView==='dispute')check.dispute(b.dataset.r,byId('disputeText').value.trim());
     applyRating(b.dataset.r);
   });
   function flip(){if(mode!=='cards'||flipping||!modal.hidden)return;if(!revealed&&recall&&!draft.trim()){byId('curAnswer').focus();byId('recallMessage').textContent='Write your answer before flipping, or turn Active Recall off.';return;}tapCard();}
