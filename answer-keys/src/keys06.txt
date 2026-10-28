@@ -1,0 +1,166 @@
+7A-004: intrinsic ; own sake / enjoyment / internal / interest / satisfaction / for itself / fun / inherent ; extrinsic ; outside / external / rewards / reward / money / grades / punishment
+7A-005: autonomy ; competence ; relatedness / belonging / connection
+7A-006: lateral / lateral hypothalamus / lh ; hunger / eat / eating / feeding ; ventromedial / vmh / ventromedial hypothalamus ; fullness / satiety / full / stop eating / satiation
+7A-006~r: ventromedial hypothalamus / ventromedial / vmh
+7A-007: id ; instinct / pleasure / impulses / desires / primitive / urges ; superego ; morals / moral / conscience / ideals / right and wrong ; ego ; mediates / reality / balance / mediator / realistic
+7A-008: repression / projection / reaction formation / displacement / sublimation / rationalization / denial / regression / intellectualization
+7A-009: openness ; conscientiousness ; extraversion / extroversion ; agreeableness ; neuroticism
+7A-010: internal ; control / you control / own actions / self / yourself ; external ; outside / luck / fate / chance / others / outside forces / environment
+7A-011: belief / confidence / believe ; ability / capable / succeed / succeeding / competence ; task / specific / goal
+7A-011~r: self-efficacy / self efficacy
+7A-012: growth / potential / free will ; self-actualization / self actualization / actualization / unconditional positive regard / rogers / maslow
+7A-012~r: humanistic / humanistic perspective / humanism
+7A-013: biological / bio / biology ; psychological / psych / psychology ; social / sociocultural / society
+7A-014: 5 / five ; 2 weeks / two weeks / 14 days ; depressed mood / sad / sadness / loss of interest / anhedonia / interest
+7A-014~r: major depressive disorder / mdd / depression / major depression
+7A-015: bipolar i / bipolar 1 / type 1 ; manic / mania / manic episode ; bipolar ii / bipolar 2 / type 2 ; hypomania / hypomanic ; depression / depressive / major depressive
+7A-016: positive ; hallucinations / delusions / disorganized / added / excess ; negative ; flat affect / avolition / alogia / missing / lack / absence / anhedonia / blunted
+7A-017: excessive / uncontrollable / hard to control / persistent / chronic ; worry / anxiety / worrying ; 6 months / six months / most days
+7A-017~r: generalized anxiety disorder / gad
+7A-018: obsessions ; intrusive / unwanted / thoughts / urges / images ; compulsions ; repetitive / behaviors / rituals / actions / acts ; relieve / reduce / neutralize / anxiety / relief
+7A-019: trauma / traumatic ; intrusive / flashbacks / memories / nightmares / reexperiencing ; avoidance / avoid ; hyperarousal / arousal / hypervigilance / startle / mood / negative mood ; month / 1 month / one month / 30 days / four weeks
+7A-020: a ; odd / eccentric / weird ; b ; dramatic / erratic / emotional ; c ; anxious / fearful / anxiety / fear
+7A-021: mood / mood regulation ; ssri / ssris / reuptake / selective serotonin reuptake
+7A-021~r: ssris / ssri / selective serotonin reuptake inhibitors / selective serotonin reuptake inhibitor
+7A-022: dopamine ; substantia nigra / basal ganglia / nigra ; tremor / slow movement / bradykinesia / rigidity / movement / shuffling
+7A-023: gaba ; inhibitory / inhibition / inhibits ; glutamate ; excitatory / excitation / excites
+7A-024: frontal ; planning / movement / motor / executive / decision / personality / reasoning ; parietal ; touch / spatial / somatosensory / sensation ; temporal ; hearing / auditory / memory / language ; occipital ; vision / visual / sight
+7A-025: relay / relays / routes / sends / passes / station ; sensory / senses / sensation ; cortex / cerebral cortex / brain
+7A-026: balance / equilibrium / posture ; coordination / coordinate / motor / movement / fine motor / smooth
+7A-027: breathing / respiration / respiratory ; heart rate / heart / cardiac ; blood pressure / bp / vital / autonomic
+7A-028: left ; language / speech / verbal / logic ; right ; spatial / face / faces / creativity / visual / nonverbal / emotion
+7A-029: eeg ; electrical / electric / electrodes / temporal resolution / timing / brain waves ; fmri ; bold / blood flow / oxygen / blood oxygen / blood ; pet ; radioactive / tracer / tracers / glucose / fdg / metabolism
+7A-030: variation / variance / differences / proportion / share / percentage / portion ; genetic / genes / genetics / heredity ; population / not individual / group
+7A-030~r: heritability
+7A-031: moderate / medium / intermediate / optimal / middle ; arousal ; too little / too much / low / high / either extreme / inverted u / inverted-u
+7A-032: positive ; dopamine ; excess / too much / high / increased / overactive / hyperactive
+7A-032~r: positive symptoms / positive / hallucinations / delusions
+7A-033: physiological / physical / basic / food water / biological ; safety / security ; love / belonging / social ; esteem / respect / recognition ; self-actualization / self actualization / actualization
+7A-034: predisposition / vulnerability / diathesis / genetic / biological ; stress / stressors / stressor / environment / environmental ; interaction / together / combine / combination / plus / and
+7A-034~r: diathesis-stress / diathesis stress / diathesis–stress / stress-diathesis / vulnerability-stress
+7A-035: gad / generalized ; broad / many / general / various / everything / multiple / generalized / pervasive ; phobia / specific ; particular / specific / one / single / object / situation
+7A-036: elevated / expansive / irritable / euphoric / high ; mood ; energy / activity / sleep / grandiosity / racing / sustained / persistent / increased energy
+7A-037: delusion ; belief / beliefs / fixed / false belief ; hallucination ; perception / perceiving / sensory / seeing / hearing / without stimulus / not there / no stimulus
+7A-038: pleasure / interest / enjoyment / joy ; reduced / lack / loss / inability / unable / decreased / can't / cannot
+7A-038~r: anhedonia
+7A-039: moderate / optimal / middle / medium / inverted u / inverted-u / nonlinear ; arousal ; difficulty / difficult / task / complex / harder
+7A-039~r: yerkes-dodson / yerkes–dodson / yerkes dodson / yerkes-dodson law
+7A-040: uncontrollable / no control / can't control / helpless / inescapable ; stop trying / stops trying / give up / gives up / reduced attempts / no longer try / quit / passive / don't try / don't escape
+7A-040~r: learned helplessness
+7B-001: less effort / reduced effort / decreased effort / slack / work less / try less / loaf / less work / lower effort ; group / groups / others / team
+7B-001~r: social loafing
+7B-002: losing / lose / loss / reduced / less ; self-awareness / identity / restraint / individuality / self / inhibition ; group / groups / crowd / anonymous / anonymity
+7B-002~r: deindividuation
+7B-003: extreme / more extreme / strengthens / intensify / intensifies / polarized ; original / initial / existing / leaning / views / already / preexisting
+7B-003~r: group polarization / polarization
+7B-004: agreed / conformed / conform / went along / followed ; wrong / incorrect / obviously wrong / clearly wrong / false ; line / lines / length / lengths / group / majority
+7B-005: shocks / shock / electric / harm ; authority / experimenter / told to / ordered / commanded / instructed / obey / obedience
+7B-006: guards / guard ; prisoners / prisoner ; roles / role / assigned ; abusive / abuse / cruel / harsh / brutal / aggressive / mistreated ; criticized / criticism / flawed / questioned / methodological
+7B-007: differential association / learned from others / learned / association ; labeling / labelling / label / labeled ; strain / merton / goals and means / goals / means
+7B-008: breakdown / lack / absence / weakening / erosion / normlessness / loss ; norms / social norms / rules / values / bonds / regulation ; durkheim
+7B-008~r: anomie
+7B-009: presence / others / audience / observed / watched / around ; improves / better / enhances / helps ; simple / easy / well-learned / familiar / practiced ; hurts / worse / impairs / complex / difficult / hard / new
+7B-009~r: social facilitation / facilitation
+7B-010: more people / others / group / bystanders / crowd / number ; less likely / less / reduced / fewer / decreases / don't help / won't help ; help / helping / intervene
+7B-011: cohesive / close / tight / group ; agreement / consensus / harmony / conformity ; critical / evaluation / dissent / poorer / bad / poor / worse / decision / decisions
+7B-011~r: groupthink
+7B-012: less / reduced / decreased / lower ; obligated / responsibility / responsible / obligation / act / help ; others / other people / present / group / bystanders
+7B-012~r: diffusion of responsibility
+7B-013: privately / private / secretly / personally / inwardly ; reject / disagree / don't believe / doubt / dislike ; assume / believe / think / incorrectly / mistakenly ; others / everyone / other people / accept / support / agree
+7B-014: consistent / consistency / persistent ; minority / few ; shift / change / influence / sway / persuade ; majority
+7B-015: agreement / agree / commit / commitment / yes ; favorable / good / attractive / low / deal / offer ; reveal / then / later / change / add / hidden ; less favorable / worse / higher / costs / true cost / unfavorable / terms
+7B-016: improve / sweeten / add / extra / better / bonus / increase / discount / more ; before / responds / respond / answer / decide / decision
+7B-017: descriptive ; what people do / do / behavior / actually do / common / typical ; injunctive ; approval / approve / ought / should / disapprove / acceptable / approved / expected
+7B-018: strength / power / importance / status ; immediacy / proximity / closeness / close ; number / size / how many / quantity
+7B-019: resistance / resist / opposite / defy / pushback / rebel / oppose / restore ; freedom / choice / autonomy / restricted / threatened / control
+7B-020: others / other people / everyone else ; more / more than / greater ; oneself / myself / yourself / self / me / less
+7B-021: informational ; accuracy / correct / right / information / knowledge / be right / uncertain ; normative ; acceptance / accepted / fit in / approval / belonging / liked / social / rejection
+7B-022: normative / normative social influence / normative influence ; compliance / public / publicly / conform / conformity
+7C-001: habituation ; less / decreased / decrease / diminished / reduced / stops / stop responding / weaker ; repeated / repetition / same / constant ; dishabituation ; returns / return / recovers / resumes / renewed / comes back / increase ; change / new / different / novel
+7C-002: generalization ; similar / similar stimuli / like ; discrimination ; only / specific / distinguish / differentiate / different / particular
+7C-003: extinction ; fades / decreases / disappears / weakens / stops / goes away / diminishes ; unpaired / without / no / alone / removed ; spontaneous recovery ; returns / comes back / reappears / reemerges / recovers / back ; pause / rest / break / delay / time / later
+7C-004: fixed-ratio / fixed ratio / fr ; variable-ratio / variable ratio / vr ; fixed-interval / fixed interval / fi ; variable-interval / variable interval / vi
+7C-005: reinforcing / rewarding / reward / reinforce / reinforcement ; approximations / closer / successive / steps / gradually / closer and closer / increments ; target / desired / goal / final
+7C-005~r: shaping / successive approximations
+7C-006: watching / observing / imitation / imitating / modeling / observation / seeing ; others / other people / models / someone / role model / bandura / bobo
+7C-006~r: observational learning / modeling / social learning / vicarious learning
+7C-007: escape ; ends / terminates / removes / stops / get away / leave / during / already ; avoidance ; prevents / prevent / avoids / before / never / beforehand
+7C-008: foot-in-the-door / foot in the door ; small / smaller / little ; bigger / larger / big / more ; door-in-the-face / door in the face ; refused / rejected / big / large / huge / unreasonable / no ; smaller / small / reasonable
+7C-009: central ; argument / arguments / quality / content / logic / evidence / facts / reasoning ; peripheral ; surface / cues / attractiveness / superficial / appearance / credibility / emotion / emotional / source
+7C-010: neutral / neutral stimulus / ns ; unconditioned / unconditioned stimulus / us / ucs ; paired / pairing / associated / association ; conditioned response / cr / trigger / response / pavlov
+7C-010~r: classical conditioning / pavlovian conditioning / classical / pavlovian
+7C-011: increase / increases / strengthen / more / encourage ; positive ; adds / add / giving / give / adding / presenting ; pleasant / desirable / reward / good ; negative ; removes / remove / removing / take away / taking away ; aversive / unpleasant / bad
+7C-012: decrease / decreases / reduce / less / weaken / discourage ; positive ; adds / add / adding / giving / give / presenting ; aversive / unpleasant / bad ; negative ; removes / remove / removing / take away / taking away ; pleasant / desirable / good / privilege
+7C-013: variable-ratio / variable ratio / vr
+7C-014: discomfort / tension / unease / unpleasant / anxiety / distress ; conflicting / inconsistent / contradictory / conflict / against / mismatch ; change / reduce / adjust / alter / attitude / attitudes / justify / rationalize
+8A-001: secure ; avoidant ; ambivalent / resistant / anxious ; disorganized
+8A-002: cloth / soft / terry cloth / comfort ; wire / food / milk / feeding ; comfort / contact / attachment / touch / warmth
+8A-003: with help / help / assistance / guidance / support / scaffolding / with assistance / guided ; not alone / alone / independently / on their own / by themselves / not yet / can't yet
+8A-004: self-concept / self concept ; who you are / who / beliefs about self / identity / perception / think / knowledge / description ; self-esteem / self esteem ; feel / feeling / value / worth / evaluation / evaluate / how much
+8A-005: self-image / self image / self / identity / self-concept ; others / imagine others / how others see / other people / reflection / perceive / judgment / others see
+8A-005~r: looking-glass self / looking glass self
+8A-006: sensorimotor ; preoperational ; concrete / concrete operational ; formal / formal operational
+8A-007: preconventional / pre-conventional ; conventional ; postconventional / post-conventional
+8A-008: identity ; role confusion / confusion / identity confusion / role
+8A-009: one role / single role / role / dominant ; overshadows / dominates / takes over / consumes / engulfs / defines / overwhelms / everything / identity
+8A-010: exploration / exploring / searching / explore / crisis ; no commitment / without commitment / not committed / uncommitted / without / before commitment / not yet / no firm
+8A-011: commitment / committed / commit ; without exploration / no exploration / not exploring / didn't explore / without exploring / without considering / accepted / parents / prematurely / no crisis
+8A-012: no exploration / neither / not exploring / without exploration / lack / no ; no commitment / not committed / uncommitted / commitment
+8A-013: commitment / committed / commit ; after exploration / exploration / explored / exploring / explore / crisis / after
+8A-014: internalizes / internalize / takes on / adopts / incorporates / internal ; community / society / social / group / others / broader ; expectations / norms / attitudes / rules / values
+8A-015: i ; spontaneous / impulsive / active / subject / response / acting / unsocialized ; me ; internalized / social / society / object / others / perspective / socialized / reflective
+8A-016: gaps / gap / discrepancy / discrepancies / difference / mismatch ; actual ; ideal ; ought ; emotions / negative / feelings / distress
+8A-017: ideal ; dejection / sadness / depression / disappointment / dejected / sad / depressed ; ought ; agitation / anxiety / guilt / anxious / agitated / fear
+8A-018: life story / story / narrative / stories ; integrates / integration / experiences / coherent / identity / sense of self / who one is
+8B-001: situation / situations / situational / circumstances / external ; own / ourselves / our own / self / my behavior ; disposition / dispositions / dispositional / personality / internal / character ; others / other people
+8B-001~r: actor-observer bias / actor–observer / actor observer
+8B-002: credit / internal / ourselves / personal / own ability ; success / successes ; blaming / blame / external / outside / situation ; failure / failures
+8B-002~r: self-serving bias / self serving
+8B-003: deserve / deserved / get what they deserve / fair / just / world is fair ; blame / blaming / victim / victims
+8B-003~r: just-world / just world / just-world hypothesis / just world fallacy
+8B-004: one / single / positive ; trait / quality / characteristic / feature / impression ; colors / influences / affects / bias / spreads / generalizes / other traits / overall / others
+8B-005: stereotype ; belief / beliefs / cognitive / thought / generalization ; prejudice ; attitude / feeling / feelings / emotion / affective ; discrimination ; behavior / action / actions / treatment / behavioral
+8B-006: worry / fear / anxiety / concern / afraid ; confirming / confirm ; negative / stereotype ; performance / perform / worse / hurts / poorer / lowers
+8B-006~r: stereotype threat
+8B-007: expectation / expectations / belief / prediction / beliefs ; behavior / behave / actions / changes / influences ; come true / true / fulfills / fulfilled / realized / happen / causes
+8B-007~r: self-fulfilling prophecy / self fulfilling prophecy / pygmalion / pygmalion effect
+8B-008: favoring / favor / prefer / preference / bias / favoritism ; own group / your group / in-group / ingroup / members / group
+8B-008~r: in-group bias / ingroup bias / in-group favoritism / ingroup favoritism
+8B-009: personality / disposition / dispositional / internal / character / traits ; situation / situational / external / circumstances / environment ; others / other people / someone else
+8B-009~r: fundamental attribution error / fae / correspondence bias
+8B-010: consistency ; distinctiveness ; consensus
+8B-011: bad / negative / harm / misfortune ; others / other people / someone else ; you / me / oneself / myself / yourself / less likely / not me
+8B-011~r: optimism bias / optimistic bias / unrealistic optimism
+8B-012: other groups / out-group / outgroup / others / other ; alike / similar / same / homogeneous / all the same / uniform ; own / your own / in-group / ingroup / diverse / varied / different
+8B-012~r: out-group homogeneity / outgroup homogeneity / out-group homogeneity bias
+8B-013: prejudice ; drops / decreases / reduces / reduce / less / lower / declines ; equal status / equal-status / equal ; cooperative / cooperation / shared goals / together / contact / interaction
+8B-013~r: contact hypothesis / intergroup contact / contact theory
+8B-014: overestimating / overestimate / think / believe / assume / overestimation ; many / most / others / people ; share / agree / same / similar / common
+8B-015: first / initial / first impressions / early ; more weight / more / weigh / stronger / greater / matter more / outweigh / most / important
+8B-016: automatic / automatically / unconscious / unconsciously / implicit / unaware / without awareness / involuntary ; associations / attitudes / stereotypes / bias / biases ; influence / perception / behavior / affect / judgments / judgment
+8B-016~r: implicit bias / unconscious bias
+8B-017: equal status / equal ; shared goals / common goals / goals / shared ; cooperation / cooperative / interdependence / working together ; institutional support / authority / support / institution / laws / norms
+8B-018: fundamental attribution error / fae / correspondence bias
+8C-001: liking / like / prefer / preference / favorable / attraction ; repeated / repetition / exposure / familiar / familiarity / seen often / more often
+8C-002: blocked / frustration / frustrated / prevented / thwarted / goal / goals ; aggression / aggressive / violence / anger / hostility
+8C-002~r: frustration-aggression / frustration–aggression / frustration aggression
+8C-003: primary ; small / close / intimate / long-lasting / long lasting / family / friends / emotional ; secondary ; large / larger / task / task-focused / goal / impersonal / temporary / work / coworkers
+8C-004: strain ; within / one role / single role / same role ; conflict ; between / different roles / two roles / multiple roles / roles
+8C-005: dominates / dominant / most important / primary / overriding / main / defining / overshadows / central ; others see / how others see / perceive / identity / perception / defines
+8C-005~r: master status
+8C-006: theater / theatre / stage / performance / actors / acting / play ; front stage / backstage / back stage / front / back / audience / goffman
+8C-006~r: dramaturgy / dramaturgical / dramaturgical approach / dramaturgical theory
+8C-007: ascribed ; birth / born / involuntarily / assigned / given / not chosen / involuntary / inherited ; achieved ; earned / effort / choice / chosen / work / accomplished / merit
+8C-008: status ; position / social position / rank / place / standing / title ; role ; behaviors / behavior / expected / expectations / actions / duties / obligations
+8C-009: group ; judge / compare / evaluate / comparison / standard / measure / benchmark / guide ; own / ourselves / self / themselves / behavior / standing
+8C-009~r: reference group
+8C-010: dyad ; two / 2 ; ends / unstable / fragile / dissolves / one leaves ; triad ; three / 3 ; stable / more stable / coalitions / coalition / alliances / mediator / two against one
+8C-011: control / manage / managing / influence / shape / controlling ; others see / how others see / impression / impressions / perceptions / image / perceive ; self-presentation / ingratiation / presentation / present / strategies
+8C-011~r: impression management / self-presentation / self presentation
+8C-012: empathy / empathic / empathetic ; helping / help / helps / altruism / altruistic ; without selfish / selfless / not selfish / no selfish / unselfish / genuine / pure / regardless / not for self
+8C-012~r: empathy-altruism / empathy–altruism / empathy altruism / empathy-altruism hypothesis
+8C-013: acquaintances / weak ties / weak / casual / loose ; new information / information / opportunities / jobs / new / novel / connections / networks ; more than close friends / than close friends / close friends / strong ties / more
+8C-013~r: strength of weak ties / weak ties / granovetter
+8C-014: intimacy / closeness / connection ; passion / physical / attraction / desire ; commitment / decision / loyalty
+8C-015: emotional ; informational / information / advice ; tangible / material / instrumental / practical / physical / money ; esteem / appraisal / validation / encouragement
+8C-016: gradually / gradual / slowly / over time / increasing / increase / layers / onion / deepen / deeper ; breadth / depth / self-disclosure / disclosure / disclose / sharing / personal

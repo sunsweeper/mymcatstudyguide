@@ -1,0 +1,152 @@
+# Format: ID: concept ; concept   (every concept required). Alternatives within a concept: a / b / c
+# Reverse direction: ID~r: ...
+10A-001: class / class system ; mobility / achievement / movable / can change ; caste / caste system ; fixed / at birth / birth / ascribed
+10A-002: intergenerational ; parents / generations / parent ; intragenerational ; lifetime / own life / within a life / career
+10A-003: absolute ; basic needs / necessities / survival needs / food shelter ; relative ; compared / relative to society / others / rest of society
+10A-004: non-financial / nonmonetary / cultural / education / knowledge / skills ; mobility / advantage / status
+10A-005: inequality / advantage / status / class ; generations / passed down / reproduced / inherited ; institutions / schools / education
+10A-005~r: social reproduction
+10A-006: overlapping / combine / intersect / multiple ; identities / race / gender / class
+10A-007: income ; education ; occupation / job
+10A-008: class / economic ; status / prestige ; power / political
+10A-009: ability / effort / merit / earned / talent
+10A-009~r: meritocracy
+10A-010: individual / one person ; institutional / organizations / policies / systemic / built into
+10A-011: social networks / networks / relationships / connections
+10A-011~r: social capital
+10A-012: separation / separated / segregated ; neighborhoods / residential / where people live / housing
+10A-012~r: residential segregation
+10A-013: unequal / disproportionate ; pollution / hazards / environmental ; poor / minority / low income / marginalized
+10A-013~r: environmental justice / environmental injustice / environmental racism
+10A-014: differences / unequal / disparity ; health / outcomes
+10A-015: invisible barrier / barrier / ceiling ; women / minorities ; top positions / promotion / advancement / leadership
+10A-015~r: glass ceiling
+10A-016: hierarchical / hierarchy / layers / ranking / strata ; resources / power / status / wealth
+10A-017: environmental injustice / environmental inequality / environmental justice / environmental racism
+1A-001: amino acid sequence / sequence of amino acids / order of amino acids / aa sequence / sequence
+1A-001~r: primary structure / primary
+1A-002: alpha helix / alpha helices / α-helix / α-helices / helix / helices ; beta sheet / beta sheets / β-sheet / β-sheets / pleated sheet ; hydrogen bonds / h bonds / h-bonds / hydrogen bonding
+1A-002~r: secondary structure / secondary
+1A-003: 3d / three dimensional / overall fold / folding / shape ; single chain / one chain / one polypeptide / single polypeptide / side chain interactions / r group
+1A-004: multiple / several / more than one ; subunits / polypeptides / chains
+1A-004~r: quaternary structure / quaternary
+1A-005: cysteine / cys
+1A-006: proline / pro
+1A-007: phenylalanine / phe ; tyrosine / tyr ; tryptophan / trp
+1A-008: cysteine / cys ; methionine / met
+1A-008~r: sulfur-containing amino acids / sulfur amino acids / sulfur containing
+1A-009: no / neither / don't / do not / doesn't ; activation energy / ea / speed / rate / kinetics
+1A-010: cofactor ; inorganic / metal / ion ; coenzyme ; organic / vitamin
+1A-011: other than the active site / allosteric site / different site / another site / separate site ; activity / changes / shape / conformation
+1A-011~r: allosteric regulation / allostery / allosteric
+1A-012: sigmoidal / sigmoid / s-shaped / s shaped / s curve
+1A-013: inactive ; precursor / proenzyme / zymogen ; cleavage / cleaved / cut / proteolysis
+1A-013~r: zymogen / proenzyme
+1A-014: enteropeptidase / enterokinase
+1A-015: oxidoreductase / oxidoreductases ; transferase / transferases ; hydrolase / hydrolases ; lyase / lyases ; isomerase / isomerases ; ligase / ligases
+1A-016: kinase ; adds phosphate / adds a phosphate / phosphorylates / phosphorylation ; phosphatase ; removes / dephosphorylates / dephosphorylation
+1A-017: substrate concentration / [s] / concentration of substrate ; half / 1/2 / 50% ; vmax / v max / maximum velocity / max rate
+1A-018: km increases / km goes up / km up / increased km / higher km / km increase ; vmax unchanged / vmax same / vmax stays / vmax doesn't change / vmax no change / same vmax / vmax constant
+1A-019: vmax decreases / vmax down / decreased vmax / lower vmax / vmax decrease ; km unchanged / km same / km stays / km doesn't change / km no change / same km / km constant
+1A-020: both decrease / both down / both lower / km and vmax decrease / km decreases ; vmax decreases / both / enzyme-substrate complex / es complex / es
+1A-021: y-intercept / y intercept / y ; 1/vmax ; x-intercept / x intercept / x ; -1/km / −1/km / negative 1/km / negative reciprocal of km
+1A-022: lysine / lys ; arginine / arg ; histidine / his
+1A-023: aspartate / aspartic acid / asp ; glutamate / glutamic acid / glu
+1A-024: glycine / gly
+1A-025: ph ; no net charge / net charge of zero / neutral / zero net charge / net zero / charge is zero / zwitterion
+1A-026: rigid / cyclic / ring ; phi / rotation / n-h / nh / hydrogen bond / h bond / donor
+1A-027: positive / positively charged / positively / +
+1A-028: net charge / charge ; pi / isoelectric point / ph equals / stops
+1A-029: phi ; psi / dihedral / torsion / angles
+1A-030: tryptophan / trp ; tyrosine / tyr
+1A-031: same direction / same / parallel ; opposite / antiparallel / opposite directions
+1A-032: water / aqueous / hydrophobic effect / avoid water / away from water ; folding / stability / stable / favorable
+1A-033: fold / folding ; aggregation / aggregate / misfolding / clumping
+1A-034: positive cooperativity / cooperativity / cooperative
+1A-035: tightly bound / bound / covalently / attached ; nonprotein / non-protein / not a protein / cofactor
+1A-036: holoenzyme ; with cofactor / includes cofactor / has cofactor / cofactor bound / with its cofactor / complete ; apoenzyme ; without / lacks / missing / no cofactor
+1A-037: 1/v / 1/velocity / one over v ; y ; 1/[s] / 1/s / one over s / 1/substrate ; x
+1A-038: lowers activation / activation energy / ea / activation barrier ; both directions / forward and reverse / both ways / not δg / not delta g / not keq
+1A-039: imidazole / side chain ; pka / pk a ; physiological / 7 / near neutral / ~6 / 6
+1A-040: amide / peptide bond ; carboxyl / cooh / carboxylic ; amino / amine / nh2
+1A-041: water-soluble / water soluble ; b / b vitamins / b complex ; c ; urine / excreted / not stored ; fat-soluble / fat soluble ; a ; d ; e ; k ; stored / accumulate / liver / adipose / fat / toxic
+1A-041~r: water-soluble / water soluble
+1A-042: thiamine pyrophosphate / tpp / thiamine diphosphate ; decarboxylation / decarboxylate / decarboxylating / pyruvate dehydrogenase / pdh / alpha-ketoglutarate dehydrogenase
+1A-042~r: thiamine pyrophosphate / tpp / thiamine diphosphate / b1 / thiamine
+1A-043: fad ; fmn ; electrons / redox / electron carrier / oxidation / reduction
+1A-043~r: riboflavin / b2
+1A-044: nad / nad+ ; nadp / nadp+ ; hydride / electrons / redox / electron carrier
+1A-044~r: niacin / b3 / nicotinic acid
+1A-045: coenzyme a / coa / co-a ; acyl / acetyl / thioester
+1A-045~r: pantothenic acid / pantothenate / b5
+1A-046: pyridoxal phosphate / plp / pyridoxal-5-phosphate ; transamination / aminotransferase / amino acid metabolism / decarboxylation / amino acid
+1A-046~r: pyridoxal phosphate / plp / pyridoxal-5-phosphate
+1A-047: tetrahydrofolate / thf ; one-carbon / one carbon / 1 carbon / methyl ; purines / thymidylate / dtmp / dna synthesis / nucleotides / thymidine / dna
+1A-048: collagen / hydroxylase / hydroxylation / proline ; antioxidant / reducing / reducing agent ; scurvy
+1A-049: tpp / thiamine pyrophosphate / thiamine / b1 ; lipoic acid / lipoate / lipoamide ; coenzyme a / coa / b5 / pantothenic ; fad / riboflavin / b2 ; nad / nad+ / niacin / b3
+1A-050: pyruvate dehydrogenase / pdh / acetyl-coa / acetyl coa ; pyruvate builds up / pyruvate accumulates / pyruvate ; lactate / lactic acid / ldh
+1A-051: water / h2o ; organized / surface / around / surround / layer / shell
+1A-051~r: solvation layer / hydration shell / solvation shell / hydration layer
+1A-052: ordered water / water released / releases water / water molecules ; entropy / δs / delta s / disorder ; negative / spontaneous / favorable / δg
+1A-053: entropy / δs / delta s / disorder ; water / solvent
+1A-053~r: hydrophobic effect / hydrophobic interaction / hydrophobic interactions
+1A-054: conformational entropy / entropy loss / loses entropy / chain entropy / entropy decrease ; offset / balanced / cancel / compensated / solvent entropy / enthalpy / h-bonds / small / modestly negative / slightly negative
+1A-055: urea ; hydrogen bonding / hydrogen bonds / h bonds / hydrophobic effect ; detergents / sds ; hydrophobic regions / coat / hydrophobic / unfolded
+1A-056: hydrophobic / nonpolar / non-polar / leu / leucine / ile / val / phe ; lipid / tails / bilayer / membrane / fatty acid
+1B-001: purines ; two rings / 2 rings / double ring / two ring ; adenine / a ; guanine / g ; pyrimidines ; one ring / single ring / 1 ring ; cytosine / c ; thymine / t ; uracil / u
+1B-002: a-t 2 / at 2 / a–t: 2 / a-t: 2 / 2 for a-t / two for at / a t two / at two / a=t / at has 2 / at: 2 / a and t 2 ; g-c 3 / gc 3 / g–c: 3 / g-c: 3 / 3 for g-c / three for gc / g c three / gc three / gc has 3 / gc: 3
+1B-003: a = t / a=t / %a = %t / a equals t / adenine equals thymine / a and t equal ; g = c / g=c / %g = %c / g equals c / guanine equals cytosine / g and c equal
+1B-004: dna ; deoxyribose / no 2 oh / lacks 2 oh / no 2'-oh ; rna ; ribose / 2'-oh / 2 oh / has 2 oh / hydroxyl
+1B-005: unwinds / unwind / separates / opens / unzips ; dna / double helix / strands / helix
+1B-006: supercoiling / supercoils / torsion / tension / overwinding / coiling
+1B-007: rna primer / rna primers / primers / primer
+1B-008: primer ; 3' oh / 3'-oh / 3′-oh / 3 oh / free 3 / 3 prime hydroxyl / 3' hydroxyl
+1B-009: reverse transcriptase ; rna template / own rna / rna ; telomeres / telomere / chromosome ends / ends
+1B-010: mrna / messenger rna / pre-mrna / hnrna
+1B-011: 5' cap / 5′ cap / cap / capping / 5 cap / methylguanosine ; poly-a / poly a / polya / polyadenylation / tail ; splicing / introns / spliceosome / splice
+1B-012: introns ; removed / spliced out / cut out / excised ; exons ; remain / kept / mature / expressed / retained
+1B-013: different exon combinations / exons / exon ; multiple proteins / different proteins / many proteins / isoforms / several proteins / more than one protein
+1B-013~r: alternative splicing
+1B-014: third / 3rd / last / 3' ; codon ; first / anticodon ; multiple codons / more than one codon / several codons / synonymous / loose / flexible
+1B-014~r: wobble position / wobble / wobble hypothesis
+1B-015: a / aminoacyl ; p / peptidyl ; e / exit
+1B-016: 70s ; 50s ; 30s ; 80s ; 60s ; 40s
+1B-017: on / active / expressed / transcribed / high ; repressor released / repressor off / repressor removed / repressor inactive / allolactose / repressor ; camp / cap
+1B-018: repressible ; tryptophan / trp ; repressor ; off / shuts / stops / blocks / turns off / corepressor
+1B-019: silent ; same amino acid / same aa / no change ; missense ; different amino acid / different aa / changes amino acid / changed amino acid ; nonsense ; stop codon / premature stop / stop / truncated
+1B-020: insertion / deletion / indel / insert / delete ; not a multiple of 3 / not multiple of three / not in threes / not divisible by 3 / not 3 ; shifts the reading frame / reading frame / frame shift / shifts frame
+1B-020~r: frameshift mutation / frameshift / frame shift
+1B-021: loosens / opens / relaxes / euchromatin / less condensed ; increases transcription / more transcription / increased expression / activates / upregulates / increases expression
+1B-022: silences / represses / decreases / reduces / turns off / inhibits / less transcription / downregulates
+1B-023: heterochromatin ; condensed / tight / compact / dense ; silent / inactive / not transcribed / off ; euchromatin ; loose / open / relaxed / less condensed ; active / transcribed / expressed
+1B-024: 5' to 3' / 5'→3' / 5′ → 3′ / 5 to 3 / 5-3 / 5' 3' / five to three
+1B-025: lagging strand / lagging ; ligase / dna ligase
+1B-026: aug ; methionine / met ; uaa ; uag ; uga
+1B-027: discontinuously / discontinuous / okazaki / fragments / away from fork / opposite direction
+1B-028: nicks / gaps / breaks / okazaki / fragments ; phosphodiester / backbone / sugar-phosphate
+1B-029: rna / rna template / rna component
+1B-030: nucleotide excision repair / ner / nucleotide excision
+1B-031: mismatch repair / mmr
+1B-032: transcription factors / tfs / general transcription factors / tata binding protein / tbp ; rna polymerase / polymerase / rna pol / pol ii ; promoter
+1B-033: recruit / binding / binds / position / assembly / start ; tata-binding protein / tata binding protein / tbp / transcription factors / rna polymerase / polymerase / machinery
+1B-034: 7-methylguanosine / 7 methylguanosine / methylguanosine / m7g / 5' cap / 5′ cap / cap / guanine cap / capping
+1B-035: removed / spliced out / cut out / excised / spliced / degraded ; spliceosome / splicing
+1B-036: stop codon / stop codons / stop ; a site / a-site / aminoacyl site
+1B-037: more than one codon / multiple codons / several codons / many codons / redundant / redundancy
+1B-038: premature stop / stop codon / stop ; truncated / shortened / truncating / shorter / incomplete
+1B-039: increases transcription / increases / enhances / boosts / upregulates / activates ; activators / transcription factors / distance / far away / distant / far
+1B-040: intron retained / retained / retention / exon skipped / exon skipping / skipped / skipping ; frame / reading frame / altered protein / protein / frameshift / premature stop
+1C-001: prophase i / prophase 1 / prophase one / prophase ; homologous / homologs / homologues / tetrad / bivalent
+1C-002: fail to separate / fail / don't separate / not separate / do not separate / failure ; aneuploidy / trisomy / monosomy / extra chromosome / missing chromosome / wrong number
+1C-003: one x / single x / 1 x / only one x / hemizygous ; expressed / shows / one allele / one copy
+1C-004: alleles / two alleles / genes / allele ; separate / segregate / split ; gamete / each gamete / one allele
+1C-005: different chromosomes / unlinked / genes ; independently / independent / separately / randomly
+1C-005~r: law of independent assortment / independent assortment
+1C-006: 1% ; 1 centimorgan / one centimorgan / 1 cm / 1 map unit / one map unit / centimorgan / map unit ; 50% / 50 percent / fifty
+1C-007: incomplete ; blend / blended / intermediate / mix / pink ; codominance ; both / both expressed / both fully / both shown / ab / ab blood
+1C-008: penetrance ; share / percentage / proportion / fraction / percent / how many ; expressivity ; how strongly / degree / severity / extent / how much / variation
+1C-009: bottleneck ; reduction / reduced / drop / decrease / crash / shrinks / disaster ; founder ; few individuals / small group / new population / colonize / establish / small number / migrate
+1C-010: homologous / homologs / homologues / homologous chromosomes ; sister chromatids / chromatids / sisters
+1C-011: p + q = 1 / p+q=1 ; p² + 2pq + q² = 1 / p2 + 2pq + q2 = 1 / p^2 + 2pq + q^2 = 1 / p2+2pq+q2=1 / p^2+2pq+q^2=1
+1C-012: heterozygote / heterozygous / one copy / one recessive / aa ; no phenotype / lacks phenotype / unaffected / not affected / doesn't show / does not show / no symptoms / not show / healthy ; pass / passes / transmit / pass on / pass it / children / offspring
+1C-012~r: autosomal recessive carrier / carrier / heterozygous carrier

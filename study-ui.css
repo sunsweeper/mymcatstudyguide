@@ -116,3 +116,20 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
   #study #studyNext{flex-basis:auto;font-size:20px}
 }
 @media(max-width:400px){#study #card .foot .cat{font-size:10px;letter-spacing:.4px}}
+
+/* Graded rating popup: the system's grade, Next Card, and a small Dispute link */
+.study-modal .grade-actions{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:6px}
+.study-modal .grade-actions[hidden],.study-modal .dispute-note[hidden]{display:none}
+.study-modal #gradeAccept{width:100%;min-height:54px;border-radius:12px;font:800 18px 'DM Sans',sans-serif;background:#f0adbd;color:#14271e;border:2px solid #e8a4b6;cursor:pointer}
+.study-modal #gradeAccept:hover{background:#ffd0dc}
+.study-modal #gradeDispute{font:600 12px 'DM Sans',sans-serif;color:#7b6470;text-decoration:underline;background:none;border:0;cursor:pointer;padding:4px 8px}
+.study-modal[data-view=grade][data-grade=good] h2{color:#2f7a4f}
+.study-modal[data-view=grade][data-grade=hard] h2{color:#9a6a2e}
+.study-modal[data-view=grade][data-grade=again] h2{color:#a65370}
+.study-modal[data-view=grade] #studyRatingDescription{font-size:15px;color:#33473b}
+.study-modal .dispute-note{display:grid;gap:6px;margin:0 0 14px;text-align:left}
+.study-modal .dispute-note label{font:700 13px 'DM Sans',sans-serif;color:#24382d}
+.study-modal .dispute-note label span{font-weight:400;color:#6b7b70}
+.study-modal[data-view=dispute] #rateRow:before{content:"Then pick the right grade:";grid-column:1/-1;font:700 13px 'DM Sans',sans-serif;color:#24382d;text-align:left}
+.study-modal .dispute-note textarea{width:100%;box-sizing:border-box;border:1px solid #c9bfae;border-radius:9px;padding:8px 10px;font:14px/1.5 'DM Sans',sans-serif;background:#fffaf1;color:#24382d}
+.study-modal #rateRow .btn:disabled{opacity:.35;cursor:not-allowed}

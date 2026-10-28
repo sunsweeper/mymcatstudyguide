@@ -1,5 +1,5 @@
 {
-  "buildCommand": "node tools/check-cards.js && node tools/validate-graphics.js",
+  "buildCommand": "node tools/check-cards.js && node tools/validate-graphics.js && node answer-keys/build.js",
   "outputDirectory": ".",
   "routes": [
     {

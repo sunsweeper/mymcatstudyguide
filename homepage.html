@@ -142,7 +142,7 @@
 .rating-modal-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .rating-modal-options button{min-height:57px;border:1px solid transparent;border-radius:11px;padding:10px 8px;font-weight:800;font-size:14px;cursor:pointer}
 .rating-modal-options button:focus-visible{outline:3px solid #fff;outline-offset:3px}
-.rating-modal-options button:disabled{opacity:.55;cursor:not-allowed}
+.rating-modal-options button:disabled{opacity:.55;cursor:not-allowed}.demo-grade-actions{display:flex;flex-direction:column;align-items:center;gap:14px}.demo-grade-actions[hidden]{display:none!important}#demoGradeAccept{width:100%;min-height:54px;border-radius:12px;border:2px solid #f8c3d1;background:var(--pink);color:#14271e;font:800 18px 'DM Sans',sans-serif;cursor:pointer}#demoGradeAccept:hover{background:#ffd0dc}.demo-grade-dispute{border:0;background:none;color:#a9c4b0;font:600 12px 'DM Sans',sans-serif;text-decoration:underline;cursor:pointer;padding:4px 8px}.rating-modal[data-view=grade][data-grade=got] h3{color:#9fe0b7}.rating-modal[data-view=grade][data-grade=struggled] h3{color:#f0cfa8}.rating-modal[data-view=grade][data-grade=didnt] h3{color:#f4b5c5}.rating-modal[data-view=grade] p{font-size:15px;color:#e1ece3}
 .rating-modal-close{position:absolute;right:13px;top:11px;border:0;background:transparent;color:#d4e7d7;font-size:29px;cursor:pointer;padding:2px 9px}
 @media(max-width:530px){.rating-modal{padding:31px 16px 21px}.rating-modal-options{grid-template-columns:1fr}.rating-modal-options button{min-height:47px}}
 
@@ -206,7 +206,7 @@
 </div></footer><div class="rating-modal-backdrop" hidden="" id="ratingModal">
 <div aria-describedby="ratingModalDescription" aria-labelledby="ratingModalTitle" aria-modal="true" class="rating-modal" id="tour-ratings" role="dialog">
 <button aria-label="Close rating prompt" class="rating-modal-close" id="closeRatingModal" type="button">×</button>
-<span class="rating-modal-eyebrow">YOUR RECALL</span>
+<span class="rating-modal-eyebrow" id="ratingModalEyebrow">YOUR RECALL</span>
 <h3 id="ratingModalTitle">Did you remember the answer to the last card?</h3>
 <p id="ratingModalDescription">Choose the response that best matches how well you remembered.</p>
 <div class="ratings-buttons rating-modal-options">
@@ -214,6 +214,7 @@
 <button data-rating="struggled" type="button">Struggled</button>
 <button data-rating="got" type="button">Got it!</button>
 </div>
+<div class="demo-grade-actions" hidden="" id="demoGradeActions"><button id="demoGradeAccept" type="button">Next Card →</button><button class="demo-grade-dispute" id="demoGradeDispute" type="button">Dispute</button></div>
 </div>
 </div>
 <div class="rating-modal-backdrop" hidden="" id="trialCompletionModal">
@@ -240,17 +241,46 @@ function current(){return cards[order[pos]]}
 function canFlip(){return !activeRecall || !!(recallDrafts[order[pos]]||'').trim()}
 function setRecallMode(){activeRecall=$('activeRecallSwitch').checked;$('activeRecallStatus').textContent=activeRecall?'On':'Off';if(activeRecall&&flipped&&ratings[order[pos]]===undefined)flipped=false;render()}
 function render(){const c=current();$('demoTopic').textContent=c.topic.toUpperCase();$('demoSubtopic').textContent=c.sub;$('demoQuestion').textContent=c.q;$('demoAnswer').textContent=c.a;$('demoCount').textContent=`${pos+1} / 5`;$('demoFace').textContent=flipped?'Answer':'Question';$('demoAnswer').hidden=!flipped;$('demoQuestion').hidden=flipped;$('demoReveal').textContent='Flip Card';$('demoReveal').disabled=demoFlipping||(!flipped&&!canFlip());$('demoReveal').title=!flipped&&!canFlip()?'Write your answer first, or switch Active Recall off':'Flip card';$('tour-card').classList.toggle('recall-locked',!flipped&&!canFlip());$('tour-recall-entry').hidden=!activeRecall;$('recallDraft').value=recallDrafts[order[pos]]||'';$('recallDraft').disabled=flipped;$('recallRequired').textContent=flipped?'Compare your answer with the other side':'Required before flipping';$('recallMessage').textContent=flipped?'Compare your written response with the revealed answer, then rate yourself.':canFlip()?'Ready to flip.':'Active Recall is on. Write your answer before revealing the other side.';$('demoBookmark').classList.toggle('is-bookmarked',bookmarks.has(order[pos]));$('demoBookmark').setAttribute('aria-pressed',String(bookmarks.has(order[pos])));$('demoBookmark').setAttribute('aria-label',bookmarks.has(order[pos])?'Remove bookmark':'Bookmark this card');$('demoBookmark').title=bookmarks.has(order[pos])?'Remove bookmark':'Bookmark this card';$('demoSummary').hidden=!done;$('demoNext').disabled=!flipped||demoFlipping;$('demoNext').title=flipped?'Continue to recall rating':'Reveal the answer to continue';$('activeRecallSwitch').disabled=!!pendingRating;$('demoNext').textContent=pendingRating?'Save response & Next Card →':'Next Card →';if(pendingRating){$('tour-recall-entry').hidden=false;$('recallDraft').disabled=false;$('recallDraft').value=reinforcementDraft;$('recallRequired').textContent='Required reinforcement';$('recallMessage').textContent=reinforcementDraft.trim().length+' / 20 characters. Reinforce your answer before continuing.';$('demoNext').disabled=reinforcementDraft.trim().length<20;}}
-function flip(){if(demoFlipping||pendingRating)return;if(!flipped&&!canFlip()){$('recallDraft').focus();$('recallMessage').textContent='Write your answer from memory to unlock Flip Card, or switch Active Recall off.';return}const card=$('tour-card'),apply=()=>{flipped=!flipped;render()};if(matchMedia('(prefers-reduced-motion: reduce)').matches||!card.animate){apply();return}demoFlipping=true;render();const out=card.animate([{transform:'perspective(1400px) rotateY(0deg)'},{transform:'perspective(1400px) rotateY(90deg)'}],{duration:170,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'});out.onfinish=()=>{apply();const back=card.animate([{transform:'perspective(1400px) rotateY(-90deg)'},{transform:'perspective(1400px) rotateY(0deg)'}],{duration:190,easing:'cubic-bezier(0,0,.2,1)'});out.cancel();back.onfinish=back.oncancel=()=>{demoFlipping=false;render()}}}
+function flip(){if(demoFlipping||pendingRating)return;if(!flipped&&!canFlip()){$('recallDraft').focus();$('recallMessage').textContent='Write your answer from memory to unlock Flip Card, or switch Active Recall off.';return}const card=$('tour-card'),apply=()=>{flipped=!flipped;render();startGrade()};if(matchMedia('(prefers-reduced-motion: reduce)').matches||!card.animate){apply();return}demoFlipping=true;render();const out=card.animate([{transform:'perspective(1400px) rotateY(0deg)'},{transform:'perspective(1400px) rotateY(90deg)'}],{duration:170,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'});out.onfinish=()=>{apply();const back=card.animate([{transform:'perspective(1400px) rotateY(-90deg)'},{transform:'perspective(1400px) rotateY(0deg)'}],{duration:190,easing:'cubic-bezier(0,0,.2,1)'});out.cancel();back.onfinish=back.oncancel=()=>{demoFlipping=false;render()}}}
 function move(delta){pendingRating=null;reinforcementDraft='';if(delta>0&&ratings[order[pos]]===undefined){if(flipped)openRatingModal();return}if(delta>0&&pos===4){finish();return}closeRatingModal();pos=(pos+delta+5)%5;flipped=mode==='answer'&&!activeRecall;done=false;hideDrawer();render()}
 function finish(){done=true;const n=Object.values(ratings).reduce((a,v)=>(a[v]=(a[v]||0)+1,a),{});$('demoSummaryText').textContent=`You rated ${Object.keys(ratings).length} of 5 cards · Got it: ${n.got||0} · Struggled: ${n.struggled||0} · Didn't know: ${n.didnt||0}.`;render();$('demoSummary').scrollIntoView({behavior:'smooth',block:'nearest'});openTrialModal()}
+// Grading: key-concept match first, then the AI for anything that isn't a clear match (same as the study app).
+const DEMO_RATING={good:'got',hard:'struggled',again:'didnt'},VERDICT={got:'Good job, you knew that one.',struggled:'Close. You were partly there.',didnt:'Not this time.'},LABEL={got:'Got it',struggled:'Struggled',didnt:"Didn't know"};
+const grades={};let demoKeys=null,popupView='manual';
+function loadDemoKeys(){return demoKeys||(demoKeys=new Promise((ok,bad)=>{if(window.TabiMatch)return ok();const sc=document.createElement('script');sc.src='/answer-keys/match.js';sc.onload=ok;sc.onerror=bad;document.head.append(sc);}).then(()=>fetch('/answer-keys/demo.json')).then(r=>{if(!r.ok)throw new Error('keys');return r.json();}).catch(e=>{demoKeys=null;throw e;}));}
+function gradeKey(){return order[pos]+'|'+(recallDrafts[order[pos]]||'').trim();}
+async function runGrade(k,i,answer){
+  let g;
+  try{const D=await loadDemoKeys(),m=window.TabiMatch.grade(answer,D['demo-'+i].keys);if(m.verdict==='right'&&!D.confirmByAI.includes('demo-'+i))g={status:'done',source:'match',rating:'got',reasoning:'Your answer included every key concept on this card.'};}catch(e){}
+  if(!g)try{const r=await fetch('/api/grade',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:'demo-'+i,answer})});const d=await r.json().catch(()=>({}));
+    g=r.ok&&DEMO_RATING[d.rating]?{status:'done',source:'ai',rating:DEMO_RATING[d.rating],reasoning:d.reasoning}:{status:'unavailable',why:r.status===429?'You’ve graded a lot of sample cards. Rate yourself for now.':'Automatic grading isn’t available right now. Rate yourself this time.'};}
+  catch(e){g={status:'unavailable',why:'Automatic grading isn’t available right now. Rate yourself this time.'};}
+  grades[k]=g;if(!$('ratingModal').hidden&&popupView==='checking'&&gradeKey()===k)showRatingView();
+}
+function startGrade(){const i=order[pos],a=(recallDrafts[i]||'').trim(),k=gradeKey();if(!flipped||!activeRecall||!a||grades[k])return;grades[k]={status:'checking'};runGrade(k,i,a);}
+function showRatingView(){
+  const g=grades[gradeKey()],m=$('tour-ratings'),T=$('ratingModalTitle'),D=$('ratingModalDescription'),E=$('ratingModalEyebrow');
+  popupView=popupView==='dispute'&&g&&g.status==='done'?'dispute':g&&g.status==='done'?'grade':g&&g.status==='checking'?'checking':'manual';
+  m.dataset.view=popupView;m.dataset.grade=g&&g.rating||'';
+  $('demoGradeActions').hidden=popupView!=='grade';m.querySelector('.rating-modal-options').hidden=!['manual','dispute'].includes(popupView);
+  m.querySelectorAll('[data-rating]').forEach(b=>b.disabled=popupView==='dispute'&&b.dataset.rating===g.rating);
+  if(popupView==='grade'){E.textContent=g.source==='ai'?'GRADED BY AI':'GRADED';T.textContent=VERDICT[g.rating];D.textContent=g.reasoning;$('demoGradeAccept').focus();}
+  else if(popupView==='checking'){E.textContent='YOUR RECALL';T.textContent='Checking your answer…';D.textContent='This takes a moment.';}
+  else if(popupView==='dispute'){E.textContent='DISPUTE';T.textContent='How should this card be graded?';D.textContent=`We graded it ${LABEL[g.rating]}. Your pick is what counts. In the full app, disputed grades are sent to us for review.`;m.querySelector('[data-rating]:not(:disabled)').focus();}
+  else{E.textContent='YOUR RECALL';T.textContent='Did you remember the answer to the last card?';D.textContent=(g&&g.why)||'Choose the response that best matches how well you remembered.';m.querySelector('[data-rating]').focus();}
+}
 function openRatingModal(preview=false){
   if(done||(!preview&&!flipped))return;
   $('ratingModal').hidden=false;
   $('ratingModal').dataset.preview=preview?'true':'false';
-  $('ratingModalDescription').textContent=preview&&!flipped?'This prompt appears after you flip a card and select Next Card.':'Choose the response that best matches how well you remembered.';
+  if(!preview){popupView='';showRatingView();return;}
+  $('tour-ratings').dataset.view='manual';$('demoGradeActions').hidden=true;$('tour-ratings').querySelector('.rating-modal-options').hidden=false;
+  $('ratingModalEyebrow').textContent='YOUR RECALL';$('ratingModalTitle').textContent='Did you remember the answer to the last card?';
+  $('ratingModalDescription').textContent=!flipped?'This prompt appears after you flip a card and select Next Card. When your answer can be graded, it shows your grade instead, with a Dispute button.':'Choose the response that best matches how well you remembered.';
   $('ratingModal').querySelectorAll('[data-rating]').forEach(b=>b.disabled=preview&&!flipped);
-  if(!preview)$('ratingModal').querySelector('[data-rating]').focus();
 }
+$('demoGradeAccept').onclick=()=>{const g=grades[gradeKey()];if(g&&g.status==='done')rate(g.rating);};
+$('demoGradeDispute').onclick=()=>{popupView='dispute';showRatingView();};
 function openTrialModal(){ $('trialCompletionModal').hidden=false; $('trialCompletionYes').focus(); }
 function closeTrialModal(){ $('trialCompletionModal').hidden=true; }
 $('closeTrialCompletion').onclick=closeTrialModal;
