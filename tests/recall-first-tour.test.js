@@ -16,7 +16,7 @@ try{for(const width of [390,1440]){
   await h.fill('#recallDraft','   ');check('Whitespace does not unlock Flip Card',await h.isDisabled('#demoReveal'));
   await h.fill('#recallDraft','Aspartate and glutamate');check('Typing an answer unlocks Flip Card',!(await h.isDisabled('#demoReveal')));
   await h.click('#startTour');
-  const demoOrder=[];for(let i=0;i<9;i++){demoOrder.push(await h.evaluate(()=>document.querySelector('.tour-focus')?.id));if(i===1)check('Demo card step does not mention flipping',!/flip|reveal/i.test(await h.textContent('.tour-popover p')));if(i===3)check('Demo step 4 also highlights the card',await h.evaluate(()=>document.getElementById('tour-card').classList.contains('tour-secondary-focus')));await h.click('#tourForward');}
+  const demoOrder=[];for(let i=0;i<8;i++){demoOrder.push(await h.evaluate(()=>document.querySelector('.tour-focus')?.id));if(i===1)check('Demo card step does not mention flipping',!/flip|reveal/i.test(await h.textContent('.tour-popover p')));if(i===3)check('Demo step 4 also highlights the card',await h.evaluate(()=>document.getElementById('tour-card').classList.contains('tour-secondary-focus')));await h.click('#tourForward');}
   check('Demo tour order: modes, card, recall answer, Flip Card, then the rest',JSON.stringify(demoOrder.slice(0,5))===JSON.stringify(['tour-study-modes','tour-card','tour-recall-entry','demoReveal','tour-recall-toggle']));
   await h.uncheck('#activeRecallSwitch');check('Demo recall can be switched off',!(await h.isChecked('#activeRecallSwitch')));
   await h.evaluate(()=>document.getElementById('restartSample').click());
@@ -29,7 +29,7 @@ try{for(const width of [390,1440]){
   await p.fill('#curAnswer','Amino acid sequence');check('Typing unlocks Flip Card',!(await p.isDisabled('#reveal')));
   await p.fill('#curAnswer','');
   await p.click('#studyTourStart');
-  const realOrder=[];for(let i=0;i<9;i++){realOrder.push(await p.evaluate(()=>document.querySelector('.study-tour-target')?.id));check(`Real tour step ${i+1} has one primary target`,await p.locator('.study-tour-target').count()===1);if(i===3)check('Real step 4 also highlights the card',await p.evaluate(()=>document.getElementById('card').classList.contains('study-tour-also')));await p.click('#studyTourNext');}
+  const realOrder=[];for(let i=0;i<8;i++){realOrder.push(await p.evaluate(()=>document.querySelector('.study-tour-target')?.id));check(`Real tour step ${i+1} has one primary target`,await p.locator('.study-tour-target').count()===1);if(i===3)check('Real step 4 also highlights the card',await p.evaluate(()=>document.getElementById('card').classList.contains('study-tour-also')));await p.click('#studyTourNext');}
   check('Real tour order: modes, card, recall answer, Flip Card, then the rest',JSON.stringify(realOrder.slice(0,5))===JSON.stringify(['view','card','recallEntry','reveal','studyToolbar']));
   check('Tour cleans up highlights',await p.locator('.study-tour-also,.study-tour-target').count()===0);
   await p.uncheck('#activeRecallSwitch');check('Recall off unlocks Flip Card for optional cards',!(await p.isDisabled('#reveal')));

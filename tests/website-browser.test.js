@@ -21,7 +21,7 @@ const output=process.env.SCREENSHOT_DIR||path.resolve(__dirname,'../../..','outp
  await page.goto(base+'/');await page.locator('#demoReveal').waitFor();
  ok('Active recall prevents reveal',await page.locator('#demoReveal').isDisabled());
  await page.click('#startTour');ok('Guided tour opens',await page.locator('.tour-popover').isVisible());
- for(let i=0;i<9;i++)await page.click('#tourForward');ok('Guided tour completes',await page.locator('.tour-popover').count()===0);
+ for(let i=0;i<8;i++)await page.click('#tourForward');ok('Guided tour completes',await page.locator('.tour-popover').count()===0);
  for(let i=0;i<5;i++){
  await page.fill('#recallDraft','Sample recalled answer '+i);await page.click('#demoReveal');await page.click('#demoNext');
  ok(`Rating popup card ${i+1}`,await page.locator('#ratingModal').isVisible());await page.locator('[data-rating="got"]').click();
