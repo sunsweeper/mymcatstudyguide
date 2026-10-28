@@ -29,6 +29,11 @@
    "date": "2026-10-27",
    "approved_by": "Aaron Walch (full homepage interaction integration request)",
    "reason": "Final verified interaction integration: real popup ratings, required writing, recall switch, notes drawer and stored explanations; frozen UI assets and workspace/modal screenshots; preview only."
+  },
+  {
+   "date": "2026-10-28",
+   "approved_by": "Aaron Walch",
+   "reason": "Owner asked (2026-10-28) for the real study screen to match the homepage demo: toolbar, Active Recall switch, card tools, bookmark star, recall box, Flip/Next/Raise Your Hand buttons. Card content unchanged."
   }
  ]
 }

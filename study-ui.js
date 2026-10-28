@@ -5,14 +5,16 @@
   let recall=true, drawer=null, dialogKey=null, returnTo=null, seen=null;
   const insert=(html,parent=workspace)=>{const t=document.createElement('template');t.innerHTML=html;parent.append(t.content);};
   insert(`<div class="study-toolbar" id="studyToolbar"><label class="study-recall-toggle"><span>Active Recall</span><input id="activeRecallSwitch" type="checkbox" role="switch" aria-describedby="recallMessage" checked><span id="activeRecallStatus">On</span></label><button class="link" id="studyTourStart">Guided Tour</button></div>
-    <div class="study-tools" id="studyTools"><span>CARD TOOLS</span><button class="btn" id="studyNotes">✎ My Card Notes</button><button class="btn" id="studyAnswers">Previous Answers</button><button class="btn" id="studyReport">⚑ Report This Card</button></div>
+    <div class="study-tools" id="studyTools"><div class="session-stats" id="sessionStats" aria-hidden="true"><span id="statTime">0:00</span><span id="statCount"></span></div><span class="study-tools-label">CARD TOOLS</span><button class="btn" id="studyNotes">✎ My Card Notes</button><button class="btn" id="studyAnswers">Previous Answers</button><button class="btn" id="studyExplain">Explain This Concept</button><button class="btn" id="studyReport">⚑ Report This Card</button></div>
     <div class="study-recall-entry" id="recallEntry"><p id="recallMessage" role="status"></p></div>
-    <div class="study-utilities" id="studyUtilities"><button class="btn" id="raiseHand">? Raise Your Hand (planned)</button><button class="btn" id="studyExplain">Explain This Concept</button><button class="btn" id="studyNext" aria-haspopup="dialog">Next Card →</button></div>
+    <div class="study-utilities" id="studyUtilities"><button class="btn" id="raiseHand">? Raise Your Hand (planned)</button><button class="btn" id="studyNext" aria-haspopup="dialog">Next Card →</button></div>
     <section class="study-drawer" id="studyDrawer" hidden aria-labelledby="studyDrawerTitle"><div class="study-drawer-head"><strong id="studyDrawerTitle">Card tools</strong><button class="btn" id="closeStudyDrawer" aria-label="Close panel">×</button></div><div id="studyDrawerBody"></div></section>`);
   const inputBlock=byId('curAnswer').closest('.ans-cur');byId('recallEntry').prepend(inputBlock);
   byId('curLabel').textContent='Your answer, from memory';byId('curAnswer').rows=2;
+  // Heading row as on the homepage: label on the left, requirement status on the right.
+  const recallHead=document.createElement('div');recallHead.className='recall-head';byId('curLabel').before(recallHead);recallHead.append(byId('curLabel'));insert('<span class="recall-required" id="recallRequired"></span>',recallHead);
   byId('reveal').textContent='Flip Card';byId('prev').textContent='← Previous';
-  const header=byId('view');header.before(byId('studyToolbar'));header.after(byId('studyTools'));byId('studyToolbar').prepend(header);
+  const header=byId('view');header.before(byId('studyToolbar'));header.after(byId('studyTools'));byId('studyToolbar').prepend(header);insert('<span class="toolbar-label">Study mode</span>',byId('studyToolbar'));byId('studyToolbar').prepend(byId('studyToolbar').lastElementChild);
   byId('card').after(byId('recallEntry'));byId('revealRow').after(byId('studyUtilities'));byId('studyUtilities').after(byId('studyDrawer'));
   const reportRow=byId('reportBtn').closest('.report-row');reportRow.hidden=true;
   const originalReport=byId('reportBtn').onclick;
@@ -58,6 +60,7 @@
     return ['simple','why','example','mcat','mistake'].filter(k=>e[k]).map(k=>`<section><h3>${({simple:'In plain words',why:'Why it works',example:'Example',mcat:'MCAT connection',mistake:'Common mistake'})[k]}</h3><div>${e[k]}</div></section>`).join('')+'<small>Existing study-library explanation. Not newly generated.</small>';
   }
   function sync(){
+    document.documentElement.classList.toggle('study-cards',mode==='cards');
     if(mode!=='cards'){closeRating(false);drawer=null;endTour();return;}
     if(seen!==curKey){seen=curKey;drawer=null;closeRating(false);}
     const required=(mustWrite(curKey)||!!pendingR)&&mandatoryOn(),writing=!!pendingR;
@@ -65,7 +68,9 @@
     byId('activeRecallStatus').textContent=required?'Required':recall?'On':'Off';
     byId('recallEntry').hidden=!(recall||required||writing||draft.trim());
     byId('curLabel').textContent=writing?'Reinforce your answer': 'Your answer, from memory';
-    byId('recallMessage').textContent=writing?`Write at least ${MIN_REINFORCE} characters, then continue. The existing Mandatory Response setting still applies.`:required?'This card requires a written answer before flipping.':revealed?'Compare your response with the answer, then select Next Card.':recall?'Active Recall is on. Write your answer before flipping.':'Active Recall is off for optional recall. Required writing still applies.';
+    byId('recallMessage').textContent=writing?`${reinforceDraft.trim().length} / ${MIN_REINFORCE} characters. Reinforce your answer before continuing.`:required?'This card requires a written answer before flipping.':revealed?'Compare your written response with the revealed answer, then rate yourself.':recall?'Active Recall is on. Write your answer before revealing the other side.':'Active Recall is off for optional recall. Required writing still applies.';
+    byId('recallRequired').textContent=writing?'Required reinforcement':revealed?'Compare your answer with the other side':(recall||required)?'Required before flipping':'Optional';
+    if(!writing)byId('curAnswer').placeholder='Try to recall the answer in your own words before flipping…';
     byId('revealRow').hidden=false;byId('reveal').disabled=!revealed&&((recall||required)&&!draft.trim());
     byId('studyNext').disabled=!revealed||!flipped||(writing&&mandatoryOn()&&reinforceDraft.trim().length<MIN_REINFORCE);
     byId('studyNext').textContent=writing?'Save response & Next Card →':'Next Card →';
@@ -98,6 +103,9 @@
   addEventListener('keydown',e=>{if(e.key==='Escape'&&tourBox)endTour();});
   // Active Recall starts on at every new session, even if it was switched off during the previous one.
   const baseStart=start;start=function(...args){recall=true;return baseStart.apply(this,args);};
+  // Session time and card count shown as pills on the Card Tools row (mirrored from the engine's own header stats).
+  const mirrorStats=()=>{byId('statTime').textContent=(byId('timer').textContent||'').replace(/^Study time\s*/,'')||'0:00';byId('statCount').textContent=byId('count').textContent||'';};
+  ['timer','count'].forEach(id=>new MutationObserver(mirrorStats).observe(byId(id),{childList:true,characterData:true,subtree:true}));mirrorStats();
   window.MCATStudyUI={sync,openRating,closeRating,setRecall(on){recall=on;sync();}};
   sync();
 })();

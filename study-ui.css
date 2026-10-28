@@ -54,3 +54,64 @@
 .study-tour h3{font:600 20px 'Playfair Display';margin:8px 0}.study-tour button{background:#d97790;border:0;border-radius:8px;padding:9px;color:#1a2b21;font-weight:700;margin-right:7px;cursor:pointer}
 .study-tour-target,.study-tour-also{outline:3px solid #f5afc2;outline-offset:5px}
 @media(max-width:620px){#study .study-tools .btn{flex:1;font-size:11px;padding:8px}#study .study-tools>span{flex-basis:100%}#study .study-recall-entry{padding:13px}#study .study-utilities .btn{font-size:12px;flex:1}#study #studyNext{flex-basis:100%}.study-modal{padding:30px 20px}.study-modal #rateRow{grid-template-columns:1fr}.study-modal h2{font-size:26px}}
+
+/* ---- Match the homepage study demo (values copied from homepage.html) ---- */
+#study .study-toolbar{gap:10px;padding:0;border:0}
+#study .study-toolbar .toolbar-label{font:400 12px 'DM Sans',sans-serif;color:#bacdbd;margin-right:4px}
+#study .study-toolbar #view{flex:0 1 auto;gap:10px;border:0;padding:0;margin:0;background:none}
+#study .study-toolbar #view button{flex:0 0 auto;width:auto;min-height:0;padding:11px 15px;border-radius:10px;font:700 13.3px 'DM Sans',sans-serif;background:#203c30;color:#f5f4ef;border:1px solid #58705f;box-shadow:none}
+#study .study-toolbar #view button[aria-checked=true]{background:#e8a4b6;color:#1b2c21;border-color:#e8a4b6}
+#study .study-toolbar #view .ic{display:none}
+#study .study-recall-toggle{margin-left:auto;gap:10px;font:800 13px 'DM Sans',sans-serif;color:#e6f4e9}
+#study #activeRecallSwitch{width:49px;height:27px;border-radius:999px;background:#596b60;border:1px solid #93a49a;transition:background .18s,border-color .18s}
+#study #activeRecallSwitch:before{left:3px;top:3px;width:19px;height:19px;background:#fff;box-shadow:0 1px 4px #0005;transition:transform .18s}
+#study #activeRecallSwitch:checked{background:#4ca778;border-color:#a0e5b7}
+#study #activeRecallSwitch:checked:before{transform:translateX(21px)}
+#study #activeRecallSwitch:disabled{opacity:.7;cursor:not-allowed}
+#study #activeRecallStatus{min-width:22px;color:#b9e7c6}
+#study #studyTourStart{font:700 12px 'DM Sans',sans-serif;color:#f0adbd}
+html.study-cards #stats{display:none}
+#study .study-tools{margin-top:-6px;gap:12px}
+#study .study-tools .session-stats{display:flex;gap:12px;margin-right:auto;font:400 13px 'DM Sans',sans-serif;color:#d2ddd4}
+#study .study-tools .session-stats span{background:#203b2e;border-radius:9px;padding:9px 12px}
+#study .study-tools .session-stats span:empty{display:none}
+#study .study-tools>.study-tools-label{margin:0;font:700 10px 'DM Sans',sans-serif;letter-spacing:1.4px;color:#93aa9a}
+#study .study-tools .btn{min-height:0;padding:7px 10px;border-radius:9px;font:600 11px 'DM Sans',sans-serif;background:#1a3329;color:#d0dbd1;border:1px solid #405d4e}
+#study .study-tools .btn:hover:not(:disabled),#study .study-tools .btn:focus-visible{color:#fff;border-color:#f0adbd;background:#254738}
+#study .study-tools .btn:disabled{opacity:.5;cursor:not-allowed}
+#study #card .foot .cat{font:700 11px 'DM Sans',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#9d6276}
+#study #card .foot .cid{font:500 11px 'DM Sans',sans-serif;letter-spacing:.3px;color:#9d6276;opacity:.86}
+#study #card .bm,#study #card .bm[aria-pressed=true]{background:transparent;border:0;color:#a5a7a0;opacity:.45;transition:color .15s,opacity .15s,transform .15s}
+#study #card .bm .bm-g,#study #card .bm[aria-pressed=true] .bm-g{--ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 2 3 6.1 6.7 1-4.9 4.7 1.2 6.7-6-3.2-6 3.2 1.2-6.7-4.9-4.7 6.7-1z'/%3E%3C/svg%3E");width:34px;height:34px}
+#study #card .bm:hover,#study #card .bm:focus-visible{opacity:.9;transform:scale(1.08)}
+#study #card .bm[aria-pressed=true]{color:#c75f7e;opacity:1}
+html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
+#study .study-recall-entry{padding:14px 16px;border:1px solid #5b9070;border-radius:14px;background:#1b3a2b}
+#study .study-recall-entry .recall-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+#study #curLabel{font:700 14px 'DM Sans',sans-serif;color:#e9f6eb}
+#study .recall-required{font:600 11px 'DM Sans',sans-serif;color:#b9e7c6}
+#study #curAnswer{min-height:65px;margin-top:0;padding:11px 13px;border:1px solid #6e9879;border-radius:10px;background:#f8f2e8;color:#193c29;font:14px/1.5 'DM Sans',sans-serif}
+#study #curAnswer:disabled,#study #curAnswer[readonly]{opacity:.65}
+#study #recallMessage{font:11px/1.5 'DM Sans',sans-serif;color:#c7e9d0;margin:7px 0 0}
+#study #hint{display:none}
+#study #revealRow{gap:12px}
+#study #revealRow .btn{min-height:46px;padding:11px 15px;border-radius:10px;font:700 15px 'DM Sans',sans-serif;background:#203c30;color:#f5f4ef;border:1px solid #58705f;box-shadow:none}
+#study #revealRow #reveal{background:#f0adbd;color:#152a1d;border-color:#f0adbd}
+#study #revealRow #reveal:disabled{background:#52645a;color:#b5c1b8;border-color:#77877c;opacity:.8;cursor:not-allowed}
+#study #revealRow #prev:disabled{opacity:.4;cursor:not-allowed}
+#study .study-utilities{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:stretch}
+#study .study-utilities .btn{min-height:62px;padding:13px 18px;border-radius:13px;font:800 15px 'DM Sans',sans-serif}
+#study #raiseHand{background:#253e32;color:#f4b5c5;border:1px solid #b66c80;text-align:center}
+#study #raiseHand:hover{background:#304d3e;border-color:#f4b5c5}
+#study #studyNext{margin:0;background:#f0adbd;color:#14271e;border:2px solid #f8c3d1;font-size:22px;letter-spacing:.2px;box-shadow:0 8px 22px #0004}
+#study #studyNext:not(:disabled):hover{background:#ffd0dc}
+#study #studyNext:disabled{background:#4d5952;border-color:#667169;color:#9fa9a1;box-shadow:none;cursor:not-allowed;opacity:.75}
+@media(max-width:620px){
+  #study .study-toolbar #view{width:100%;gap:6px}
+  #study .study-toolbar #view button{padding:9px;font-size:11px}
+  #study .study-tools .btn{flex:0 1 auto;font-size:10px;padding:8px}
+  #study .study-tools>.study-tools-label{display:none}
+  #study .study-tools .session-stats{flex-basis:100%}
+  #study .study-utilities .btn{min-height:56px;padding:11px 16px}
+  #study #studyNext{flex-basis:auto;font-size:20px}
+}
