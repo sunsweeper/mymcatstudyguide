@@ -37,7 +37,7 @@ let count = 0; const check = (name, v) => { assert.ok(v, name); count++; console
       await show('1A-018'); await flip('Km goes up and Vmax goes down'); await p.click('#studyNext');
       await p.waitForSelector('#studyRatingDialog[data-view=grade]');
       check('Unmatched answer went to the AI with the session token', aiCalls.length === 1 && aiCalls[0].key === '1A-018' && aiCalls[0].answer === 'Km goes up and Vmax goes down' && aiCalls[0].auth === 'Bearer fixture-token');
-      check('AI verdict and reasoning in the popup', (await p.textContent('#studyRatingEyebrow')) === 'GRADED BY AI' && (await p.textContent('#studyRatingTitle')) === 'Close. You were partly there.' && (await p.textContent('#studyRatingDescription')).includes('Vmax is unchanged'));
+      check('AI verdict and reasoning in the popup', (await p.textContent('#studyRatingEyebrow')) === 'GRADED BY ROSALIND' && (await p.textContent('#studyRatingTitle')) === 'Close. You were partly there.' && (await p.textContent('#studyRatingDescription')).includes('Vmax is unchanged'));
       await p.click('#gradeDispute');
       check('Dispute view: note box and Send, no rating buttons', await p.isHidden('#rateRow') && await p.isVisible('#disputeText') && await p.isVisible('#disputeSend'));
       await p.fill('#disputeText', 'Vmax drop was a typo, I meant unchanged.'); await p.click('#disputeSend'); await p.waitForFunction(() => st('1A-018') || pendingR);
@@ -87,7 +87,7 @@ let count = 0; const check = (name, v) => { assert.ok(v, name); count++; console
       await h.evaluate(() => { pos = 3; flipped = false; render(); });
       await h.fill('#recallDraft', 'both use rewards'); await h.click('#demoReveal'); await h.waitForTimeout(250); await h.click('#demoNext');
       await h.waitForSelector('#tour-ratings[data-view=grade]');
-      check('Demo: unmatched answer graded by the AI, no sign-in needed', demoCalls.length === 1 && demoCalls[0].key === 'demo-3' && (await h.textContent('#ratingModalEyebrow')) === 'GRADED BY AI' && (await h.textContent('#ratingModalTitle')) === 'Not this time.');
+      check('Demo: unmatched answer graded by the AI, no sign-in needed', demoCalls.length === 1 && demoCalls[0].key === 'demo-3' && (await h.textContent('#ratingModalEyebrow')) === 'GRADED BY ROSALIND' && (await h.textContent('#ratingModalTitle')) === 'Not this time.');
       check('Demo: graded view hides the three rating buttons', await h.isHidden('#tour-ratings .rating-modal-options'))
       await h.click('#demoGradeDispute');
       check('Demo: Dispute shows a note box, not ratings', await h.isVisible('#demoDisputeText') && await h.isHidden('#tour-ratings .rating-modal-options'));

@@ -43,6 +43,10 @@
       "dest": "/contact.html"
     },
     {
+      "src": "^/about-rosalind$",
+      "dest": "/about-rosalind.html"
+    },
+    {
       "src": "^/privacy-policy$",
       "dest": "/privacy-policy.html"
     },

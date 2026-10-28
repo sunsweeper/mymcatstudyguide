@@ -42,7 +42,7 @@
     byId('gradeActions').hidden=popupView!=='grade';byId('disputeNote').hidden=popupView!=='dispute';byId('rateRow').hidden=popupView!=='manual';
     byId('rateRow').querySelectorAll('[data-r]').forEach(b=>b.disabled=false);
     const T=byId('studyRatingTitle'),D=byId('studyRatingDescription'),E=byId('studyRatingEyebrow');
-    if(popupView==='grade'){E.textContent=g.source==='ai'?'GRADED BY AI':'GRADED';T.textContent=VERDICT[g.rating];D.textContent=g.reasoning;}
+    if(popupView==='grade'){E.textContent=g.source==='ai'?'GRADED BY ROSALIND':'GRADED';T.textContent=VERDICT[g.rating];D.textContent=g.reasoning;}
     else if(popupView==='checking'){E.textContent='YOUR RECALL';T.textContent='Checking your answer…';D.textContent='This takes a moment.';}
     else if(popupView==='dispute'){E.textContent='DISPUTE';T.textContent='Dispute this grade';D.textContent=`We graded it ${rateLabel(g.rating)}. That grade stays for scheduling, and we'll review your dispute.`;}
     else{E.textContent='YOUR RECALL';T.textContent='Did you remember the answer to the last card?';D.textContent=check.why()||'Choose the response that best matches how well you remembered.';}
