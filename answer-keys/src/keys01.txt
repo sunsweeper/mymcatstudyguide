@@ -1,0 +1,160 @@
+1C-013: egg / ovum / oocyte / mother / maternal ; mitochondria / mitochondrial
+1C-014: more than one / multiple / two / mixed / mixture / different ; mitochondrial dna / mtdna / mitochondrial / mitochondria
+1C-014~r: heteroplasmy
+1C-015: same chromosome / close together / nearby / near each other ; inherited together / less likely to be separated / not separated / crossing over / recombination
+1C-015~r: genetic linkage / linkage / linked
+1C-016: multiple crossovers / double crossovers / multiple crossover / many crossovers ; 50% / unlinked / independent assortment / balance / cancel
+1C-017: mother / maternal ; father / paternal ; expression / expressed / silenced / which parent / parent of origin
+1C-018: alleles / genes ; between populations / populations ; migration / migrate / moving / movement
+1C-018~r: gene flow / migration
+1C-019: one end / one extreme / shifts / shift / one direction / one side
+1C-019~r: directional selection / directional
+1C-020: intermediate / average / middle / mean ; extremes / against extremes
+1C-020~r: stabilizing selection / stabilizing
+1C-021: extremes / extreme / both ends / both extremes ; intermediate / middle / average / against intermediate
+1C-021~r: disruptive selection / disruptive / diversifying
+1C-022: hidden / masked / not expressed / not selected / protected ; heterozygotes / heterozygous / carriers / carrier
+1C-023: 25% / 25 percent / 1/4 / one in four / 1 in 4 / quarter / one fourth / 0.25
+1D-001: cytoplasm / cytosol
+1D-002: acetyl-coa / acetyl coa / acetylcoa ; co2 / carbon dioxide ; nadh
+1D-003: 3 nadh / three nadh ; 1 fadh2 / one fadh2 / fadh2 ; 1 gtp / one gtp / gtp / atp ; 2 co2 / two co2 / co2
+1D-004: succinate dehydrogenase / complex ii / complex 2 / sdh
+1D-005: proton gradient / proton motive force / h+ gradient / hydrogen ion gradient / electrochemical gradient / pmf / protons / h+
+1D-006: regenerate nad+ / regenerating nad / nad+ / nad / regenerates nad ; glycolysis / without oxygen / anaerobic / no oxygen
+1D-007: nadph ; ribose-5-phosphate / ribose 5 phosphate / ribose / r5p / pentose / five carbon sugar
+1D-008: glycogen synthase ; glycogen phosphorylase / phosphorylase
+1D-009: cytoplasm / cytosol ; acetyl-coa carboxylase / acetyl coa carboxylase / acc
+1D-010: mitochondrial matrix / mitochondria / mitochondrion / matrix
+1D-011: liver / hepatic / hepatocytes ; fasting / starvation / low carb / low glucose / prolonged exercise / diabetes / low insulin
+1D-012: hmg-coa reductase / hmg coa reductase / hmgcoa reductase / hmg-coa / hmg coa
+1D-012~r: rate-limiting enzyme of cholesterol synthesis / cholesterol synthesis / cholesterol
+1D-013: liver / hepatic / hepatocytes ; mitochondria / mitochondrial / mitochondrion ; cytoplasm / cytosol
+1D-014: saturated ; no double bonds / no c=c / only single bonds / single bonds / no double ; solid / pack tightly / tightly packed / tight ; unsaturated ; double bonds / double bond / c=c / kink / kinks / cis ; liquid / loose / fluid
+1D-015: 2 atp / two atp ; 2 nadh / two nadh ; 2 pyruvate / two pyruvate / pyruvate
+1D-016: phosphofructokinase-1 / phosphofructokinase 1 / phosphofructokinase / pfk-1 / pfk1 / pfk
+1D-016~r: glycolysis
+1D-017: fructose-1,6-bisphosphatase / fructose 1,6 bisphosphatase / fructose bisphosphatase / fbpase / fbpase-1 / fbpase1
+1D-017~r: gluconeogenesis
+1D-018: mitochondrial matrix / matrix
+1D-019: o2 / oxygen
+1D-020: mitochondrial matrix / matrix / mitochondria / mitochondrion
+1D-021: acylcarnitine / acyl carnitine / carnitine ; mitochondria / mitochondrial / import / into the mitochondria / transport
+1D-021~r: carnitine palmitoyltransferase i / carnitine palmitoyltransferase 1 / cpt i / cpt1 / cpt-1 / cpt 1 / carnitine acyltransferase
+1D-022: malonyl-coa / malonyl coa / malonylcoa
+1D-023: activates / increases / stimulates / upregulates / turns on
+1D-024: liver / hepatic / hepatocytes
+1D-025: pyruvate carboxylase ; phosphoenolpyruvate carboxykinase / pepck / pep carboxykinase
+1D-026: fructose-1,6-bisphosphatase / fructose 1,6 bisphosphatase / fructose bisphosphatase / fbpase / fbpase-1 / fbpase1
+1D-027: glucose-6-phosphatase / glucose 6 phosphatase / g6pase / glucose-6-phosphatase
+1D-028: glutathione / gsh ; oxidative / oxidative stress / oxidation / free radicals / reactive oxygen / ros / antioxidant / hemolysis
+1D-029: pyruvate carboxylase
+1D-030: acetyl-coa / acetyl coa / acetylcoa
+1D-031: electron transport / etc / electron transport chain / complexes ; pump protons / pumps protons / proton pumping / protons / h+ ; inner membrane / inner mitochondrial membrane / intermembrane space / across membrane
+1D-032: dissipates / collapses / destroys / leaks / abolishes / uncouples / bypasses / reduces / disrupts ; proton gradient / gradient / proton motive force / h+ gradient / pmf
+1D-033: fatty acid oxidation / beta oxidation / β-oxidation / fat burning / fatty acids / lipolysis / fat ; ketone / ketones / ketone bodies / ketogenesis
+1D-034: complex i / complex 1 ; ubiquinone / coq / coenzyme q / q ; complex iii / complex 3 ; cytochrome c / cyt c ; complex iv / complex 4 ; o2 / oxygen ; complex ii / complex 2
+1D-035: i, iii, iv / 1, 3, 4 / i iii iv / 1 3 4 / complex i / complex 1 ; ii / 2 / complex ii / complex 2 / bypass complex i / skips complex i / bypasses complex 1 ; fewer protons / less protons / fewer h+
+1D-036: ubiquinone / coenzyme q / coq / q ; cytochrome c / cyt c
+1D-036~r: cytochrome c / cyt c
+1D-037: 30 / 32 / 30-32 / 30–32 / 36 / 38 / 36-38
+1D-038: chemical / ph / δph / delta ph / concentration / proton concentration ; electrical / membrane potential / charge / voltage / δψ
+1D-039: f0 / fo / f₀ ; channel / rotates / rotor / proton channel / membrane ; f1 / f₁ ; catalytic / makes atp / synthesizes atp / atp ; adp / pi / phosphate / conformational
+1D-040: cyanide ; complex iv / complex 4 / cytochrome c oxidase / cytochrome oxidase ; carbon monoxide / co ; hemoglobin / hgb / hb / oxygen delivery / oxygen transport
+1D-041: falls / decreases / drops / goes down / reduced / slows / less / stops / decline
+1D-042: adp ; respiratory control / availability / supply / demand / concentration
+1D-043: cytochrome c / cyt c ; caspases / caspase / apoptosis ; reactive oxygen species / ros / superoxide / free radicals / radicals
+2A-001: buffer / buffers / moderates / stabilizes / regulates / maintains ; lowers at high / decreases at high / reduces at high / less fluid at high / high temperature / high temp / higher temperatures ; raises at low / increases at low / more fluid at low / low temperature / low temp / lower temperatures
+2A-002: phospholipid bilayer / bilayer / lipid bilayer / phospholipids ; proteins ; move / lateral / laterally / fluid / drift / float
+2A-002~r: fluid mosaic model / fluid mosaic
+2A-003: passive ; down / with / high to low / down its gradient / down the gradient ; without energy / no energy / no atp / without atp ; active ; against / low to high / up the gradient / against the gradient ; atp / energy
+2A-004: gradient ; primary / pump / another / na+ / sodium / symporter / cotransport / antiporter
+2A-004~r: secondary active transport / secondary active / cotransport / secondary transport
+2A-005: higher solute / more solute / higher concentration of solute / hypertonic / higher osmolarity / more concentrated / solute / lower water
+2A-006: water in / water enters / water moves in / water rushes in / gains water / water flows in / influx ; swells / swell / bursts / burst / lyse / lysis / expands
+2A-007: double membrane / double membranes / two membranes ; dna / circular dna / own dna ; ribosomes / 70s
+2A-008: rough ; ribosomes / ribosome ; proteins / protein ; smooth ; lipid / lipids / detox / detoxification / steroid / calcium / ca2+
+2A-009: modifies / modify / modification / processes / glycosylation ; sorts / packages / packaging / sorting / ships / directs
+2A-010: hydrolytic enzymes / enzymes / digestive enzymes / hydrolases ; acidic / acid / ph 5 / low ph / 5 ; break down / digest / degrade / degradation / recycle / breakdown
+2A-010~r: lysosome / lysosomes
+2A-011: fatty acids / very long chain / vlcfa / lipids / beta oxidation / β-oxidation ; h2o2 / hydrogen peroxide / peroxide / catalase
+2A-011~r: peroxisome / peroxisomes
+2A-012: tubulin ; spindle / mitotic spindle / cilia / flagella / transport / mitosis / chromosome
+2A-013: actin ; cytokinesis / muscle / contraction / movement / motility / shape / cleavage
+2A-014: seal / sealing / block / prevent / watertight / barrier ; leakage / leak / paracellular / between cells / passage
+2A-014~r: tight junctions / tight junction / zonula occludens
+2A-015: channels / channel / connexons / connexin / pores ; ions / small molecules / molecules / signals / communication ; between cells / directly / cell to cell / adjacent cells
+2A-015~r: gap junctions / gap junction
+2A-016: anchor / bind / attach / hold / adhesion / connect ; stress / mechanical / strength / tension / shear / force
+2A-016~r: desmosomes / desmosome / macula adherens
+2A-017: fluidity ; permeability / temperature / temperatures / stability / buffer
+2A-018: increase / increases / more fluid / raises / higher fluidity / increased / higher
+2A-019: electrochemical gradient / electrochemical / concentration and charge / concentration gradient and electrical / gradient / electrical and chemical
+2A-020: down / with / high to low / down its gradient / down the gradient / along ; without energy / no energy / no atp / without atp / passive / doesn't use energy / not use atp / does not use
+2A-021: directly / direct ; atp / energy / atp hydrolysis / hydrolysis
+2A-021~r: primary active transport / primary active / primary transport
+2A-022: water / h2o
+2A-022~r: aquaporin / aquaporins
+2A-023: loses water / water out / water leaves / water exits / water flows out / water moves out ; shrinks / shrivels / crenates / crenation / shrink / shrivel
+2A-024: specific / specificity / selective / ligand / ligands ; receptors / receptor / bind / binding
+2A-025: microtubules / microtubule / mtoc / microtubule organizing ; spindle / mitotic spindle / mitosis / cell division
+2A-026: actin / microfilaments / microfilament ; myosin
+2A-027: kinesin / kinesins
+2A-028: dynein / cytoplasmic dynein
+2B-001: transformation ; transduction ; conjugation
+2B-002: positive ; thick / thick peptidoglycan / thick cell wall ; purple / violet ; negative ; thin / thin peptidoglycan / outer membrane / lps ; pink / red
+2B-003: lytic ; burst / lyse / lysis / kills / destroy / break open ; lysogenic ; integrate / integrates / insert / inserted / prophage / dormant / genome
+2B-004: rna ; reverse transcriptase ; dna ; integrate / integrates / incorporated / inserts / genome
+2B-004~r: retrovirus / retroviruses / retroviridae
+2B-005: circular ; chromosome / dna / genome ; nucleoid / plasmids / plasmid / no nucleus / cytoplasm
+2B-006: small ; circular ; separate / extrachromosomal / not part of chromosome / independent / outside / extra / dna
+2B-007: binary fission / fission / splits / divides in two
+2B-008: lag ; exponential / log ; stationary ; death / decline
+2B-009: obligate aerobe / aerobe ; needs o2 / requires oxygen / needs oxygen / must have oxygen ; obligate anaerobe / anaerobe ; harmed / killed / toxic / poisoned / cannot / can't / dies / no oxygen ; facultative ; either / both / with or without / uses o2 when present / can do without / when present / prefers / can live
+2B-010: dormant / dormancy / inactive ; resistant / resistance / survive / hardy / tough / protect
+2B-011: prokaryotic ; flagellin ; rotates / rotor / spins / spinning / rotary / proton gradient ; eukaryotic ; microtubules / microtubule / 9+2 / tubulin ; whip / whips / bend / bending / beat / back and forth / wave / dynein
+2B-012: positive ; mrna / directly / translated / messenger ; negative ; copied / transcribed / complementary / rna-dependent rna polymerase / rdrp / rna polymerase / polymerase / replicase
+2B-013: nucleic acid / dna / rna / genome / genetic material ; capsid / protein coat / protein shell / coat ; envelope / lipid / membrane
+2B-013~r: capsid
+2B-014: head / capsid ; tail / sheath / tail sheath ; fibers / tail fibers / fibres / legs ; inject / injects / injection
+2B-015: prions ; misfolded / misfolding ; proteins / protein ; viroids ; rna / circular rna ; plants / plant
+2B-016: thick ; peptidoglycan / cell wall ; crystal violet / violet / dye / stain / retains
+2B-017: lipopolysaccharide / lps / endotoxin / lipid a
+2B-018: direct / directly / contact / cell to cell / between cells ; pilus / pili / bridge / mating
+2B-018~r: conjugation
+2B-019: uptake / take up / takes up / absorb / takes in / incorporates / incorporation ; environment / free / surroundings / external / naked / outside
+2B-019~r: transformation / bacterial transformation
+2B-020: phage / bacteriophage / virus ; bacterial dna / host dna / dna / genes ; accidentally / random / any / mistake / mistakenly / error
+2B-020~r: generalized transduction / generalised transduction
+2B-021: improperly / imprecise / incorrectly / faulty / excision ; temperate / lysogenic / prophage / phage ; nearby / adjacent / flanking / specific / neighboring / bacterial genes
+2B-021~r: specialized transduction / specialised transduction
+2B-022: cleave / cut / cuts / cleaves / digest ; specific sequences / particular sequences / specific / sequence / recognition / palindromic ; defense / defend / protect / foreign / phage / virus / immune
+2B-023: defense / immunity / immune / defend / protect / protection ; previously / encountered / memory / stored / remembered / viral / virus / phage / spacers / sequence-guided / guided
+2B-023~r: crispr / crispr-cas / crispr cas / crispr-cas9 / cas9
+2B-024: phage dna / viral dna / phage genome / virus dna / viral genome ; integrated / inserted / maintained / dormant / host chromosome / bacterial chromosome / host genome
+2B-024~r: prophage
+2B-025: rna ; dna ; copied / convert / converted / make / reverse transcribe / transcribe / turned into
+2B-026: capsid / virus / viral ; lipid / membrane / envelope ; host / host-derived / from host
+2B-026~r: enveloped virus / enveloped / envelope
+2B-027: lack / no / without / don't have / doesn't have / lacking / absence ; lipid / envelope / membrane
+2B-028: region / area / space ; dna / chromosome / chromosomal / genome ; no membrane / no nucleus / not membrane-bound / without membrane / no nuclear / not enclosed / membraneless / unbound
+2B-028~r: nucleoid
+2B-029: multiple genes / several genes / many genes / genes / cluster ; regulatory / promoter / operator / one promoter / controlled together / single / shared ; one rna / one mrna / single mrna / polycistronic / together / single transcript
+2B-030: allolactose ; binds / inactivates / changes shape / releases / removes / induces ; operator / cannot bind / can't bind / stops binding / falls off / releases / dissociates / transcription / expression
+2B-031: transformation
+2C-001: g1 ; s ; g2 ; m / mitosis
+2C-002: tumor suppressor / tumour suppressor / suppressor ; g1 / halt / stop / arrest / checkpoint / pause ; repair / dna repair / apoptosis / cell death
+2C-003: normal / growth / growth-promoting / proliferation / cell growth / cell division ; gain-of-function / gain of function / mutation / mutated / activated / overexpressed ; oncogene
+2C-003~r: proto-oncogene / protooncogene / proto oncogene
+2C-004: nervous system / nervous / neurons / brain / spinal cord / neural ; epidermis / skin / hair / nails
+2C-005: muscle / muscles ; bone / bones / skeleton ; blood ; heart / cardiovascular / circulatory ; kidneys / kidney / renal / gonads / reproductive
+2C-006: gi / gut / digestive / gastrointestinal / intestine / intestinal ; respiratory / lungs / lung / trachea ; liver ; pancreas
+2C-006~r: endoderm
+2C-007: enzymes / hydrolytic enzymes / acrosin / hyaluronidase / releases ; penetrate / digest / through / get through / zona / zona pellucida / corona / layers
+2C-008: granules / cortical granules ; harden / hardens / modify / change / alter / block ; polyspermy / multiple sperm / other sperm / more sperm / additional sperm / extra sperm
+2C-008~r: cortical reaction
+2C-009: mitosis ; 2 / two ; identical ; diploid / 2n ; meiosis ; 4 / four ; distinct / different / unique / varied / not identical / genetically different ; haploid / n
+2C-010: cyclins / cyclin ; bind / activate / activates / binding ; cdks / cdk / cyclin-dependent kinases / kinases ; checkpoints / cell cycle / phases / progression / transition
+2C-010~r: cyclin / cyclins
+2C-011: programmed / programmed cell death / cell death / cell suicide ; caspases / caspase / no inflammation / without inflammation / blebs / blebbing / shrinks
+2C-011~r: apoptosis
+2C-012: cleavage ; divides without growing / no growth / without growth / doesn't grow / rapid division / divisions / divide ; morula ; solid / solid ball / ball ; blastula / blastocyst ; hollow / cavity / fluid filled / blastocoel

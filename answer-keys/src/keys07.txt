@@ -1,0 +1,161 @@
+8C-017: disclosure / disclose / sharing / share / opens up ; encourages / prompts / leads / returns / matching / reciprocates / similar / comparable / in return
+8C-018: unfairness / unfair / inequity / imbalance / unequal / inequitable ; contributions / input / inputs / give / effort / outcomes / benefits / rewards
+8C-019: communal ; needs / need / care / caring / without tracking ; exchange ; track / tracking / keep score / benefits / tit for tat / equal / return / comparable
+8C-020: proximity / close / nearby / near / physical / closeness / distance ; relationship / relationships / friendships / liking / attraction / formation
+8C-021: gap / hole / missing link / no connection / unconnected ; groups / clusters / networks ; bridge / intermediary / broker / connect / connects
+8C-022: similar / share / similarity / alike / same / like ; traits / characteristics / background / education / social / demographic
+8C-023: emotions / emotion / feelings / mood ; spread / transmit / catch / contagious / transfer / pass
+8C-024: lessen / reduce / reduces / buffer / protect / protects / decrease / weakens / softens ; stress / stressors / health / well-being / impact / effects
+8C-025: large / secondary ; structured / deliberately / organized / formal / rules / hierarchy ; goals / specific goals / efficiently / efficiency / objectives
+8C-025~r: formal organization / bureaucracy
+8C-026: efficiency / calculation / rules / logic / reason / rational ; tradition / emotion / instead of / rather than ; trapped / cage / bureaucracy / impersonal / rule-bound / rigid
+8C-027: fast-food / fast food / mcdonald's / restaurant ; spread / society / sectors / everywhere / expansion ; ritzer / rationalization / weber
+8C-027~r: mcdonaldization
+8C-028: efficiency ; calculability ; predictability ; control
+8C-029: calculability
+8C-030: control
+8C-031: irrational / irrationality / bad results / negative / unintended ; rationalized / rational / efficient / systems ; dehumanizing / dehumanization / waits / lower quality / alienated / alienation
+8C-032: organization / organizations / any / democratic ; small elite / elite / few / oligarchy / small group / minority
+8C-032~r: iron law of oligarchy / iron law / michels / oligarchy
+9A-001: costs / cost ; rewards / reward / benefits / benefit
+9A-001~r: social exchange theory / social exchange / exchange theory
+9A-002: values / norms / lessons / behaviors ; indirectly / implicitly / unintentionally / informally / unspoken / hidden / not formally / unofficial
+9A-002~r: hidden curriculum
+9A-003: teachers / teacher ; expectations / expect / beliefs ; performance / achievement / students / affect / shape / influence / outcomes
+9A-004: folkways ; casual / informal / minor / everyday / customs / manners ; mores ; moral / morals / serious / important / ethical ; taboos / taboo ; strongest / prohibited / forbidden / unthinkable / severe / extreme
+9A-005: division of labor / specialization / division ; hierarchy / chain of command / authority ; rules / written rules / regulations ; impersonality / impersonal ; merit / qualifications / promotion / competence
+9A-006: ordinary / normal / everyday / social / nonmedical ; medical / illness / disease / medicine / treat / treated / medical problems
+9A-006~r: medicalization
+9A-007: excused / exempt / released / relieved / free / not responsible / don't have to ; duties / responsibilities / obligations / normal roles / work ; seek care / get well / seek help / see a doctor / try to recover / recover / treatment / cooperate
+9A-008: functionalism / functionalist / structural functionalism ; conflict / conflict theory / marx ; symbolic interactionism / interactionism / symbolic
+9A-009: mechanical ; sameness / similarity / alike / shared / common / likeness / simple ; organic ; interdependence / interdependent / specialization / division of labor / differences / complex / depend
+9A-010: family ; education / school / schools ; religion ; government / politics / state / political ; economy / economic ; medicine / health / healthcare
+9A-011: declining / decline / decrease / less / reduced / weakening / loss ; religion / religious
+9A-011~r: secularization
+9A-012: church ; large / established / mainstream / institutionalized / big ; sect ; broke away / split / splinter / offshoot / separated / break away ; cult / new religious movement ; new / outside / fringe / novel / unconventional / outside the mainstream
+9A-013: capitalism ; private / private ownership / market / markets / profit ; socialism ; collective / state / government / public / shared / communal
+9A-014: nonmaterial / non-material / norms / values / beliefs / laws ; slower / longer / lag / lags / behind / takes time ; material / technology / technological
+9A-015: subculture ; distinct / different / within / part of / unique ; counterculture ; rejects / opposes / against / reject / oppose / rebels ; mainstream / dominant / society
+9A-016: enduring / lasting / stable / persistent / established ; roles / norms / structure / organized / pattern ; needs / social needs / functions / purpose
+9A-016~r: social institution / institution
+9A-017: shared / common / group / society / social ; expectation / rule / standard / guideline ; behavior / appropriate / acceptable / conduct / how to act
+9A-017~r: norm / norms / cultural norm / social norm
+9A-018: moral / morals / morality / ethical ; strong / stronger / severe / serious / sanctions / punishment
+9A-018~r: mores
+9A-019: spread / spreading / transfer / sharing / exchange / movement ; cultural / culture / practices / ideas / traits / customs ; between / groups / societies / cultures
+9A-019~r: cultural diffusion / diffusion
+9B-001: push ; drive out / out / leave / away / war / poverty / persecution / negative ; pull ; draw / attract / in / jobs / safety / opportunity / positive
+9B-002: wealthier / wealthy / richer / affluent / higher income / middle class ; poorer / poor / low-income / working class ; displacing / displace / displaced / pushed out / costs / rent / prices / raising
+9B-002~r: gentrification
+9B-003: core ; semi-periphery / semiperiphery / semi periphery ; periphery
+9B-004: high birth / high birth and death / high rates / high ; low / low birth and death / low rates ; death rates fall first / death first / mortality falls first / death rates drop first / deaths fall first / death rate / mortality
+9B-004~r: demographic transition / demographic transition model / dtm
+9B-005: per 1,000 / per 1000 / 1000 / thousand / 1,000 ; year / per year / annually / annual
+9B-005~r: crude birth rate / crude death rate / crude rates / crude birth and death rates / cbr / cdr
+9B-006: 2.1
+9B-006~r: replacement-level fertility / replacement level / replacement fertility / replacement
+9B-007: expansive / wide base / wide ; growth / rapid growth / growing / young ; stationary / balanced / stable / even ; constrictive / narrow base / narrow / aging / low birth / older / shrinking
+9B-008: population ; geometrically / exponentially / exponential / geometric / faster ; food / resources / food supply ; arithmetically / linearly / arithmetic / linear / slower ; crisis / famine / shortage / collapse / checks / catastrophe / starvation
+9B-008~r: malthusian / malthusian theory / malthus
+9B-009: rural / countryside / country / farms ; cities / city / urban / towns
+9B-009~r: urbanization
+9B-010: cities / city / urban ; suburbs / suburban / outskirts / surrounding / outside
+9B-010~r: suburbanization
+9B-011: race ; physical / physical traits / appearance / skin / biology / perceived ; ethnicity ; culture / cultural / language / ancestry / heritage / shared ; socially constructed / social construct / social constructs / constructed
+9B-012: sex ; biological / biology / anatomy / chromosomes / physical ; gender ; social / socially constructed / roles / identity / cultural / constructed
+9B-013: alternative ; redemptive ; reformative / reform ; revolutionary
+9B-014: deprived / deprivation / lacking / disadvantaged / less ; compared / comparison / others / relative / expect / expectations / expected
+9B-014~r: relative deprivation / relative deprivation theory
+9B-015: worldwide / global / international / world / around the world ; integration / interconnection / interconnected / connected / linked / spread ; economies / economy / economic / cultures / culture / communication / trade
+9B-016: graph / chart / diagram / visual / figure ; age ; sex / gender
+9B-016~r: population pyramid / age-sex pyramid / age pyramid
+9B-017: outside working ages / dependents / children / elderly / young / old / not working / nonworking ; relative / compared / ratio / per / working-age / workers
+9B-018: average / mean / expected ; births / children / number of children ; woman / per woman / lifetime / women
+9B-018~r: total fertility rate / tfr / fertility rate
+9B-019: falling death rates / death rates fall / death rate drops / mortality falls / death rates decline / lower death / declining death / deaths fall ; birth rates high / high birth / births remain high / birth rate stays high / high fertility ; rapid growth / growth / population boom / explosion / increases
+9B-020: low birth / low ; low death / low ; slow growth / stable / slow / little growth / zero growth / stationary
+9B-021: continued growth / keeps growing / continues / growth continues / still grows ; young / youthful / age structure / many young / large cohort ; fertility falls / fertility drops / after fertility / even after / declining fertility / despite
+9B-021~r: population momentum / demographic momentum / momentum
+9B-022: immigration / immigrants / in ; minus / - / subtract / less / difference ; emigration / emigrants / out / leave
+9B-022~r: net migration
+9B-023: shift / shifts / change / changes / transition ; causes of death / death / mortality / illness / disease / infectious / chronic
+9B-023~r: epidemiological transition / epidemiologic transition / health transition
+9B-024: incidence ; new / new cases ; prevalence ; existing / total / all cases / current / point / at a time
+9B-025: raise / raises / increase / increases / higher / more ; prevalence ; even if / incidence same / incidence unchanged / without / constant incidence / longer / duration
+9B-026: following / follow / followed / track / over time / prospective / longitudinal ; groups / group / cohort / cohorts ; exposure / exposed / exposures ; outcomes / outcome / later / disease / develop
+9B-026~r: cohort study / cohort / prospective study / longitudinal study
+9B-027: same time / one time / single time / snapshot / at once / one point / simultaneously / point in time ; exposures / exposure / outcomes / outcome / both
+9B-027~r: cross-sectional study / cross sectional / prevalence study
+9B-028: individual / individuals / person ; group / group-level / aggregate / population / averages / groups ; inferring / infer / assume / conclusion / incorrectly / wrongly
+9B-028~r: ecological fallacy
+9B-029: risk ; exposed ; divided / ratio / over / / ; unexposed / not exposed / non-exposed / control
+9B-030: same / equal / no difference / identical ; no association / no relationship / no effect / no link / no increased risk / unrelated / null
+C0-001: 53 ; 90 / 90 minutes ; 9 / nine / 9 passages ; 10 / ten
+C0-002: passage / return to the passage / go back / text / reread ; specific / tied / supported / evidence ; overreaches / extreme / misses / doesn't answer / too broad / goes beyond / outside
+C0-003: two minutes / 2 minutes / 2 min / stuck / too long / time ; guess / mark / skip / flag / move on / return / come back ; same / equal / worth the same / equally / same value
+C0-004: 118 ; 132 ; 472 ; 528
+C1-001: main idea ; claim / claims / point / argument / thesis / central / what the author / says / believes ; primary purpose / purpose ; doing / trying / goal / argue / explain / critique / function / why / aim / intent
+C1-002: describe / present / mention / discuss / summarize ; reject / disagree / don't agree / not their own / others' views / opponents / other people / not the author / may not agree ; track / who / who is saying / source / attribute / distinguish / keep track
+C1-003: however ; but ; yet ; although ; nevertheless
+C1-004: adjectives / word choice / words / language / diction ; qualifiers / hedges / modifiers / adverbs ; measured / moderate / neutral / balanced / evidence / strong evidence
+C1-005: context / surrounding / clues / infer / inference / passage ; not memorized / instead of / don't rely / outside / definition / prior knowledge / not your own
+C1-006: concession ; acknowledges / admits / recognizes / grants / concedes ; another view / other view / opposing / counterargument / other side / opposition ; thesis ; central claim / main claim / main point / main argument / author's position / argument
+C2-001: claim / conclusion / argument ; more likely / support / supports / strengthens / stronger / true / bolsters ; without changing / doesn't change / not change / same / as stated / not alter
+C2-002: undercuts / undermines / weakens / attacks / breaks / casts doubt / challenges ; link / connection / relationship / evidence / support ; conclusion / claim / argument
+C2-003: unstated / unspoken / implicit / hidden / assumed / not stated ; premise / assumption / necessary / needs / required ; false / fall apart / collapse / fails / would fail / negate / negation
+C2-003~r: assumption question / assumption
+C2-004: supports / supported / follows / implied / follow / justified ; not said / never says / unstated / outright / not explicitly / implicit / implied / not stated ; passage / text / not outside / outside knowledge
+C2-005: extreme / absolute ; always / never / only / all / must / none / every / certainly / hedges
+C2-006: certainty / certain / scope / broad / broader / absolute / strong / extreme ; more than / beyond / than the passage / unsupported / not supported / overstates / exceeds
+C2-007: correct detail / true detail / partly correct / part is correct / one part / some correct / half right ; unsupported / wrong / incorrect / false / not supported / doesn't rescue / does not rescue / entire / whole / all parts
+C2-008: locate / find / identify / claim / relevant ; directly / support / justifies / justify / supports / evidence / backs
+C2-009: association / correlation / correlated / related / relationship ; not / does not / doesn't / cannot / can't / no ; causation / cause / caused / causes / produced / establish
+C3-001: principle / passage / author / logic / idea / reasoning / framework ; new / new situation / apply / applying / scenario / situation ; ignore / not personal / not your own / not your opinion / personal / own conclusion
+C3-002: structure / relationship / logic / pattern / form ; not topic / not the topic / not subject / not content / not surface / topic
+C3-002~r: analogy questions / analogy / analogous / parallel reasoning
+S3-001: random sampling / sampling ; selected / selection / chosen / population / generalize / external validity / generalizing ; random assignment / assignment ; conditions / groups / placed / causal / internal validity / cause
+S3-001~r: random assignment
+S3-002: spreads / balances / distributes / evenly / equal / equalizes / random / chance ; characteristics / confounds / confounding / differences / variables / known and unknown ; independent variable / iv / treatment / attributed / cause / causal / manipulation
+S3-003: no random assignment / not random / self-selection / self selection / selection bias / chose / no randomization / choose / self-selected / nonrandom ; preexisting / pre-existing / confound / confounds / differences / motivation / baseline / other factors / third variable
+S3-004: causal / cause / effect / internal validity / internal ; does not / not / doesn't / limited / cannot / can't ; generalize / other populations / external validity / external / applies / all populations / other people / random sampling
+S3-005: not randomly assigned / no random assignment / not random / without random assignment / nonrandom / not randomized / no randomization ; preexisting / pre-existing / existing groups / groups / naturally occurring / natural ; weaker / weak / limited / less / cannot / causal
+S3-005~r: quasi-experimental / quasi experiment / quasi-experiment / quasi-experimental design
+S3-006: cannot / can't / not / impossible ; randomly assigned / random assignment / assign / manipulated / manipulate ; confounding / confounds / confound / other factors / third variable / social / differences
+S3-007: purpose / aim ; procedures / procedure / what will happen / duration / methods ; risks / benefits / risk ; confidentiality / privacy ; voluntary / withdraw / right to withdraw / leave / quit / stop / without penalty
+S3-008: reviews / review / approves / approve / evaluates / oversight / approval ; risks / risk / harm / minimized / safety / protect / protected ; consent / informed consent / participants / ethics / ethical / human subjects
+S3-008~r: institutional review board / irb / ethics committee / ethics board
+S3-009: respect for persons / respect / autonomy ; beneficence / benefit / minimize harm / maximize benefits / nonmaleficence ; justice / fair / fairness / equity
+S3-010: necessary / no alternative / no other way / needed / required / justified / valid ; minimal / low risk / minimal risk / little risk / no harm / risks ; debriefed / debriefing / debrief / explained / told / irb / approved
+S3-010~r: debriefing / debrief
+S3-011: anonymity / anonymous ; can't link / cannot link / no link / don't know / not linked / no identity / unknown / no one / even researchers / not even ; confidentiality / confidential ; can link / linked / know / known / don't disclose / not disclose / not share / keep private / won't share / private / promise
+S3-012: parent / parents / guardian / guardians / parental / permission ; assent / agreement / child agrees / child's agreement / child consent / child's own / child / vulnerable
+S3-013: pressures / pressure / coercion / coercive / coerce / threat / threatening / forcing / undue ; voluntary / voluntariness / consent / right to withdraw / withdraw / freedom / without penalty / penalty
+S3-014: withholding / withhold / denying / deprive / not giving / no treatment ; effective treatment / known treatment / existing treatment / treatment / standard / effective ; harm / harmful / avoidable harm / beneficence / risk / unethical / suffering ; standard of care / existing treatment / compare / active control / standard treatment / current treatment / best available
+S3-015: third variable / third / other variable / extraneous / another variable ; independent / iv / dependent / dv / both / related to both ; alternative / explanation / explains / explain / instead / confounds / relationship
+S3-015~r: confounding variable / confound / confounder / third variable
+S3-016: smoking / smokers / cigarettes / tobacco
+S3-017: internal ; iv / independent variable / cause / causal / confounds / attributed / effect / no confounds ; external ; generalize / generalizability / other people / other settings / real world / settings / populations
+S3-018: reliability / reliable ; consistency / consistent / repeatable / reproducible / same results / test-retest / stable ; validity / valid ; measures what / actually / accurate / accuracy / intended / supposed to / what it is meant / what it claims
+S3-019: placebo / placebo effect / expectations / expectancy ; experimenter bias / researcher bias / experimenter / researcher / observer bias / bias / investigator
+S3-020: social desirability / social-desirability / socially desirable / under-reporting / underreporting / lying / dishonesty / self-report bias / response bias / recall ; anonymous / anonymity / objective / confidential / objective measures / biomarkers / breathalyzer
+S3-021: random assignment / randomization / randomized / experiment / manipulated / manipulation ; temporality / temporal / cause before / cause precedes / time order / comes before / timing / precedes ; confounds / control / controlled / confounding / dose-response / dose response / replication
+S4-001: spread / dispersion / variability / variation / spread out / distance ; mean / average ; same units / units / small / large / cluster / clustered
+S4-001~r: standard deviation / sd / σ
+S4-002: 68 / 68% ; 95 / 95% ; 99.7 / 99.7% / 99
+S4-003: 2.5% / 2.5 / 2.5 percent / 2 1/2 / two and a half
+S4-004: same average / same mean / same effect / equal / same / identical ; consistent / consistency / less variable / less variation / reliable / predictable / narrower / tighter ; varies / variable / variability / more variable / wider / inconsistent / spread / widely
+S4-005: mean ; sd / standard deviation ; range ; median / interquartile / iqr / resistant / robust
+S4-006: adding / add ; mean ; sd unchanged / sd same / sd doesn't change / sd stays / sd unaffected / same sd / no change / unchanged ; multiplying / multiply ; cμ / c times mean / mean times c / multiplied / scales / both / |c|σ / sd multiplied / sd times c / sd scales
+S4-007: sd / standard deviation ; individual / spread / observations / data / values ; sem / standard error ; sd/√n / sd/sqrt(n) / sd over root n / sqrt n / √n / precision / sample mean / estimate / shrinks / smaller / decreases
+S4-008: not much / nothing / can't conclude / cannot conclude / can't tell / cannot tell / inconclusive / unclear / doesn't tell / not enough ; test / statistical test / significance / t-test / n / sample size / p-value / stats
+S4-009: range / interval ; plausible / likely / values / estimate / contains / capture ; population / true / parameter / population mean ; 95% / 95 / repeated / method / samples / confidence
+S4-009~r: confidence interval / ci
+S4-010: not / doesn't / does not / isn't ; data points / individual / observations / individual values / 95% of data / data ; repeated study / replication / next study / future / another study / sample mean ; parameter / population / uncertainty / true value / true mean
+S4-011: variability / variance / larger sd / more spread / spread / sd ; smaller sample / sample size / small n / fewer / smaller n / n ; higher confidence / confidence level / 99% / 99 / higher level
+S4-012: shorter / faster / reduces / quicker / fewer days / less time / 1-4 days / 1 to 4 / 1–4 ; excludes 0 / excludes zero / doesn't include 0 / does not include 0 / no zero / not include zero / significant / statistically significant / p < 0.05
+S4-013: includes 0 / includes zero / contains 0 / contains zero / crosses 0 / crosses zero / spans zero / zero ; not significant / not statistically significant / no significant / nonsignificant / insignificant / can't conclude / inconclusive / no effect / not
+S4-014: includes 1 / contains 1 / crosses 1 / spans 1 / one / 1 ; not significant / not statistically significant / no significant / nonsignificant / insignificant / inconclusive / not / no association
+S4-015: probability / likelihood / chance ; as extreme / at least as extreme / extreme / these results / observed / data ; null / null hypothesis / h0 / no effect / true
+S4-016: statistically significant / significant / significance ; not practically / not clinically / not meaningful / not important / small / tiny / trivial / negligible / not practical / not clinically meaningful / minimal / clinically insignificant / practically insignificant
+S4-017: random ; unpredictable / scatter / variable / precision / averaging / chance / noise / both directions ; systematic ; consistent / bias / one direction / accuracy / calibration / miscalibrated / same direction / constant
+S4-018: positive / moderate / association / correlation / correlated / related / relationship / tend ; not causation / not cause / doesn't show cause / does not show / can't conclude cause / no causation / correlation not causation / not causal / not / cannot / can't / confound / confounds / reverse

@@ -1,0 +1,158 @@
+4E-025: decays / disintegrations / decay ; per time / per second / per unit time / rate / time ; becquerel / becquerels / bq / curie
+4E-026: lower mass / less mass / mass defect / mass lost / lower energy / mass-energy / e=mc2 / e = mc^2 ; separated / separate / constituent / nucleons / individual
+4E-027: 931.5 / 931 / 932 / 930 / mev
+4E-028: same number of electrons / same electrons / same electron count / same electron configuration / equal electrons
+4E-028~r: isoelectronic
+5A-001: moles ; liter / l / litre / volume ; solution
+5A-001~r: molarity / m
+5A-002: moles ; kilogram / kg ; solvent
+5A-002~r: molality / m
+5A-003: 10^-14 / 1 × 10^-14 / 1.0 × 10^-14 / 1 x 10^-14 / 1e-14 / 10 −14 / 10-14 / 1.0 x 10^-14 / 14
+5A-004: hcl ; hbr ; hi ; hno3 ; hclo4 ; h2so4
+5A-005: −log ka / -log ka / negative log / -logka / log ; lower / smaller / lower pka ; stronger
+5A-005~r: acid a / a / ph 4 / pka 4 / the first
+5A-006: very weak / weak / negligible / essentially no / no basic / not basic / extremely weak
+5A-007: pka ± 1 / pka +/- 1 / pka plus or minus 1 / pka ±1 / ±1 / within 1 / 1 unit / one unit / pka+-1
+5A-008: co2 / carbon dioxide ; h2o / water ; h2co3 / carbonic acid ; h+ / hydrogen ; hco3 / bicarbonate / hco3-
+5A-008~r: bicarbonate buffer / bicarbonate / carbonic acid buffer / carbonic acid bicarbonate
+5A-009: electron pair acceptor / electron-pair acceptor / accepts electrons / accepts electron pair / accepts a pair / acceptor / accepts
+5A-009~r: lewis acid
+5A-010: proton donor / h+ donor / donates proton / donates h+ / donor / donates
+5A-010~r: brønsted–lowry acid / bronsted lowry acid / bronsted acid / brønsted acid / bronsted-lowry acid
+5A-011: above 7 / greater than 7 / > 7 / basic / higher than 7 / over 7 / alkaline
+5A-012: common ion / ion already / same ion / shared ion ; lowers solubility / decreases solubility / reduces solubility / less soluble / lower solubility / less dissolves / decreased solubility
+5A-013: pka + log / pka plus log ; [a−]/[ha] / a-/ha / base/acid / conjugate base over acid / [a-]/[ha] / a−/ha
+5A-013~r: henderson-hasselbalch / henderson hasselbalch / henderson–hasselbalch
+5A-014: pka / ph = pka / equals pka / ph equals pka
+5A-015: i / van 't hoff / vant hoff ; kf ; m / molality / ikfm / i kf m / i·kf·m
+5A-015~r: freezing point depression / freezing-point depression / δtf = ikfm / δtf / ikfm
+5A-016: decreases by one / decreases by 1 / drops by 1 / down 1 / down one / lowers by 1 / decreases by one unit / falls by 1 / goes down by 1 / minus 1 / -1 / one unit lower
+5A-017: 10 / ten
+5A-018: equal / same / equimolar / [a−] = [ha] / [a-] = [ha] / 1:1 / ratio of 1 / base equals acid
+5A-019: pka / near pka / ph = pka / close to pka ; concentration / concentrated / higher concentration / more buffer / total
+5A-020: strength / strong ; ionization / dissociation / ionizes / dissociates / extent ; concentration / concentrated ; amount / volume / how much / quantity / per volume
+5A-021: equilibrium constant / equilibrium / k ; dissolving / dissolution / solubility / dissolve ; product / ion concentrations / ions / concentrations
+5A-022: q > ksp / q greater than ksp / q exceeds ksp / q>ksp / ion product exceeds / greater
+5A-023: lowers / decreases / reduces / lower / decrease / less / down
+5A-024: ikbm / i kb m / ikb m / i kb / kb / k b ; m / molality / ikbm
+5A-025: imrt / i m r t / π = imrt / i·m·r·t / mrt / i times mrt
+5A-026: number of particles / particles / number of ions / ions / pieces / dissociation / dissociates / per formula unit
+5A-027: solvent mass / mass / kg / kilograms / mass of solvent ; not volume / volume / volume changes / volume expands / doesn't use volume / no volume
+5A-028: m1v1 = m2v2 / m1v1=m2v2 / c1v1 = c2v2 / c1v1=c2v2 / mv = mv / m₁v₁ = m₂v₂
+5A-029: donate ; accept / both / either ; proton / h+
+5A-029~r: amphiprotic / amphoteric
+5A-030: bicarbonate / hco3 / hco3- ; consumes / absorbs / neutralizes / reacts / binds / takes up ; carbonic acid / h2co3 / co2 / water
+5A-031: kw / ionization / dissociation / changes / increases / temperature dependent ; not 7 / below 7 / less than 7 / decreases / lower / drops / need not be 7
+5A-032: 1 / one / 1:1 / equal / same / 1 to 1
+5B-001: valence electrons / valence ; nonbonding / lone pair / lone pairs / dots / unshared ; ½ bonding / half bonding / bonds / bonding / sticks / 1/2 bonding
+5B-002: single ; 1 sigma / one sigma / 1σ / σ ; double ; 1 sigma 1 pi / 1σ + 1π / one sigma one pi / sigma and pi / 1π / one pi ; triple ; 2 pi / 2π / two pi / 1σ + 2π / one sigma two pi
+5B-003: shorter / short ; stronger / strong ; triple
+5B-004: hydrogen bonding / hydrogen bond / h-bonding / h bonding / ion-dipole / ion–dipole / dipole / dispersion / london / depends
+5B-005: n ; o ; f ; electron pair / lone pair / acceptor / lone pairs
+5B-006: bent / v-shaped / angular / v shape ; 104.5 / 104 / 105 / 104.5°
+5B-007: trigonal pyramidal / pyramidal / pyramid ; 107 / 107° / 107 degrees / 106
+5B-008: stronger / more / greater / higher ; higher boiling point / higher bp / raises / higher / increases / increase
+5B-009: four different / 4 different / four unique / 4 unique / different groups / different substituents
+5B-009~r: chiral center / stereocenter / chiral carbon / asymmetric carbon / stereogenic center
+5B-010: enantiomers ; mirror images / mirror image / mirror ; non-superimposable / nonsuperimposable / not superimposable ; diastereomers ; not mirror images / not mirror / non-mirror / aren't mirror
+5B-011: chiral centers / stereocenters / chiral carbons / stereocenter ; plane of symmetry / internal plane / symmetry / mirror plane ; achiral / optically inactive / not chiral
+5B-011~r: meso / meso compound
+5B-012: atomic number / priority / priorities / cip / cahn ingold prelog ; lowest priority away / lowest away / lowest in back / point lowest / lowest priority / 4 in back / back ; clockwise = r / clockwise r / clockwise is r / clockwise / counterclockwise s
+5B-013: 50:50 / equal / 50/50 / equal amounts / 1:1 / both enantiomers ; no optical rotation / no rotation / optically inactive / zero rotation / no net rotation / cancel / inactive
+5B-014: same side ; z ; opposite / opposite sides ; e
+5B-015: sp ; 180 ; sp² / sp2 ; 120 ; sp³ / sp3 ; 109.5 / 109 / 109.5°
+5B-016: tetrahedral / tetrahedron
+5B-017: trigonal pyramidal / pyramidal / pyramid
+5B-018: multiple / more than one / several / different / various ; delocalized / delocalization / hybrid / average / one structure / real structure
+5B-018~r: resonance / resonance structures
+5B-019: resonance ; delocalized / delocalizes / delocalization / spread / shared / distributed / averaged
+5B-020: dipole-dipole / dipole–dipole / dipole dipole / dipole
+5B-021: london dispersion / dispersion / london / van der waals / induced dipole ; stronger / increase / greater / more / larger
+5B-022: nitrogen / n ; oxygen / o
+5B-023: unequal / unequally / uneven / unevenly / asymmetric ; electronegativity / en / electronegative
+5B-024: linear / straight / symmetry / symmetric / symmetrical / 180 ; cancel / cancels / canceling / opposite / offset / cancel out
+5B-025: ionic ; ions / transfer / transferred / attraction / electrostatic / charged ; covalent ; shared / sharing / share
+5B-026: bonding ; antibonding / anti-bonding ; /2 / divided by 2 / half / 2 / over 2
+5B-027: two unpaired / unpaired electrons / unpaired / 2 unpaired
+5B-028: electron pair / pair of electrons / lone pair / electrons
+5B-028~r: lewis base / nucleophile
+5B-029: stabilize / stabilizes / stabilizing / stabilization ; conjugate base / anion / base ; increase / increases / stronger / more acidic / raises
+5C-001: boiling point / boiling points / bp / volatility ; 25 / within 25 / close / similar / less than 25 / under 25
+5C-002: solubility / soluble ; two layers / immiscible / two phases / organic and aqueous / aqueous / layers / two solvents
+5C-002~r: extraction / liquid-liquid extraction / separatory funnel
+5C-003: distance / compound / spot ; solvent / solvent front / solvent distance ; polar ; lower / smaller / low / less
+5C-003~r: nonpolar / non-polar / the nonpolar one / less polar
+5C-004: positive / anode / + ; smaller / small / shorter ; farther / further / faster / more / travel
+5C-004~r: gel electrophoresis / electrophoresis / agarose / agarose gel
+5C-005: high boiling / high boiling points / very high / decompose / heat sensitive / degrade / break down ; lower pressure / reduced pressure / low pressure / lowers boiling / vacuum
+5C-006: minimum / small amount / little / least ; hot ; cool / cooling / cooled ; crystals / pure / impurities
+5C-006~r: recrystallization / crystallization
+5C-007: gravity ; liquid / filtrate / hot filtration / hot ; vacuum ; faster / quick ; solid / crystals / precipitate
+5C-008: spin / spins / spinning / rotate ; density / mass / size / weight ; pellet / bottom / denser
+5C-008~r: centrifugation / centrifuge
+5C-009: less polar / nonpolar / non-polar / least polar
+5C-010: vaporized / gas / vapor / volatile ; inert gas / carrier gas / helium / nitrogen / gas ; boiling point / volatility / polarity / column
+5C-010~r: gas chromatography / gc
+5C-011: large / larger / big / bigger / largest
+5C-012: charge / charged ; anion exchange / positive beads / positively charged / opposite charge / beads / resin
+5C-012~r: ion exchange / ion-exchange chromatography / ion exchange chromatography / iec
+5C-013: ligand / antibody / binds / specific ; target / protein / binding ; elute / free ligand / competitor / competition / excess ligand
+5C-013~r: affinity chromatography / affinity
+5C-014: denatured / denature / linear / unfolded ; size / mass / molecular weight / molecular mass / mw / length ; negative / charge / sds / uniform
+5C-015: ph gradient / gradient / ph ; pi / isoelectric point / isoelectric / no net charge / neutral / stop
+5C-015~r: isoelectric focusing / ief
+5C-016: adsorption / stationary / stationary phase / sticking / silica / plate ; mobile phase / mobile / solvent / eluent / capillary
+5C-017: nonpolar / non-polar / hydrophobic / c18 / alkyl
+5C-018: hydrophobic / nonpolar / non-polar / less polar / more hydrophobic
+5C-019: size / hydrodynamic / molecular size / volume / mass ; pores / porous / beads / bead
+5C-020: compete / competition / competes / displace / displaces / replace / outcompete ; charged sites / sites / binding sites / charged groups / resin / beads
+5C-021: native / conformation / folded / structure / shape / complexes / quaternary / activity / interactions
+5C-022: proteins / protein ; antibodies / antibody
+5C-023: antigens / antigen / antibodies / antibody / proteins ; enzyme / enzyme-linked / colorimetric / color
+5C-024: dna
+5C-025: rna / mrna
+5C-026: volatile / nonvolatile / non-volatile ; widely / far apart / different / large difference / very different / separated boiling points / more than 25 / greater than 25
+5C-027: repeated / multiple / many / successive / several / theoretical plates / column ; vapor / condensation / vaporization / equilibrium / equilibrations / enrich / purify / separation
+5C-028: large / larger / bigger / big
+5D-001: nucleophile ; electron-rich / electron rich / donates / donor / nucleus loving / lone pair / negative ; electrophile ; electron-poor / electron poor / accepts / acceptor / electron loving / positive / deficient
+5D-002: weak bases / weak base / stable / stable anions ; i / iodide ; br / bromide ; cl / chloride ; tosylate / ots / water / h2o
+5D-003: strong base / strong ; one step / concerted / single step / 1 step / bimolecular ; anti-periplanar / antiperiplanar / anti / anti periplanar / 180
+5D-004: more substituted / most substituted / more stable / highly substituted
+5D-005: tertiary / 3° / 3 ; secondary / 2° / 2 ; primary / 1° / 1 ; methyl
+5D-005~r: carbocation stability / carbocation
+5D-006: aldehydes ; carboxylic acids / carboxylic acid / acids / cooh / acid ; ketones ; resist / don't / do not / no / cannot / can't / not oxidized / resistant / stable / won't
+5D-007: pcc ; aldehyde ; strong ; carboxylic acid / acid / cooh / all the way
+5D-008: nabh4 / sodium borohydride ; mild / weak / weaker / aldehydes / ketones ; lialh4 / lithium aluminum hydride / lah ; strong / stronger / esters / carboxylic acids / acids
+5D-009: acyl halide / acid halide / acyl chloride / acid chloride ; anhydride ; ester ; amide
+5D-009~r: carboxylic acid derivatives / acid derivatives / acyl derivatives / derivatives
+5D-010: enolate / enol ; attacks / attack / adds / nucleophilic ; carbonyl / aldehyde / ketone ; β-hydroxy / beta-hydroxy / beta hydroxy / hydroxy / aldol
+5D-010~r: aldol / aldol reaction / aldol addition / aldol condensation
+5D-011: interconversion / equilibrium / interconvert / converts / tautomers / switch ; keto / keto form ; favored / favored / predominates / more stable / major / dominant
+5D-011~r: keto-enol tautomerism / tautomerism / tautomerization / keto–enol / tautomer
+5D-012: aldehyde / ketone / carbonyl ; two alcohols / 2 alcohols / alcohol / diol / alcohols ; acid / acid catalyst / h+ ; protecting / protect / protection
+5D-012~r: acetal / acetal formation / ketal / acetals
+5D-013: aldehyde / ketone / carbonyl ; primary amine / amine / nh2 / rnh2 ; water / h2o / dehydration / loses water / condensation
+5D-013~r: imine / imine formation / schiff base
+5D-014: carboxylic acid / acid / cooh ; alcohol ; acid catalyst / acid / h+ / catalyst ; ester
+5D-015: base / hydroxide / naoh / koh / basic ; hydrolysis / hydrolyze / breaks / cleave ; ester / esters / triglyceride / fat / fats ; soap / soaps / carboxylate
+5D-015~r: saponification
+5D-016: cyclic / ring ; planar / flat ; conjugated / conjugation / fully conjugated / p orbitals ; 4n + 2 / 4n+2 / 4n plus 2
+5D-017: primary amines / primary amine / amines / amine / amino acids ; phthalimide
+5D-017~r: gabriel synthesis / gabriel
+5D-018: aldehyde ; ammonia / nh3 / ammonium / amine ; cyanide / hcn / cn / kcn / nitrile
+5D-019: one step / concerted / single step / 1 step / bimolecular ; backside / back side / back / behind ; inversion / inverts / walden / invert
+5D-020: carbocation ; either face / both faces / both sides / either side / racemization / racemic / planar / two step / 2 step / stepwise
+5D-021: carbonyl carbon / carbonyl / c1 / former carbonyl / aldehyde carbon / ketone carbon ; stereocenter / new stereocenter / chiral / alpha / beta / anomer / ring / cyclization
+5D-022: anomeric carbon / anomeric / free anomeric / hemiacetal / hemiketal ; open-chain / open chain / open / aldehyde / reducing / oxidized / linear
+5D-022~r: reducing sugar / reducing
+5D-023: both / both anomeric / anomeric carbons / anomeric ; glycosidic / glycosidic bond / linkage / bond / locked / tied up / involved
+5D-024: amide / carboxamide / peptide bond / c-n / c–n
+5D-025: 3′–5′ phosphodiester / 3'-5' phosphodiester / phosphodiester / 3 5 phosphodiester / 3'5' phosphodiester
+5D-026: nucleoside ; base ; sugar / ribose / pentose ; nucleotide ; phosphate / phosphates / phosphate group
+5D-027: β(1→4) / beta 1,4 / beta 1-4 / β1-4 / β-1,4 / beta(1→4) / b1-4 / beta-1,4 / β 1 4 / beta 1 4
+5D-028: α(1→4) / alpha 1,4 / alpha 1-4 / α1-4 / α-1,4 / alpha(1→4) / a1-4 / alpha-1,4 / α 1 4 / alpha 1 4
+5D-029: α(1→6) / alpha 1,6 / alpha 1-6 / α1-6 / α-1,6 / alpha(1→6) / a1-6 / alpha-1,6 / α 1 6 / alpha 1 6
+5D-030: reduced / hydrocarbon / carbon hydrogen / c-h / long chains / fatty acids / more energy / energy dense / calories / 9 ; little water / anhydrous / no water / without water / hydrophobic / dry / compact / less water
+5D-031: horizontal ; toward / towards / out / forward / viewer / you / wedges ; vertical ; away / back / behind / into / dashes
+5D-032: sn1 ; first order / unimolecular / substrate only / rate = k[substrate] / only substrate ; sn2 ; second order / bimolecular / both / nucleophile and substrate / substrate and nucleophile
+5B-001~r: formal charge

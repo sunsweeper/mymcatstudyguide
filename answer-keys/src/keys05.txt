@@ -1,0 +1,163 @@
+5D-033: steric hindrance / steric / sterically hindered / bulky / crowded / hindrance ; backside / substitution / sn2 blocked / blocks / prevents / can't attack / cannot attack
+5E-001: vapor pressure ; equals / equal / = / matches / reaches ; external pressure / atmospheric / atmospheric pressure / external / surrounding pressure / ambient
+5E-002: temperature ; pressure ; solid ; liquid ; gas / vapor ; coexist / all three / equilibrium / together / same time
+5E-003: liquid ; gas / vapor ; can't be told apart / indistinguishable / no distinction / same / supercritical / no difference / cannot be distinguished
+5E-003~r: critical point
+5E-004: mcδt / mc δt / m c δt / mcat / m c delta t / mc delta t / mcdt / mc∆t / q = mcδt
+5E-005: constant / stays the same / same / doesn't change / does not change / unchanged / no change / remains ; mL / ml / latent heat / heat of fusion / heat of vaporization / phase change / breaking bonds / imf
+5E-006: sum / add / adding / total ; steps / individual steps / each step / pathway / path independent / state function
+5E-007: exothermic ; negative / < 0 / less than 0 / releases / gives off ; endothermic ; positive / > 0 / greater than 0 / absorbs / takes in
+5E-008: dispersal / disorder / spread / randomness / more ways / microstates / melting / vaporization / more gas / gas particles / more particles / phase change
+5E-009: δu = q − w / δu = q - w / u = q - w / q - w / q − w / δe = q - w / δu = q + w / q + w
+5E-009~r: first law / first law of thermodynamics / conservation of energy
+5E-010: q < k ; forward / right / products ; q > k ; reverse / left / reactants ; q = k ; equilibrium
+5E-011: none / no effect / doesn't change / does not change / no change / unchanged / nothing / doesn't shift / does not shift ; faster / speeds / quicker / both directions / rate / quickly
+5E-012: reactants / left / reverse / backward ; lowers k / decreases k / k decreases / smaller k / lower k / k down / reduces k
+5E-013: k = ae^(-ea/rt) / ae^-ea/rt / a e^-ea/rt / a·e−ea/rt / ae−ea/rt / ae -ea/rt / e^(-ea/rt) / e^-ea/rt / ea/rt / exp(-ea/rt)
+5E-013~r: arrhenius / arrhenius equation
+5E-014: slowest / slow / slowest step / rate limiting
+5E-014~r: rate-determining step / rate determining step / rate-limiting step / rate limiting step / rds
+5E-015: 0.693/k / 0.693 / k / ln2/k / ln 2/k / ln2 / k / 0.7/k ; independent / doesn't depend / does not depend / constant / not dependent
+5E-015~r: first-order half-life / first order half life / half-life / half life / t1/2 = 0.693/k
+5E-016: δh − tδs / δh - tδs / h - ts / δh-tδs / δg = δh - tδs / dh - tds / ∆h - t∆s ; negative / < 0 / less than zero / less than 0
+5E-016~r: gibbs free energy / gibbs / δg = δh - tδs / gibbs equation
+5E-017: −rt ln k / -rt ln k / -rtlnk / -rt lnk / −rtlnk / negative rt ln k / -2.303 rt log k
+5E-018: shifts / shift / adjusts / responds / moves ; counteract / oppose / relieve / reduce / minimize / offset / undo ; stress / change / disturbance
+5E-019: experimentally / experiment / experiments / measured / data / empirically / initial rates ; not coefficients / not from coefficients / not stoichiometry / not from the balanced / not balanced equation / not stoichiometric
+5E-020: favorable / spontaneous / thermodynamically favorable / exergonic / proceeds / will occur
+5E-021: no ; activation energy / activation barrier / ea / kinetics / rate / barrier / kinetic
+5E-022: δg° + rt ln q / δg0 + rt ln q / δg° + rtlnq / g° + rt ln q / dg0 + rt ln q / rt ln q / rtlnq
+5E-023: equilibrium / at equilibrium
+5E-024: zero / 0
+5E-025: δu = q + w / q + w / u = q + w / q+w ; on the system / done on / on system / positive
+5E-026: slope ; −ea/r / -ea/r / negative ea over r / -ea / r / ea/r
+5E-027: inverse time / 1/time / s⁻¹ / s^-1 / s-1 / per second / 1/s / time^-1 / reciprocal time
+5E-028: [a]0/(2k) / [a]0/2k / a0/2k / [a0]/2k / initial concentration over 2k / a0 / 2k / proportional / directly / depends / increases
+5E-029: number / count ; particles / molecules / species / reactants / colliding ; elementary step / step / single step
+5E-030: mechanism / steps / elementary steps / pathway / slow step / rate-determining step
+5E-031: kb ln ω / k ln ω / s = k ln w / k ln w / kb ln w / boltzmann / k log w / kb lnω / klnw ; microstates / ω / w / arrangements / ways / states
+5E-031~r: boltzmann / s = k ln ω / s = kb ln w / statistical entropy / microstates / s = k ln w
+6A-001: sensation ; detecting / detection / detect / receiving / receive / raw / input / receptors ; perception ; organizing / interpreting / interpretation / organize / interpret / making sense / processing
+6A-002: minimum / lowest / weakest / smallest / least ; 50% / 50 percent / half / half the time / fifty percent
+6A-002~r: absolute threshold / threshold
+6A-003: lower sensitivity / decreased sensitivity / decreased response / reduced sensitivity / less sensitive / diminished / decreased / reduction / reduced / stop noticing / less responsive ; constant / unchanging / continuous / prolonged / repeated / same stimulus / over time
+6A-003~r: sensory adaptation / adaptation
+6A-004: bottom-up / bottom up ; raw / sensory input / data / features / stimulus / sensory / details ; top-down / top down ; expectations / knowledge / experience / prior / context / beliefs / memory
+6A-005: proximity ; similarity ; continuity / continuation / good continuation ; closure ; prägnanz / pragnanz / simplicity / simplest / good figure / figure-ground
+6A-006: rods ; dim / low light / night / dark / black and white / periphery / peripheral / no color ; cones ; color / colour / detail / fovea / bright
+6A-007: nasal / medial / inner / inside
+6A-008: neurons / cells ; edges / lines / angles / orientation / features / bars / shapes / movement
+6A-009: hair cells / hair ; basilar membrane / cochlea / organ of corti
+6A-010: place ; location / where / position / place on / site / high / basilar ; frequency ; firing rate / rate / firing / frequency of firing / low / timing
+6A-011: semicircular canals / semicircular ; rotation / rotational / angular ; utricle / saccule / otolith / otoliths ; linear / gravity / head tilt / acceleration
+6A-011~r: vestibular system / vestibular
+6A-012: spinal cord / spinal / gate / gating ; block / blocks / inhibit / inhibits / close / closes / reduce / modulate
+6A-012~r: gate control theory / gate control / gate theory
+6A-013: sweet ; sour ; salty / salt ; bitter ; umami / savory
+6A-014: just-noticeable difference / just noticeable difference / jnd / difference threshold ; constant proportion / proportion / ratio / percentage / fraction / proportional / constant / percent
+6A-015: hit / hits ; miss / misses ; false alarm / false alarms / false positive ; correct rejection / correct rejections / correct negative
+6A-016: threshold / bias / cutoff / standard / criterion ; willingness / decision / report / respond / say yes / detecting / decide
+6A-016~r: criterion / response criterion / decision criterion / beta / response bias
+6A-017: sensitivity / discriminability / discrimination / ability / detectability ; signal ; noise
+6A-017~r: d prime / d′ / d' / dprime / sensitivity
+6A-018: more sensitive / sensitive / more light-sensitive / better in dim / low light / dim / night vision ; no color / without color / not color / no colour / black and white / grayscale / monochrome / colorblind
+6A-019: fovea / fovea centralis / macula
+6A-020: optic nerve / nerve fibers / axons / ganglion axons ; exit / leave / leaves / exits / where ; blind spot / no receptors / no photoreceptors / no rods / no cones
+6A-020~r: optic disc / optic disk / blind spot
+6A-021: opposing / opposite / opponent / pairs / antagonistic ; red-green / red green / red–green ; blue-yellow / blue yellow / blue–yellow / yellow-blue
+6A-022: stable / same / constant / unchanged / consistent ; despite / changes / even though / regardless / different
+6A-022~r: perceptual constancy / constancy / size constancy / shape constancy
+6A-023: incomplete / gaps / missing / broken / partial ; complete / whole / continuous / fill in / filling / closed
+6A-023~r: closure
+6A-024: depth / distance / 3d / three-dimensional / stereo ; two eyes / both eyes / each eye / disparity / retinal disparity
+6A-025: lens ; curvature / shape / thickness / changes / bending / rounder ; focus / focusing / near / distances
+6A-026: myopia / nearsighted / nearsightedness ; in front / front / before the retina ; hyperopia / farsighted / farsightedness ; behind / behind the retina / past
+6A-027: cochlea / inner ear
+6A-028: thalamus / thalamic / no thalamic / bypasses / skips / without
+6A-029: minimum detectable stimulus / smallest stimulus / weakest stimulus / detect a stimulus / absolute / lowest intensity ; change / difference / jnd / just noticeable
+6A-030: criterion / decision criterion / bias / threshold / response bias ; liberal / lower / lenient / lowered / more willing / more likely / shift
+6B-001: deeper / deep / semantic / meaning ; remembered better / better recall / better memory / better retention / remembered / recall ; shallow / visual / acoustic / surface / structural
+6B-001~r: levels of processing / depth of processing / levels-of-processing
+6B-002: iconic ; visual / sight ; under a second / less than a second / < 1 second / fraction of a second / milliseconds / 1 second / quarter second / brief ; echoic ; auditory / sound / hearing ; few seconds / 2-4 seconds / 3-4 seconds / seconds / several seconds / longer
+6B-003: 7 / seven / 7 ± 2 / 7+-2 / 5-9 / 4 / four / chunks
+6B-004: central executive ; phonological loop ; visuospatial sketchpad / visuospatial / sketchpad ; episodic buffer
+6B-005: explicit / declarative ; conscious / consciously / facts / events / aware ; implicit / nondeclarative / non-declarative ; unconscious / unconsciously / skills / priming / without awareness / procedural
+6B-006: episodic ; personal / experiences / events / autobiographical / life events ; semantic ; facts / general / knowledge / general knowledge / meaning
+6B-007: skills / skill / how to / motor / tasks / habits / procedures ; basal ganglia / cerebellum / striatum
+6B-007~r: procedural memory / procedural
+6B-008: exposure / earlier / previous / prior / first ; unconsciously / without awareness / implicitly / unconscious / affects / influences / later / subsequent
+6B-008~r: priming
+6B-009: first / beginning / primacy / start ; last / end / recency
+6B-010: proactive ; old / earlier / previous / prior / past ; retroactive ; new / later / recent
+6B-011: retrograde ; before / past / old / prior / previous ; anterograde ; new / form new / after / future
+6B-012: strengthening / stronger / strengthen / enhanced / increase ; synapses / synapse / synaptic / connections ; repeated / repeated activation / stimulation / repetition / persistent / lasting / long-term
+6B-012~r: long-term potentiation / long term potentiation / ltp
+6B-013: misleading / false / incorrect / wrong / misinformation / leading ; after / later / post-event / subsequent ; distorts / alters / changes / affects / corrupts / memory
+6B-014: memory loss / memory / dementia / cognitive decline / forgetting ; plaques / amyloid / beta-amyloid / tau / tangles / acetylcholine / ach
+6B-015: availability ; easily / ease / come to mind / recall / examples / memorable / readily / quickly ; representativeness ; prototype / stereotype / typical / fits / resembles / similar / matches
+6B-016: seeking / seek / favoring / favor / looking for / search / prefer / notice ; supports / confirms / agrees / existing / already believe / beliefs / prior beliefs
+6B-016~r: confirmation bias
+6B-017: holding / maintaining / keeping / clinging / persists / sticking ; discredited / disproven / evidence / contradicted / refuted / debunked / despite
+6B-017~r: belief perseverance / belief persistence
+6B-018: usual / typical / normal / traditional / intended / common / only ; use / uses / function / purpose
+6B-018~r: functional fixedness
+6B-019: worked before / past / previous / prior / familiar / same / habitual / old ; approaches / strategies / methods / solutions / approach / strategy
+6B-019~r: mental set
+6B-020: fluid ; reasoning / new problems / novel / problem solving / abstract / declines / decreases ; crystallized ; knowledge / accumulated / learned / experience / stable / increases / vocabulary
+6B-021: multiple / several / many / different types ; intelligences / intelligence / linguistic / logical / spatial / musical / bodily / interpersonal / intrapersonal / naturalistic
+6B-022: language ; shapes / influences / affects / determines / impacts ; thought / thinking / perception / perceive / cognition / think
+6B-022~r: sapir-whorf / sapir–whorf / linguistic relativity / whorfian / linguistic determinism
+6B-023: phonemes / phoneme / sounds / phonology ; morphemes / morpheme / morphology ; syntax / structure / grammar ; semantics / meaning ; pragmatics / context / social
+6B-024: nativist / chomsky / lad / innate / language acquisition device ; learning / skinner / behaviorist / reinforcement / operant ; interactionist / social interaction / vygotsky / social
+6B-025: suprachiasmatic nucleus / scn / suprachiasmatic / hypothalamus ; melatonin / pineal
+6B-026: beta ; alert / awake / alert awake / active ; alpha ; relaxed / relaxed awake / calm / drowsy ; theta ; stage 1 / n1 ; spindles / sleep spindles / k-complexes / k complexes / stage 2 / n2 ; delta ; stage 3 / deep sleep / slow wave / n3 / sws
+6B-027: dreaming / dreams / dream ; active / like waking / awake / beta / brain activity ; paralysis / paralyzed / atonia / muscle / no movement / paradoxical
+6B-028: broca's / broca ; production / speech production / speaking / producing / speech ; frontal ; wernicke's / wernicke ; comprehension / understanding / understand / meaning ; temporal
+6B-029: hippocampus ; new memories / explicit / memory / memories / forming / consolidation / encoding ; amygdala ; fear / emotion / emotional / emotions
+6B-030: cues / cue / retrieval ; match / matching / same / similar ; encoding / learning / learned / original
+6B-030~r: encoding specificity / encoding specificity principle
+6B-031: internal / mood / physiological / state / drunk / emotional ; retrieval / recall ; same / match / resemble / similar ; encoding / learning
+6B-031~r: state-dependent memory / state dependent / state-dependent
+6B-032: environmental / environment / external / place / location / setting / room ; matches / match / same / similar ; encoding / learning / learned
+6B-032~r: context-dependent memory / context dependent / context-dependent
+6B-033: remembering / remember ; future / later / intended / planned / to do / action / task
+6B-033~r: prospective memory / prospective
+6B-034: verbal / auditory / sounds / words / speech / language / phonological ; rehearsing / rehearsal / maintaining / temporarily / holding / repeat / short-term
+6B-035: visual ; spatial
+6B-035~r: visuospatial sketchpad / sketchpad / visuospatial
+6B-036: grouping / group / combine / organize / organizing / clusters ; meaningful / units / chunks / larger units
+6B-036~r: chunking / chunk
+6B-037: distributed / spaced / spread / spacing / over time / intervals / not cramming ; learning / retention / memory / remember / recall / better
+6B-038: retrieving / retrieval / testing / test / quizzing / recall / practice ; retention / remember / learning / later / better
+6B-039: helps access / helps retrieve / helps recall / trigger / prompt / hint / cue ; memory / stored / remember
+6B-039~r: retrieval cue / cue
+6B-040: misremembering / forgetting / wrong / confusing / misattributing / misattribution / error ; where / how / source / origin / from / who
+6B-041: shortcut / shortcuts / rule of thumb / simplifying / simplification / quick ; efficient / fast / inaccurate / error / errors / sometimes wrong / bias
+6B-041~r: heuristic / heuristics
+6C-001: happiness / happy / joy ; sadness / sad ; fear ; anger / angry ; surprise ; disgust
+6C-002: primary ; threat / danger / harmful / is this a threat / relevant / significance ; secondary ; cope / coping / resources / handle / deal / ability
+6C-003: alarm ; resistance ; exhaustion
+6C-004: problem-focused / problem focused ; changing / change / solve / solving / fix / action / situation / problem ; emotion-focused / emotion focused ; feelings / emotions / emotional / manage / managing / regulate / reaction
+6C-005: james-lange / james lange / james–lange ; body / physiological / arousal / first ; cannon-bard / cannon bard / cannon–bard ; same time / simultaneous / both at once / at once / simultaneously / together ; schachter-singer / schachter singer / two-factor / two factor / schachter–singer ; label / cognitive / interpretation / appraisal / cognition
+6C-006: physiological / body / arousal / physical ; behavioral / expression / behavior / expressive ; cognitive / subjective / feeling / appraisal / thought
+6C-007: regulates / regulation / controls / control / modulates / inhibits ; decisions / decision / judgment / planning / behavior / phineas gage / gage
+6C-008: eustress ; positive / good / beneficial / motivating ; distress ; negative / bad / harmful
+6C-009: cataclysmic / catastrophic / disasters / disaster ; major / personal / life events / life changes / significant ; daily hassles / hassles / daily / everyday / minor
+6C-010: hypothalamus ; crh / crf / corticotropin-releasing ; pituitary / anterior pituitary ; acth / adrenocorticotropic ; adrenal / adrenal cortex ; cortisol
+6C-010~r: hpa axis / hpa / hypothalamic-pituitary-adrenal / hypothalamic pituitary adrenal
+6C-011: sympathetic / fight or flight / fight-or-flight ; heart rate / blood pressure / glucose / bp / hr ; epinephrine / adrenaline / adrenal medulla / norepinephrine
+6C-012: immunity / immune / immune system / sick ; blood pressure / hypertension / heart / cardiovascular / heart disease ; anxiety / depression / mental
+6C-013: exercise / physical activity ; relaxation / meditation / mindfulness / breathing ; social support / support / friends / family ; spiritual / spirituality / religion / faith / prayer
+6C-014: cultural / culture / social / society ; norms / rules / expectations / standards ; when / how / expressed / expression / express / show / display
+6C-014~r: display rules
+6C-015: facial expressions / facial / face / expressions / smiling ; influence / affect / change / shape / cause / feel / emotions / emotion
+6C-015~r: facial feedback hypothesis / facial feedback
+6C-016: cumulative / accumulated / buildup / total / added / long-term ; wear / wear and tear / damage / toll / burden / cost ; stress / chronic / repeated
+6C-017: acute ; short / short-lived / brief / temporary / short term ; chronic ; persists / long / ongoing / long term / persistent / recurs / prolonged / repeated
+6C-018: changing / change / reframe / reframing / rethinking / reinterpret / reinterpretation ; interpretation / meaning / how you see / view / perspective / appraisal / think
+6C-019: suppression ; hides / hiding / inhibit / conceals / masks / hold back / expression / outward ; reappraisal ; interpretation / reinterpret / changes meaning / reframe / earlier / think / view
+7A-001: mesolimbic / dopamine ; ventral tegmental area / vta ; nucleus accumbens / accumbens / nac
+7A-002: reduce / reducing / reduction / relieve ; drives / drive / needs / internal / unmet / hunger / thirst / tension / homeostasis
+7A-002~r: drive-reduction theory / drive reduction / drive theory
+7A-003: optimal / optimum / ideal / moderate / right ; arousal / stimulation
+7A-003~r: arousal theory / optimal arousal / yerkes-dodson
