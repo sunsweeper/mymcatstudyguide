@@ -33,18 +33,18 @@ let count = 0; const check = (name, v) => { assert.ok(v, name); count++; console
       await p.click('#gradeAccept'); await p.waitForFunction(() => st('1A-005'));
       check('Accepting records the system grade through the engine', await p.evaluate(() => st('1A-005').history.at(-1).r === 'good'));
 
-      // 2. Not a clear match: the AI grades it; reasoning in the popup; Dispute lets the student pick and flags it.
+      // 2. Not a clear match: the AI grades it; reasoning in the popup; Dispute sends it for review but the grade stands.
       await show('1A-018'); await flip('Km goes up and Vmax goes down'); await p.click('#studyNext');
       await p.waitForSelector('#studyRatingDialog[data-view=grade]');
       check('Unmatched answer went to the AI with the session token', aiCalls.length === 1 && aiCalls[0].key === '1A-018' && aiCalls[0].answer === 'Km goes up and Vmax goes down' && aiCalls[0].auth === 'Bearer fixture-token');
       check('AI verdict and reasoning in the popup', (await p.textContent('#studyRatingEyebrow')) === 'GRADED BY AI' && (await p.textContent('#studyRatingTitle')) === 'Close. You were partly there.' && (await p.textContent('#studyRatingDescription')).includes('Vmax is unchanged'));
       await p.click('#gradeDispute');
-      check('Dispute shows the ratings with the given grade disabled', await p.isVisible('#rateRow') && await p.isDisabled('#rateRow [data-r=hard]') && !(await p.isDisabled('#rateRow [data-r=good]')) && await p.isVisible('#disputeText'));
-      await p.fill('#disputeText', 'Vmax drop was a typo, I meant unchanged.'); await p.click('#rateRow [data-r=good]'); await p.waitForFunction(() => st('1A-018'));
-      check('Disputed pick is what the engine records', await p.evaluate(() => st('1A-018').history.at(-1).r === 'good'));
+      check('Dispute view: note box and Send, no rating buttons', await p.isHidden('#rateRow') && await p.isVisible('#disputeText') && await p.isVisible('#disputeSend'));
+      await p.fill('#disputeText', 'Vmax drop was a typo, I meant unchanged.'); await p.click('#disputeSend'); await p.waitForFunction(() => st('1A-018') || pendingR);
+      check('The system grade is what the engine records (Struggled -> reinforcement)', await p.evaluate(() => pendingR === 'hard'));
       await p.waitForFunction(n => window.__flags >= n, 1).catch(() => {});
       const f = flags.at(-1);
-      check('Dispute delivers card, answer, grade, reasoning, pick and note', f && f['Card ID'] === '1A-018' && f['Student answer'] === 'Km goes up and Vmax goes down' && f['Graded as'] === 'Struggled' && f['Student says'] === 'Got it' && /unchanged/.test(f['Grade reasoning']) && /typo/.test(f['Student note']) && f['Disputed by'] === 'Fixture' && /^AI/.test(f['Graded by']));
+      check('Dispute delivers card, answer, grade, reasoning and note', f && f['Card ID'] === '1A-018' && f['Student answer'] === 'Km goes up and Vmax goes down' && f['Graded as'] === 'Struggled' && !('Student says' in f) && /unchanged/.test(f['Grade reasoning']) && /typo/.test(f['Student note']) && f['Disputed by'] === 'Fixture' && /^AI/.test(f['Graded by']));
 
       // 3. Same card and answer again (e.g. after refresh): saved grade reused, no second AI charge.
       await p.reload(); await p.waitForFunction(() => mode === 'cards');
@@ -88,10 +88,11 @@ let count = 0; const check = (name, v) => { assert.ok(v, name); count++; console
       await h.fill('#recallDraft', 'both use rewards'); await h.click('#demoReveal'); await h.waitForTimeout(250); await h.click('#demoNext');
       await h.waitForSelector('#tour-ratings[data-view=grade]');
       check('Demo: unmatched answer graded by the AI, no sign-in needed', demoCalls.length === 1 && demoCalls[0].key === 'demo-3' && (await h.textContent('#ratingModalEyebrow')) === 'GRADED BY AI' && (await h.textContent('#ratingModalTitle')) === 'Not this time.');
+      check('Demo: graded view hides the three rating buttons', await h.isHidden('#tour-ratings .rating-modal-options'))
       await h.click('#demoGradeDispute');
-      check('Demo: Dispute offers the other ratings', await h.isDisabled('#tour-ratings [data-rating=didnt]') && !(await h.isDisabled('#tour-ratings [data-rating=got]')));
-      await h.click('#tour-ratings [data-rating=struggled]');
-      check('Demo: disputed pick applied (reinforcement for Struggled)', await h.evaluate(() => pendingRating === 'struggled'));
+      check('Demo: Dispute shows a note box, not ratings', await h.isVisible('#demoDisputeText') && await h.isHidden('#tour-ratings .rating-modal-options'));
+      await h.fill('#demoDisputeText', 'Operant is about consequences.'); await h.click('#demoDisputeSend');
+      check('Demo: the system grade stands (Didn\'t know -> reinforcement)', await h.evaluate(() => pendingRating === 'didnt'));
       await h.click('#startTour'); for(let i = 0; i < 8; i++) await h.click('#tourForward');
       check('Demo: tour still completes', await h.locator('.tour-popover').count() === 0);
       await ctx.close();

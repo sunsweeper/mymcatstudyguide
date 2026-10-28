@@ -142,7 +142,7 @@
 .rating-modal-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .rating-modal-options button{min-height:57px;border:1px solid transparent;border-radius:11px;padding:10px 8px;font-weight:800;font-size:14px;cursor:pointer}
 .rating-modal-options button:focus-visible{outline:3px solid #fff;outline-offset:3px}
-.rating-modal-options button:disabled{opacity:.55;cursor:not-allowed}.demo-grade-actions{display:flex;flex-direction:column;align-items:center;gap:14px}.demo-grade-actions[hidden]{display:none!important}#demoGradeAccept{width:100%;min-height:54px;border-radius:12px;border:2px solid #f8c3d1;background:var(--pink);color:#14271e;font:800 18px 'DM Sans',sans-serif;cursor:pointer}#demoGradeAccept:hover{background:#ffd0dc}.demo-grade-dispute{border:0;background:none;color:#a9c4b0;font:600 12px 'DM Sans',sans-serif;text-decoration:underline;cursor:pointer;padding:4px 8px}.rating-modal[data-view=grade][data-grade=got] h3{color:#9fe0b7}.rating-modal[data-view=grade][data-grade=struggled] h3{color:#f0cfa8}.rating-modal[data-view=grade][data-grade=didnt] h3{color:#f4b5c5}.rating-modal[data-view=grade] p{font-size:15px;color:#e1ece3}
+.rating-modal-options button:disabled{opacity:.55;cursor:not-allowed}.demo-grade-actions{display:flex;flex-direction:column;align-items:center;gap:14px}.demo-grade-actions[hidden],.rating-modal-options[hidden],.demo-dispute[hidden]{display:none!important}.demo-dispute{display:grid;gap:7px;text-align:left}.demo-dispute label{font:700 13px 'DM Sans',sans-serif;color:#e6f0e8}.demo-dispute label span{font-weight:400;color:#a9c4b0}.demo-dispute textarea{width:100%;box-sizing:border-box;border:1px solid #6e9879;border-radius:10px;background:#f8f2e8;color:#193c29;padding:9px 11px;font:14px/1.5 'DM Sans',sans-serif}.demo-dispute-actions{display:flex;justify-content:space-between;align-items:center;margin-top:6px}#demoDisputeSend{min-height:46px;padding:10px 18px;border-radius:11px;border:2px solid #f8c3d1;background:var(--pink);color:#14271e;font:800 15px 'DM Sans',sans-serif;cursor:pointer}#demoGradeAccept{width:100%;min-height:54px;border-radius:12px;border:2px solid #f8c3d1;background:var(--pink);color:#14271e;font:800 18px 'DM Sans',sans-serif;cursor:pointer}#demoGradeAccept:hover{background:#ffd0dc}.demo-grade-dispute{border:0;background:none;color:#a9c4b0;font:600 12px 'DM Sans',sans-serif;text-decoration:underline;cursor:pointer;padding:4px 8px}.rating-modal[data-view=grade][data-grade=got] h3{color:#9fe0b7}.rating-modal[data-view=grade][data-grade=struggled] h3{color:#f0cfa8}.rating-modal[data-view=grade][data-grade=didnt] h3{color:#f4b5c5}.rating-modal[data-view=grade] p{font-size:15px;color:#e1ece3}
 .rating-modal-close{position:absolute;right:13px;top:11px;border:0;background:transparent;color:#d4e7d7;font-size:29px;cursor:pointer;padding:2px 9px}
 @media(max-width:530px){.rating-modal{padding:31px 16px 21px}.rating-modal-options{grid-template-columns:1fr}.rating-modal-options button{min-height:47px}}
 
@@ -215,6 +215,7 @@
 <button data-rating="got" type="button">Got it!</button>
 </div>
 <div class="demo-grade-actions" hidden="" id="demoGradeActions"><button id="demoGradeAccept" type="button">Next Card →</button><button class="demo-grade-dispute" id="demoGradeDispute" type="button">Dispute</button></div>
+<div class="demo-dispute" hidden="" id="demoDispute"><label for="demoDisputeText">What did we get wrong? <span>(optional)</span></label><textarea id="demoDisputeText" maxlength="1000" rows="3"></textarea><div class="demo-dispute-actions"><button class="demo-grade-dispute" id="demoDisputeBack" type="button">← Back</button><button id="demoDisputeSend" type="button">Send and continue →</button></div></div>
 </div>
 </div>
 <div class="rating-modal-backdrop" hidden="" id="trialCompletionModal">
@@ -262,11 +263,11 @@ function showRatingView(){
   const g=grades[gradeKey()],m=$('tour-ratings'),T=$('ratingModalTitle'),D=$('ratingModalDescription'),E=$('ratingModalEyebrow');
   popupView=popupView==='dispute'&&g&&g.status==='done'?'dispute':g&&g.status==='done'?'grade':g&&g.status==='checking'?'checking':'manual';
   m.dataset.view=popupView;m.dataset.grade=g&&g.rating||'';
-  $('demoGradeActions').hidden=popupView!=='grade';m.querySelector('.rating-modal-options').hidden=!['manual','dispute'].includes(popupView);
-  m.querySelectorAll('[data-rating]').forEach(b=>b.disabled=popupView==='dispute'&&b.dataset.rating===g.rating);
+  $('demoGradeActions').hidden=popupView!=='grade';m.querySelector('.rating-modal-options').hidden=popupView!=='manual';$('demoDispute').hidden=popupView!=='dispute';
+  m.querySelectorAll('[data-rating]').forEach(b=>b.disabled=false);
   if(popupView==='grade'){E.textContent=g.source==='ai'?'GRADED BY AI':'GRADED';T.textContent=VERDICT[g.rating];D.textContent=g.reasoning;$('demoGradeAccept').focus();}
   else if(popupView==='checking'){E.textContent='YOUR RECALL';T.textContent='Checking your answer…';D.textContent='This takes a moment.';}
-  else if(popupView==='dispute'){E.textContent='DISPUTE';T.textContent='How should this card be graded?';D.textContent=`We graded it ${LABEL[g.rating]}. Your pick is what counts. In the full app, disputed grades are sent to us for review.`;m.querySelector('[data-rating]:not(:disabled)').focus();}
+  else if(popupView==='dispute'){E.textContent='DISPUTE';T.textContent='Dispute this grade';D.textContent=`We graded it ${LABEL[g.rating]}. That grade stays for scheduling. In the full app, disputes are sent to us for review.`;$('demoDisputeText').value='';$('demoDisputeText').focus();}
   else{E.textContent='YOUR RECALL';T.textContent='Did you remember the answer to the last card?';D.textContent=(g&&g.why)||'Choose the response that best matches how well you remembered.';m.querySelector('[data-rating]').focus();}
 }
 function openRatingModal(preview=false){
@@ -274,13 +275,15 @@ function openRatingModal(preview=false){
   $('ratingModal').hidden=false;
   $('ratingModal').dataset.preview=preview?'true':'false';
   if(!preview){popupView='';showRatingView();return;}
-  $('tour-ratings').dataset.view='manual';$('demoGradeActions').hidden=true;$('tour-ratings').querySelector('.rating-modal-options').hidden=false;
+  $('tour-ratings').dataset.view='manual';$('demoGradeActions').hidden=true;$('demoDispute').hidden=true;$('tour-ratings').querySelector('.rating-modal-options').hidden=false;
   $('ratingModalEyebrow').textContent='YOUR RECALL';$('ratingModalTitle').textContent='Did you remember the answer to the last card?';
   $('ratingModalDescription').textContent=!flipped?'This prompt appears after you flip a card and select Next Card. When your answer can be graded, it shows your grade instead, with a Dispute button.':'Choose the response that best matches how well you remembered.';
   $('ratingModal').querySelectorAll('[data-rating]').forEach(b=>b.disabled=preview&&!flipped);
 }
 $('demoGradeAccept').onclick=()=>{const g=grades[gradeKey()];if(g&&g.status==='done')rate(g.rating);};
 $('demoGradeDispute').onclick=()=>{popupView='dispute';showRatingView();};
+$('demoDisputeSend').onclick=()=>{const g=grades[gradeKey()];if(g&&g.status==='done'){grades[gradeKey()]={...g,disputed:true};rate(g.rating);}};   // the system's grade stands
+$('demoDisputeBack').onclick=()=>{popupView='';showRatingView();};
 function openTrialModal(){ $('trialCompletionModal').hidden=false; $('trialCompletionYes').focus(); }
 function closeTrialModal(){ $('trialCompletionModal').hidden=true; }
 $('closeTrialCompletion').onclick=closeTrialModal;
