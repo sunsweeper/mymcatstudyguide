@@ -3,6 +3,10 @@
   "outputDirectory": ".",
   "routes": [
     {
+      "src": "^/study/(?:[^/]+/)*([^/]+\\.(?:js|css|png|svg|json|ico|webp))$",
+      "dest": "/$1"
+    },
+    {
       "src": "^/$",
       "dest": "/homepage.html"
     },
