@@ -15,7 +15,7 @@ try{for(const width of [390,768,1440]){
  check('Blank optional recall blocks the UI flip',await p.isDisabled('#reveal'));
  await shot(p,'initial',width);
  const sequence=await p.evaluate(()=>JSON.stringify(deck));await p.click('[data-v=a]');await p.click('[data-v=mix]');await p.click('[data-v=q]');check('Mode controls preserve current card and protected session ordering',await p.evaluate(s=>JSON.stringify(deck)===s&&curKey==='1A-001'&&progress.view==='q',sequence));
- await p.click('#studyTourStart');for(let i=0;i<9;i++){check(`Real tour step ${i+1} targets a real control`,await p.locator('.study-tour-target').count()===1);await p.click('#studyTourNext');}check('Tour finishes',await p.locator('.study-tour').count()===0);
+ await p.click('#studyTourStart');for(let i=0;i<8;i++){check(`Real tour step ${i+1} targets a real control`,await p.locator('.study-tour-target').count()===1);await p.click('#studyTourNext');}check('Tour finishes',await p.locator('.study-tour').count()===0);
  await p.fill('#curAnswer','A retrieval before flipping.');await shot(p,'question',width);
  await p.click('#studyNotes');await p.fill('#noteText','A saved personal note.');await p.click('#studySaveNote');check('Notes save to existing card-owned data',await p.evaluate(()=>progress.notes['1A-001']==='A saved personal note.'));await shot(p,'notes',width);await p.click('#closeStudyDrawer');
  await p.click('#card .bm');check('Bookmark preserves front side',await p.evaluate(()=>progress.bookmarks['1A-001']&&!revealed));
