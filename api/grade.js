@@ -56,6 +56,7 @@ async function signedInUser(auth){
   } catch { return null; }
 }
 
+const log = (outcome, extra = {}) => console.log(JSON.stringify({ grade: outcome, ...extra }));   // outcome only, never student text
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   if(req.method !== 'POST'){ res.setHeader('Allow', 'POST'); return res.status(405).json({ error: 'Method not allowed' }); }
@@ -64,11 +65,11 @@ module.exports = async (req, res) => {
   let body = req.body; try { if(typeof body === 'string') body = JSON.parse(body); } catch { return res.status(400).json({ error: 'Invalid JSON' }); }
   const key = body?.key, answer = body?.answer, demo = typeof key === 'string' && /^demo-[0-4]$/.test(key);
   if(typeof key !== 'string' || !(demo || CARDS[key]) || typeof answer !== 'string' || !answer.trim() || answer.length > (demo ? 600 : 2000)) return res.status(400).json({ error: 'Invalid fields' });
-  if(!process.env.ANTHROPIC_API_KEY) return res.status(503).json({ error: 'AI grading not configured' });
+  if(!process.env.ANTHROPIC_API_KEY){ log('no_api_key'); return res.status(503).json({ error: 'AI grading not configured' }); }
   if(demo){
     const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
-    if(!demoAllowed(ip)) return res.status(429).json({ error: 'Too many sample grades. Try again in a few minutes.' });
-  } else if(!await signedInUser(req.headers.authorization)) return res.status(401).json({ error: 'Sign in required' });
+    if(!demoAllowed(ip)){ log('demo_rate_limited'); return res.status(429).json({ error: 'Too many sample grades. Try again in a few minutes.' }); }
+  } else if(!await signedInUser(req.headers.authorization)){ log('not_signed_in'); return res.status(401).json({ error: 'Sign in required' }); }
 
   const card = demo ? DEMO[key] : CARDS[key], concepts = (demo ? DEMO[key].keys : KEYS[key] || []).map(c => c[0]);
   const prompt = `Card question: ${card.q}\nReference answer: ${card.a}\n` + (concepts.length ? `Key concepts the reference expects: ${concepts.join('; ')}\n` : '') +
@@ -80,12 +81,14 @@ module.exports = async (req, res) => {
       body: JSON.stringify({ model: MODEL(), max_tokens: 400, system: SYSTEM, tools: [TOOL], tool_choice: { type: 'tool', name: TOOL.name }, messages: [{ role: 'user', content: prompt }] }),
       signal: AbortSignal.timeout(20000)
     });
-    if(!r.ok) throw new Error('Upstream ' + r.status);
+    if(!r.ok){ const e = await r.json().catch(() => ({})); log('anthropic_error', { status: r.status, model: MODEL(), type: e.error?.type, message: String(e.error?.message || '').slice(0, 160) }); throw new Error('Upstream ' + r.status); }
     const data = await r.json();
     const out = (data.content || []).find(b => b.type === 'tool_use')?.input;
     if(!out || !RATING[out.rating] || typeof out.reasoning !== 'string') throw new Error('Bad response');
+    log('ok', { demo, model: MODEL(), rating: out.rating });
     return res.status(200).json({ rating: RATING[out.rating], label: out.rating, reasoning: out.reasoning.trim().slice(0, 800), model: MODEL() });
-  } catch {
+  } catch(e) {
+    if(!/^Upstream/.test(e.message)) log('failed', { error: String(e.message).slice(0, 120) });
     return res.status(502).json({ error: 'AI grading failed' });
   }
 };
