@@ -115,3 +115,4 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
   #study .study-utilities .btn{min-height:56px;padding:11px 16px}
   #study #studyNext{flex-basis:auto;font-size:20px}
 }
+@media(max-width:400px){#study #card .foot .cat{font-size:10px;letter-spacing:.4px}}
