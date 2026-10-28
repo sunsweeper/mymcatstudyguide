@@ -56,14 +56,8 @@
 
   // ---- Branded share image (1080x1350: fits Instagram feed and works on X and Facebook) ----
   function roundRect(c, x, y, w, h, r){ c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
-  function logo(c, x, y, size){
-    const k = size / 48; c.save(); c.translate(x, y); c.scale(k, k);
-    c.fillStyle = '#FFFFFF'; roundRect(c, 2, 2, 44, 44, 12); c.fill();
-    c.fillStyle = '#15241F'; roundRect(c, 8.5, 8.5, 31, 31, 7.5); c.fill();
-    c.strokeStyle = '#E0708A'; c.lineWidth = 2.5; c.lineCap = 'round'; c.lineJoin = 'round';
-    c.beginPath(); [[12, 25], [18, 25], [20.6, 18.8], [24.6, 30], [27.6, 21.4], [29.4, 25], [36, 25]].forEach(([px, py], i) => i ? c.lineTo(px, py) : c.moveTo(px, py)); c.stroke();
-    c.restore();
-  }
+  let logoImg = null;
+  const brandLogo = () => logoImg || (logoImg = new Promise((ok, bad) => { const im = new Image(); im.onload = () => ok(im); im.onerror = e => { logoImg = null; bad(e); }; im.src = '/brand/tabiprep-logo.png'; }));
   async function makeImage(){
     const { session: s, life: l, topic } = stats();
     await (document.fonts && document.fonts.ready);
@@ -73,12 +67,11 @@
     const fit = (text, weight, size, family, maxW) => { let px = size; c.font = `${weight} ${px}px ${family}`; while(px > 20 && c.measureText(text).width > maxW){ px -= 2; c.font = `${weight} ${px}px ${family}`; } };
     const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#1b3a2b'); g.addColorStop(1, '#0f2018'); c.fillStyle = g; c.fillRect(0, 0, W, H);
     // Header: logo + wordmark
-    logo(c, 72, 64, 84);
-    c.textBaseline = 'alphabetic'; c.font = `700 62px ${serif}`; c.fillStyle = '#f8f2e8'; c.fillText('Tabi', 176, 128);
-    const tw = c.measureText('Tabi').width, pw = c.measureText('Prep').width; c.fillStyle = '#f0adbd'; c.fillText('Prep', 176 + tw, 128);
-    c.font = `600 26px ${sans}`; c.fillStyle = '#b9cdbf'; c.fillText('.com', 176 + tw + pw + 4, 128);
+    c.textBaseline = 'alphabetic';
+    try { const img = await brandLogo(); const h = 150, w = img.width * h / img.height; c.drawImage(img, 60, 40, w, h); }
+    catch(e){ c.font = `700 62px ${serif}`; c.fillStyle = '#f8f2e8'; c.fillText('TabiPrep.com', 72, 128); }   // logo file unavailable
     // Title
-    c.fillStyle = '#f8f2e8'; fit('MCAT study session', 700, 74, serif, W - 144); c.fillText('MCAT study session', 72, 268);
+    c.fillStyle = '#f8f2e8'; fit('MCAT study session', 700, 74, serif, W - 144); c.fillText('MCAT study session', 72, 278);
     c.font = `500 30px ${sans}`; c.fillStyle = '#b9cdbf';
     c.fillText([topic, new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })].filter(Boolean).join('  ·  '), 74, 318);
     // Session card

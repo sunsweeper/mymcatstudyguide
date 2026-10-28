@@ -16,3 +16,9 @@
 @media(max-width:760px){.hero-layout{grid-template-columns:1fr;gap:40px}.hero{padding:65px 0}.hero-visual{max-width:520px;width:100%;min-height:330px;transform:none}.visual-card{min-height:215px}.section{padding:65px 0}.footer-layout{grid-template-columns:repeat(2,minmax(0,1fr))}.footer-identity{grid-column:1/-1}}
 @media(max-width:580px){.wrap{padding:0 21px}.nav .wrap{min-height:65px}.brand{font-size:17px}.navlinks .nav-login{display:none}.navlinks .btn{padding:10px 12px;font-size:11px}.hero h1{font-size:clamp(37px,10vw,50px)}.hero p{font-size:16px}.hero-visual{padding:16px;min-height:300px}.visual-card{margin:21px 4px 13px;padding:22px;min-height:210px}.pass-big{font-size:66px}.grid{grid-template-columns:1fr}.card{padding:25px}.section{padding:55px 0}.stripe{padding:27px 0}.stripe p{font-size:15px}.callout{padding:28px}.contact-form{padding:22px}.footer-layout{gap:25px 16px}.footer-bottom{display:grid;gap:8px}.preview-ribbon{font-size:9px;right:8px;bottom:8px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
+/* Compass logo */
+.brand{display:inline-flex;align-items:center}
+.brand-logo{display:block;height:76px;width:auto;margin:4px 0}
+.footer-identity .brand-logo{height:84px}
+@media(max-width:620px){.brand-logo{height:56px}.footer-identity .brand-logo{height:64px}}
