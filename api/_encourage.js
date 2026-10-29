@@ -9,7 +9,9 @@ const DAY = 864e5;
 const MODEL = () => process.env.ENCOURAGE_MODEL || process.env.GRADER_MODEL || 'claude-sonnet-5-5';
 
 const log = (outcome, extra = {}) => console.log(JSON.stringify({ encourage: outcome, ...extra }));   // never student text or email addresses
-const admin = () => ({ apikey: process.env.SUPABASE_SERVICE_ROLE_KEY, Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}` });
+// Supabase's newer secret keys (sb_secret_...) go only in the apikey header; Supabase rejects them as a Bearer token.
+// Older service_role keys (JWTs starting eyJ) go in both.
+const admin = () => { const k = String(process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim(); return k.startsWith('sb_') ? { apikey: k } : { apikey: k, Authorization: `Bearer ${k}` }; };
 
 // Calendar-day arithmetic on YYYY-MM-DD strings, in UTC so the result doesn't depend on the server's time zone.
 const dayNum = s => Date.UTC(+s.slice(0, 4), +s.slice(5, 7) - 1, +s.slice(8, 10)) / DAY;
