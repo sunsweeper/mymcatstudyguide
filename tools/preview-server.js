@@ -9,6 +9,7 @@ module.exports=()=>http.createServer(async(req,res)=>{
  req.body=raw;res.status=n=>{res.statusCode=n;return res;};res.json=data=>{res.setHeader('Content-Type','application/json');res.end(JSON.stringify(data));};
  return require('../api'+url.pathname.slice(4))(req,res);
  }
+ if(url.pathname.startsWith('/_vercel/')){res.setHeader('Content-Type','text/javascript');res.end('');return;}   // Vercel serves its analytics script itself
  const has=r=>!r.has||r.has.every(h=>h.type==='query'&&url.searchParams.has(h.key));
  const hit=routes.find(r=>r.src && new RegExp(r.src).test(url.pathname) && has(r));
  if(hit&&hit.status&&hit.headers&&hit.headers.Location){res.writeHead(hit.status,{Location:url.pathname.replace(new RegExp(hit.src),hit.headers.Location)+url.search});res.end();return;}   // redirects, as on Vercel
