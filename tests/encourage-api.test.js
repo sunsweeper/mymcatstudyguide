@@ -20,6 +20,10 @@ const U = (id, over = {}) => ({ id, email: `${id}@example.invalid`, email_confir
   const st = E.studyStats({ cards: { x: { history: [{ r: 'good' }, { r: 'again' }] }, y: { history: [{ r: 'good' }] }, z: {} }, stats: { ms: 0 } }, [{ cards: 30, seconds: 3600 }, { cards: 0, seconds: 0 }, { cards: 10, seconds: 1800 }]);
   ok('Study stats from their own records', st.hours === 1.5 && st.daysStudied === 2 && st.cardsStudied === 2 && st.reviews === 3 && st.knewItPercent === 67);
 
+  process.env.SUPABASE_SERVICE_ROLE_KEY = 'sb_secret_abc';
+  ok('New-style secret key: apikey header only', E.admin().apikey === 'sb_secret_abc' && !E.admin().Authorization);
+  process.env.SUPABASE_SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiJ9.x.y';
+  ok('Legacy service_role key: apikey and Bearer', E.admin().Authorization === 'Bearer eyJhbGciOiJIUzI1NiJ9.x.y');
   // ---- the job ----
   const realFetch = global.fetch, realLog = console.log, realNow = Date.now, logs = [];
   process.env.CRON_SECRET = 'cron-secret';
