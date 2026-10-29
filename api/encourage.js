@@ -9,7 +9,13 @@ const MAX_PER_RUN = 40;   // keeps one run well inside the function time limit; 
 
 async function sb(path, opts = {}){
   const r = await fetch(E.SB_URL + path, { ...opts, headers: { ...E.admin(), 'Content-Type': 'application/json', ...(opts.headers || {}) }, signal: AbortSignal.timeout(10000) });
-  if(!r.ok) throw new Error(`supabase ${r.status}`);
+  if(!r.ok){
+    // Say why without exposing anything secret: Supabase's own message and which kind of key is set.
+    const b = await r.json().catch(() => ({})), k = String(process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
+    const kind = k.startsWith('sb_secret_') ? 'sb_secret' : k.startsWith('sb_publishable_') ? 'sb_publishable' : /^eyJ/.test(k) ? 'jwt' : 'other';
+    E.log('supabase_error', { status: r.status, path: path.split('?')[0].replace(/[0-9a-f-]{36}/g, ':id'), message: String(b.message || b.msg || b.error || '').slice(0, 120), keyKind: kind, keyLength: k.length });
+    throw new Error(`supabase ${r.status}`);
+  }
   return r.status === 204 ? null : r.json();
 }
 async function allUsers(){
