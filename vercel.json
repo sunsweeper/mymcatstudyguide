@@ -122,10 +122,17 @@
     {
       "path": "/api/encourage",
       "schedule": "0 16 * * *"
+    },
+    {
+      "path": "/api/backup",
+      "schedule": "0 10 * * *"
     }
   ],
   "functions": {
     "api/encourage.js": {
+      "maxDuration": 60
+    },
+    "api/backup.js": {
       "maxDuration": 60
     }
   }
