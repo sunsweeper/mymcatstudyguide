@@ -27,7 +27,7 @@ for(const c of CARDS){
     if(!keys[k]){ problems.push(`${k}: no key`); continue; }
     selfTotal++;
     const g = grade(strip(answer), keys[k]);
-    if(g.verdict === 'right') selfPass++;
+    if(g.score === 1) selfPass++;   // every concept found (the matcher may still send it to the AI, e.g. a negation near a key term)
     else problems.push(`${k}: card's own answer misses concept(s) ${g.missing.map(i => '[' + keys[k][i].slice(0, 3).join(' / ') + ']').join(' ')}`);
   }
 }
