@@ -9,12 +9,12 @@ const output=process.env.SCREENSHOT_DIR||path.resolve(__dirname,'../../..','outp
  for(const width of [390,1440]){
  const page=await browser.newPage({viewport:{width,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/supabase.js',r=>r.fulfill({contentType:'text/javascript',body:'window.supabase={createClient:()=>({auth:{onAuthStateChange(){},async getSession(){return {data:{session:null}}}}})};'}));
- for(const route of ['/','/why-it-works','/community','/free-trial','/contact','/privacy-policy','/terms-of-use','/login','/signup']){
+ for(const route of ['/mcat','/mcat/how-it-works','/mcat/community','/mcat/free-trial','/about-us','/about-rosalind','/contact','/privacy-policy','/terms-of-use','/login','/signup']){
  const response=await page.goto(base+route);ok(`${width} ${route} loads`,response.status()===200);
  if(route==='/login')await page.locator('#toSignup').waitFor();
  if(route==='/signup')await page.locator('#toLogin').waitFor();
  ok(`${width} ${route} fits viewport`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
- await page.screenshot({path:path.join(output,`${route==='/'?'homepage':route.slice(1)}-${width}.png`),fullPage:true});
+ await page.screenshot({path:path.join(output,`${route==='/mcat'?'homepage':route.slice(1).replace(/\//g,'-')}-${width}.png`),fullPage:true});
  const links=await page.locator('a[href]').evaluateAll(a=>a.map(x=>x.getAttribute('href')).filter(h=>h.startsWith('/')&&!h.startsWith('//')));
  for(const link of new Set(links)){const response=await page.request.get(base+link.split('#')[0]);ok(`${width} ${route} link ${link}`,response.status()===200);}
  }
