@@ -409,6 +409,12 @@ header #title, header .welcome, #topicname{color:var(--on-page-head)}
 .auth-form .field{display:flex;flex-direction:column;gap:6px;font-size:.95rem;font-weight:700;color:var(--forest)}
 .auth-form input[type=email], .auth-form input[type=password], .auth-form input[type=text]{font:400 1rem var(--f-ui);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:var(--r);padding:11px 14px;min-height:46px;width:100%;box-sizing:border-box}
 .auth-form input:focus{outline:2px solid var(--accent);outline-offset:2px;border-color:var(--accent)}
+.acct-sec{border-top:1px solid var(--line);padding-top:18px;display:flex;flex-direction:column;gap:12px}
+.acct-h{font:700 1.15rem var(--f-card);color:var(--forest);margin:0}
+.acct-inline{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.acct-inline input[type=date],.acct-field select{font:400 1rem var(--f-ui);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;min-height:46px}
+.acct-settings{display:flex;flex-direction:column;gap:14px}
+.acct-field{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;color:var(--ink)}
 .auth-form textarea{font:400 1rem/1.5 var(--f-ui);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:var(--r);padding:11px 14px;width:100%;box-sizing:border-box;resize:vertical;min-height:120px}
 .auth-form textarea:focus{outline:2px solid var(--accent);outline-offset:2px;border-color:var(--accent)}
 .journey-q{font-weight:400;font-size:.95rem;line-height:1.55;color:var(--ink)}
@@ -3355,7 +3361,7 @@ function renderDate(scr){
   $("dateForm").onsubmit = e => { e.preventDefault(); saveDate($("dDate").value, $("dNone").checked); };
   (dateMsg && dateMsg !== "Saved." ? $("dDate") : $("dDate")).focus();
 }
-function saveDate(v, none){
+function saveDate(v, none, back){
   v = (v || "").trim();
   if(none){ delete progress.testDate; progress.mcatNone = true; delete progress.open.f21; }
   else {
@@ -3365,7 +3371,7 @@ function saveDate(v, none){
     progress.testDate = v; progress.mcatNone = false; clampToTest();
     delete progress.open.f21;   // Final 21 priorities are rebuilt for the new date
   }
-  save(); dateMsg = ""; show("welcome"); return true;   // saved: back to the dashboard, where the countdown shows the new date
+  save(); dateMsg = ""; show(back || "welcome"); return true;   // saved: back to the dashboard (or the page it was changed from), where the countdown shows the new date
 }
 // Bookmarks and My Card Notes share one page: two headlines side by side, each one switches the list.
 function listTabs(){
@@ -4298,6 +4304,27 @@ function renderAccount(scr){
       <button class="btn" type="submit">Save name</button>
     </form>
     ${acctMsg ? `<p class="auth-msg ok" role="status">${esc(acctMsg)}</p>` : ""}
+    <section class="acct-sec" aria-labelledby="acctDateH"><h3 class="acct-h" id="acctDateH">Your MCAT date</h3>
+      <form class="auth-form acct-date" id="acctDateForm" novalidate>
+        <div class="acct-inline"><input type="date" id="acctDate" aria-label="MCAT test date" min="${today()}" value="${esc(progress.testDate || "")}"><button class="btn" type="submit">Save date</button></div>
+        <label class="check small"><input type="checkbox" id="acctNoDate"${!progress.testDate && progress.mcatNone ? " checked" : ""}><span>My MCAT date isn't scheduled yet.</span></label>
+        ${dateMsg && mode === "account" ? `<p class="auth-msg" role="alert">${esc(dateMsg)}</p>` : ""}
+      </form></section>
+    <section class="acct-sec" aria-labelledby="acctWhyH"><h3 class="acct-h" id="acctWhyH">Why you began this journey</h3>
+      <form class="auth-form" id="acctWhyForm" novalidate>
+        <span class="journey-q">What brought you to this journey, and what motivated you to become a doctor?</span>
+        <textarea id="acctWhy" maxlength="2000" rows="5" aria-labelledby="acctWhyH">${esc(((sbUser && sbUser.user_metadata) || {}).journey_why || "")}</textarea>
+        <span class="hint-sm">Rosalind uses this to write you up to two notes of encouragement before your MCAT.</span>
+        <button class="btn" type="submit">Save answer</button>
+      </form></section>
+    <section class="acct-sec" aria-labelledby="acctSetH"><h3 class="acct-h" id="acctSetH">Study settings</h3>
+      <div class="acct-settings">
+        <label class="check"><input type="checkbox" id="setMand"${mandatoryOn() ? " checked" : ""}><span><b>Mandatory Response</b><br><span class="hint-sm">Cards you've missed need a written answer before you flip them, and Struggled / Didn't know need one before the next card.</span></span></label>
+        <label class="check"><input type="checkbox" id="setTips"${tipsOn() ? " checked" : ""}><span><b>Hover help</b><br><span class="hint-sm">Show what a button does when you hover over it.</span></span></label>
+        <label class="check"><input type="checkbox" id="setDark"${progress.bg !== "light" ? " checked" : ""}><span><b>Night mode</b><br><span class="hint-sm">Dark background. Turn off for the white daylight background.</span></span></label>
+        <label class="check"><input type="checkbox" id="setEncourage"${((sbUser && sbUser.user_metadata) || {}).encourage_opt_out ? "" : " checked"}><span><b>Encouragement emails from Rosalind</b><br><span class="hint-sm">Up to two short notes: halfway to your MCAT and two days before it.</span></span></label>
+        <div class="acct-field"><span><b>Card order</b></span><select id="setView" aria-label="Card order">${[["q","Questions First"],["a","Answers First"],["mix","Random Mix"]].map(([v, t]) => `<option value="${v}"${progress.view === v ? " selected" : ""}>${t}</option>`).join("")}</select></div>
+      </div></section>
     <p class="lede" style="margin:0">To change your password, log out and use “Forgot password?”. Your progress is saved to your account, so it follows you to any device you log in on.</p>
     <div class="controls"><button class="btn" type="button" id="sideBack">Back</button><button class="btn" type="button" id="logoutBtn">Log out</button></div>
     <details class="danger"><summary>Delete my account</summary>
@@ -4314,6 +4341,21 @@ function renderAccount(scr){
     let error = null; try { ({ error } = await sb.from("profiles").update({ first_name:name, last_name:last }).eq("id", sbUser.id)); } catch(x){ error = x; }
     if(error){ acctMsg = "Your name couldn't be saved right now. Please try again."; render(); return; }
     profile.first_name = name; profile.last_name = last; acctMsg = "Saved."; render(); };
+  $("acctDateForm").onsubmit = e => { e.preventDefault(); if(saveDate($("acctDate").value, $("acctNoDate").checked, "account")){ acctMsg = $("acctNoDate").checked ? "MCAT date cleared." : "MCAT date saved."; render(); } };
+  $("acctNoDate").onchange = e => { if(e.target.checked) $("acctDate").value = ""; };
+  $("acctDate").oninput = e => { if(e.target.value) $("acctNoDate").checked = false; };
+  const setMeta = async (data, ok, bad) => {   // saved on the account (Supabase user metadata), so it follows the student
+    let error = null; try { const r = await sb.auth.updateUser({ data }); error = r.error; if(r.data && r.data.user) sbUser = r.data.user; } catch(x){ error = x; }
+    if(!error) sbUser = Object.assign({}, sbUser, { user_metadata:Object.assign({}, sbUser.user_metadata, data) });
+    acctMsg = error ? bad : ok; render(); };
+  $("acctWhyForm").onsubmit = e => { e.preventDefault(); const why = $("acctWhy").value.trim().slice(0, 2000);
+    if(why.length < 10){ acctMsg = "Please write a little more about what brought you to this journey."; render(); return; }
+    setMeta({ journey_why:why }, "Your answer is saved.", "Your answer couldn't be saved right now. Please try again."); };
+  $("setMand").onchange = e => { progress.mandOff = !e.target.checked; save(); acctMsg = ""; };
+  $("setTips").onchange = e => { progress.tips = !!e.target.checked; save(); hideTip(); };
+  $("setDark").onchange = e => { progress.bg = e.target.checked ? "dark" : "light"; save(); applyBg(); };
+  $("setEncourage").onchange = e => setMeta({ encourage_opt_out:!e.target.checked }, e.target.checked ? "Encouragement emails are on." : "Encouragement emails are off.", "That setting couldn't be saved right now. Please try again.");
+  $("setView").onchange = e => setView(e.target.value);
   $("delConfirm").oninput = e => { $("delBtn").disabled = e.target.value.trim() !== "DELETE"; };
   $("delBtn").onclick = () => { if($("delConfirm").value.trim() === "DELETE") deleteAccount(); };
   if(emailFormOpen && $("newEmail").focus) (emailNote && !emailNote.ok ? $("emailSend") : $("newEmail")).focus(); else $("sideBack").focus();
@@ -4321,7 +4363,7 @@ function renderAccount(scr){
 /* ---------- Change email (Supabase's own email-change flow: nothing changes until the links are clicked) ---------- */
 let emailFormOpen = false, emailNote = null, emailDraft = { a:"", b:"" }, emailBusy = false;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-function openAccount(){ acctMsg = ""; emailFormOpen = false; emailNote = null; emailDraft = { a:"", b:"" }; openSide("account"); refreshAuthUser(); }
+function openAccount(){ acctMsg = ""; dateMsg = ""; emailFormOpen = false; emailNote = null; emailDraft = { a:"", b:"" }; openSide("account"); refreshAuthUser(); }
 // Pick up an email change finished on another device or tab (the account page always shows the current address).
 async function refreshAuthUser(){
   if(!sb || !sbUser) return;
