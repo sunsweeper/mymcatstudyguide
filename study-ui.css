@@ -159,3 +159,11 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
 /* Compass logo in the app header */
 .logo .logo-img{display:block;height:114px;width:auto;margin:-14px 0}
 @media(max-width:700px){.logo .logo-img{height:84px;margin:-8px 0}}
+/* Share choices: what goes on the share image */
+.share-opt{display:flex;align-items:center;gap:12px;padding:14px 4px;border-bottom:1px solid #e3d8c8;font:600 16px/1.3 'DM Sans',sans-serif;color:#24382d;cursor:pointer}
+.share-opt input{width:20px;height:20px;accent-color:#a65370;flex-shrink:0}
+.share-opt small{font-weight:400;color:#6b7d71}
+.share-opt:has(input:disabled){opacity:.6;cursor:default}
+#shareMake{margin-top:18px}
+#shareMake:disabled{opacity:.5;cursor:default}
+#chooseBack{display:block;margin-top:12px}
