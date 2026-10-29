@@ -23,3 +23,5 @@
 .footer-identity .brand-logo{height:84px}
 @media(max-width:620px){.brand-logo{height:56px}.footer-identity .brand-logo{height:64px}}
 .nav-drop{position:relative}.nav-drop-top span{font-size:9px;margin-left:2px}.nav-drop:hover>.nav-drop-top,.nav-drop:focus-within>.nav-drop-top{color:var(--pink)}.nav-menu{position:absolute;left:-14px;top:100%;padding-top:12px;display:none;z-index:50}.nav-drop:hover .nav-menu,.nav-drop:focus-within .nav-menu{display:block}.nav-menu a{display:block!important;white-space:nowrap;padding:10px 16px;background:#13241c;border:1px solid #2f4a3a;color:#d6dfd7}.nav-menu a:first-child{border-radius:10px 10px 0 0}.nav-menu a:last-child{border-radius:0 0 10px 10px;border-top:0}.nav-menu a:hover{color:var(--pink)}@media(max-width:1000px){.nav-drop{display:none}}
+/* Standard header logo: 1.5x the earlier homepage size, same on every page */
+.nav .brand-logo{height:114px;margin:2px 0}@media(max-width:620px){.nav .brand-logo{height:84px;margin:2px 0}}

@@ -157,5 +157,5 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
 @media(max-width:520px){.stats-modal .stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* Compass logo in the app header */
-.logo .logo-img{display:block;height:96px;width:auto;margin:-12px 0}
-@media(max-width:700px){.logo .logo-img{height:62px;margin:-6px 0}}
+.logo .logo-img{display:block;height:114px;width:auto;margin:-14px 0}
+@media(max-width:700px){.logo .logo-img{height:84px;margin:-8px 0}}
