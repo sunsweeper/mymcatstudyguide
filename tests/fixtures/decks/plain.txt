@@ -1,0 +1,6 @@
+#separator:tab
+#html:true
+#notetype column:1
+#tags column:4
+Basic	Front <i>one</i>	Back one	tag1
+Basic	Front two	Back two	

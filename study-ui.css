@@ -176,3 +176,9 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
 #study #studyExplain[hidden]{display:none}
 #study .effort-nudge{margin:10px 0 0;padding:10px 12px;border-radius:10px;background:#f6d4dc;color:#3a1f29;font:500 14px/1.45 'DM Sans',sans-serif}
 #study .effort-nudge[hidden]{display:none}
+/* Imported cards: "Import" bottom left, in the same type as the classification at top right. No Raise Your Hand, Report or Dispute. */
+#study #card .import-tag{position:absolute;left:38px;bottom:26px;font:700 11px 'DM Sans',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#9d6276;pointer-events:none}
+@media(max-width:620px){#study #card .import-tag{left:20px;bottom:16px}}
+@media(max-width:400px){#study #card .import-tag{font-size:10px;letter-spacing:.4px}}
+#study #raiseHand[hidden],#study #studyReport[hidden],.study-modal #gradeDispute[hidden]{display:none}
+#study .study-utilities.one{grid-template-columns:1fr}

@@ -42,6 +42,7 @@
     byId('gradeActions').hidden=popupView!=='grade';byId('disputeNote').hidden=popupView!=='dispute';byId('rateRow').hidden=popupView!=='manual';
     byId('rateRow').querySelectorAll('[data-r]').forEach(b=>b.disabled=false);
     const T=byId('studyRatingTitle'),D=byId('studyRatingDescription'),E=byId('studyRatingEyebrow');
+    byId('gradeDispute').hidden=typeof isImported==='function'&&isImported(idOf(curKey));   // a dispute emails the card to TabiPrep; imported cards stay private
     byId('gradeRetire').hidden=!(popupView==='grade'&&g.rating==='good'&&canRetire(curKey));
     if(popupView==='grade'){E.textContent=g.source==='ai'?'GRADED BY ROSALIND':'GRADED';T.textContent=VERDICT[g.rating];D.textContent=g.reasoning;}
     else if(popupView==='checking'){E.textContent='YOUR RECALL';T.textContent='Checking your answer…';D.textContent='This takes a moment.';}
@@ -186,6 +187,10 @@
     byId('studyExplain').hidden=!hasExplanation(idOf(curKey));   // no written explanation for this card: no button
     byId('studyExplain').disabled=!revealed||!hasExplanation(idOf(curKey));
     byId('studyExplain').title=!revealed?'Available after flipping':!hasExplanation(idOf(curKey))?'No stored explanation for this card':'';
+    // Imported cards are private: no Raise Your Hand, and no Report (that would email the card to TabiPrep).
+    const imported=typeof isImported==='function'&&isImported(idOf(curKey));
+    byId('raiseHand').hidden=imported;byId('studyReport').hidden=imported;byId('studyUtilities').classList.toggle('one',imported);
+    if(imported&&(drawer==='report'||drawer==='assistance'))drawer=null;
     byId('studyDrawer').hidden=!drawer;
     byId('studyReport').textContent=reportFlashFor===curKey?'✓ Thanks, flagged':'⚑ Report This Card';
     byId('studyDrawerTitle').textContent=({notes:'My Card Notes',answers:'Previous Written Answers',report:'Report This Card',explanation:'Explain This Concept',assistance:'Raise Your Hand — planned'})[drawer]||'Card tools';

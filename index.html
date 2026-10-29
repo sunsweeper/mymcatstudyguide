@@ -2498,6 +2498,24 @@ const GRAPHIC_CARDS = [
 const GRAPHICS_PUBLISHED = [];
 GRAPHIC_CARDS.filter(g => GRAPHICS_PUBLISHED.includes(g[3])).forEach(g => CARDS.push([g[0], g[1], g[2], g[3]]));
 const BY_ID = {}; CARDS.forEach(c => BY_ID[c[3]] = c);
+/* ---------- Imported cards (deck-import.js) ----------
+   A student's own decks (Anki or CSV), private to their account. Each card is ["mine", question, answer, id, deck name];
+   ids look like "Uab12cd-7" (deck code + number), so they never collide with TabiPrep ids and never count toward the
+   TabiPrep topic, weakness or mastery numbers (those all read CARDS). They're studied from the "My imported cards" tile, or
+   mixed into "All topics" when the student turns that on. */
+let USER_CARDS = [];
+const IMPORT_ID = /^U[a-z0-9]{6}-\d+$/;
+const isImported = id => IMPORT_ID.test(String(id || ""));
+function setUserCards(list){
+  USER_CARDS.forEach(c => { if(BY_ID[c[3]] === c) delete BY_ID[c[3]]; });
+  USER_CARDS = (list || []).filter(c => isImported(c[3]));
+  USER_CARDS.forEach(c => BY_ID[c[3]] = c);
+}
+// The last account's imported cards, cached on this device, so a saved session can resume before the account answers.
+// deck-import.js checks the account and replaces (or clears) this as soon as it knows who's signed in.
+try { const c = JSON.parse(localStorage.getItem("tabi-decks-cache") || "null"); if(c && Array.isArray(c.cards)) setUserCards(c.cards); } catch(e){}
+// Short label for a card in lists (bookmarks, notes, retired): its TabiPrep section, or "Import · deck name".
+const cardLabel = id => { const c = BY_ID[id]; return !c ? "" : isImported(id) ? "Import · " + (c[4] || "My deck") : SECTIONS[c[0]] ? SECTIONS[c[0]].name : ""; };
 const REV = "~r";
 const idOf = key => key.endsWith(REV) ? key.slice(0, -REV.length) : key;
 const isRevKey = key => key.endsWith(REV);
@@ -2533,11 +2551,13 @@ function restoreCards(ids){ if(!progress.retired) return; ids.forEach(id => dele
 function poolAll(k){ const keep = progress.retired; progress.retired = null; try { return poolFor(k); } finally { progress.retired = keep; } }
 function poolFor(k){ return poolForAll(k).filter(c => !isRetired(c[3])); }
 function poolForAll(k){
-  if(k === "bm") return CARDS.filter(c => progress.bookmarks[c[3]]);
+  if(k === "mine") return USER_CARDS.slice();
+  if(k === "bm") return CARDS.concat(USER_CARDS).filter(c => progress.bookmarks[c[3]]);
   if(k === "weak"){ const cats = weakCats(); return CARDS.filter(c => cats.includes(catOf(c[3]))); }
   if(k === "focus"){ const f = progress.open.focus, ids = new Set((f && f.list) || []); return CARDS.filter(c => ids.has(c[3])); }
   if(k === "f21") return CARDS.slice();
-  const secs = secsFor(k); return CARDS.filter(c => secs.includes(c[0]));
+  const secs = secsFor(k), house = CARDS.filter(c => secs.includes(c[0]));
+  return k === "all" && progress.mixImports ? house.concat(USER_CARDS) : house;
 }
 // Weakness scores: each studied card counted once by its most recent rating (Knew It 100%, Struggled 50%, Didn't Know 0%).
 const SCORE = { good:1, hard:0.5, again:0 };
@@ -2855,7 +2875,7 @@ function nextQuote(){
 }
 const CUSTOM = { bm:"My Bookmarks", weak:"Weakest topics", focus:"Focus review", f21:"Final 21 review" };
 // Section buttons alternate blush and sage, each with a small line icon.
-const TINT = { bb:"pink", cp:"sage", ps:"pink", cars:"sage", rs:"pink", all:"all" };
+const TINT = { bb:"pink", cp:"sage", ps:"pink", cars:"sage", rs:"pink", all:"all", mine:"sage" };
 const ico = d => `<svg viewBox="0 0 24 24" focusable="false"><path d="${d}"/></svg>`;
 const ICONS = {
   bb: ico("M8 3c0 4.5 8 4.5 8 9s-8 4.5-8 9M16 3c0 4.5-8 4.5-8 9s8 4.5 8 9M9.2 6h5.6M10.6 9.4h2.8M10.6 14.6h2.8M9.2 18h5.6"),
@@ -2863,9 +2883,10 @@ const ICONS = {
   ps: ico("M12 5.6a3 3 0 0 0-5.6-1.3A3 3 0 0 0 4 8.6a3.2 3.2 0 0 0 .7 5.6A3 3 0 0 0 8 19.1a2.9 2.9 0 0 0 4 .9zM12 5.6a3 3 0 0 1 5.6-1.3A3 3 0 0 1 20 8.6a3.2 3.2 0 0 1-.7 5.6 3 3 0 0 1-3.3 4.9 2.9 2.9 0 0 1-4 .9M8.8 9.6c1.3 0 2.2.9 2.2 2.2M15.2 9.6c-1.3 0-2.2.9-2.2 2.2"),
   cars: ico("M12 6.6C10.2 5.2 7.7 4.6 4 4.8v13c3.7-.2 6.2.4 8 1.8 1.8-1.4 4.3-2 8-1.8v-13c-3.7-.2-6.2.4-8 1.8zM12 6.6v13"),
   rs: ico("M4 20.4h16.5M6.8 17V13M11 17V8.6M15.2 17v-5.4M19.4 17V5.6"),
-  all: ico("M4.5 4.5h6v6h-6zM13.5 4.5h6v6h-6zM4.5 13.5h6v6h-6zM13.5 13.5h6v6h-6z")
+  all: ico("M4.5 4.5h6v6h-6zM13.5 4.5h6v6h-6zM4.5 13.5h6v6h-6zM13.5 13.5h6v6h-6z"),
+  mine: ico("M12 3v11M7.5 9.5 12 14l4.5-4.5M4 15v4.5h16V15")
 };
-function topicName(k){ return k==="all" ? "All topics" : k === "focus" ? ((progress.open.focus && progress.open.focus.label) || CUSTOM.focus) : CUSTOM[k] || SECTIONS[k].name; }
+function topicName(k){ return k==="all" ? "All topics" : k === "mine" ? "My imported cards" : k === "focus" ? ((progress.open.focus && progress.open.focus.label) || CUSTOM.focus) : CUSTOM[k] || SECTIONS[k].name; }
 
 function openSession(k){
   const o = progress.open[k];
@@ -3448,7 +3469,7 @@ function renderScreen(){
   if(mode === "mcatdate"){ renderDate(scr); return; }
   if(mode === "owner"){ renderOwner(scr); return; }
   if(mode === "welcome"){
-    const keys = Object.keys(SECTIONS).concat(["all"]);
+    const keys = Object.keys(SECTIONS).concat(["all"], USER_CARDS.length ? ["mine"] : []);
     // Scoreboard: each card counted once, by its most recent rating in either direction.
     const score = k => { const out = { good:0, hard:0, again:0 }; poolAll(k).forEach(c => { const r = lastRating(c[3]); if(r) out[r]++; }); return out; };
     const scores = {}; keys.forEach(k => scores[k] = score(k));
@@ -3477,10 +3498,10 @@ function renderScreen(){
       <hr class="panel-divider">
       <p class="pick crawler${crawlerDrawn ? "" : " draw"}">Choose wisely, crawler<span class="cw-star" aria-hidden="true">*</span><span class="sr">(see note at the bottom of the page)</span><span class="cw-anchor"><svg class="cw-arrow cw-wide" viewBox="0 0 60 52" aria-hidden="true" focusable="false"><path class="cw-line" pathLength="1" d="M1 13.5 L 27 13.5 C 37 13.5, 45 20, 45.5 30 C 45.8 36, 45.6 41, 45.2 46"/><path class="cw-head" d="M41 40.6 L45.2 46 L49.6 40.6"/></svg><svg class="cw-arrow cw-narrow" viewBox="0 0 40 52" aria-hidden="true" focusable="false"><path class="cw-line" pathLength="1" d="M1 13.5 L 17 13.5 C 25 13.5, 30.5 19, 31 28 C 31.3 35, 31 41, 30.6 46"/><path class="cw-head" d="M26.6 40.6 L30.6 46 L34.6 40.6"/></svg></span>.</p>
       <div class="topics">${keys.map(k => `
-        <button class="topic${k==="all"?" all":k==="bb"?" solo":""} t-${TINT[k]}" type="button" data-k="${k}">
+        <button class="topic${k==="all"?" all":k==="bb"||k==="mine"?" solo":""} t-${TINT[k]}" type="button" data-k="${k}">
           <span class="t-ico" aria-hidden="true">${ICONS[k]}</span>
           <span class="t-head"><span class="t-name">${topicName(k)}</span></span>
-          <span class="t-full">${k==="all" ? "Every section" : SECTIONS[k].full}</span>
+          <span class="t-full">${k==="all" ? (progress.mixImports && USER_CARDS.length ? "Every section, plus your imported cards" : "Every section") : k === "mine" ? `${USER_CARDS.length} cards from your own decks` : SECTIONS[k].full}</span>
           <span class="t-score">${cell(k,"good","Known")}${cell(k,"hard","Struggled")}${cell(k,"again","Didn't know")}</span>
         </button>`).join("")}</div>
       ${pace ? `<div class="test-row"><span class="pace">${pace}</span></div>` : ""}
@@ -3522,7 +3543,7 @@ function renderScreen(){
       <div class="controls"><button class="btn" id="sideBack" type="button">Back</button>
       <button class="btn primary" id="bmStudy" type="button" ${list.length ? "" : "disabled"}>Study My Bookmarks</button></div>
       ${list.length ? `<ul class="list">${list.map(([id]) => { const c = BY_ID[id]; return `
-        <li class="bm-row"><details><summary><span class="bm-id">${id} · ${CATEGORIES[catOf(id)]}</span><span class="bm-q">${c[1]}</span></summary><div class="bm-a">${c[2]}</div></details>
+        <li class="bm-row"><details><summary><span class="bm-id">${id} · ${isImported(id) ? esc(cardLabel(id)) : CATEGORIES[catOf(id)]}</span><span class="bm-q">${c[1]}</span></summary><div class="bm-a">${c[2]}</div></details>
         <button class="link" type="button" data-rm="${id}" aria-label="Remove bookmark ${id}">Remove</button></li>`; }).join("")}</ul>` : ""}`;
     $("sideBack").onclick = goBack;
     if(list.length) $("bmStudy").onclick = () => pick("bm");
@@ -3539,7 +3560,7 @@ function renderScreen(){
       <div class="controls one"><button class="btn" id="sideBack" type="button">Back</button></div>
       ${groups.map(([g, list]) => `<div class="wk-sec"><div class="wk-head"><span class="t-name">${g} ${CATEGORIES[g]} (${list.length})</span></div>
         <ul class="list">${list.map(id => { const c = BY_ID[id]; return `
-          <li class="bm-row note-row"><details><summary><span class="bm-id">${id} · ${SECTIONS[c[0]].name}</span><span class="bm-q">${c[1]}</span></summary><div class="bm-a">${c[2]}</div></details>
+          <li class="bm-row note-row"><details><summary><span class="bm-id">${id} · ${esc(cardLabel(id))}</span><span class="bm-q">${c[1]}</span></summary><div class="bm-a">${c[2]}</div></details>
           <div class="note-text"><span class="lab">My note</span>${esc(progress.notes[id]).replace(/\n/g, "<br>")}</div></li>`; }).join("")}</ul></div>`).join("")}`;
     $("sideBack").onclick = goBack;
     $("sideBack").focus();
@@ -3716,7 +3737,7 @@ function renderScreen(){
 
   // ----- card -----
   $("bar").style.width = total ? (pos/total*100)+"%" : "0";
-  const id = idOf(curKey), [sec, q, a] = BY_ID[id], rev = isRevKey(curKey);
+  const id = idOf(curKey), [sec, q, a] = BY_ID[id] || ["mine", "<i>This imported card was deleted.</i>", "<i>It's no longer in your decks.</i>", id, "Deleted deck"], rev = isRevKey(curKey);
   const rv = rev ? REVERSE[id] : null;
   const front = rev ? (rv[0] || `<span class="lab">Which term or concept is described by:</span>${a}`) : q;
   const asked = rev ? (rv[0] || a) : q, back = rev ? rv[1] : a;
@@ -3730,7 +3751,7 @@ function renderScreen(){
     <div class="face${flipped ? " back" : ""}">${flipped
       ? `<div class="asked">${asked}</div><div class="ans-wrap"><div class="ans">${back}</div></div>`
       : `<div>${front}</div>`}</div>
-    <div class="foot"><span class="cat">${CATEGORIES[id.split("-")[0]]}</span><span class="cid">${id}</span></div>`;
+    <div class="foot"><span class="cat">${isImported(id) ? esc((BY_ID[id] && BY_ID[id][4]) || "My deck") : CATEGORIES[id.split("-")[0]]}</span><span class="cid">${id}</span></div>${isImported(id) ? `<span class="import-tag">Import</span>` : ""}`;
   $("revealRow").hidden = revealed;
   $("rateRow").hidden = !revealed;
   document.querySelectorAll("#rateRow [data-r]").forEach(b => b.setAttribute("aria-pressed", String(pendingR === b.dataset.r)));
@@ -4002,7 +4023,7 @@ function mergeProgress(list){
     if(!out.testDate && p.testDate) out.testDate = p.testDate;
     if(p.boosted){ out.boosted = Object.assign({}, p.boosted, out.boosted || {}); for(const [id, d] of Object.entries(p.boosted)) if(d > out.boosted[id]) out.boosted[id] = d; }
     if(Array.isArray(p.quoteSeen)) out.quoteSeen = Array.from(new Set((out.quoteSeen || []).concat(p.quoteSeen)));
-    ["bg", "view", "tips", "skipWrite", "mandOff", "mcatNone", "final21", "retired", "retiredPassFor"].forEach(k => { if(out[k] === undefined && p[k] !== undefined) out[k] = p[k]; });
+    ["bg", "view", "tips", "skipWrite", "mandOff", "mcatNone", "final21", "retired", "retiredPassFor", "mixImports"].forEach(k => { if(out[k] === undefined && p[k] !== undefined) out[k] = p[k]; });
     const nd = out.newDay || { date:"", count:0 }, pd = p.newDay || { date:"", count:0 };
     out.newDay = pd.date > nd.date ? pd : pd.date === nd.date ? { date:nd.date, count:Math.max(nd.count, pd.count) } : nd;
   }
@@ -4409,7 +4430,7 @@ function retiredSection(){
         <button class="btn small-btn" type="button" id="retPutSel" disabled>Put selected back</button><button class="btn small-btn" type="button" id="retPutAll">Put all back</button></div>
       <ul class="retired-list" id="retiredList">${ids.map(id => { const c = BY_ID[id]; return `<li class="bm-row retired-row">
         <input type="checkbox" class="ret-pick" data-id="${esc(id)}" aria-label="Select card ${esc(id)}">
-        <details><summary><span class="bm-id">${esc(id)} · ${SECTIONS[c[0]] ? SECTIONS[c[0]].name : ""} · retired ${esc(progress.retired[id] || "")}</span><span class="bm-q">${c[1]}</span></summary><div class="bm-a">${c[2]}</div></details>
+        <details><summary><span class="bm-id">${esc(id)} · ${esc(cardLabel(id))} · retired ${esc(progress.retired[id] || "")}</span><span class="bm-q">${c[1]}</span></summary><div class="bm-a">${c[2]}</div></details>
         <button class="btn small-btn ret-one" type="button" data-id="${esc(id)}">Put back</button></li>`; }).join("")}</ul>`;
   return `<section class="acct-sec" aria-labelledby="acctRetH"><h3 class="acct-h" id="acctRetH">Retired cards (${ids.length})</h3>
     <span class="hint-sm">Retired cards leave your study sessions. They come back once for review ${RETIRE_RETURN_DAYS} days before your MCAT.</span>
@@ -4595,6 +4616,7 @@ const TIPS = {
   "#cancelImport": "Keep your current progress."
 };
 const topicTip = k => k === "all" ? "Study every section mixed together: up to 50 cards, reviews that are due first, then new cards."
+  : k === "mine" ? "Study the cards you imported: up to 50 cards, reviews that are due first, then new cards."
   : `Study ${SECTIONS[k].name}: up to 50 cards, reviews that are due first, then new cards.`;
 let tipTimer = null, tipFor = null;
 const tipsOn = () => progress.tips !== false;
@@ -4954,5 +4976,6 @@ else render();
 <script src="app-site-nav.js"></script>
 <script src="session-guard.js"></script>
 <script src="referral.js"></script>
+<script src="deck-import.js"></script>
 </body>
 </html>

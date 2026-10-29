@@ -91,7 +91,7 @@
       "dest": "/index.html"
     },
     {
-      "src": "^/study/(bio-biochem|chem-phys|psych-soc|cars|all-topics|weakest-topics|focused-review)(/start|/missed-cards|/reinforcement(/start|/complete)?|/complete)?/?$",
+      "src": "^/study/(bio-biochem|chem-phys|psych-soc|cars|all-topics|weakest-topics|focused-review|my-cards)(/start|/missed-cards|/reinforcement(/start|/complete)?|/complete)?/?$",
       "dest": "/index.html"
     },
     {
