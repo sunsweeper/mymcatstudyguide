@@ -437,6 +437,9 @@ footer.legal{text-align:center;font-size:.8rem;line-height:1.5;color:var(--on-pa
 footer.legal a{color:var(--on-page);text-underline-offset:3px;display:inline-block;padding:12px 4px}
 footer.legal .tm{max-width:60ch}
 #bmNav[hidden], #notesNav[hidden]{display:none}
+/* Bookmarks and My Card Notes are in the profile menu (all widths), not the header or page head. */
+#bmNav, #notesNav, .topnav .vsep, .mnav{display:none!important}
+.menu-item#mBm[hidden], .menu-item#mNotes[hidden]{display:none}
 /* Free trial badge under the log-in card (display only, not a button) */
 .trial{position:relative;display:flex;align-items:center;justify-content:center;gap:14px;align-self:center;width:min(100%, 420px);box-sizing:border-box;
   padding:16px 22px;border-radius:16px;border:2px solid #111;background:linear-gradient(135deg, #FFAEC9 0%, #F8E8EB 55%, #DCE6D6 100%);
@@ -991,6 +994,9 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .chip-persistent{background:#C8505F;border-color:#C8505F;color:#fff} .chip-emerging{background:#D88B3D;border-color:#D88B3D;color:#1E1316}
 .chip-improving{background:#A6B254;border-color:#A6B254;color:#1E1316} .chip-strong{background:#5A9C72;border-color:#5A9C72;color:#fff}
 .chip-developing{border-color:#8FA58D} .chip-thin{border-style:dashed} .chip-unseen{opacity:.7}
+.status-key{display:grid;grid-template-columns:repeat(4,auto);justify-content:center;gap:10px 10px}
+.status-key .chip{font-size:.86rem;padding:5px 13px;text-align:center}
+@media (max-width:560px){.status-key{grid-template-columns:repeat(2,auto)}}
 .prio{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:14px;color:var(--on-page)}
 .prio-item{display:flex;flex-direction:column;gap:4px}
 .prio-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
@@ -1150,14 +1156,14 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
       <button class="navpill" id="bmNav" type="button">Bookmarks</button>
       <button class="navpill" id="notesNav" type="button">My Card Notes</button>
       <span class="vsep" aria-hidden="true"></span>
+      <button class="countdown" id="countdown" type="button" hidden aria-label=""><span class="cd-n" id="cdN"></span><span class="cd-l" id="cdL"></span></button>
       <button class="mode" id="modeBtn" type="button" aria-pressed="false" aria-label="Dark background">☾</button>
       <button class="avatar" id="avatarBtn" type="button" aria-label="Account menu" aria-haspopup="true" aria-expanded="false" aria-controls="menu" hidden><span class="av-init" id="avatarInit">S</span></button>
-      <button class="countdown" id="countdown" type="button" hidden aria-label=""><span class="cd-n" id="cdN"></span><span class="cd-l" id="cdL"></span></button>
     </nav>
     <div class="menu" id="menu" hidden>
       <p class="menu-who" id="menuWho" hidden></p>
-      <button class="menu-item m-only" id="mBm" type="button">Bookmarks</button>
-      <button class="menu-item m-only" id="mNotes" type="button">My Card Notes</button>
+      <button class="menu-item" id="mBm" type="button">Bookmarks</button>
+      <button class="menu-item" id="mNotes" type="button">My Card Notes</button>
       <button class="menu-item" id="mDate" type="button">MCAT date</button>
       <button class="menu-item" id="mAcct" type="button">Account</button>
       <button class="menu-item" id="mOwner" type="button">Owner Dashboard</button>
@@ -2354,7 +2360,7 @@ const QUOTES = [
   ["Our greatest responsibility is to be good ancestors.","Dr. Jonas Salk","doc"],
   ["True health care reform cannot happen in Washington. It has to happen in our kitchens, in our homes, in our communities. All health care is personal.","Dr. Mehmet Oz","doc"],
   ["Out of your vulnerabilities will come your strength.","Dr. Sigmund Freud","doc"],
-  ["You will not break me. Fuck you all. I will break you. I will break you all.","Carl, Dungeon Crawler Carl by Matt Dinniman","other"],
+  ["You will not break me!","Carl, Dungeon Crawler Carl by Matt Dinniman","other"],
   ["If you're the smartest person in the room, you're in the wrong room.","Unknown","other"],
   ["It's never too late to be what you might have been.","Mary Ann Evans (George Eliot)","other"],
   ["Equipped with our five senses, we explore the universe around us and call the adventure Science.","Edwin Hubble, PhD","other"],
@@ -3359,7 +3365,7 @@ function saveDate(v, none){
     progress.testDate = v; progress.mcatNone = false; clampToTest();
     delete progress.open.f21;   // Final 21 priorities are rebuilt for the new date
   }
-  save(); dateMsg = "Saved."; render(); return true;
+  save(); dateMsg = ""; show("welcome"); return true;   // saved: back to the dashboard, where the countdown shows the new date
 }
 // Bookmarks and My Card Notes share one page: two headlines side by side, each one switches the list.
 function listTabs(){
@@ -3540,7 +3546,7 @@ function renderScreen(){
           <div class="prio-acts">${subActions(x).map((a, j) => `<button class="link" type="button" data-pr="${n}" data-act="${j}">${esc(a.label)}</button>`).join("")}</div></li>`).join("")}</ol>`
         : `<p class="lede" style="margin:0">${seenCards ? "Nothing stands out yet. Keep studying and check back." : "Study a few sessions first, and your priorities will show up here."}</p>`}</div>
       <div class="wk-sec"><div class="wk-head"><span class="t-name">By section and topic</span></div>
-        <p class="hint" style="margin:0">${Object.keys(STATUS).map(k => chip(k)).join(" ")}</p>
+        <p class="hint status-key" style="margin:0">${Object.keys(STATUS).map(k => chip(k)).join(" ")}</p>
         ${dm.secs.map(x => { const cats = Object.keys(CATEGORIES).filter(g => x.subs.some(s => s.cat === g));
           const cnt = k => x.subs.filter(s => s.status === k).length, weakN = cnt("persistent") + cnt("emerging");
           const sum = [weakN && `${weakN} weak`, cnt("improving") && `${cnt("improving")} improving`, cnt("strong") && `${cnt("strong")} strong`, cnt("developing") && `${cnt("developing")} developing`, cnt("thin") && `${cnt("thin")} need more evidence`].filter(Boolean).join(" · ") || "Not studied yet";
@@ -4835,5 +4841,6 @@ else render();
 <script src="study-ui.js"></script>
 <script src="study-stats.js"></script>
 <script src="mcat-ask.js"></script>
+<script src="app-site-nav.js"></script>
 </body>
 </html>

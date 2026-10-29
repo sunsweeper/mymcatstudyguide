@@ -26,8 +26,9 @@ const mk = () => { const h = boot({ clock:T0 }); h.api.show("welcome"); return {
 { const { h, A } = mk(); A.saveDate("2026-12-31", false); h.els.countdown.onclick();
   ok("C12 clicking the countdown opens MCAT date settings", A.mode === "mcatdate" && h.els.screen.innerHTML.includes("MCAT test date") && h.els.screen.innerHTML.includes('value="2026-12-31"'));
   A.saveDate("2026-11-21", false);
-  ok("C13 changing the date updates the countdown immediately", cd(h) === "30 Days Until Your MCAT" && A.mode === "mcatdate" && h.els.screen.innerHTML.includes("Saved."));
+  ok("C13 saving a new date updates the countdown immediately and returns to the dashboard", cd(h) === "30 Days Until Your MCAT" && A.mode === "welcome");
   ok("C14 ...and reviews are re-capped to the new date (half the days left)", A.testCap() === 15);
+  h.els.countdown.onclick();
   ok("C15 a bad date is refused with a clear message", A.saveDate("2020-01-01", false) === false && h.els.screen.innerHTML.includes("between today and three years") && A.progress.testDate === "2026-11-21");
   A.saveDate("", true);
   ok("C16 'not scheduled yet' removes the date and the countdown", !A.progress.testDate && A.progress.mcatNone === true && cd(h) === null); }
