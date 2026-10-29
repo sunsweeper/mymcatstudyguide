@@ -8,7 +8,64 @@
     },
     {
       "src": "^/$",
+      "has": [
+        {
+          "type": "query",
+          "key": "code"
+        }
+      ],
       "dest": "/homepage.html"
+    },
+    {
+      "src": "^/$",
+      "status": 302,
+      "headers": {
+        "Location": "/mcat"
+      }
+    },
+    {
+      "src": "^/(?!mcat(?:/|$))[Mm][Cc][Aa][Tt](/.*)?$",
+      "status": 301,
+      "headers": {
+        "Location": "/mcat$1"
+      }
+    },
+    {
+      "src": "^/why-it-works/?$",
+      "status": 301,
+      "headers": {
+        "Location": "/mcat/how-it-works"
+      }
+    },
+    {
+      "src": "^/community/?$",
+      "status": 301,
+      "headers": {
+        "Location": "/mcat/community"
+      }
+    },
+    {
+      "src": "^/free-trial/?$",
+      "status": 301,
+      "headers": {
+        "Location": "/mcat/free-trial"
+      }
+    },
+    {
+      "src": "^/mcat/?$",
+      "dest": "/homepage.html"
+    },
+    {
+      "src": "^/mcat/how-it-works/?$",
+      "dest": "/how-it-works.html"
+    },
+    {
+      "src": "^/mcat/community/?$",
+      "dest": "/community.html"
+    },
+    {
+      "src": "^/mcat/free-trial/?$",
+      "dest": "/free-trial.html"
     },
     {
       "src": "^/login$",
@@ -25,18 +82,6 @@
     {
       "src": "^/study/(bio-biochem|chem-phys|psych-soc|cars|all-topics|weakest-topics|focused-review)(/start|/missed-cards|/reinforcement(/start|/complete)?|/complete)?/?$",
       "dest": "/index.html"
-    },
-    {
-      "src": "^/why-it-works$",
-      "dest": "/why-it-works.html"
-    },
-    {
-      "src": "^/community$",
-      "dest": "/community.html"
-    },
-    {
-      "src": "^/free-trial$",
-      "dest": "/free-trial.html"
     },
     {
       "src": "^/about-us$",
