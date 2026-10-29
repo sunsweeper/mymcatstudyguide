@@ -1,7 +1,8 @@
 'use strict';
 // Layer 2 of answer checking: Claude judges a student's written recall when the key-concept match can't say "Knew it".
 // Only signed-in TabiPrep users can call it (their Supabase session is verified), and the card text comes from the
-// server's own copy, never from the browser, so the API key can't be used to grade arbitrary text.
+// server's own copy, never from the browser, so the API key can't be used to grade arbitrary text. A student's imported
+// card ("Uab12cd-7") is read from their own private deck in Supabase with their session, never from the request body.
 const CARDS = require('../answer-keys/cards.json');
 const { keys: KEYS } = require('../answer-keys/keys.json');
 const DEMO = require('../answer-keys/demo.json');   // the five homepage sample cards, gradable without signing in
@@ -41,6 +42,20 @@ function demoAllowed(ip){
   if(demoHits.size > 5000) for(const [k, v] of demoHits) if(!v.some(t => now - t < DEMO_WINDOW)) demoHits.delete(k);
   return true;
 }
+const IMPORTED = /^U([a-z0-9]{6})-(\d{1,5})$/;
+const plain = h => String(h || '').replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#(\d+);/g, (m, n) => String.fromCharCode(Number(n))).replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+// One card from the signed-in student's own deck (row-level security: only their decks are visible to their token).
+async function importedCard(key, auth){
+  const m = IMPORTED.exec(key), token = /^Bearer\s+(.+)$/i.exec(auth || '')?.[1];
+  if(!m || !token) return null;
+  try {
+    const r = await fetch(`${SB_URL}/rest/v1/user_decks?code=eq.${m[1]}&select=c:cards->${Number(m[2]) - 1}`, { headers: { apikey: SB_KEY, Authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(5000) });
+    if(!r.ok) return null;
+    const c = ((await r.json())[0] || {}).c;
+    if(!Array.isArray(c) || !plain(c[0]) || !plain(c[1])) return null;
+    return { q: plain(c[0]).slice(0, 3000), a: plain(c[1]).slice(0, 3000) };
+  } catch { return null; }
+}
 async function signedInUser(auth){
   const token = /^Bearer\s+(.+)$/i.exec(auth || '')?.[1];
   if(!token || token.length > 4096) return null;
@@ -59,15 +74,17 @@ module.exports = async (req, res) => {
   if(req.headers.origin && ![`https://${req.headers.host}`, `http://${req.headers.host}`].includes(req.headers.origin)) return res.status(403).json({ error: 'Invalid origin' });
   if(Number(req.headers['content-length'] || 0) > 8000) return res.status(413).json({ error: 'Too large' });
   let body = req.body; try { if(typeof body === 'string') body = JSON.parse(body); } catch { return res.status(400).json({ error: 'Invalid JSON' }); }
-  const key = body?.key, answer = body?.answer, demo = typeof key === 'string' && /^demo-[0-4]$/.test(key);
-  if(typeof key !== 'string' || !(demo || CARDS[key]) || typeof answer !== 'string' || !answer.trim() || answer.length > (demo ? 600 : 2000)) return res.status(400).json({ error: 'Invalid fields' });
+  const key = body?.key, answer = body?.answer, demo = typeof key === 'string' && /^demo-[0-4]$/.test(key), mine = typeof key === 'string' && IMPORTED.test(key);
+  if(typeof key !== 'string' || !(demo || mine || CARDS[key]) || typeof answer !== 'string' || !answer.trim() || answer.length > (demo ? 600 : 2000)) return res.status(400).json({ error: 'Invalid fields' });
   if(!process.env.ANTHROPIC_API_KEY){ log('no_api_key'); return res.status(503).json({ error: 'AI grading not configured' }); }
   if(demo){
     const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
     if(!demoAllowed(ip)){ log('demo_rate_limited'); return res.status(429).json({ error: 'Too many sample grades. Try again in a few minutes.' }); }
   } else if(!await signedInUser(req.headers.authorization)){ log('not_signed_in'); return res.status(401).json({ error: 'Sign in required' }); }
 
-  const card = demo ? DEMO[key] : CARDS[key], concepts = (demo ? DEMO[key].keys : KEYS[key] || []).map(c => c[0]);
+  const card = demo ? DEMO[key] : mine ? await importedCard(key, req.headers.authorization) : CARDS[key];
+  if(!card){ log('imported_card_not_found'); return res.status(404).json({ error: 'Card not found' }); }
+  const concepts = (demo ? DEMO[key].keys : mine ? [] : KEYS[key] || []).map(c => c[0]);
   const prompt = `Card question: ${card.q}\nReference answer: ${card.a}\n` + (concepts.length ? `Key concepts the reference expects: ${concepts.join('; ')}\n` : '') +
     `\n<student_answer>\n${answer.trim()}\n</student_answer>`;
   try {

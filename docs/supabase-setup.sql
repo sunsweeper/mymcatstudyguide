@@ -138,3 +138,6 @@ grant execute on function public.delete_my_account() to authenticated;
 -- ---------- Make yourself the owner ----------
 -- After you sign up on the site and verify your email, run this one line (with your email):
 -- update public.profiles set is_admin = true where email = 'aaron@sunsweeper.com';
+
+-- ---------- Imported decks (deck import) ----------
+-- See docs/user-decks.sql (run it once).

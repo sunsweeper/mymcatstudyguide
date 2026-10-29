@@ -4,7 +4,7 @@
   const base=document.createElement('base');base.href='/';document.head.prepend(base);
   const screens = {welcome:'/dashboard',bm:'/bookmarks',notes:'/notes',weakdash:'/weaknesses',account:'/account',owner:'/owner-dashboard',mcatdate:'/test-date',import:'/import-progress',gpreview:'/graphics-preview'};
   const auth = {login:'/login',signup:'/signup',forgot:'/forgot-password',reset:'/reset-password',sent:'/check-email',check:'/verify-email'};
-  const topics = {bb:'bio-biochem',cp:'chem-phys',ps:'psych-soc',cars:'cars',all:'all-topics',weak:'weakest-topics',focus:'focused-review'};
+  const topics = {bb:'bio-biochem',cp:'chem-phys',ps:'psych-soc',cars:'cars',all:'all-topics',weak:'weakest-topics',focus:'focused-review',mine:'my-cards'};
   const stages = {intro:'/start',cards:'',ask:'/missed-cards',rfIntro:'/reinforcement/start',rf:'/reinforcement',rfDone:'/reinforcement/complete',done:'/complete'};
   const clean = path => path.replace(/\/$/,'') || '/';
   function decode(path){

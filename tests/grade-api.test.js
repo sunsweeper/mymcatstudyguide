@@ -45,6 +45,22 @@ const call = async (over = {}) => { let status = 200, body; const res = { setHea
     ok('Demo answers capped shorter', (await call({ headers: anon, body: { key: 'demo-0', answer: 'x'.repeat(601) } })).status === 400);
     ok('Only the five demo cards are open', (await call({ headers: anon, body: { key: 'demo-5', answer: 'x' } })).status === 400);
     ok('Library cards still need sign-in', (await call({ headers: anon })).status === 401);
+    // Imported cards: card text comes from the student's own deck in Supabase (their token), never from the request.
+    let deckUrl = null, deckAuth = null;
+    const deckFetch = (cards) => async (url, opts) => {
+      if(url.includes('/auth/v1/user')) return { ok: opts.headers.Authorization === 'Bearer good-token', json: async () => ({ id: 'u1' }) };
+      if(url.includes('/rest/v1/user_decks')){ deckUrl = url; deckAuth = opts.headers.Authorization; return { ok: true, json: async () => cards }; }
+      sent = JSON.parse(opts.body); return { ok: true, json: async () => ({ content: [{ type: 'text', text: '{"rating":"knew_it","reasoning":"Yes."}' }] }) };
+    };
+    global.fetch = deckFetch([{ c: ['What is <b>ATP</b>?', 'The cell&#39;s energy currency'] }]);
+    const imp = await call({ body: { key: 'Uab12cd-3', answer: 'energy currency', q: 'ignored', a: 'ignored' } });
+    ok('Imported card graded from the student\'s own deck', imp.status === 200 && imp.body.rating === 'good' && /code=eq\.ab12cd/.test(deckUrl) && /cards->2/.test(deckUrl) && deckAuth === 'Bearer good-token');
+    ok('Imported card text is plain text from the deck, not the request', sent.messages[0].content.includes('Card question: What is ATP ?') && !sent.messages[0].content.includes('ignored'));
+    global.fetch = deckFetch([]);
+    ok('Imported card not in the student\'s decks -> 404', (await call({ body: { key: 'Uzzzzzz-1', answer: 'x' } })).status === 404);
+    ok('Imported cards need sign-in', (await call({ headers: { host: 'tabiprep.com' }, body: { key: 'Uab12cd-1', answer: 'x' } })).status === 401);
+    ok('Malformed imported key rejected', (await call({ body: { key: 'UAB12CD-1', answer: 'x' } })).status === 400);
+    global.fetch = fake({ ok: true, json: async () => ({ content: [{ type: 'text', text: JSON.stringify({ rating: 'knew_it', reasoning: 'Both named.' }) }] }) });
     let last; for(let i = 0; i < 31; i++) last = await call({ headers: { host: 'tabiprep.com', 'x-forwarded-for': '198.51.100.7' }, body: { key: 'demo-1', answer: 'decreases' } });
     ok('Demo grading rate-limited per visitor', last.status === 429);
     ok('Other visitors unaffected', (await call({ headers: anon, body: { key: 'demo-1', answer: 'decreases' } })).status === 200);

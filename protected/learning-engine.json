@@ -22,7 +22,7 @@
     "answer": "d3dd16ae872ffc8fec68ab5cb6af9982d3845083e4a4b873b1b7db9b032dd504",
     "chooseRating": "4d136a09edaa5966997904a7f6d32ee88e9dafce93a38a8e8539fd8578c295f1",
     "submitReinforce": "b5859342273957d5e0bb2c0307674e00aab0def84013431e9c102986d178f5cd",
-    "mergeProgress": "f45c697f7cbbc96992acee18500b17012aab5a5a8e344164d960495df832de19",
+    "mergeProgress": "a3cff37d55a78dc3b1a9951cc1932151ed3849a4eb9dd5abc7beb09fc50df26f",
     "pushProgress": "25f2e60c6effca11c95b1d38325346337089e2300c5f1228ec7f3202de736f71",
     "flushActivity": "08f61fc165580342b1dc42e806807aeb369947b55b5073f4c99393e6261ff068",
     "validBackup": "e005a5889dcc2b0c0875edb2a2eae22e5be154450c7c05781a4d63820f888935",
@@ -84,6 +84,14 @@
         "mergeProgress"
       ],
       "reason": "Retire-card: the retired-card list and its pre-test review pass are carried between devices like other study settings (owner approved engine changes for retire-card)."
+    },
+    {
+      "date": "2026-10-29",
+      "approved_by": "Aaron Walch",
+      "functions": [
+        "mergeProgress"
+      ],
+      "reason": "Deck import: the \"shuffle my imported cards into All topics\" setting is carried between devices like other study settings (owner approved engine changes for deck import)."
     }
   ]
 }
