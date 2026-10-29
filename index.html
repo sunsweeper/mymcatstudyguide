@@ -413,6 +413,9 @@ header #title, header .welcome, #topicname{color:var(--on-page-head)}
 .acct-h{font:700 1.15rem var(--f-card);color:var(--forest);margin:0}
 .acct-inline{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .acct-inline input[type=date],.acct-field select{font:400 1rem var(--f-ui);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;min-height:46px}
+.retired-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px}
+.retired-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;max-height:60vh;overflow:auto}
+.retired-row{align-items:center}.retired-row .ret-pick{width:18px;height:18px;flex:none}
 .acct-settings{display:flex;flex-direction:column;gap:14px}
 .acct-field{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;color:var(--ink)}
 .auth-form textarea{font:400 1rem/1.5 var(--f-ui);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:var(--r);padding:11px 14px;width:100%;box-sizing:border-box;resize:vertical;min-height:120px}
@@ -2504,7 +2507,32 @@ const isDue = key => { const s = st(key); return !!s && s.due <= today(); };
 const seenCard = id => !!(st(id) || st(id + REV));
 function secsFor(k){ return SECTIONS[k] ? [k] : Object.keys(SECTIONS); }
 const catOf = id => id.split("-")[0];
-function poolFor(k){
+/* ---------- Retired cards ----------
+   A student can retire a card after getting it right a second time (progress.retired: id -> date retired).
+   Retired cards leave every study pool. Two days before the MCAT they come back for one review pass:
+   each retired card is made due once, and after it's reviewed in that window it leaves the pool again. */
+const RETIRE_RETURN_DAYS = 2;
+function retiredReturnStart(){ return progress.testDate ? (d => { d.setDate(d.getDate() - RETIRE_RETURN_DAYS); return dstr(d); })((([y,m,dd]) => new Date(y, m-1, dd, 12))(progress.testDate.split("-").map(Number))) : null; }
+function inRetiredReturn(){ const t = progress.testDate; if(!t) return false; const left = daysUntil(t); return left >= 0 && left <= RETIRE_RETURN_DAYS; }
+function lastReviewed(id){ return [st(id), st(id + REV)].filter(Boolean).map(x => x.last || "").sort().pop() || ""; }
+function isRetired(id){
+  if(!progress.retired || !progress.retired[id]) return false;
+  if(inRetiredReturn() && lastReviewed(id) < retiredReturnStart()) return false;   // its one review pass before the test
+  return true;
+}
+// Entering the final window: make every retired card due today, once per test date, so it shows up for its review pass.
+function prepareRetiredReturn(){
+  if(!inRetiredReturn() || !progress.retired || progress.retiredPassFor === progress.testDate) return;
+  const t = today();
+  Object.keys(progress.retired).forEach(id => [id, id + REV].forEach(k => { const x = st(k); if(x && x.due > t) x.due = t; }));
+  progress.retiredPassFor = progress.testDate; save();
+}
+function retireCard(id){ progress.retired = progress.retired || {}; progress.retired[id] = today(); save(); }
+function restoreCards(ids){ if(!progress.retired) return; ids.forEach(id => delete progress.retired[id]); save(); }
+// Every card in a topic, retired ones included (used for the dashboard counts).
+function poolAll(k){ const keep = progress.retired; progress.retired = null; try { return poolFor(k); } finally { progress.retired = keep; } }
+function poolFor(k){ return poolForAll(k).filter(c => !isRetired(c[3])); }
+function poolForAll(k){
   if(k === "bm") return CARDS.filter(c => progress.bookmarks[c[3]]);
   if(k === "weak"){ const cats = weakCats(); return CARDS.filter(c => cats.includes(catOf(c[3]))); }
   if(k === "focus"){ const f = progress.open.focus, ids = new Set((f && f.list) || []); return CARDS.filter(c => ids.has(c[3])); }
@@ -3044,7 +3072,7 @@ function buildQueue(k){
   return head.concat(rest);
 }
 
-function pick(k){ filter = k; quote = nextQuote(); show("intro"); }
+function pick(k){ filter = k; quote = nextQuote(); prepareRetiredReturn(); show("intro"); }
 
 function start(fresh){
   let o = fresh ? null : openSession(filter);
@@ -3422,7 +3450,7 @@ function renderScreen(){
   if(mode === "welcome"){
     const keys = Object.keys(SECTIONS).concat(["all"]);
     // Scoreboard: each card counted once, by its most recent rating in either direction.
-    const score = k => { const out = { good:0, hard:0, again:0 }; poolFor(k).forEach(c => { const r = lastRating(c[3]); if(r) out[r]++; }); return out; };
+    const score = k => { const out = { good:0, hard:0, again:0 }; poolAll(k).forEach(c => { const r = lastRating(c[3]); if(r) out[r]++; }); return out; };
     const scores = {}; keys.forEach(k => scores[k] = score(k));
     const top = {}; ["good","hard","again"].forEach(r => top[r] = Math.max(...Object.keys(SECTIONS).map(k => scores[k][r])));
     const cell = (k, r, label) => `<span class="sc${k !== "all" && top[r] > 0 && scores[k][r] === top[r] ? " lead" : ""}"><span class="v">${scores[k][r]}</span><span class="l">${label}</span></span>`;
@@ -3974,7 +4002,7 @@ function mergeProgress(list){
     if(!out.testDate && p.testDate) out.testDate = p.testDate;
     if(p.boosted){ out.boosted = Object.assign({}, p.boosted, out.boosted || {}); for(const [id, d] of Object.entries(p.boosted)) if(d > out.boosted[id]) out.boosted[id] = d; }
     if(Array.isArray(p.quoteSeen)) out.quoteSeen = Array.from(new Set((out.quoteSeen || []).concat(p.quoteSeen)));
-    ["bg", "view", "tips", "skipWrite", "mandOff", "mcatNone", "final21"].forEach(k => { if(out[k] === undefined && p[k] !== undefined) out[k] = p[k]; });
+    ["bg", "view", "tips", "skipWrite", "mandOff", "mcatNone", "final21", "retired", "retiredPassFor"].forEach(k => { if(out[k] === undefined && p[k] !== undefined) out[k] = p[k]; });
     const nd = out.newDay || { date:"", count:0 }, pd = p.newDay || { date:"", count:0 };
     out.newDay = pd.date > nd.date ? pd : pd.date === nd.date ? { date:nd.date, count:Math.max(nd.count, pd.count) } : nd;
   }
@@ -4334,6 +4362,7 @@ function renderAccount(scr){
         <label class="check"><input type="checkbox" id="setEncourage"${((sbUser && sbUser.user_metadata) || {}).encourage_opt_out ? "" : " checked"}><span><b>Encouragement emails from Rosalind</b><br><span class="hint-sm">Up to two short notes: halfway to your MCAT and two days before it.</span></span></label>
         <div class="acct-field"><span><b>Card order</b></span><select id="setView" aria-label="Card order">${[["q","Questions First"],["a","Answers First"],["mix","Random Mix"]].map(([v, t]) => `<option value="${v}"${progress.view === v ? " selected" : ""}>${t}</option>`).join("")}</select></div>
       </div></section>
+    ${retiredSection()}
     <p class="lede" style="margin:0">To change your password, log out and use “Forgot password?”. Your progress is saved to your account, so it follows you to any device you log in on.</p>
     <div class="controls"><button class="btn" type="button" id="sideBack">Back</button><button class="btn" type="button" id="logoutBtn">Log out</button></div>
     <details class="danger"><summary>Delete my account</summary>
@@ -4365,9 +4394,39 @@ function renderAccount(scr){
   $("setDark").onchange = e => { progress.bg = e.target.checked ? "dark" : "light"; save(); applyBg(); };
   $("setEncourage").onchange = e => setMeta({ encourage_opt_out:!e.target.checked }, e.target.checked ? "Encouragement emails are on." : "Encouragement emails are off.", "That setting couldn't be saved right now. Please try again.");
   $("setView").onchange = e => setView(e.target.value);
+  wireRetired();
   $("delConfirm").oninput = e => { $("delBtn").disabled = e.target.value.trim() !== "DELETE"; };
   $("delBtn").onclick = () => { if($("delConfirm").value.trim() === "DELETE") deleteAccount(); };
   if(emailFormOpen && $("newEmail").focus) (emailNote && !emailNote.ok ? $("emailSend") : $("newEmail")).focus(); else $("sideBack").focus();
+}
+/* ---------- Retired cards on the account page: a list to open, put back one at a time, by selection, or all at once ---------- */
+let retiredOpen = false;
+const retiredIds = () => Object.keys(progress.retired || {}).filter(id => BY_ID[id]).sort((a, b) => (progress.retired[b] || "").localeCompare(progress.retired[a] || "") || a.localeCompare(b));
+function retiredSection(){
+  const ids = retiredIds();
+  const list = !ids.length ? `<p class="hint-sm" style="margin:0">No retired cards. After you get a card right a second time, Rosalind's grade offers “No longer show me this card”.</p>`
+    : `<div class="retired-tools"><label class="check small"><input type="checkbox" id="retSelAll"><span>Select all</span></label>
+        <button class="btn small-btn" type="button" id="retPutSel" disabled>Put selected back</button><button class="btn small-btn" type="button" id="retPutAll">Put all back</button></div>
+      <ul class="retired-list" id="retiredList">${ids.map(id => { const c = BY_ID[id]; return `<li class="bm-row retired-row">
+        <input type="checkbox" class="ret-pick" data-id="${esc(id)}" aria-label="Select card ${esc(id)}">
+        <details><summary><span class="bm-id">${esc(id)} · ${SECTIONS[c[0]] ? SECTIONS[c[0]].name : ""} · retired ${esc(progress.retired[id] || "")}</span><span class="bm-q">${c[1]}</span></summary><div class="bm-a">${c[2]}</div></details>
+        <button class="btn small-btn ret-one" type="button" data-id="${esc(id)}">Put back</button></li>`; }).join("")}</ul>`;
+  return `<section class="acct-sec" aria-labelledby="acctRetH"><h3 class="acct-h" id="acctRetH">Retired cards (${ids.length})</h3>
+    <span class="hint-sm">Retired cards leave your study sessions. They come back once for review ${RETIRE_RETURN_DAYS} days before your MCAT.</span>
+    ${ids.length ? `<button class="btn" type="button" id="retToggle" aria-expanded="${retiredOpen}" aria-controls="retiredBox">${retiredOpen ? "Hide retired cards" : "See retired cards"}</button>` : ""}
+    <div id="retiredBox"${ids.length && !retiredOpen ? " hidden" : ""}>${list}</div></section>`;
+}
+function wireRetired(){
+  const t = $("retToggle"); if(t) t.onclick = () => { retiredOpen = !retiredOpen; acctMsg = ""; render(); if($("retToggle")) $("retToggle").focus(); };
+  if(!$("retiredList")) return;
+  const picks = () => Array.from(document.querySelectorAll(".ret-pick"));
+  const sync = () => { const p = picks(), n = p.filter(x => x.checked).length; $("retPutSel").disabled = !n; $("retPutSel").textContent = n ? `Put selected back (${n})` : "Put selected back"; $("retSelAll").checked = n === p.length; };
+  const back = ids => { restoreCards(ids); acctMsg = ids.length === 1 ? "Card " + ids[0] + " is back in your deck." : ids.length + " cards are back in your deck."; render(); };
+  picks().forEach(x => x.onchange = sync);
+  $("retSelAll").onchange = e => { picks().forEach(x => x.checked = e.target.checked); sync(); };
+  $("retPutSel").onclick = () => back(picks().filter(x => x.checked).map(x => x.dataset.id));
+  $("retPutAll").onclick = () => back(retiredIds());
+  document.querySelectorAll(".ret-one").forEach(b => b.onclick = () => back([b.dataset.id]));
 }
 /* ---------- Change email (Supabase's own email-change flow: nothing changes until the links are clicked) ---------- */
 let emailFormOpen = false, emailNote = null, emailDraft = { a:"", b:"" }, emailBusy = false;
