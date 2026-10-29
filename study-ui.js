@@ -158,6 +158,7 @@
     byId('studyChangeRating').hidden=true;   // the system's grade is final; no changing it here
     byId('curNext').textContent='Save response & Next Card';
     byId('rateRow').hidden=modal.hidden;
+    byId('studyExplain').hidden=!hasExplanation(idOf(curKey));   // no written explanation for this card: no button
     byId('studyExplain').disabled=!revealed||!hasExplanation(idOf(curKey));
     byId('studyExplain').title=!revealed?'Available after flipping':!hasExplanation(idOf(curKey))?'No stored explanation for this card':'';
     byId('studyDrawer').hidden=!drawer;

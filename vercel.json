@@ -76,6 +76,10 @@
       "dest": "/index.html"
     },
     {
+      "src": "^/referral/?$",
+      "dest": "/index.html"
+    },
+    {
       "src": "^/(dashboard|bookmarks|notes|weaknesses|account|owner-dashboard|test-date|import-progress|graphics-preview|forgot-password|reset-password|check-email|verify-email)/?$",
       "dest": "/index.html"
     },

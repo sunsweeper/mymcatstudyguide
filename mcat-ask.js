@@ -34,6 +34,7 @@
   function created(){ const t = Date.parse(sbUser && sbUser.created_at); return isNaN(t) ? Date.now() : t; }
   function due(){
     if(typeof sbUser === 'undefined' || !sbUser || !progress || progress.testDate || mode !== 'welcome') return false;
+    if(window.TabiSession && !window.TabiSession.isMine()) return false;   // wait until this device is the active session
     if(who !== sbUser.id){ who = sbUser.id; local = null; }   // a different account signed in on this device
     const s = state();
     if(typeof s.next !== 'number'){ s.n = 0; s.next = created() + FIRST; save(); }

@@ -25,7 +25,7 @@
   // ---- Stats panel (opened from the Stats pill next to the session timer) ----
   const tools = byId('sessionStats');
   tools.removeAttribute('aria-hidden');
-  const pill = document.createElement('button'); pill.type = 'button'; pill.id = 'statsOpen'; pill.className = 'stats-pill'; pill.textContent = '📊 Stats';
+  const pill = document.createElement('button'); pill.type = 'button'; pill.id = 'statsOpen'; pill.className = 'stats-pill'; pill.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px;margin-right:6px"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Stats';
   pill.setAttribute('aria-haspopup', 'dialog'); tools.append(pill);
   const bg = document.createElement('div'); bg.className = 'study-modal-bg'; bg.id = 'statsModal'; bg.hidden = true;
   bg.innerHTML = `<div class="study-modal stats-modal" role="dialog" aria-modal="true" aria-labelledby="statsTitle" tabindex="-1">

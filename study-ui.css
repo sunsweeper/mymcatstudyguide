@@ -172,3 +172,4 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
 #study #curHint{display:none}
 #study #recallMessage[hidden]{display:none}
 #study #recallEntry .ws-foot{display:none}
+#study #studyExplain[hidden]{display:none}

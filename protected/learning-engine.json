@@ -23,13 +23,13 @@
     "chooseRating": "4d136a09edaa5966997904a7f6d32ee88e9dafce93a38a8e8539fd8578c295f1",
     "submitReinforce": "b5859342273957d5e0bb2c0307674e00aab0def84013431e9c102986d178f5cd",
     "mergeProgress": "895cc8c5c47b91c31c4a11bb2a4e7049f3929831b8e157177225d18ad407dc77",
-    "pushProgress": "06773ec268dc8e843224c2a924c86f264464d3d36a632722ae866bcbbd4de6e0",
+    "pushProgress": "25f2e60c6effca11c95b1d38325346337089e2300c5f1228ec7f3202de736f71",
     "flushActivity": "08f61fc165580342b1dc42e806807aeb369947b55b5073f4c99393e6261ff068",
-    "validBackup": "584f0a16ac956cc6af916b1e104d134859550664706f13f0ed99e73a0b759eec",
+    "validBackup": "e005a5889dcc2b0c0875edb2a2eae22e5be154450c7c05781a4d63820f888935",
     "readRecovery": "847d223c8eef1d364e8a96d1201237cd6aec87cdae810ce1555f4d0a601c0eed",
-    "exportProgress": "3409ae280526f7040dd1992ef5895e045c71de196a29ed492cdcd4ba90e6bc48",
-    "readImport": "121ab29495d9e6e136cff1b9ad50b52b2d04d46118a3883635aa0dd3d0ff8b8e",
-    "applyImport": "437afed11ba5351fbca78f4c2472e2ada9e4a1eb8ea33f5e836ef2cf370dcc3c"
+    "exportProgress": "2f0e5693bd81a689041ad1bc5d076980fcd34ebba860e5354875b78a50b77a51",
+    "readImport": "1546e853cf4cb042617a838976a5574473e64754f934665901d1d185831c3b40",
+    "applyImport": "653cf895b9af1e177fb9f25ddc8ce49f7f7ad509c4906a50b9a86a13746c39cf"
   },
   "RULES": {
     "sessionSize": 50,
@@ -56,5 +56,26 @@
       "gap": 21,
       "S": 60
     }
-  }
+  },
+  "approvals": [
+    {
+      "date": "2026-10-28",
+      "approved_by": "Aaron Walch",
+      "functions": [
+        "validBackup",
+        "exportProgress",
+        "readImport",
+        "applyImport"
+      ],
+      "reason": "Remove the old MyMCATstudyguide name: backup tag and export filename are now TabiPrep (owner confirmed no older backups need importing)."
+    },
+    {
+      "date": "2026-10-28",
+      "approved_by": "Aaron Walch",
+      "functions": [
+        "pushProgress"
+      ],
+      "reason": "One device at a time: the save asks the session guard first, so only the active device or tab can save (owner chose this design to stop overwrites and account sharing)."
+    }
+  ]
 }
