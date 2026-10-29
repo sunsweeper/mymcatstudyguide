@@ -32,9 +32,9 @@
     <div id="referView" hidden><span class="study-eyebrow">SIGNED OUT</span>
       <h2>Know anyone who could benefit from TabiPrep.com?</h2>
       <p id="referWhy"></p>
-      <p>Send them this link and you'll both get a discount on your next order.</p>
+      <p>Send them this link and you'll both get a discount on your next order of TabiPrep test prep. (MCAT prep is free.)</p>
       <div class="refer-link"><input id="referUrl" readonly aria-label="Referral link"><button class="btn" id="referCopy" type="button">Copy link</button></div>
-      <p class="refer-fine">Referrers can save up to 23% on their next order, however many friends sign up. Discounts are applied by our team.</p>
+      <p class="refer-fine">Referrers can save up to 23% on their next order of TabiPrep test prep, however many friends sign up. Discounts are applied by our team.</p>
       <div class="session-actions one"><button class="btn primary" id="referClose" type="button">Close</button></div></div>
   </div>`;
   document.body.append(wrap);

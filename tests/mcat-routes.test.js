@@ -8,7 +8,7 @@ const get=(base,p)=>new Promise((res,rej)=>http.get(base+p,r=>{let b='';r.on('da
   try{
     let r=await get(base,'/');ok('/ redirects (temporary) to /mcat',r.status===302&&r.location==='/mcat');
     r=await get(base,'/?code=abc');ok('/?code= (old sign-in links) still serves the page that forwards to /login',r.status===200&&r.body.includes('legacy-auth-redirect.js'));
-    for(const [from,to] of [['/MCAT','/mcat'],['/Mcat/how-it-works','/mcat/how-it-works'],['/why-it-works','/mcat/how-it-works'],['/community','/mcat/community'],['/free-trial','/mcat/free-trial']]){
+    for(const [from,to] of [['/MCAT','/mcat'],['/Mcat/how-it-works','/mcat/how-it-works'],['/why-it-works','/mcat/how-it-works'],['/community','/mcat/community'],['/free-trial','/mcat/free']]){
       r=await get(base,from);ok(`${from} → ${to} (301)`,r.status===301&&r.location===to);
     }
     r=await get(base,'/mcat');ok('/mcat says MCAT prep up front',r.status===200&&r.body.includes('MCAT prep that sticks'));

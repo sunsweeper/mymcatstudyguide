@@ -19,7 +19,7 @@
     const form = document.getElementById('authForm');
     if(!form || form.dataset.referral) return;
     form.dataset.referral = '1';
-    form.insertAdjacentHTML('afterbegin', `<p class="referral-banner" id="referralBanner">23% discount for you and whoever sent this to you if you sign up today.<small>Tell us who sent you below. We apply both discounts ourselves.</small></p>`);
+    form.insertAdjacentHTML('afterbegin', `<p class="referral-banner" id="referralBanner">23% discount for you and whoever sent this to you if you sign up today.<small>MCAT prep is free; the discount applies to future TabiPrep test prep. Tell us who sent you below.</small></p>`);
     const age = document.getElementById('aAge'), before = (age && age.closest('label')) || form.lastElementChild;   // after the journey question, before the age box
     before.insertAdjacentHTML('beforebegin', `<fieldset class="referrer" id="referrerBox"><legend>Who referred you?</legend>
       <div class="name-pair"><label class="field">Their first name<input type="text" id="rFirst" maxlength="40" autocomplete="off" value="${esc(v.first)}"></label>
@@ -49,7 +49,7 @@
       const body = { _subject:'New TabiPrep sign-up (referral)', _template:'table', _captcha:'false',
         'New user':`${user.first} ${user.last}`.trim(), 'New user email':user.email,
         'Referred by':`${v.first.trim()} ${v.last.trim()}`, 'Referrer email':v.email.trim(),
-        'Discount':'23% off the next order for both people.',
+        'Discount':'23% off the next paid TabiPrep purchase (future test prep) for both people.',
         'Note':'A referrer may refer several new users, but their discount is capped at 23% off their next order.' };
       try { fetch(REPORT_ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json', Accept:'application/json' }, body:JSON.stringify(body) }).catch(() => {}); } catch(e){}
       try { sessionStorage.removeItem(KEY); } catch(e){}
