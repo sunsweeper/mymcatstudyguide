@@ -167,3 +167,8 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
 #shareMake{margin-top:18px}
 #shareMake:disabled{opacity:.5;cursor:default}
 #chooseBack{display:block;margin-top:12px}
+
+/* Reinforce box: no character counters or Change rating, so the box ends right under the text field */
+#study #curHint{display:none}
+#study #recallMessage[hidden]{display:none}
+#study #recallEntry .ws-foot{display:none}

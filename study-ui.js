@@ -146,6 +146,7 @@
     byId('activeRecallStatus').textContent=required?'Required':recall?'On':'Off';
     byId('recallEntry').hidden=!(recall||required||writing||draft.trim());
     byId('curLabel').textContent=writing?'Reinforce your answer': 'Your answer, from memory';
+    byId('recallMessage').hidden=writing;   // reinforcing: just the box, no counters
     byId('recallMessage').textContent=writing?`${reinforceDraft.trim().length} / ${MIN_REINFORCE} characters. Reinforce your answer before continuing.`:required?'This card requires a written answer before flipping.':revealed?'Compare your written response with the revealed answer, then rate yourself.':recall?'Active Recall is on. Write your answer before revealing the other side.':'Active Recall is off for optional recall. Required writing still applies.';
     byId('recallRequired').textContent=writing?'Required reinforcement':revealed?'Compare your answer with the other side':(recall||required)?'Required before flipping':'Optional';
     if(!writing)byId('curAnswer').placeholder='Try to recall the answer in your own words before flipping…';
@@ -154,7 +155,7 @@
     byId('studyNext').textContent=writing?'Save response & Next Card →':'Next Card →';
     byId('hint').textContent=writing?'Complete your response, then continue.':revealed?'Select Next Card to rate your recall.':'Tap the card or use Flip Card.';
     byId('curHint').textContent=byId('curHint').textContent.replace('Reveal Answer','Flip Card');
-    byId('studyChangeRating').hidden=!writing;
+    byId('studyChangeRating').hidden=true;   // the system's grade is final; no changing it here
     byId('curNext').textContent='Save response & Next Card';
     byId('rateRow').hidden=modal.hidden;
     byId('studyExplain').disabled=!revealed||!hasExplanation(idOf(curKey));
