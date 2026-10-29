@@ -1,9 +1,9 @@
 /* Sign-up and log-in screens (signed out): the public site's navigation in the app header,
-   so a visitor who came from the Free trial button can get back to the rest of the site.
+   so a visitor who came from a Sign up free button can get back to the rest of the site.
    Wide screens: links in the header.  Phones: the same links at the top of the ☰ menu. Signed in: hidden. */
 (() => {
   'use strict';
-  const LINKS = [['How it works', '/mcat/how-it-works'], ['Try it', '/mcat#demo'], ['Community', '/mcat/community'], ['Free trial', '/mcat/free-trial'], ['About Us', '/about-us']];
+  const LINKS = [['How it works', '/mcat/how-it-works'], ['Try it', '/mcat#demo'], ['Community', '/mcat/community'], ['It’s free', '/mcat/free'], ['About Us', '/about-us']];
   const MENU_EXTRA = [['About our AI', '/about-rosalind'], ['Contact Us', '/contact']];
   const nav = document.querySelector('.topbar .topnav'), menu = document.getElementById('menu');
   if(!nav || !menu) return;

@@ -48,7 +48,7 @@
       "src": "^/free-trial/?$",
       "status": 301,
       "headers": {
-        "Location": "/mcat/free-trial"
+        "Location": "/mcat/free"
       }
     },
     {
@@ -65,7 +65,14 @@
     },
     {
       "src": "^/mcat/free-trial/?$",
-      "dest": "/free-trial.html"
+      "status": 301,
+      "headers": {
+        "Location": "/mcat/free"
+      }
+    },
+    {
+      "src": "^/mcat/free/?$",
+      "dest": "/free.html"
     },
     {
       "src": "^/login$",
