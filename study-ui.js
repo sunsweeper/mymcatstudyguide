@@ -29,7 +29,7 @@
   byId('raiseHand').onclick=()=>{drawer='assistance';sync();byId('closeStudyDrawer').focus();};
   byId('studyExplain').onclick=()=>{drawer='explanation';sync();byId('closeStudyDrawer').focus();};
   const modal=document.createElement('div');modal.id='studyRatingModal';modal.className='study-modal-bg';modal.hidden=true;
-  modal.innerHTML=`<div id="studyRatingDialog" class="study-modal" role="dialog" aria-modal="true" aria-labelledby="studyRatingTitle" aria-describedby="studyRatingDescription" tabindex="-1"><button class="study-close" id="closeStudyRating" aria-label="Close rating prompt">×</button><span class="study-eyebrow" id="studyRatingEyebrow">YOUR RECALL</span><h2 id="studyRatingTitle">Did you remember the answer to the last card?</h2><p id="studyRatingDescription">Choose the response that best matches how well you remembered.</p><div class="grade-actions" id="gradeActions" hidden><button class="btn" id="gradeAccept" type="button">Next Card →</button><button class="link" id="gradeDispute" type="button">Dispute</button></div><div class="dispute-note" id="disputeNote" hidden><label for="disputeText">What did we get wrong? <span>(optional)</span></label><textarea id="disputeText" rows="3" maxlength="1000"></textarea><div class="dispute-actions"><button class="link" id="disputeBack" type="button">← Back</button><button class="btn" id="disputeSend" type="button">Send and continue →</button></div></div></div>`;
+  modal.innerHTML=`<div id="studyRatingDialog" class="study-modal" role="dialog" aria-modal="true" aria-labelledby="studyRatingTitle" aria-describedby="studyRatingDescription" tabindex="-1"><button class="study-close" id="closeStudyRating" aria-label="Close rating prompt">×</button><span class="study-eyebrow" id="studyRatingEyebrow">YOUR RECALL</span><h2 id="studyRatingTitle">Did you remember the answer to the last card?</h2><p id="studyRatingDescription">Choose the response that best matches how well you remembered.</p><div class="grade-actions" id="gradeActions" hidden><button class="btn" id="gradeAccept" type="button">Next Card →</button><button class="link" id="gradeDispute" type="button">Dispute</button><button class="link retire-link" id="gradeRetire" type="button" hidden>No longer show me this card</button></div><div class="dispute-note" id="disputeNote" hidden><label for="disputeText">What did we get wrong? <span>(optional)</span></label><textarea id="disputeText" rows="3" maxlength="1000"></textarea><div class="dispute-actions"><button class="link" id="disputeBack" type="button">← Back</button><button class="btn" id="disputeSend" type="button">Send and continue →</button></div></div></div>`;
   document.body.append(modal);byId('studyRatingDialog').insertBefore(byId('rateRow'),byId('gradeActions'));byId('studyRatingDialog').insertBefore(byId('disputeNote'),byId('rateRow'));   // note first: tapping a rating submits
   // Popup views: 'grade' (the system's grade + Dispute), 'checking', 'dispute' (pick the right grade), 'manual' (no grade available).
   let popupView='manual';
@@ -42,6 +42,7 @@
     byId('gradeActions').hidden=popupView!=='grade';byId('disputeNote').hidden=popupView!=='dispute';byId('rateRow').hidden=popupView!=='manual';
     byId('rateRow').querySelectorAll('[data-r]').forEach(b=>b.disabled=false);
     const T=byId('studyRatingTitle'),D=byId('studyRatingDescription'),E=byId('studyRatingEyebrow');
+    byId('gradeRetire').hidden=!(popupView==='grade'&&g.rating==='good'&&canRetire(curKey));
     if(popupView==='grade'){E.textContent=g.source==='ai'?'GRADED BY ROSALIND':'GRADED';T.textContent=VERDICT[g.rating];D.textContent=g.reasoning;}
     else if(popupView==='checking'){E.textContent='YOUR RECALL';T.textContent='Checking your answer…';D.textContent='This takes a moment.';}
     else if(popupView==='dispute'){E.textContent='DISPUTE';T.textContent='Dispute this grade';D.textContent=`We graded it ${rateLabel(g.rating)}. That grade stays for scheduling, and we'll review your dispute.`;}
@@ -53,6 +54,10 @@
     (modal.querySelector('#gradeActions:not([hidden]) #gradeAccept')||modal.querySelector('#rateRow:not([hidden]) [data-r]:not(:disabled)')||byId('studyRatingDialog')).focus();}
   function applyRating(r){const key=curKey;closeRating(false);chooseRating(r);if(key===curKey&&pendingR){byId('curAnswer').focus();sync();}}
   byId('gradeAccept').onclick=()=>{const g=check.current();if(!modal.hidden&&dialogKey===curKey&&g)applyRating(g.rating);};
+  // Retire: offered once a card has been answered right before (either direction) and is right again now.
+  function canRetire(key){const id=idOf(key);if(typeof retireCard!=='function'||(progress.retired&&progress.retired[id]))return false;
+    return [id,id+REV].reduce((n,k)=>n+((st(k)?.history)||[]).filter(h=>h.r==='good'&&!h.b&&!h.e).length,0)>=1;}
+  byId('gradeRetire').onclick=()=>{const g=check.current();if(modal.hidden||dialogKey!==curKey||!g||g.rating!=='good')return;const id=idOf(curKey);applyRating('good');retireCard(id);};
   byId('gradeDispute').onclick=()=>{popupView='dispute';showPopup();byId('disputeText').value='';byId('disputeText').focus();};
   // The system's grade is what the scheduler records; a dispute only sends the card for review.
   byId('disputeSend').onclick=()=>{const g=check.current();if(modal.hidden||dialogKey!==curKey||!g)return;check.dispute(byId('disputeText').value.trim());applyRating(g.rating);};
