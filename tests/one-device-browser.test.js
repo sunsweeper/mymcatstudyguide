@@ -80,15 +80,16 @@ async rpc(){return {data:null,error:null}}})};})();`;
 
     // Referral sign-up page.
     const ctxR = await profile('R', WIN); await ctxR.route('**/supabase.js', r => r.fulfill({ contentType: 'text/javascript', body: 'window.supabase={createClient:()=>({auth:{onAuthStateChange(){},async getSession(){return {data:{session:null}}},async signUp(a){window.__signUp=a;return {data:{user:null,session:null},error:null}}}})};' }));
+    let signupBody = null; await ctxR.route('**/api/signup', r => { signupBody = JSON.parse(r.request().postData()); r.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' }); });
     const R = await open(ctxR, '/referral'); await R.waitForSelector('#referralBanner');
     ok('Referral page: sign-up with the 23% banner', (await R.textContent('#referralBanner')).includes('23% discount for you and whoever sent this to you if you sign up today.'));
-    await R.fill('#aName', 'Nia'); await R.fill('#aLast', 'Park'); await R.fill('#aEmail', 'nia@example.invalid'); await R.fill('#aPw', 'longenough1');
+    await R.fill('#aCode', 'Sarah2028'); await R.fill('#aName', 'Nia'); await R.fill('#aLast', 'Park'); await R.fill('#aEmail', 'nia@example.invalid'); await R.fill('#aPw', 'longenough1');
     await R.check('#aNoDate'); await R.fill('#aWhy', 'I want to be the doctor who listens first.'); await R.check('#aAge'); await R.check('#aTerms');
     await R.click('#authForm [type=submit]');
-    ok('Referrer details are required', (await R.textContent('#aMsg')).includes('who referred you') && await R.evaluate(() => !window.__signUp));
+    ok('Referrer details are required', (await R.textContent('#aMsg')).includes('who referred you') && !signupBody);
     await R.fill('#rFirst', 'Aaron'); await R.fill('#rLast', 'Walch'); await R.fill('#rEmail', 'friend@example.invalid');
-    await R.click('#authForm [type=submit]'); await R.waitForFunction(() => !!window.__signUp); await R.waitForTimeout(500);
-    const d = await R.evaluate(() => window.__signUp.options.data);
+    await R.click('#authForm [type=submit]'); await R.waitForTimeout(1000);
+    const d = signupBody;
     ok('The referrer is saved with the new account', d.referred_by.first_name === 'Aaron' && d.referred_by.email === 'friend@example.invalid');
     const rep = shared.reports.find(x => x._subject === 'New TabiPrep sign-up (referral)');
     ok('The owner gets an email with both people and the 23% cap note', rep && rep['New user email'] === 'nia@example.invalid' && rep['Referrer email'] === 'friend@example.invalid' && /capped at 23%/.test(rep.Note));
