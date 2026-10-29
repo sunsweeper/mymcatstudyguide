@@ -464,6 +464,9 @@ footer.legal .tm{max-width:60ch}
 
 /* ===== Framed layout: header bar, page head, wide study area (both themes) ===== */
 :root{--frame:#FFFDF9;--frame-line:#E7D9D7;--hair:rgba(38,61,53,.12);--pill-line:rgba(38,61,53,.22);--wrap-pad:40px}
+/* Daylight mode: every section, box and field border is a thin, dark line (night mode keeps its own soft lines). */
+:root:not([data-bg="dark"]){--line:#1F1F1F;--frame-line:#1F1F1F;--hair:#1F1F1F;--pill-line:#1F1F1F;--sage-edge:#1F1F1F}
+:root:not([data-bg="dark"]) .btn:not(#study .btn):not(#study *){border-color:#1F1F1F}
 body{padding-top:28px;padding-bottom:28px;box-sizing:border-box}
 .wrap{max-width:1000px;padding:0 var(--wrap-pad) 26px;box-sizing:border-box;background:var(--frame);border:1px solid var(--frame-line);border-radius:20px;
   box-shadow:0 24px 60px -30px rgba(0,0,0,.35);gap:22px}
