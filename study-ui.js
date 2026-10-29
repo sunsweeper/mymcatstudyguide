@@ -57,9 +57,27 @@
   // The system's grade is what the scheduler records; a dispute only sends the card for review.
   byId('disputeSend').onclick=()=>{const g=check.current();if(modal.hidden||dialogKey!==curKey||!g)return;check.dispute(byId('disputeText').value.trim());applyRating(g.rating);};
   byId('disputeBack').onclick=()=>{popupView='';showPopup();byId('gradeAccept').focus();};
-  function next(){if(mode!=='cards'||flipping||!revealed)return;if(pendingR){submitReinforce();return;}openRating();}
+  // Adaptive learning box: a very short entry that doesn't resemble the answer gets one nudge from Rosalind; pressing Next again continues.
+  const STOP=new Set('the a an of to is are and or in on at by for its it that this be as with from was were which what when where who how not no yes'.split(' '));
+  const words=t=>String(t||'').toLowerCase().replace(/<[^>]+>/g,' ').split(/[^a-z0-9+\-]+/).filter(w=>w&&!STOP.has(w));
+  let nudgedFor=null;
+  function lowEffort(text){
+    const t=String(text||'').trim(),w=words(t);
+    if(!t)return false;                                              // nothing written: the existing "Continue anyway?" handles it
+    if(t.length>=25&&w.length>=4)return false;                       // a real attempt, whatever it says
+    const c=BY_ID[idOf(curKey)];if(!c)return false;
+    const ans=new Set(words(toPlain(isRevKey(curKey)?c[1]:c[2]))),stem=x=>x.replace(/(ing|ed|es|s)$/,'');
+    const ansStems=new Set([...ans].map(stem)),shared=w.filter(x=>ans.has(x)||ansStems.has(stem(x))).length;
+    return shared<Math.max(1,Math.ceil(w.length/2));                  // short AND mostly unrelated to the answer
+  }
+  function next(){if(mode!=='cards'||flipping||!revealed)return;
+    if(pendingR){
+      if(nudgedFor!==curKey&&lowEffort(reinforceDraft)){nudgedFor=curKey;byId('effortNudge').hidden=false;byId('curAnswer').focus();return;}
+      byId('effortNudge').hidden=true;submitReinforce();return;}
+    openRating();}
   byId('studyNext').onclick=next;byId('closeStudyRating').onclick=()=>closeRating();
   insert('<button class="link" id="studyChangeRating" hidden>Change rating</button>',byId('recallEntry'));
+  insert('<p class="effort-nudge" id="effortNudge" role="status" hidden><b>Rosalind:</b> That\'s pretty brief, and it doesn\'t look much like the answer yet. Writing it out in your own words is what makes it stick. Try a full sentence, or press Next Card again to continue.</p>',byId('recallEntry'));
   // ---- Answer check: layer 1 key-concept match in the browser; anything that isn't a clear match goes to the AI (layer 2). ----
   // Runs as soon as the card flips, so the grade is usually ready by the time Next Card is pressed. The student can dispute it,
   // and whatever they pick is what the engine records.
@@ -145,10 +163,12 @@
     byId('activeRecallSwitch').checked=recall||required;byId('activeRecallSwitch').disabled=required;
     byId('activeRecallStatus').textContent=required?'Required':recall?'On':'Off';
     byId('recallEntry').hidden=!(recall||required||writing||draft.trim());
-    byId('curLabel').textContent=writing?'Reinforce your answer': 'Your answer, from memory';
+    byId('curLabel').textContent=writing?'Adaptive learning box': 'Your answer, from memory';
+    if(!writing||seen!==curKey)byId('effortNudge').hidden=true;
+    if(!writing)nudgedFor=null;
     byId('recallMessage').hidden=writing;   // reinforcing: just the box, no counters
     byId('recallMessage').textContent=writing?`${reinforceDraft.trim().length} / ${MIN_REINFORCE} characters. Reinforce your answer before continuing.`:required?'This card requires a written answer before flipping.':revealed?'Compare your written response with the revealed answer, then rate yourself.':recall?'Active Recall is on. Write your answer before revealing the other side.':'Active Recall is off for optional recall. Required writing still applies.';
-    byId('recallRequired').textContent=writing?'Required reinforcement':revealed?'Compare your answer with the other side':(recall||required)?'Required before flipping':'Optional';
+    byId('recallRequired').textContent=writing?'Write the answer in your own words':revealed?'Compare your answer with the other side':(recall||required)?'Required before flipping':'Optional';
     if(!writing)byId('curAnswer').placeholder='Try to recall the answer in your own words before flipping…';
     byId('revealRow').hidden=false;byId('reveal').disabled=!revealed&&((recall||required)&&!draft.trim());
     byId('studyNext').disabled=!revealed||!flipped||(writing&&mandatoryOn()&&reinforceDraft.trim().length<MIN_REINFORCE);
@@ -175,7 +195,7 @@
     if(e.key==='Tab'){const items=[...modal.querySelectorAll('button,textarea')].filter(b=>!b.disabled&&b.offsetParent!==null),first=items[0],last=items.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}
   });
   // The walkthrough targets the real controls. No separate demo learning logic is used.
-  const tour=[['view','Choose your study mode','Choose Questions First, Answers First or Random Mix. The existing session order is preserved; the setting applies to subsequent cards.'],['card','Meet your flashcard','Read the prompt and recall the answer.'],['recallEntry','Your Active Recall answer','Write your answer before flipping when Active Recall is on.'],['reveal','Flip the card','Once you’ve written your answer, Flip Card lights up. Use the Flip Card button or click the card itself, or press Enter or Space on the card.'],['studyToolbar','Active Recall','Turn optional recall on or off. A card with mandatory writing stays required; the existing Mandatory Response setting remains available.'],['studyNext','Tell the system how it went','Next Card opens the recall prompt. Got it records the review. Struggled and Didn’t know require the existing reinforcement response before advancing.'],['raiseHand','Get help','Existing explanations are available on supported cards after flipping. Peer questions and answers are planned, not available yet.'],['prev','Previous card','Previous returns to the last rated card and undoes that rating, preserving the existing learning behavior.']];
+  const tour=[['view','Choose your study mode','Choose Questions First, Answers First or Random Mix. The existing session order is preserved; the setting applies to subsequent cards.'],['card','Meet your flashcard','Read the prompt and recall the answer.'],['recallEntry','Your Active Recall answer','Write your answer before flipping when Active Recall is on.'],['reveal','Flip the card','Once you’ve written your answer, Flip Card lights up. Use the Flip Card button or click the card itself, or press Enter or Space on the card.'],['studyToolbar','Active Recall','Turn optional recall on or off. A card with mandatory writing stays required; the existing Mandatory Response setting remains available.'],['studyNext','See how you did','Next Card shows Rosalind’s grade. If you struggled or didn’t know it, write the answer in the adaptive learning box, then continue.'],['raiseHand','Get help','Existing explanations are available on supported cards after flipping. Peer questions and answers are planned, not available yet.'],['prev','Previous card','Previous returns to the last rated card and undoes that rating, preserving the existing learning behavior.']];
   let tourIndex=-1,tourBox=null;
   function endTour(){tourBox?.remove();tourBox=null;tourIndex=-1;document.querySelectorAll('.study-tour-target,.study-tour-also').forEach(e=>e.classList.remove('study-tour-target','study-tour-also'));if(mode==='cards')byId('recallEntry').hidden=!(recall||((mustWrite(curKey)||!!pendingR)&&mandatoryOn())||pendingR||draft.trim());}
   function showTour(i){endTour();if(i>=tour.length)return;tourIndex=i;const [id,title,text]=tour[i],target=byId(id);if(id==='recallEntry')byId('recallEntry').hidden=false;target.classList.add('study-tour-target');if(id==='reveal')byId('card').classList.add('study-tour-also');target.scrollIntoView({block:'center'});tourBox=document.createElement('div');tourBox.className='study-tour';tourBox.setAttribute('role','dialog');tourBox.setAttribute('aria-label','Study Guided Tour');tourBox.innerHTML=`<small>STEP ${i+1} OF ${tour.length}</small><h3>${title}</h3><p>${text}</p><button id="studyTourExit">Exit</button>${i?'<button id="studyTourBack">Back</button>':''}<button id="studyTourNext">${i===tour.length-1?'Finish':'Next →'}</button>`;document.body.append(tourBox);const r=target.getBoundingClientRect();tourBox.style.top=Math.max(12,Math.min(innerHeight-tourBox.offsetHeight-12,r.bottom+12))+'px';byId('studyTourExit').onclick=endTour;if(i)byId('studyTourBack').onclick=()=>showTour(i-1);byId('studyTourNext').onclick=()=>showTour(i+1);byId('studyTourNext').focus();}

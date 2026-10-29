@@ -173,3 +173,5 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
 #study #recallMessage[hidden]{display:none}
 #study #recallEntry .ws-foot{display:none}
 #study #studyExplain[hidden]{display:none}
+#study .effort-nudge{margin:10px 0 0;padding:10px 12px;border-radius:10px;background:#f6d4dc;color:#3a1f29;font:500 14px/1.45 'DM Sans',sans-serif}
+#study .effort-nudge[hidden]{display:none}

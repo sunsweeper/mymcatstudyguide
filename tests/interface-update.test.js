@@ -49,16 +49,16 @@ const prep = (hist, opts) => { const r = fresh(opts); setCard(r.A, r.k, hist); r
 /* After Struggled / Didn't know */
 { const { h, A, k } = fresh(); A.reveal(); A.chooseRating("hard");
   ok("M20 Struggled opens My Written Answers with the cursor in Current Answer", h.els.tabAns.attrs["aria-selected"]==="true" && h.focused()==="curAnswer" && A.pendingR==="hard");
-  ok("M21 ...Next card stays disabled under 20 characters (switch on)", h.els.curNext.hidden===false && h.els.curNext.disabled===true);
+  ok("M21 ...Next card stays disabled while the box is empty (switch on)", h.els.curNext.hidden===false && h.els.curNext.disabled===true);
   type(h, "curAnswer", "It is the powerhouse of the cell."); A.submitReinforce();
   const e = A.st(k).history.slice(-1)[0];
-  ok("M22 ...20+ characters: saved with the rating, no skip mark", e.r==="hard" && e.w==="It is the powerhouse of the cell." && !e.k); }
+  ok("M22 ...any written answer: saved with the rating, no skip mark", e.r==="hard" && e.w==="It is the powerhouse of the cell." && !e.k); }
 { const { h, A, k } = fresh(); h.els.mandToggle.onclick(); A.reveal(); A.chooseRating("again");
   ok("M23 switch off: Next card is enabled even when empty", h.els.curNext.disabled===false);
-  type(h, "curAnswer", "short"); const pos0 = A.pos; A.submitReinforce();
-  ok("M24 ...but too short asks 'Continue anyway?'", !!popup(h) && A.pos===pos0);
+  const pos0 = A.pos; A.submitReinforce();
+  ok("M24 ...but leaving it empty asks 'Continue anyway?'", !!popup(h) && A.pos===pos0);
   h.els.askYes.onclick(); const e = A.st(k).history.slice(-1)[0];
-  ok("M25 ...Yes saves what she typed, marked as skipped", e.r==="again" && e.w==="short" && e.k===1 && A.pos===pos0+1);
+  ok("M25 ...Yes saves the rating, marked as skipped", e.r==="again" && !e.w && e.k===1 && A.pos===pos0+1);
   ok("M26 the skipped attempt doesn't remove the requirement next time", A.memOf(k).needs===true); }
 
 /* Written answers: saved and hidden until the flip */
