@@ -4496,7 +4496,7 @@ async function loadOwner(){
 }
 function renderOwner(scr){
   const head = `<p class="sec-title">Owner Dashboard</p>
-    <p class="lede" style="margin:0">Who's on, who's been active, and who's gone quiet, plus each account's study activity. Scores and answers aren't visible here. "Online now" means the site was open in the last 3 minutes.</p>
+    <p class="lede" style="margin:0">Who has the site open, who has signed in lately, and who's gone quiet, plus each account's study activity. Scores and answers aren't visible here. "Seen" means signed in with the site open on screen, studying or not; it updates about once a minute. This list is a snapshot from when you opened it: press Refresh to update.</p>
     <div class="controls"><button class="btn" type="button" id="sideBack">Back</button><button class="btn" type="button" id="ownerRefresh">Refresh</button></div>`;
   let body = "";
   if(!ownerData) body = `<p class="lede" style="margin:0">Loading…</p>`;
@@ -4516,17 +4516,17 @@ function renderOwner(scr){
     const gone = rows.filter(r => ago(r) > 14 * 864e5 && (r.last || now - Date.parse(r.u.created_at) > 14 * 864e5));
     const nm = u => esc([u.first_name, u.last_name].filter(Boolean).join(" ") || "(no name)");
     const group = (title, list, empty, showLast) => `<section class="owner-group"><p class="owner-gtitle">${title} <span class="owner-count">${list.length}</span></p>
-      ${list.length ? `<ul class="owner-glist">${list.map(r => `<li><span class="owner-gname">${nm(r.u)}</span> <span class="owner-email">${esc(r.u.email || "")}</span>${showLast ? ` <span class="owner-email">· ${r.last ? "last seen " + when(r.last) : "never studied"}</span>` : ""}</li>`).join("")}</ul>` : `<p class="owner-empty">${empty}</p>`}</section>`;
+      ${list.length ? `<ul class="owner-glist">${list.map(r => `<li><span class="owner-gname">${nm(r.u)}</span> <span class="owner-email">${esc(r.u.email || "")}</span>${showLast ? ` <span class="owner-email">· ${r.last ? "last seen " + when(r.last) : "never signed in"}</span>` : ""}</li>`).join("")}</ul>` : `<p class="owner-empty">${empty}</p>`}</section>`;
     body = `<div class="owner-groups">
-      ${group("Online now", online, "Nobody right now.", false)}
-      ${group("Active in the last 7 days", week7, "Nobody this week.", true)}
+      ${group("Site open now (last 3 minutes)", online, "Nobody right now.", false)}
+      ${group("Seen in the last 7 days", week7, "Nobody this week.", true)}
       ${group("Not seen in over 2 weeks", gone, "Everyone has been on in the last 2 weeks.", true)}
       </div>
       <p class="owner-gtitle" style="margin:0">All accounts <span class="owner-count">${rows.length}</span></p>
       <ul class="list">${rows.map(r => `<li class="owner-row">
         <span class="owner-name">${esc([r.u.first_name, r.u.last_name].filter(Boolean).join(" ") || "(no name)")} <span class="owner-email">${esc(r.u.email || "")}</span></span>
         <span>MCAT date: <b>${r.u.mcat_date ? niceDate(r.u.mcat_date) : r.u.mcat_unscheduled ? "Not scheduled yet" : "—"}</b></span>
-        <span>Last active: <b>${when(r.last)}</b> · Days studied: <b>${r.days}</b> · Joined ${new Date(r.u.created_at).toLocaleDateString(undefined, { month:"short", day:"numeric", year:"numeric" })}</span>
+        <span>Last seen: <b>${when(r.last)}</b> · Days studied: <b>${r.days}</b> · Joined ${new Date(r.u.created_at).toLocaleDateString(undefined, { month:"short", day:"numeric", year:"numeric" })}</span>
         <span>Cards reviewed: <b>${r.wcards}</b> this week · <b>${r.cards}</b> total</span>
         <span>Study time: <b>${fmt(r.wsecs)}</b> this week · <b>${fmt(r.secs)}</b> total</span></li>`).join("")}</ul>`;
   }
