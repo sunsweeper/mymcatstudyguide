@@ -96,7 +96,7 @@ button{-webkit-tap-highlight-color:transparent}
 .screen{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
   padding:32px 26px;display:flex;flex-direction:column;gap:22px;min-height:320px;justify-content:center}
 .screen.quote{background:var(--quote)}
-.welcome{font-family:var(--f-script);font-weight:600;font-size:1.9rem;line-height:1.2;margin:0;color:var(--ink)}
+.welcome{font-family:"Caveat", var(--f-script);font-weight:700;font-size:2.2rem;line-height:1.2;margin:0;color:var(--ink)}
 .lede{font-size:.95rem;color:var(--ink);margin:-10px 0 0;line-height:1.5}
 .big{font-family:var(--f-card);font-size:1.5rem;line-height:1.4;margin:0;text-wrap:balance}
 .q-text{font-family:var(--f-card);font-size:1.4rem;line-height:1.5;font-style:italic;text-wrap:pretty}
@@ -1054,7 +1054,7 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .screen.doc.quote-spacing .q-intro + div{margin-top:96px;margin-bottom:96px;text-align:center}
 </style>
 <style id="study-demo-visual-match">
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap");
 /* Project 2: visual presentation only. No controls, states or actions are added. */
 #study{width:100%;max-width:900px;align-self:center;min-width:0}
 #study>div{box-sizing:border-box;display:flex;flex-direction:column;gap:18px;padding:28px;border:1px solid #3b5646;border-radius:22px;background:#122b22;color:#f8f2e8;box-shadow:0 22px 55px #0002}
@@ -1315,6 +1315,7 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
   </div>
 </div>
 
+<script src="/referral-entry.js"></script>
 <script src="/app-router.js"></script>
 <script src="supabase.js"></script>
 <script>
@@ -3222,11 +3223,11 @@ function goBack(){ show(backTo === "cards" && !deck[pos] ? "welcome" : backTo); 
 function studiedCount(p){ return new Set(Object.keys((p && p.cards) || {}).map(idOf)).size; }
 function exportProgress(){
   try {
-    const data = { app:"MyMCATstudyguide", version:2, exported:new Date().toISOString(), progress };
+    const data = { app:"TabiPrep", version:2, exported:new Date().toISOString(), progress };
     const blob = new Blob([JSON.stringify(data)], { type:"application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `mymcatstudyguide-progress-${today()}.json`;
+    a.download = `tabiprep-progress-${today()}.json`;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);
     backupMsg = `Backup file created: ${a.download}. Check your downloads folder.`;
@@ -3236,7 +3237,7 @@ function exportProgress(){
 // A backup is accepted only if it was made by Export Progress and its card records look right.
 function validBackup(d){
   const isObj = x => !!x && typeof x === "object" && !Array.isArray(x);
-  if(!isObj(d) || d.app !== "MyMCATstudyguide") return false;
+  if(!isObj(d) || d.app !== "TabiPrep") return false;
   if(typeof d.version === "number" && d.version > 2) return false;
   const p = d.progress;
   if(!isObj(p) || !isObj(p.cards)) return false;
@@ -3255,7 +3256,7 @@ function readImport(file){
       const data = JSON.parse(fr.result);
       if(!validBackup(data)) throw 0;
       pendingImport = data; backupMsg = ""; show("import");
-    } catch(e){ backupMsg = "That file isn't a usable MyMCATstudyguide backup, so nothing was changed. Choose a file made with Export Progress."; render(); }
+    } catch(e){ backupMsg = "That file isn't a usable TabiPrep backup, so nothing was changed. Choose a file made with Export Progress."; render(); }
   };
   fr.onerror = () => { backupMsg = "The file couldn't be read. Try choosing it again."; render(); };
   fr.readAsText(file);
@@ -3263,7 +3264,7 @@ function readImport(file){
 function applyImport(){
   const prev = progress;
   // Keep a safety copy of the current progress first, so a restore can be undone.
-  try { localStorage.setItem(RECOVERY, JSON.stringify({ app:"MyMCATstudyguide", version:2, exported:new Date().toISOString(), progress:prev })); }
+  try { localStorage.setItem(RECOVERY, JSON.stringify({ app:"TabiPrep", version:2, exported:new Date().toISOString(), progress:prev })); }
   catch(e){ pendingImport = null; backupMsg = "Nothing was changed: the browser couldn't keep a safety copy of your current progress first. Export Progress to back it up, then try again."; show("welcome"); return; }
   progress = Object.assign(blank(), pendingImport.progress);
   progress.open = progress.open || {}; progress.view = progress.view || "q"; progress.notes = progress.notes || {}; progress.bookmarks = progress.bookmarks || {};
@@ -3618,7 +3619,7 @@ function renderScreen(){
       ${endQ ? `<div><span class="lab" style="margin-bottom:8px">Words from the wise:</span><div class="q-text">“${endQ[0]}”</div><div class="q-by">${endQ[1]}</div></div>` : ""}
       <p class="lede" style="margin:0">${upcoming ? `Next review in ${topicName(filter)}: ${niceDate(upcoming)}.` : ""}</p>
       <div class="controls"><button class="btn" id="other" type="button">Pick another topic</button>
-      <button class="btn primary" id="more" type="button">Next ${Math.min(RULES.sessionSize, poolFor(filter).length)} cards</button></div>
+      <button class="btn primary" id="more" type="button"${poolFor(filter).length ? "" : ' hidden style="display:none"'}>Next ${Math.min(RULES.sessionSize, poolFor(filter).length)} cards</button></div>
       ${undo.length ? `<div class="backup"><button class="link" id="prevDone" type="button">Previous Card</button></div>` : ""}`;
     if(undo.length) $("prevDone").onclick = previousCard;
     $("other").onclick = () => show("welcome");
@@ -3980,10 +3981,11 @@ function mergeProgress(list){
   return out;
 }
 function setSyncError(on){ const n = $("syncErr"); if(n) n.hidden = !on; }
-function schedulePush(){ if(!AUTH_ON || !sbUser) return; clearTimeout(pushTimer); pushTimer = setTimeout(pushProgress, 4000); }
+function schedulePush(){ if(!AUTH_ON || !sbUser) return; clearTimeout(pushTimer); pushTimer = setTimeout(pushProgress, 1500); }   // 1.5 s: less at risk if the browser closes
 async function pushProgress(){
   clearTimeout(pushTimer); pushTimer = null;
   if(!sbUser) return false;
+  if(window.TabiSession && !(await window.TabiSession.allowSave())) return false;   // one device at a time: only the active session saves
   try {
     const { error } = await sb.from("progress").upsert({ user_id:sbUser.id, data:progress, updated_at:new Date().toISOString() });
     setSyncError(!!error); return !error;
@@ -4219,8 +4221,9 @@ function renderAuth(scr){
       if(problem){ showAuthMsg(problem); return; }
       authEmail = email;
       authAction(async () => {
-        const { data, error } = await sb.auth.signUp({ email, password:pw, options:{ emailRedirectTo:siteUrl(), data:{ first_name:name, last_name:last, mcat_date:noDate ? null : mcat, mcat_unscheduled:noDate, journey_why:why, accepted_terms:true, age_confirmed:true } } });
+        const { data, error } = await sb.auth.signUp({ email, password:pw, options:{ emailRedirectTo:siteUrl(), data:{ first_name:name, last_name:last, mcat_date:noDate ? null : mcat, mcat_unscheduled:noDate, journey_why:why, accepted_terms:true, age_confirmed:true, ...(window.TabiReferral ? TabiReferral.data() : {}) } } });
         if(error) throw error;
+        if(window.TabiReferral) TabiReferral.sent({ first:name, last, email });   // referral sign-up: details go to the owner
         if(data && data.session){ authBusy = false; await enterAccount(data.user); return; }   // projects without email confirmation
         authView = "check"; authMsg = ""; authOk = false;
       }); };
@@ -4884,5 +4887,7 @@ else render();
 <script src="study-stats.js"></script>
 <script src="mcat-ask.js"></script>
 <script src="app-site-nav.js"></script>
+<script src="session-guard.js"></script>
+<script src="referral.js"></script>
 </body>
 </html>
