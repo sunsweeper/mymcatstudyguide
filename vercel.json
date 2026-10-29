@@ -106,5 +106,16 @@
     {
       "handle": "filesystem"
     }
-  ]
+  ],
+  "crons": [
+    {
+      "path": "/api/encourage",
+      "schedule": "0 16 * * *"
+    }
+  ],
+  "functions": {
+    "api/encourage.js": {
+      "maxDuration": 60
+    }
+  }
 }

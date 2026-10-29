@@ -409,6 +409,9 @@ header #title, header .welcome, #topicname{color:var(--on-page-head)}
 .auth-form .field{display:flex;flex-direction:column;gap:6px;font-size:.95rem;font-weight:700;color:var(--forest)}
 .auth-form input[type=email], .auth-form input[type=password], .auth-form input[type=text]{font:400 1rem var(--f-ui);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:var(--r);padding:11px 14px;min-height:46px;width:100%;box-sizing:border-box}
 .auth-form input:focus{outline:2px solid var(--accent);outline-offset:2px;border-color:var(--accent)}
+.auth-form textarea{font:400 1rem/1.5 var(--f-ui);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:var(--r);padding:11px 14px;width:100%;box-sizing:border-box;resize:vertical;min-height:120px}
+.auth-form textarea:focus{outline:2px solid var(--accent);outline-offset:2px;border-color:var(--accent)}
+.journey-q{font-weight:400;font-size:.95rem;line-height:1.55;color:var(--ink)}
 .check{display:flex;align-items:flex-start;gap:10px;font-size:.95rem;color:var(--ink);line-height:1.4;cursor:pointer}
 .check.small{font-size:.88rem}
 .check input{width:18px;height:18px;margin:1px 0 0;accent-color:var(--rose-ink);flex-shrink:0}
@@ -4122,7 +4125,8 @@ async function authAction(fn){
   authBusy = false; if(mode === "auth") render();
 }
 // Form problems are shown in place, so what she typed (password, check boxes) stays put.
-function showAuthMsg(text){ authMsg = text; authOk = false; const m = $("aMsg"); if(m){ m.textContent = text; m.className = "auth-msg"; m.setAttribute("role", "alert"); } else render(); }
+function showAuthMsg(text){ authMsg = text; authOk = false; const m = $("aMsg"); if(m){ m.textContent = text; m.style.visibility = ""; m.className = "auth-msg"; m.setAttribute("role", "alert"); } else render(); }
+let authWhy = "";
 const validEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 function renderAuth(scr){
   const msg = `<p class="auth-msg${authOk ? " ok" : ""}" id="aMsg" role="${authOk ? "status" : "alert"}">${esc(authMsg)}</p>`;
@@ -4178,6 +4182,7 @@ function renderAuth(scr){
           <span class="hint-sm" id="mcatHint">Sets your daily study pace and keeps reviews on track before your test.</span>
           <label class="check small"><input type="checkbox" id="aNoDate"><span>My MCAT date isn't scheduled yet.</span></label>
         </fieldset>
+        <label class="field">Your journey<span class="journey-q" id="aWhyQ">The journey to becoming a physician is long and full of sacrifice. But somewhere along the way, something inspired you to take that first step. What brought you to this journey, and what motivated you to become a doctor? Take your time. There are no right or wrong answers.</span><textarea id="aWhy" maxlength="2000" rows="5" required aria-describedby="aWhyQ aWhyHint">${esc(authWhy)}</textarea><span class="hint-sm" id="aWhyHint">Someday, when you need it, we'll remind you of your answer.</span></label>
         <label class="check"><input type="checkbox" id="aAge"><span>I'm 18 or older.</span></label>
         <label class="check"><input type="checkbox" id="aTerms"><span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span></label>
         ${msg}
@@ -4186,19 +4191,20 @@ function renderAuth(scr){
       <div class="auth-links"><span></span><button class="link" type="button" id="toLogin">I already have an account</button></div>`;
     $("aShow").onchange = e => { $("aPw").type = e.target.checked ? "text" : "password"; };
     $("toLogin").onclick = () => { authEmail = $("aEmail").value.trim(); authView = "login"; authMsg = ""; render(); };
+    $("aWhy").oninput = e => { authWhy = e.target.value; };   // kept if the form redraws
     $("aNoDate").onchange = e => { $("aMcat").disabled = !!e.target.checked; if(e.target.checked) $("aMcat").value = ""; };
-    $("authForm").onchange = () => { const m = $("aMsg"); if(m && authMsg && !authOk){ authMsg = ""; m.textContent = ""; } };   // a fixed problem's message goes away
+    $("authForm").onchange = () => { const m = $("aMsg"); if(m && authMsg && !authOk){ authMsg = ""; m.style.visibility = "hidden"; } };   // a fixed problem's message goes away; its space stays so the button doesn't jump out from under a click
     $("authForm").onsubmit = e => { e.preventDefault();
       const name = $("aName").value.trim(), last = $("aLast").value.trim(), email = $("aEmail").value.trim(), pw = $("aPw").value;
-      const mcat = ($("aMcat").value || "").trim(), noDate = !!$("aNoDate").checked;
+      const mcat = ($("aMcat").value || "").trim(), noDate = !!$("aNoDate").checked, why = ($("aWhy").value || "").trim();
       const badDate = mcat && (!/^\d{4}-\d{2}-\d{2}$/.test(mcat) || daysUntil(mcat) < 0 || daysUntil(mcat) > 3 * 366);
       const problem = !name ? "Please enter your first name." : !last ? "Please enter your last name." : !validEmail(email) ? "Please enter a valid email address." : pw.length < 8 ? "Your password needs at least 8 characters."
         : !mcat && !noDate ? "Please enter your MCAT test date, or check “My MCAT date isn't scheduled yet.”" : badDate ? "Please enter an MCAT date between today and three years from now."
-        : !$("aAge").checked ? "You need to be 18 or older to create an account." : !$("aTerms").checked ? "Please agree to the Terms of Service and Privacy Policy." : "";
+        : why.length < 10 ? "Please tell us what brought you to this journey." : !$("aAge").checked ? "You need to be 18 or older to create an account." : !$("aTerms").checked ? "Please agree to the Terms of Service and Privacy Policy." : "";
       if(problem){ showAuthMsg(problem); return; }
       authEmail = email;
       authAction(async () => {
-        const { data, error } = await sb.auth.signUp({ email, password:pw, options:{ emailRedirectTo:siteUrl(), data:{ first_name:name, last_name:last, mcat_date:noDate ? null : mcat, mcat_unscheduled:noDate, accepted_terms:true, age_confirmed:true } } });
+        const { data, error } = await sb.auth.signUp({ email, password:pw, options:{ emailRedirectTo:siteUrl(), data:{ first_name:name, last_name:last, mcat_date:noDate ? null : mcat, mcat_unscheduled:noDate, journey_why:why, accepted_terms:true, age_confirmed:true } } });
         if(error) throw error;
         if(data && data.session){ authBusy = false; await enterAccount(data.user); return; }   // projects without email confirmation
         authView = "check"; authMsg = ""; authOk = false;
@@ -4825,5 +4831,6 @@ else render();
 
 <script src="study-ui.js"></script>
 <script src="study-stats.js"></script>
+<script src="mcat-ask.js"></script>
 </body>
 </html>
