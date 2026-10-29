@@ -1,7 +1,7 @@
 'use strict';
 // Sign-up asks why the student began this journey; students without an MCAT date are asked on a timed schedule.
 const { chromium } = require('playwright'), assert = require('node:assert/strict'), create = require('../tools/preview-server');
-let count = 0; const ok = (n, v) => { assert.ok(v, n); count++; console.log('PASS', n); };
+let count = 0; const signups = []; const ok = (n, v) => { assert.ok(v, n); count++; console.log('PASS', n); };
 const DAY = 864e5;
 const mock = createdAgo => `(()=>{const user={id:'ask-fixture',email:'fixture@example.invalid',created_at:new Date(Date.now()-${createdAgo}).toISOString(),user_metadata:{first_name:'Fixture'}};window.__signUps=[];window.supabase={createClient:()=>({auth:{onAuthStateChange(){},async getSession(){return {data:{session:${createdAgo === null ? 'null' : '{user}'}}}},async getUser(){return {data:{user}}},async updateUser(a){window.__updates=(window.__updates||[]).concat([a]);return {data:{user},error:null}},async signUp(a){window.__signUps.push(a);return {data:{user:null,session:null},error:null}}},from(t){return {select(){return this},eq(){return this},async maybeSingle(){return {data:t==='profiles'?{first_name:'Fixture',is_admin:false}:null,error:null}},async upsert(){return {error:null}}}},async rpc(){return {data:null,error:null}}})};})();`;
 (async () => {
@@ -9,6 +9,7 @@ const mock = createdAgo => `(()=>{const user={id:'ask-fixture',email:'fixture@ex
   const base = `http://127.0.0.1:${server.address().port}`, browser = await chromium.launch(), errors = [];
   const open = async (createdAgo, path = '/login') => {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 900 } });
+    await ctx.route('**/api/signup', r => { signups.push(JSON.parse(r.request().postData())); r.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' }); });
     await ctx.route('**/supabase.js', r => r.fulfill({ contentType: 'text/javascript', body: mock(createdAgo) }));
     const p = await ctx.newPage(); p.on('pageerror', e => errors.push(e.message)); await p.goto(base + path); return { ctx, p };
   };
@@ -17,15 +18,15 @@ const mock = createdAgo => `(()=>{const user={id:'ask-fixture',email:'fixture@ex
     let { ctx, p } = await open(null, '/signup');
     await p.waitForSelector('#aWhy');
     ok('Sign-up shows the journey question and the reminder line', (await p.textContent('#aWhyQ')).includes('what motivated you to become a doctor') && (await p.textContent('#aWhyHint')).includes("we'll remind you of your answer"));
-    await p.fill('#aName', 'Ada'); await p.fill('#aLast', 'Lee'); await p.fill('#aEmail', 'ada@example.invalid'); await p.fill('#aPw', 'longenough1');
+    await p.fill('#aCode', 'Sarah2028'); await p.fill('#aName', 'Ada'); await p.fill('#aLast', 'Lee'); await p.fill('#aEmail', 'ada@example.invalid'); await p.fill('#aPw', 'longenough1');
     await p.check('#aNoDate'); await p.check('#aAge'); await p.check('#aTerms');
     await p.click('#authForm button[type=submit]');
-    ok('An answer is required', (await p.textContent('#aMsg')).includes('what brought you to this journey') && await p.evaluate(() => window.__signUps.length) === 0);
+    ok('An answer is required', (await p.textContent('#aMsg')).includes('what brought you to this journey') && signups.length === 0);
     ok('Fixing a field hides the message without moving the button', await p.evaluate(() => { const b = document.querySelector('#authForm button[type=submit]').getBoundingClientRect().top; document.getElementById('aWhy').value = 'x'; document.getElementById('authForm').dispatchEvent(new Event('change')); return Math.abs(document.querySelector('#authForm button[type=submit]').getBoundingClientRect().top - b) < 1 && getComputedStyle(document.getElementById('aMsg')).visibility === 'hidden'; }));
     await p.fill('#aWhy', 'My grandmother’s nurse made the scariest week of our lives feel survivable.');
-    await p.click('#authForm button[type=submit]'); await p.waitForFunction(() => window.__signUps.length === 1);
-    const sent = await p.evaluate(() => window.__signUps[0].options.data);
-    ok('The answer is saved with the account', sent.journey_why.startsWith('My grandmother') && sent.mcat_unscheduled === true);
+    await p.click('#authForm button[type=submit]'); await p.waitForTimeout(800);
+    const sent = signups[0];
+    ok('The answer is saved with the account', signups.length === 1 && sent.journey_why.startsWith('My grandmother') && sent.mcat_unscheduled === true && sent.code === 'Sarah2028');
     await ctx.close();
 
     // ---- too early: no pop-up ----
