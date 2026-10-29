@@ -2398,7 +2398,7 @@ const HELP_VIDEO = "how-to-use-me.mp4", HELP_CAPTIONS = "how-to-use-me.vtt";
 let pendingR = null, reinforceDraft = "", reportOpen = false, reportBusy = false, reportFlashFor = null;
 // Card reports go through FormSubmit (formsubmit.co) to the owner's inbox. This private code stands in for the email address.
 const REPORT_ENDPOINT = "https://formsubmit.co/ajax/11f5fbb7c7548c9799b75fc6c3d22a41";
-const MIN_REINFORCE = 20;   // ratings made this session, newest last, so "Previous Card" can take one back
+const MIN_REINFORCE = 1;   // adaptive learning box: any written answer counts (Rosalind nudges very low-effort ones once; study-ui.js)   // ratings made this session, newest last, so "Previous Card" can take one back
 
 /* ---------- Scheduling rules (documented in SCHEDULING.md) ---------- */
 // End-of-session quotes (not in the regular rotation).
