@@ -1,5 +1,5 @@
 'use strict';
-// Daily backup (Vercel Cron): every account, profile, study-progress row and activity row, saved as one gzipped JSON
+// Daily backup (Vercel Cron): every account, profile, study-progress row, activity row and review event, saved as one gzipped JSON
 // file in a Google Drive folder. Keeps the newest 30 files. Works on Supabase's free plan (reads with the service key).
 // Google access, either:
 //   A) a Google Workspace Shared Drive + service account: GOOGLE_SERVICE_ACCOUNT_JSON
@@ -15,10 +15,11 @@ async function sbGet(path){
   if(!r.ok) throw new Error(`supabase ${r.status} ${path.split('?')[0]}`);
   return r.json();
 }
-async function table(name){   // all rows, 1000 at a time
+async function table(name, optional){   // all rows, 1000 at a time
   const out = [];
   for(let from = 0; ; from += 1000){
-    const r = await fetch(`${E.SB_URL}/rest/v1/${name}?select=*`, { headers: { ...E.admin(), Range: `${from}-${from + 999}`, 'Range-Unit': 'items' }, signal: AbortSignal.timeout(20000) });
+    const r = await fetch(`${E.SB_URL}/rest/v1/${name}?select=*${name === 'review_events' ? '&order=id' : ''}`, { headers: { ...E.admin(), Range: `${from}-${from + 999}`, 'Range-Unit': 'items' }, signal: AbortSignal.timeout(20000) });
+    if(optional && r.status === 404) return out;   // table not created yet
     if(!r.ok && r.status !== 206) throw new Error(`supabase ${r.status} ${name}`);
     const rows = await r.json(); out.push(...rows);
     if(rows.length < 1000) return out;
@@ -77,8 +78,8 @@ module.exports = async (req, res) => {
   const missing = [!process.env.SUPABASE_SERVICE_ROLE_KEY && 'SUPABASE_SERVICE_ROLE_KEY', !process.env.BACKUP_FOLDER_ID && 'BACKUP_FOLDER_ID', !google && 'GOOGLE_SERVICE_ACCOUNT_JSON or GOOGLE_CLIENT_ID/SECRET/REFRESH_TOKEN'].filter(Boolean);
   if(missing.length){ log('not_configured', { missing }); return res.status(503).json({ error: 'Not configured', missing }); }
   try {
-    const [u, profiles, progress, activity] = await Promise.all([users(), table('profiles'), table('progress'), table('activity')]);
-    const snapshot = { app: 'TabiPrep', kind: 'daily-backup', version: 1, created: new Date().toISOString(), counts: { users: u.length, profiles: profiles.length, progress: progress.length, activity: activity.length }, users: u, profiles, progress, activity };
+    const [u, profiles, progress, activity, review_events] = await Promise.all([users(), table('profiles'), table('progress'), table('activity'), table('review_events', true)]);
+    const snapshot = { app: 'TabiPrep', kind: 'daily-backup', version: 1, created: new Date().toISOString(), counts: { users: u.length, profiles: profiles.length, progress: progress.length, activity: activity.length, review_events: review_events.length }, users: u, profiles, progress, activity, review_events };
     const gz = zlib.gzipSync(Buffer.from(JSON.stringify(snapshot)));
     const name = `tabiprep-backup-${snapshot.created.slice(0, 10)}.json.gz`;
     const access = await token();

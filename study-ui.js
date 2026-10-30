@@ -54,7 +54,7 @@
     else if(popupView==='dispute'){E.textContent='DISPUTE';T.textContent='Dispute this grade';D.textContent=`We graded it ${rateLabel(g.rating)}. That grade stays for scheduling, and we'll review your dispute.`;}
     else{E.textContent='YOUR RECALL';T.textContent='Did you remember the answer to the last card?';D.textContent=check.why()||'Choose the response that best matches how well you remembered.';}
   }
-  function openRating(manual){if(mode!=='cards'||!revealed||!flipped||flipping||askCfg||noteModalOpen)return;returnTo=document.activeElement;dialogKey=curKey;popupView=manual===true?'manual':'';selfR=null;modal.hidden=false;byId('study').inert=true;
+  function openRating(manual){if(mode!=='cards'||!revealed||!flipped||flipping||askCfg||noteModalOpen)return;window.TabiReviewLog?.popupOpened(curKey);returnTo=document.activeElement;dialogKey=curKey;popupView=manual===true?'manual':'';selfR=null;modal.hidden=false;byId('study').inert=true;
     if(manual===true){byId('studyRatingDialog').dataset.view='manual';byId('gradeActions').hidden=true;byId('disputeNote').hidden=true;byId('rateRow').hidden=false;byId('rateRow').querySelectorAll('[data-r]').forEach(b=>b.disabled=false);byId('studyRatingTitle').textContent='Did you remember the answer to the last card?';byId('studyRatingDescription').textContent='Choose the response that best matches how well you remembered.';byId('studyRatingEyebrow').textContent='YOUR RECALL';}
     else showPopup();
     (modal.querySelector('#popupWrite:not([hidden]) #popupReinforce')||modal.querySelector('#gradeActions:not([hidden]) #gradeAccept')||modal.querySelector('#rateRow:not([hidden]) [data-r]:not(:disabled)')||byId('studyRatingDialog')).focus();}
@@ -63,6 +63,7 @@
   byId('gradeAccept').onclick=()=>{
     const g=check.current(),r=popupView==='self'?selfR:g&&g.rating;
     if(modal.hidden||dialogKey!==curKey||!r)return;
+    window.TabiReviewLog?.noteGrade(curKey,popupView==='self'?{source:'self'}:{source:g.source,disputed:!!g.disputed});
     if(r==='good'){applyRating('good');return;}
     const text=byId('popupReinforce').value.trim();
     if(!text&&mandatoryOn()){byId('popupNeed').hidden=false;byId('popupReinforce').focus();return;}
@@ -71,16 +72,16 @@
   };
   byId('popupReinforce').addEventListener('input',()=>{byId('popupNeed').hidden=true;});
   // No grade available (rate yourself): Struggled / Didn't know open the box here instead of going back to the card.
-  byId('rateRow').addEventListener('click',e=>{const b=e.target.closest('[data-r]');if(modal.hidden||!b||b.dataset.r==='good')return;
+  byId('rateRow').addEventListener('click',e=>{const b=e.target.closest('[data-r]');if(!modal.hidden&&b)window.TabiReviewLog?.noteGrade(curKey,{source:'self'});if(modal.hidden||!b||b.dataset.r==='good')return;
     e.preventDefault();e.stopImmediatePropagation();selfR=b.dataset.r;popupView='self';showPopup();byId('popupReinforce').focus();},true);
   // Retire: offered once a card has been answered right before (either direction) and is right again now.
   function canRetire(key){const id=idOf(key);if(typeof retireCard!=='function'||(progress.retired&&progress.retired[id]))return false;
     return [id,id+REV].reduce((n,k)=>n+((st(k)?.history)||[]).filter(h=>h.r==='good'&&!h.b&&!h.e).length,0)>=1;}
-  byId('gradeRetire').onclick=()=>{const g=check.current();if(modal.hidden||dialogKey!==curKey||!g||g.rating!=='good')return;const id=idOf(curKey);applyRating('good');retireCard(id);};
+  byId('gradeRetire').onclick=()=>{const g=check.current();if(modal.hidden||dialogKey!==curKey||!g||g.rating!=='good')return;const id=idOf(curKey);window.TabiReviewLog?.noteGrade(curKey,{source:g.source,disputed:!!g.disputed,retired:true});applyRating('good');retireCard(id);};
   byId('gradeDispute').onclick=()=>{popupView='dispute';showPopup();byId('disputeText').value='';byId('disputeText').focus();};
   // The system's grade is what the scheduler records; a dispute only sends the card for review.
   byId('disputeSend').onclick=()=>{const g=check.current();if(modal.hidden||dialogKey!==curKey||!g)return;check.dispute(byId('disputeText').value.trim());
-    if(g.rating==='good'){applyRating('good');return;}
+    if(g.rating==='good'){window.TabiReviewLog?.noteGrade(curKey,{source:g.source,disputed:true});applyRating('good');return;}
     popupView='';showPopup();byId('studyRatingDescription').textContent='Dispute sent. We\'ll review it. '+g.reasoning;byId('popupReinforce').focus();};   // still write it out, then Save and Next Card
   byId('disputeBack').onclick=()=>{popupView='';showPopup();byId('gradeAccept').focus();};
   // Adaptive learning box: a very short entry that doesn't resemble the answer gets one nudge from Rosalind; pressing Next again continues.

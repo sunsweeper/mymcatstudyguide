@@ -19,7 +19,7 @@
     "persistPlace": "ddf30dd54f7691c4ca139cb61a0131ca36e7b0e839dd9cbe315e6ca646129126",
     "startRetry": "6d872b53f0812cf30b7a83037f2e4600b2a6ff9eb27099603bc73c364ef97b9e",
     "endOfPass": "e812946c18ea92b7b1d0917e5f1e896ead49bbd82dacaee65d8b1cd0f9bf02a0",
-    "answer": "d3dd16ae872ffc8fec68ab5cb6af9982d3845083e4a4b873b1b7db9b032dd504",
+    "answer": "d96a332aa25533f3cc7b744d87909f96d82ff65469fb273043f6160f18bc8618",
     "chooseRating": "4d136a09edaa5966997904a7f6d32ee88e9dafce93a38a8e8539fd8578c295f1",
     "submitReinforce": "b5859342273957d5e0bb2c0307674e00aab0def84013431e9c102986d178f5cd",
     "mergeProgress": "a3cff37d55a78dc3b1a9951cc1932151ed3849a4eb9dd5abc7beb09fc50df26f",
@@ -92,6 +92,14 @@
         "mergeProgress"
       ],
       "reason": "Deck import: the \"shuffle my imported cards into All topics\" setting is carried between devices like other study settings (owner approved engine changes for deck import)."
+    },
+    {
+      "date": "2026-10-29",
+      "approved_by": "Aaron Walch",
+      "functions": [
+        "answer"
+      ],
+      "reason": "Review events: after each rating, one line hands the rating to review-log.js, which keeps a permanent per-review research log (review_events). Scheduling and saving are unchanged; the call can't block or alter a rating."
     }
   ]
 }

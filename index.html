@@ -3949,6 +3949,7 @@ function previousCard(){
   if(flipping || !undo.length) return;
   if(mode === "cards" && curKey && !previousCard.go){ leaveCard(() => { previousCard.go = true; try { previousCard(); } finally { previousCard.go = false; } }); return; }
   const u = undo.pop();
+  try { if(window.TabiReviewLog) window.TabiReviewLog.undone(u.key); } catch(e){}
   if(u.card) progress.cards[u.key] = u.card; else delete progress.cards[u.key];
   if(u.boosted) progress.boosted = u.boosted;
   progress.newDay = u.newDay;
@@ -4817,6 +4818,7 @@ function answer(r, written, extra){
     else { o.shown = o.shown || {}; o.shown[idOf(key)] = key; }
   }
   rate(key, r, written, isBoost, extra);
+  try { if(window.TabiReviewLog) window.TabiReviewLog.reviewed(key, r, { written:!!written, boost:isBoost, extra:extra || {}, topic:filter, session:o }); } catch(e){}   // research log (review-log.js); never blocks a rating
   if(isBoost){ progress.boosted = progress.boosted || {}; progress.boosted[idOf(key)] = today(); save(); }
   noteActivity(1, 0);
   if(r === "good" && (firstToday || isBoost) && levelOf(key) === "mastered") maybeCelebrate(!wasMastered);
@@ -4977,5 +4979,6 @@ else render();
 <script src="session-guard.js"></script>
 <script src="referral.js"></script>
 <script src="deck-import.js"></script>
+<script src="review-log.js"></script>
 </body>
 </html>
