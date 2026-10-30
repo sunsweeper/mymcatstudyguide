@@ -80,7 +80,7 @@ let count = 0; const check = (name, v) => { assert.ok(v, name); count++; console
     {
       const ctx = await browser.newContext({ viewport: { width: 1280, height: 1000 }, reducedMotion: 'reduce' });
       const demoCalls = []; await ctx.route('**/api/grade', r => { demoCalls.push(r.request().postDataJSON()); r.fulfill({ contentType: 'application/json', body: JSON.stringify({ rating: 'again', reasoning: 'Classical pairs two stimuli; you described consequences for both.' }) }); });
-      const h = await ctx.newPage(); h.on('pageerror', e => errors.push(e.message)); await h.goto(base + '/');
+      const h = await ctx.newPage(); h.on('pageerror', e => errors.push(e.message)); await h.goto(base + '/mcat');
       await h.fill('#recallDraft', 'aspartate and glutamate'); await h.click('#demoReveal'); await h.waitForTimeout(250); await h.click('#demoNext');
       await h.waitForSelector('#tour-ratings[data-view=grade]');
       check('Demo: matched answer graded Got it without the AI', (await h.textContent('#ratingModalTitle')) === 'Good job, you knew that one.' && demoCalls.length === 0);

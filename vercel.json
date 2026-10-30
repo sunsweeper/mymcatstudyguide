@@ -18,10 +18,7 @@
     },
     {
       "src": "^/$",
-      "status": 302,
-      "headers": {
-        "Location": "/mcat"
-      }
+      "dest": "/home.html"
     },
     {
       "src": "^/(?!mcat(?:/|$))[Mm][Cc][Aa][Tt](/.*)?$",

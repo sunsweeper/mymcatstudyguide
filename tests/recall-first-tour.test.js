@@ -10,7 +10,7 @@ try{for(const width of [390,1440]){
   const ctx=await browser.newContext({viewport:{width,height:1000},reducedMotion:'reduce'});
   await ctx.route('**/supabase.js',r=>r.fulfill({contentType:'text/javascript',body:mock}));
   // Homepage demo
-  const h=await ctx.newPage();h.on('pageerror',e=>errors.push(e.message));await h.goto(base+'/');
+  const h=await ctx.newPage();h.on('pageerror',e=>errors.push(e.message));await h.goto(base+'/mcat');
   check(`${width}: demo starts with Active Recall on`,await h.isChecked('#activeRecallSwitch'));
   check('Demo Flip Card locked with an empty answer',await h.isDisabled('#demoReveal'));
   await h.fill('#recallDraft','   ');check('Whitespace does not unlock Flip Card',await h.isDisabled('#demoReveal'));
