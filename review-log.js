@@ -15,7 +15,7 @@
   const now = () => Date.now();
   const rid = () => (crypto.randomUUID ? crypto.randomUUID() : now().toString(36) + Math.random().toString(36).slice(2));
   let card = null;   // { key, shown, flipped, popup, grade:{source, disputed, retired} }
-  let stopped = false;   // the table isn't there yet: keep rows on this device, stop trying until the next page load
+  let waitUntil = 0;   // the table isn't there yet: keep rows on this device and try again in 5 minutes
 
   // ---- timing: watch which card is up and when it's flipped ----
   function watch(){
@@ -30,14 +30,14 @@
   const store = q => { try { localStorage.setItem(QUEUE, JSON.stringify(q.slice(-MAX_QUEUE))); } catch(e){} };
   let sending = false;
   async function flush(){
-    if(!ON || sending || stopped || typeof sbUser === 'undefined' || !sbUser || !sb) return;
+    if(!ON || sending || now() < waitUntil || typeof sbUser === 'undefined' || !sbUser || !sb) return;
     const mine = load().filter(e => e.user_id === sbUser.id);
     if(!mine.length) return;
     sending = true;
     try {
       const rows = mine.slice(0, 100).map(({ user_id, ...row }) => row);   // user_id comes from the session on the server
       const { error } = await sb.from('review_events').upsert(rows, { onConflict:'event_id', ignoreDuplicates:true });   // a resend after a lost reply isn't counted twice
-      if(error){ if(/PGRST205|42P01|does not exist|schema cache/i.test((error.code || '') + ' ' + (error.message || ''))) stopped = true; return; }
+      if(error){ if(/PGRST205|42P01|does not exist|schema cache/i.test((error.code || '') + ' ' + (error.message || ''))) waitUntil = now() + 5 * 60e3; return; }
       const sent = new Set(mine.slice(0, 100).map(e => e.event_id));
       store(load().filter(e => !sent.has(e.event_id)));
       if(mine.length > 100) setTimeout(flush, 1000);
