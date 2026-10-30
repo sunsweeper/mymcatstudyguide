@@ -158,8 +158,8 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
 @media(max-width:520px){.stats-modal .stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* Compass logo in the app header */
-.logo .logo-img{display:block;height:114px;width:auto;margin:-14px 0}
-@media(max-width:700px){.logo .logo-img{height:84px;margin:-8px 0}}
+.logo .logo-img{display:block;height:123px;width:auto;margin:-14px 0}
+@media(max-width:700px){.logo .logo-img{height:91px;margin:-8px 0}}
 /* Share choices: what goes on the share image */
 .share-opt{display:flex;align-items:center;gap:12px;padding:14px 4px;border-bottom:1px solid #e3d8c8;font:600 16px/1.3 'DM Sans',sans-serif;color:#24382d;cursor:pointer}
 .share-opt input{width:20px;height:20px;accent-color:#a65370;flex-shrink:0}
