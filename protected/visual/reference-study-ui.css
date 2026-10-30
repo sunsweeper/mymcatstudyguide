@@ -120,6 +120,7 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
 /* Graded rating popup: the system's grade, Next Card, and a small Dispute link */
 .study-modal .grade-actions{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:6px}
 .study-modal .grade-actions[hidden],.study-modal .dispute-note[hidden]{display:none}
+.study-modal .retire-link{font-size:13px;color:#6b7d71}.study-modal .retire-link[hidden]{display:none}
 .study-modal #gradeAccept{width:100%;min-height:54px;border-radius:12px;font:800 18px 'DM Sans',sans-serif;background:#f0adbd;color:#14271e;border:2px solid #e8a4b6;cursor:pointer}
 .study-modal #gradeAccept:hover{background:#ffd0dc}
 .study-modal #gradeDispute{font:600 12px 'DM Sans',sans-serif;color:#7b6470;text-decoration:underline;background:none;border:0;cursor:pointer;padding:4px 8px}
@@ -157,8 +158,8 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
 @media(max-width:520px){.stats-modal .stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* Compass logo in the app header */
-.logo .logo-img{display:block;height:114px;width:auto;margin:-14px 0}
-@media(max-width:700px){.logo .logo-img{height:84px;margin:-8px 0}}
+.logo .logo-img{display:block;height:123px;width:auto;margin:-14px 0}
+@media(max-width:700px){.logo .logo-img{height:91px;margin:-8px 0}}
 /* Share choices: what goes on the share image */
 .share-opt{display:flex;align-items:center;gap:12px;padding:14px 4px;border-bottom:1px solid #e3d8c8;font:600 16px/1.3 'DM Sans',sans-serif;color:#24382d;cursor:pointer}
 .share-opt input{width:20px;height:20px;accent-color:#a65370;flex-shrink:0}
@@ -167,3 +168,25 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
 #shareMake{margin-top:18px}
 #shareMake:disabled{opacity:.5;cursor:default}
 #chooseBack{display:block;margin-top:12px}
+
+/* Reinforce box: no character counters or Change rating, so the box ends right under the text field */
+#study #curHint{display:none}
+#study #recallMessage[hidden]{display:none}
+#study #recallEntry .ws-foot{display:none}
+#study #studyExplain[hidden]{display:none}
+#study .effort-nudge{margin:10px 0 0;padding:10px 12px;border-radius:10px;background:#f6d4dc;color:#3a1f29;font:500 14px/1.45 'DM Sans',sans-serif}
+#study .effort-nudge[hidden]{display:none}
+/* Imported cards: "Import" bottom left, in the same type as the classification at top right. No Raise Your Hand, Report or Dispute. */
+#study #card .import-tag{position:absolute;left:38px;bottom:26px;font:700 11px 'DM Sans',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#9d6276;pointer-events:none}
+@media(max-width:620px){#study #card .import-tag{left:20px;bottom:16px}}
+@media(max-width:400px){#study #card .import-tag{font-size:10px;letter-spacing:.4px}}
+#study #raiseHand[hidden],#study #studyReport[hidden],.study-modal #gradeDispute[hidden]{display:none}
+#study .study-utilities.one{grid-template-columns:1fr}
+/* Adaptive learning box inside Rosalind's pop-up (Struggled / Didn't know) */
+.study-modal .popup-write{display:flex;flex-direction:column;gap:8px;margin:4px 0 14px;text-align:left}.study-modal .popup-write[hidden]{display:none}
+.study-modal .popup-answer{background:#f1ecdf;border:1px solid #dfd6c9;border-radius:12px;padding:10px 14px;font:500 15px/1.5 'DM Sans',sans-serif;color:#24382d;max-height:180px;overflow:auto}
+.study-modal .popup-answer-h{display:block;font:700 11px 'DM Sans',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#9d6276;margin-bottom:4px}
+.study-modal .popup-write-label{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font:600 14px 'DM Sans',sans-serif;color:#24382d}.study-modal .popup-write-label span{font-weight:500;color:#6b7d71;font-size:13px}
+.study-modal #popupReinforce{width:100%;box-sizing:border-box;font:500 16px/1.5 'DM Sans',sans-serif;padding:10px 12px;border:1px solid #cdbfae;border-radius:10px;background:#fff;color:#24382d;resize:vertical}
+.study-modal .popup-need{margin:0;color:#a33a52;font:600 13px 'DM Sans',sans-serif}.study-modal .popup-need[hidden],.study-modal #popupNudge[hidden]{display:none}
+.study-modal #gradeDispute{font-size:13px;color:#6b5560}

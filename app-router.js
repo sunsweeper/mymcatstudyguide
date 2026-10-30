@@ -2,7 +2,7 @@
 (() => {
   if (!/^https?:$/.test(location.protocol)) return;
   const base=document.createElement('base');base.href='/';document.head.prepend(base);
-  const screens = {welcome:'/dashboard',bm:'/bookmarks',notes:'/notes',weakdash:'/weaknesses',account:'/account',owner:'/owner-dashboard',mcatdate:'/test-date',import:'/import-progress',gpreview:'/graphics-preview'};
+  const screens = {rhand:'/raise-your-hand',welcome:'/dashboard',bm:'/bookmarks',notes:'/notes',weakdash:'/weaknesses',account:'/account',owner:'/owner-dashboard',mcatdate:'/test-date',import:'/import-progress',gpreview:'/graphics-preview'};
   const auth = {login:'/login',signup:'/signup',forgot:'/forgot-password',reset:'/reset-password',sent:'/check-email',check:'/verify-email'};
   const topics = {bb:'bio-biochem',cp:'chem-phys',ps:'psych-soc',cars:'cars',all:'all-topics',weak:'weakest-topics',focus:'focused-review',mine:'my-cards'};
   const stages = {intro:'/start',cards:'',ask:'/missed-cards',rfIntro:'/reinforcement/start',rf:'/reinforcement',rfDone:'/reinforcement/complete',done:'/complete'};
@@ -28,7 +28,7 @@
     if(applying || (mode==='auth' && authView==='loading')) return;
     let path;
     if(mode==='auth') path=(auth[authView]||auth.login)+(pending?'?next='+encodeURIComponent(pending):'');
-    else path=screens[mode] || (topics[filter] && stages[mode]!==undefined ? `/study/${topics[filter]}${stages[mode]}` : null);
+    else path=(mode==='rhand'&&window.TabiRaiseHand?window.TabiRaiseHand.path():null) || screens[mode] || (topics[filter] && stages[mode]!==undefined ? `/study/${topics[filter]}${stages[mode]}` : null);
     if(!path) return;
     write(path,first);first=false;
   }
@@ -58,6 +58,7 @@
       else if(route.mode==='import' && !pendingImport){show('welcome');}
       else if(route.mode==='gpreview'){show('gpreview');}
       else if(route.mode==='welcome'){show('welcome');}
+      else if(route.mode==='rhand'){ if(window.TabiRaiseHand) window.TabiRaiseHand.openFromUrl(path); else show('welcome'); }
       else openSide(route.mode);
     }finally{applying=false;first=true;sync();}
   }

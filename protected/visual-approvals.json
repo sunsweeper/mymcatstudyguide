@@ -54,6 +54,11 @@
    "date": "2026-10-29",
    "approved_by": "Aaron Walch",
    "reason": "Owner moved Bookmarks/My Card Notes into the profile menu and the countdown beside day/night (1px layout shift on phones, 2026-10-28)"
+  },
+  {
+   "date": "2026-10-30",
+   "approved_by": "Aaron Walch",
+   "reason": "Raise Your Hand goes live: button label changes from '? Raise Your Hand (planned)' to '✋ Raise Your Hand' (owner-requested feature)"
   }
  ]
 }
