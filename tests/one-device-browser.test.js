@@ -62,6 +62,12 @@ async rpc(){return {data:null,error:null}}})};})();`;
     ok('Referral note says referrers are capped at 23%', (await A.textContent('#referView')).includes('up to 23%'));
     ok('Signed out only on that device (local sign-out), the other device stays signed in', await A.evaluate(() => window.__signedOut === 1) && await B.evaluate(() => !!sbUser));
 
+    // Signing in again on the old device later (its tab still named in the record): asked, not sent back to the login screen.
+    await A.evaluate(() => { document.getElementById('sessionModal').hidden = true; }); await A.reload(); await A.waitForSelector('#sessionModal:not([hidden])');
+    ok('Signing back in on the taken-over device asks to take over instead of signing out again', await A.isVisible('#takeoverView') && (await A.textContent('#takeoverText')).includes('Safari on iPhone') && await A.evaluate(() => !!sbUser));
+    await A.click('#takeoverNo'); await A.waitForTimeout(500);
+    ok('...and No leaves the phone as the active session', shared.meta.active_session.label === 'Safari on iPhone');
+
     // A second tab in B's browser counts as another session.
     const B2 = await open(ctxB); await B2.waitForSelector('#sessionModal:not([hidden])');
     ok('A second tab is treated as another session', (await B2.textContent('#takeoverText')).includes('another tab in this browser'));
