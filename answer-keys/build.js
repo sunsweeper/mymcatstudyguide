@@ -7,7 +7,7 @@ const fs = require('fs'), path = require('path');
 const { readCards } = require('../tools/card-data');
 const { grade } = require('./match');
 const root = path.join(__dirname, '..'), src = path.join(__dirname, 'src');
-const { CARDS, REVERSE } = readCards(path.join(root, 'index.html'));
+const { CARDS, REVERSE, CATEGORIES } = readCards(path.join(root, 'index.html'));
 const keys = {}, problems = [];
 for(const f of fs.readdirSync(src).filter(f => f.endsWith('.txt')).sort()){
   fs.readFileSync(path.join(src, f), 'utf8').split('\n').forEach((line, n) => {
@@ -40,7 +40,7 @@ fs.writeFileSync(path.join(__dirname, 'keys.json'), JSON.stringify({ version: 1,
 // Plain-text card sides for the server-side grader, so it never trusts card text sent by a browser.
 const plain = h => String(h || '').replace(/<\/?(sub|sup)>/g, '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
 const cards = {};
-for(const c of CARDS){ cards[c[3]] = { q: plain(c[1]), a: plain(c[2]) }; const r = REVERSE[c[3]]; if(r) cards[c[3] + '~r'] = { q: plain(r[0] || ('Which term or concept is described by: ' + c[2])), a: plain(r[1]) }; }
+for(const c of CARDS){ cards[c[3]] = { q: plain(c[1]), a: plain(c[2]), cat: CATEGORIES[c[3].split('-')[0]] || '' }; const r = REVERSE[c[3]]; if(r) cards[c[3] + '~r'] = { q: plain(r[0] || ('Which term or concept is described by: ' + c[2])), a: plain(r[1]) }; }
 fs.writeFileSync(path.join(__dirname, 'cards.json'), JSON.stringify(cards));
 console.log(`${confirmByAI.length} comparison cards always confirm a full match with the AI layer.`);
 console.log(`${Object.keys(keys).length} keys; ${selfPass}/${selfTotal} cards pass their own key.`);

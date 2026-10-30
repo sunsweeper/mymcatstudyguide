@@ -143,3 +143,5 @@ grant execute on function public.delete_my_account() to authenticated;
 -- See docs/user-decks.sql (run it once).
 -- ---------- Review events (learning research log) ----------
 -- See docs/review-events.sql (run it once).
+-- ---------- Raise Your Hand + notifications ----------
+-- See docs/raise-your-hand.sql (run it once).

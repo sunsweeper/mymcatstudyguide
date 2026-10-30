@@ -3263,7 +3263,7 @@ function toggleBookmark(id){
 // Open a side screen (bookmarks or weaknesses) and remember where to come back to.
 function openSide(m){
   if(mode === "cards") persistPlace();
-  if(!["bm", "weakdash", "notes", "account", "owner", "mcatdate"].includes(mode)) backTo = mode;
+  if(!["bm", "weakdash", "notes", "account", "owner", "mcatdate", "rhand"].includes(mode)) backTo = mode;
   show(m);
 }
 function goBack(){ show(backTo === "cards" && !deck[pos] ? "welcome" : backTo); }
@@ -3468,6 +3468,7 @@ function renderScreen(){
   if(mode === "account"){ renderAccount(scr); return; }
   if(mode === "mcatdate"){ renderDate(scr); return; }
   if(mode === "owner"){ renderOwner(scr); return; }
+  if(mode === "rhand"){ if(window.TabiRaiseHand) window.TabiRaiseHand.render(scr); else scr.innerHTML = ""; return; }
   if(mode === "welcome"){
     const keys = Object.keys(SECTIONS).concat(["all"], USER_CARDS.length ? ["mine"] : []);
     // Scoreboard: each card counted once, by its most recent rating in either direction.
@@ -4980,5 +4981,6 @@ else render();
 <script src="referral.js"></script>
 <script src="deck-import.js"></script>
 <script src="review-log.js"></script>
+<script src="raise-hand.js"></script>
 </body>
 </html>

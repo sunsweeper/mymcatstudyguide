@@ -96,7 +96,7 @@ button{-webkit-tap-highlight-color:transparent}
 .screen{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
   padding:32px 26px;display:flex;flex-direction:column;gap:22px;min-height:320px;justify-content:center}
 .screen.quote{background:var(--quote)}
-.welcome{font-family:var(--f-script);font-weight:600;font-size:1.9rem;line-height:1.2;margin:0;color:var(--ink)}
+.welcome{font-family:"Caveat", var(--f-script);font-weight:700;font-size:2.2rem;line-height:1.2;margin:0;color:var(--ink)}
 .lede{font-size:.95rem;color:var(--ink);margin:-10px 0 0;line-height:1.5}
 .big{font-family:var(--f-card);font-size:1.5rem;line-height:1.4;margin:0;text-wrap:balance}
 .q-text{font-family:var(--f-card);font-size:1.4rem;line-height:1.5;font-style:italic;text-wrap:pretty}
@@ -409,6 +409,15 @@ header #title, header .welcome, #topicname{color:var(--on-page-head)}
 .auth-form .field{display:flex;flex-direction:column;gap:6px;font-size:.95rem;font-weight:700;color:var(--forest)}
 .auth-form input[type=email], .auth-form input[type=password], .auth-form input[type=text]{font:400 1rem var(--f-ui);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:var(--r);padding:11px 14px;min-height:46px;width:100%;box-sizing:border-box}
 .auth-form input:focus{outline:2px solid var(--accent);outline-offset:2px;border-color:var(--accent)}
+.acct-sec{border-top:1px solid var(--line);padding-top:18px;display:flex;flex-direction:column;gap:12px}
+.acct-h{font:700 1.15rem var(--f-card);color:var(--forest);margin:0}
+.acct-inline{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.acct-inline input[type=date],.acct-field select{font:400 1rem var(--f-ui);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;min-height:46px}
+.retired-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px}
+.retired-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;max-height:60vh;overflow:auto}
+.retired-row{align-items:center}.retired-row .ret-pick{width:18px;height:18px;flex:none}
+.acct-settings{display:flex;flex-direction:column;gap:14px}
+.acct-field{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;color:var(--ink)}
 .auth-form textarea{font:400 1rem/1.5 var(--f-ui);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:var(--r);padding:11px 14px;width:100%;box-sizing:border-box;resize:vertical;min-height:120px}
 .auth-form textarea:focus{outline:2px solid var(--accent);outline-offset:2px;border-color:var(--accent)}
 .journey-q{font-weight:400;font-size:.95rem;line-height:1.55;color:var(--ink)}
@@ -1048,7 +1057,7 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .screen.doc.quote-spacing .q-intro + div{margin-top:96px;margin-bottom:96px;text-align:center}
 </style>
 <style id="study-demo-visual-match">
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap");
 /* Project 2: visual presentation only. No controls, states or actions are added. */
 #study{width:100%;max-width:900px;align-self:center;min-width:0}
 #study>div{box-sizing:border-box;display:flex;flex-direction:column;gap:18px;padding:28px;border:1px solid #3b5646;border-radius:22px;background:#122b22;color:#f8f2e8;box-shadow:0 22px 55px #0002}
@@ -1145,12 +1154,12 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 @media(max-width:620px){#study #card .face{min-height:140px;padding:0 0 30px}}
 </style>
 <link rel="stylesheet" href="study-ui.css">
-</head>
+<script defer src="/_vercel/insights/script.js"></script></head>
 <body>
 <div class="wrap" id="app">
   <header class="topbar">
     <button class="iconbtn" id="menuBtn" type="button" aria-label="Menu" aria-haspopup="true" aria-expanded="false" aria-controls="menu"></button>
-    <a class="logo" id="logo" href="./" aria-label="TabiPrep.com, home"><img class="logo-img" src="/brand/tabiprep-logo-480.png" width="480" height="203" alt=""></a>
+    <a class="logo" id="logo" href="./" aria-label="TabiPrep.com, home"><img class="logo-img" src="/brand/tabiprep-logo-480.png" width="480" height="219" alt=""></a>
     <h1 id="title" class="sr">TabiPrep.com</h1>
     <nav class="topnav" aria-label="Site">
       <button class="navpill" id="bmNav" type="button">Bookmarks</button>
@@ -1309,6 +1318,7 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
   </div>
 </div>
 
+<script src="/referral-entry.js"></script>
 <script src="/app-router.js"></script>
 <script src="supabase.js"></script>
 <script>
@@ -2391,7 +2401,7 @@ const HELP_VIDEO = "how-to-use-me.mp4", HELP_CAPTIONS = "how-to-use-me.vtt";
 let pendingR = null, reinforceDraft = "", reportOpen = false, reportBusy = false, reportFlashFor = null;
 // Card reports go through FormSubmit (formsubmit.co) to the owner's inbox. This private code stands in for the email address.
 const REPORT_ENDPOINT = "https://formsubmit.co/ajax/11f5fbb7c7548c9799b75fc6c3d22a41";
-const MIN_REINFORCE = 20;   // ratings made this session, newest last, so "Previous Card" can take one back
+const MIN_REINFORCE = 1;   // adaptive learning box: any written answer counts (Rosalind nudges very low-effort ones once; study-ui.js)   // ratings made this session, newest last, so "Previous Card" can take one back
 
 /* ---------- Scheduling rules (documented in SCHEDULING.md) ---------- */
 // End-of-session quotes (not in the regular rotation).
@@ -2488,6 +2498,24 @@ const GRAPHIC_CARDS = [
 const GRAPHICS_PUBLISHED = [];
 GRAPHIC_CARDS.filter(g => GRAPHICS_PUBLISHED.includes(g[3])).forEach(g => CARDS.push([g[0], g[1], g[2], g[3]]));
 const BY_ID = {}; CARDS.forEach(c => BY_ID[c[3]] = c);
+/* ---------- Imported cards (deck-import.js) ----------
+   A student's own decks (Anki or CSV), private to their account. Each card is ["mine", question, answer, id, deck name];
+   ids look like "Uab12cd-7" (deck code + number), so they never collide with TabiPrep ids and never count toward the
+   TabiPrep topic, weakness or mastery numbers (those all read CARDS). They're studied from the "My imported cards" tile, or
+   mixed into "All topics" when the student turns that on. */
+let USER_CARDS = [];
+const IMPORT_ID = /^U[a-z0-9]{6}-\d+$/;
+const isImported = id => IMPORT_ID.test(String(id || ""));
+function setUserCards(list){
+  USER_CARDS.forEach(c => { if(BY_ID[c[3]] === c) delete BY_ID[c[3]]; });
+  USER_CARDS = (list || []).filter(c => isImported(c[3]));
+  USER_CARDS.forEach(c => BY_ID[c[3]] = c);
+}
+// The last account's imported cards, cached on this device, so a saved session can resume before the account answers.
+// deck-import.js checks the account and replaces (or clears) this as soon as it knows who's signed in.
+try { const c = JSON.parse(localStorage.getItem("tabi-decks-cache") || "null"); if(c && Array.isArray(c.cards)) setUserCards(c.cards); } catch(e){}
+// Short label for a card in lists (bookmarks, notes, retired): its TabiPrep section, or "Import · deck name".
+const cardLabel = id => { const c = BY_ID[id]; return !c ? "" : isImported(id) ? "Import · " + (c[4] || "My deck") : SECTIONS[c[0]] ? SECTIONS[c[0]].name : ""; };
 const REV = "~r";
 const idOf = key => key.endsWith(REV) ? key.slice(0, -REV.length) : key;
 const isRevKey = key => key.endsWith(REV);
@@ -2497,12 +2525,39 @@ const isDue = key => { const s = st(key); return !!s && s.due <= today(); };
 const seenCard = id => !!(st(id) || st(id + REV));
 function secsFor(k){ return SECTIONS[k] ? [k] : Object.keys(SECTIONS); }
 const catOf = id => id.split("-")[0];
-function poolFor(k){
-  if(k === "bm") return CARDS.filter(c => progress.bookmarks[c[3]]);
+/* ---------- Retired cards ----------
+   A student can retire a card after getting it right a second time (progress.retired: id -> date retired).
+   Retired cards leave every study pool. Two days before the MCAT they come back for one review pass:
+   each retired card is made due once, and after it's reviewed in that window it leaves the pool again. */
+const RETIRE_RETURN_DAYS = 2;
+function retiredReturnStart(){ return progress.testDate ? (d => { d.setDate(d.getDate() - RETIRE_RETURN_DAYS); return dstr(d); })((([y,m,dd]) => new Date(y, m-1, dd, 12))(progress.testDate.split("-").map(Number))) : null; }
+function inRetiredReturn(){ const t = progress.testDate; if(!t) return false; const left = daysUntil(t); return left >= 0 && left <= RETIRE_RETURN_DAYS; }
+function lastReviewed(id){ return [st(id), st(id + REV)].filter(Boolean).map(x => x.last || "").sort().pop() || ""; }
+function isRetired(id){
+  if(!progress.retired || !progress.retired[id]) return false;
+  if(inRetiredReturn() && lastReviewed(id) < retiredReturnStart()) return false;   // its one review pass before the test
+  return true;
+}
+// Entering the final window: make every retired card due today, once per test date, so it shows up for its review pass.
+function prepareRetiredReturn(){
+  if(!inRetiredReturn() || !progress.retired || progress.retiredPassFor === progress.testDate) return;
+  const t = today();
+  Object.keys(progress.retired).forEach(id => [id, id + REV].forEach(k => { const x = st(k); if(x && x.due > t) x.due = t; }));
+  progress.retiredPassFor = progress.testDate; save();
+}
+function retireCard(id){ progress.retired = progress.retired || {}; progress.retired[id] = today(); save(); }
+function restoreCards(ids){ if(!progress.retired) return; ids.forEach(id => delete progress.retired[id]); save(); }
+// Every card in a topic, retired ones included (used for the dashboard counts).
+function poolAll(k){ const keep = progress.retired; progress.retired = null; try { return poolFor(k); } finally { progress.retired = keep; } }
+function poolFor(k){ return poolForAll(k).filter(c => !isRetired(c[3])); }
+function poolForAll(k){
+  if(k === "mine") return USER_CARDS.slice();
+  if(k === "bm") return CARDS.concat(USER_CARDS).filter(c => progress.bookmarks[c[3]]);
   if(k === "weak"){ const cats = weakCats(); return CARDS.filter(c => cats.includes(catOf(c[3]))); }
   if(k === "focus"){ const f = progress.open.focus, ids = new Set((f && f.list) || []); return CARDS.filter(c => ids.has(c[3])); }
   if(k === "f21") return CARDS.slice();
-  const secs = secsFor(k); return CARDS.filter(c => secs.includes(c[0]));
+  const secs = secsFor(k), house = CARDS.filter(c => secs.includes(c[0]));
+  return k === "all" && progress.mixImports ? house.concat(USER_CARDS) : house;
 }
 // Weakness scores: each studied card counted once by its most recent rating (Knew It 100%, Struggled 50%, Didn't Know 0%).
 const SCORE = { good:1, hard:0.5, again:0 };
@@ -2820,7 +2875,7 @@ function nextQuote(){
 }
 const CUSTOM = { bm:"My Bookmarks", weak:"Weakest topics", focus:"Focus review", f21:"Final 21 review" };
 // Section buttons alternate blush and sage, each with a small line icon.
-const TINT = { bb:"pink", cp:"sage", ps:"pink", cars:"sage", rs:"pink", all:"all" };
+const TINT = { bb:"pink", cp:"sage", ps:"pink", cars:"sage", rs:"pink", all:"all", mine:"sage" };
 const ico = d => `<svg viewBox="0 0 24 24" focusable="false"><path d="${d}"/></svg>`;
 const ICONS = {
   bb: ico("M8 3c0 4.5 8 4.5 8 9s-8 4.5-8 9M16 3c0 4.5-8 4.5-8 9s8 4.5 8 9M9.2 6h5.6M10.6 9.4h2.8M10.6 14.6h2.8M9.2 18h5.6"),
@@ -2828,9 +2883,10 @@ const ICONS = {
   ps: ico("M12 5.6a3 3 0 0 0-5.6-1.3A3 3 0 0 0 4 8.6a3.2 3.2 0 0 0 .7 5.6A3 3 0 0 0 8 19.1a2.9 2.9 0 0 0 4 .9zM12 5.6a3 3 0 0 1 5.6-1.3A3 3 0 0 1 20 8.6a3.2 3.2 0 0 1-.7 5.6 3 3 0 0 1-3.3 4.9 2.9 2.9 0 0 1-4 .9M8.8 9.6c1.3 0 2.2.9 2.2 2.2M15.2 9.6c-1.3 0-2.2.9-2.2 2.2"),
   cars: ico("M12 6.6C10.2 5.2 7.7 4.6 4 4.8v13c3.7-.2 6.2.4 8 1.8 1.8-1.4 4.3-2 8-1.8v-13c-3.7-.2-6.2.4-8 1.8zM12 6.6v13"),
   rs: ico("M4 20.4h16.5M6.8 17V13M11 17V8.6M15.2 17v-5.4M19.4 17V5.6"),
-  all: ico("M4.5 4.5h6v6h-6zM13.5 4.5h6v6h-6zM4.5 13.5h6v6h-6zM13.5 13.5h6v6h-6z")
+  all: ico("M4.5 4.5h6v6h-6zM13.5 4.5h6v6h-6zM4.5 13.5h6v6h-6zM13.5 13.5h6v6h-6z"),
+  mine: ico("M12 3v11M7.5 9.5 12 14l4.5-4.5M4 15v4.5h16V15")
 };
-function topicName(k){ return k==="all" ? "All topics" : k === "focus" ? ((progress.open.focus && progress.open.focus.label) || CUSTOM.focus) : CUSTOM[k] || SECTIONS[k].name; }
+function topicName(k){ return k==="all" ? "All topics" : k === "mine" ? "My imported cards" : k === "focus" ? ((progress.open.focus && progress.open.focus.label) || CUSTOM.focus) : CUSTOM[k] || SECTIONS[k].name; }
 
 function openSession(k){
   const o = progress.open[k];
@@ -3037,7 +3093,7 @@ function buildQueue(k){
   return head.concat(rest);
 }
 
-function pick(k){ filter = k; quote = nextQuote(); show("intro"); }
+function pick(k){ filter = k; quote = nextQuote(); prepareRetiredReturn(); show("intro"); }
 
 function start(fresh){
   let o = fresh ? null : openSession(filter);
@@ -3207,7 +3263,7 @@ function toggleBookmark(id){
 // Open a side screen (bookmarks or weaknesses) and remember where to come back to.
 function openSide(m){
   if(mode === "cards") persistPlace();
-  if(!["bm", "weakdash", "notes", "account", "owner", "mcatdate"].includes(mode)) backTo = mode;
+  if(!["bm", "weakdash", "notes", "account", "owner", "mcatdate", "rhand"].includes(mode)) backTo = mode;
   show(m);
 }
 function goBack(){ show(backTo === "cards" && !deck[pos] ? "welcome" : backTo); }
@@ -3216,11 +3272,11 @@ function goBack(){ show(backTo === "cards" && !deck[pos] ? "welcome" : backTo); 
 function studiedCount(p){ return new Set(Object.keys((p && p.cards) || {}).map(idOf)).size; }
 function exportProgress(){
   try {
-    const data = { app:"MyMCATstudyguide", version:2, exported:new Date().toISOString(), progress };
+    const data = { app:"TabiPrep", version:2, exported:new Date().toISOString(), progress };
     const blob = new Blob([JSON.stringify(data)], { type:"application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `mymcatstudyguide-progress-${today()}.json`;
+    a.download = `tabiprep-progress-${today()}.json`;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);
     backupMsg = `Backup file created: ${a.download}. Check your downloads folder.`;
@@ -3230,7 +3286,7 @@ function exportProgress(){
 // A backup is accepted only if it was made by Export Progress and its card records look right.
 function validBackup(d){
   const isObj = x => !!x && typeof x === "object" && !Array.isArray(x);
-  if(!isObj(d) || d.app !== "MyMCATstudyguide") return false;
+  if(!isObj(d) || d.app !== "TabiPrep") return false;
   if(typeof d.version === "number" && d.version > 2) return false;
   const p = d.progress;
   if(!isObj(p) || !isObj(p.cards)) return false;
@@ -3249,7 +3305,7 @@ function readImport(file){
       const data = JSON.parse(fr.result);
       if(!validBackup(data)) throw 0;
       pendingImport = data; backupMsg = ""; show("import");
-    } catch(e){ backupMsg = "That file isn't a usable MyMCATstudyguide backup, so nothing was changed. Choose a file made with Export Progress."; render(); }
+    } catch(e){ backupMsg = "That file isn't a usable TabiPrep backup, so nothing was changed. Choose a file made with Export Progress."; render(); }
   };
   fr.onerror = () => { backupMsg = "The file couldn't be read. Try choosing it again."; render(); };
   fr.readAsText(file);
@@ -3257,7 +3313,7 @@ function readImport(file){
 function applyImport(){
   const prev = progress;
   // Keep a safety copy of the current progress first, so a restore can be undone.
-  try { localStorage.setItem(RECOVERY, JSON.stringify({ app:"MyMCATstudyguide", version:2, exported:new Date().toISOString(), progress:prev })); }
+  try { localStorage.setItem(RECOVERY, JSON.stringify({ app:"TabiPrep", version:2, exported:new Date().toISOString(), progress:prev })); }
   catch(e){ pendingImport = null; backupMsg = "Nothing was changed: the browser couldn't keep a safety copy of your current progress first. Export Progress to back it up, then try again."; show("welcome"); return; }
   progress = Object.assign(blank(), pendingImport.progress);
   progress.open = progress.open || {}; progress.view = progress.view || "q"; progress.notes = progress.notes || {}; progress.bookmarks = progress.bookmarks || {};
@@ -3355,7 +3411,7 @@ function renderDate(scr){
   $("dateForm").onsubmit = e => { e.preventDefault(); saveDate($("dDate").value, $("dNone").checked); };
   (dateMsg && dateMsg !== "Saved." ? $("dDate") : $("dDate")).focus();
 }
-function saveDate(v, none){
+function saveDate(v, none, back){
   v = (v || "").trim();
   if(none){ delete progress.testDate; progress.mcatNone = true; delete progress.open.f21; }
   else {
@@ -3365,7 +3421,7 @@ function saveDate(v, none){
     progress.testDate = v; progress.mcatNone = false; clampToTest();
     delete progress.open.f21;   // Final 21 priorities are rebuilt for the new date
   }
-  save(); dateMsg = ""; show("welcome"); return true;   // saved: back to the dashboard, where the countdown shows the new date
+  save(); dateMsg = ""; show(back || "welcome"); return true;   // saved: back to the dashboard (or the page it was changed from), where the countdown shows the new date
 }
 // Bookmarks and My Card Notes share one page: two headlines side by side, each one switches the list.
 function listTabs(){
@@ -3412,10 +3468,11 @@ function renderScreen(){
   if(mode === "account"){ renderAccount(scr); return; }
   if(mode === "mcatdate"){ renderDate(scr); return; }
   if(mode === "owner"){ renderOwner(scr); return; }
+  if(mode === "rhand"){ if(window.TabiRaiseHand) window.TabiRaiseHand.render(scr); else scr.innerHTML = ""; return; }
   if(mode === "welcome"){
-    const keys = Object.keys(SECTIONS).concat(["all"]);
+    const keys = Object.keys(SECTIONS).concat(["all"], USER_CARDS.length ? ["mine"] : []);
     // Scoreboard: each card counted once, by its most recent rating in either direction.
-    const score = k => { const out = { good:0, hard:0, again:0 }; poolFor(k).forEach(c => { const r = lastRating(c[3]); if(r) out[r]++; }); return out; };
+    const score = k => { const out = { good:0, hard:0, again:0 }; poolAll(k).forEach(c => { const r = lastRating(c[3]); if(r) out[r]++; }); return out; };
     const scores = {}; keys.forEach(k => scores[k] = score(k));
     const top = {}; ["good","hard","again"].forEach(r => top[r] = Math.max(...Object.keys(SECTIONS).map(k => scores[k][r])));
     const cell = (k, r, label) => `<span class="sc${k !== "all" && top[r] > 0 && scores[k][r] === top[r] ? " lead" : ""}"><span class="v">${scores[k][r]}</span><span class="l">${label}</span></span>`;
@@ -3442,10 +3499,10 @@ function renderScreen(){
       <hr class="panel-divider">
       <p class="pick crawler${crawlerDrawn ? "" : " draw"}">Choose wisely, crawler<span class="cw-star" aria-hidden="true">*</span><span class="sr">(see note at the bottom of the page)</span><span class="cw-anchor"><svg class="cw-arrow cw-wide" viewBox="0 0 60 52" aria-hidden="true" focusable="false"><path class="cw-line" pathLength="1" d="M1 13.5 L 27 13.5 C 37 13.5, 45 20, 45.5 30 C 45.8 36, 45.6 41, 45.2 46"/><path class="cw-head" d="M41 40.6 L45.2 46 L49.6 40.6"/></svg><svg class="cw-arrow cw-narrow" viewBox="0 0 40 52" aria-hidden="true" focusable="false"><path class="cw-line" pathLength="1" d="M1 13.5 L 17 13.5 C 25 13.5, 30.5 19, 31 28 C 31.3 35, 31 41, 30.6 46"/><path class="cw-head" d="M26.6 40.6 L30.6 46 L34.6 40.6"/></svg></span>.</p>
       <div class="topics">${keys.map(k => `
-        <button class="topic${k==="all"?" all":k==="bb"?" solo":""} t-${TINT[k]}" type="button" data-k="${k}">
+        <button class="topic${k==="all"?" all":k==="bb"||k==="mine"?" solo":""} t-${TINT[k]}" type="button" data-k="${k}">
           <span class="t-ico" aria-hidden="true">${ICONS[k]}</span>
           <span class="t-head"><span class="t-name">${topicName(k)}</span></span>
-          <span class="t-full">${k==="all" ? "Every section" : SECTIONS[k].full}</span>
+          <span class="t-full">${k==="all" ? (progress.mixImports && USER_CARDS.length ? "Every section, plus your imported cards" : "Every section") : k === "mine" ? `${USER_CARDS.length} cards from your own decks` : SECTIONS[k].full}</span>
           <span class="t-score">${cell(k,"good","Known")}${cell(k,"hard","Struggled")}${cell(k,"again","Didn't know")}</span>
         </button>`).join("")}</div>
       ${pace ? `<div class="test-row"><span class="pace">${pace}</span></div>` : ""}
@@ -3487,7 +3544,7 @@ function renderScreen(){
       <div class="controls"><button class="btn" id="sideBack" type="button">Back</button>
       <button class="btn primary" id="bmStudy" type="button" ${list.length ? "" : "disabled"}>Study My Bookmarks</button></div>
       ${list.length ? `<ul class="list">${list.map(([id]) => { const c = BY_ID[id]; return `
-        <li class="bm-row"><details><summary><span class="bm-id">${id} · ${CATEGORIES[catOf(id)]}</span><span class="bm-q">${c[1]}</span></summary><div class="bm-a">${c[2]}</div></details>
+        <li class="bm-row"><details><summary><span class="bm-id">${id} · ${isImported(id) ? esc(cardLabel(id)) : CATEGORIES[catOf(id)]}</span><span class="bm-q">${c[1]}</span></summary><div class="bm-a">${c[2]}</div></details>
         <button class="link" type="button" data-rm="${id}" aria-label="Remove bookmark ${id}">Remove</button></li>`; }).join("")}</ul>` : ""}`;
     $("sideBack").onclick = goBack;
     if(list.length) $("bmStudy").onclick = () => pick("bm");
@@ -3504,7 +3561,7 @@ function renderScreen(){
       <div class="controls one"><button class="btn" id="sideBack" type="button">Back</button></div>
       ${groups.map(([g, list]) => `<div class="wk-sec"><div class="wk-head"><span class="t-name">${g} ${CATEGORIES[g]} (${list.length})</span></div>
         <ul class="list">${list.map(id => { const c = BY_ID[id]; return `
-          <li class="bm-row note-row"><details><summary><span class="bm-id">${id} · ${SECTIONS[c[0]].name}</span><span class="bm-q">${c[1]}</span></summary><div class="bm-a">${c[2]}</div></details>
+          <li class="bm-row note-row"><details><summary><span class="bm-id">${id} · ${esc(cardLabel(id))}</span><span class="bm-q">${c[1]}</span></summary><div class="bm-a">${c[2]}</div></details>
           <div class="note-text"><span class="lab">My note</span>${esc(progress.notes[id]).replace(/\n/g, "<br>")}</div></li>`; }).join("")}</ul></div>`).join("")}`;
     $("sideBack").onclick = goBack;
     $("sideBack").focus();
@@ -3612,7 +3669,7 @@ function renderScreen(){
       ${endQ ? `<div><span class="lab" style="margin-bottom:8px">Words from the wise:</span><div class="q-text">“${endQ[0]}”</div><div class="q-by">${endQ[1]}</div></div>` : ""}
       <p class="lede" style="margin:0">${upcoming ? `Next review in ${topicName(filter)}: ${niceDate(upcoming)}.` : ""}</p>
       <div class="controls"><button class="btn" id="other" type="button">Pick another topic</button>
-      <button class="btn primary" id="more" type="button">Next ${Math.min(RULES.sessionSize, poolFor(filter).length)} cards</button></div>
+      <button class="btn primary" id="more" type="button"${poolFor(filter).length ? "" : ' hidden style="display:none"'}>Next ${Math.min(RULES.sessionSize, poolFor(filter).length)} cards</button></div>
       ${undo.length ? `<div class="backup"><button class="link" id="prevDone" type="button">Previous Card</button></div>` : ""}`;
     if(undo.length) $("prevDone").onclick = previousCard;
     $("other").onclick = () => show("welcome");
@@ -3681,7 +3738,7 @@ function renderScreen(){
 
   // ----- card -----
   $("bar").style.width = total ? (pos/total*100)+"%" : "0";
-  const id = idOf(curKey), [sec, q, a] = BY_ID[id], rev = isRevKey(curKey);
+  const id = idOf(curKey), [sec, q, a] = BY_ID[id] || ["mine", "<i>This imported card was deleted.</i>", "<i>It's no longer in your decks.</i>", id, "Deleted deck"], rev = isRevKey(curKey);
   const rv = rev ? REVERSE[id] : null;
   const front = rev ? (rv[0] || `<span class="lab">Which term or concept is described by:</span>${a}`) : q;
   const asked = rev ? (rv[0] || a) : q, back = rev ? rv[1] : a;
@@ -3695,7 +3752,7 @@ function renderScreen(){
     <div class="face${flipped ? " back" : ""}">${flipped
       ? `<div class="asked">${asked}</div><div class="ans-wrap"><div class="ans">${back}</div></div>`
       : `<div>${front}</div>`}</div>
-    <div class="foot"><span class="cat">${CATEGORIES[id.split("-")[0]]}</span><span class="cid">${id}</span></div>`;
+    <div class="foot"><span class="cat">${isImported(id) ? esc((BY_ID[id] && BY_ID[id][4]) || "My deck") : CATEGORIES[id.split("-")[0]]}</span><span class="cid">${id}</span></div>${isImported(id) ? `<span class="import-tag">Import</span>` : ""}`;
   $("revealRow").hidden = revealed;
   $("rateRow").hidden = !revealed;
   document.querySelectorAll("#rateRow [data-r]").forEach(b => b.setAttribute("aria-pressed", String(pendingR === b.dataset.r)));
@@ -3893,6 +3950,7 @@ function previousCard(){
   if(flipping || !undo.length) return;
   if(mode === "cards" && curKey && !previousCard.go){ leaveCard(() => { previousCard.go = true; try { previousCard(); } finally { previousCard.go = false; } }); return; }
   const u = undo.pop();
+  try { if(window.TabiReviewLog) window.TabiReviewLog.undone(u.key); } catch(e){}
   if(u.card) progress.cards[u.key] = u.card; else delete progress.cards[u.key];
   if(u.boosted) progress.boosted = u.boosted;
   progress.newDay = u.newDay;
@@ -3967,17 +4025,18 @@ function mergeProgress(list){
     if(!out.testDate && p.testDate) out.testDate = p.testDate;
     if(p.boosted){ out.boosted = Object.assign({}, p.boosted, out.boosted || {}); for(const [id, d] of Object.entries(p.boosted)) if(d > out.boosted[id]) out.boosted[id] = d; }
     if(Array.isArray(p.quoteSeen)) out.quoteSeen = Array.from(new Set((out.quoteSeen || []).concat(p.quoteSeen)));
-    ["bg", "view", "tips", "skipWrite", "mandOff", "mcatNone", "final21"].forEach(k => { if(out[k] === undefined && p[k] !== undefined) out[k] = p[k]; });
+    ["bg", "view", "tips", "skipWrite", "mandOff", "mcatNone", "final21", "retired", "retiredPassFor", "mixImports"].forEach(k => { if(out[k] === undefined && p[k] !== undefined) out[k] = p[k]; });
     const nd = out.newDay || { date:"", count:0 }, pd = p.newDay || { date:"", count:0 };
     out.newDay = pd.date > nd.date ? pd : pd.date === nd.date ? { date:nd.date, count:Math.max(nd.count, pd.count) } : nd;
   }
   return out;
 }
 function setSyncError(on){ const n = $("syncErr"); if(n) n.hidden = !on; }
-function schedulePush(){ if(!AUTH_ON || !sbUser) return; clearTimeout(pushTimer); pushTimer = setTimeout(pushProgress, 4000); }
+function schedulePush(){ if(!AUTH_ON || !sbUser) return; clearTimeout(pushTimer); pushTimer = setTimeout(pushProgress, 1500); }   // 1.5 s: less at risk if the browser closes
 async function pushProgress(){
   clearTimeout(pushTimer); pushTimer = null;
   if(!sbUser) return false;
+  if(window.TabiSession && !(await window.TabiSession.allowSave())) return false;   // one device at a time: only the active session saves
   try {
     const { error } = await sb.from("progress").upsert({ user_id:sbUser.id, data:progress, updated_at:new Date().toISOString() });
     setSyncError(!!error); return !error;
@@ -4135,7 +4194,7 @@ async function authAction(fn){
 }
 // Form problems are shown in place, so what she typed (password, check boxes) stays put.
 function showAuthMsg(text){ authMsg = text; authOk = false; const m = $("aMsg"); if(m){ m.textContent = text; m.style.visibility = ""; m.className = "auth-msg"; m.setAttribute("role", "alert"); } else render(); }
-let authWhy = "";
+let authWhy = "", authCode = "";
 const validEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 function renderAuth(scr){
   const msg = `<p class="auth-msg${authOk ? " ok" : ""}" id="aMsg" role="${authOk ? "status" : "alert"}">${esc(authMsg)}</p>`;
@@ -4178,6 +4237,7 @@ function renderAuth(scr){
   if(v === "signup"){
     scr.innerHTML = `<p class="sec-title">Create an account</p>
       <form class="auth-form" id="authForm" novalidate>
+        <label class="field">Beta invite code<input type="text" id="aCode" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="40" required value="${esc(authCode)}" aria-describedby="aCodeHint"><span class="hint-sm" id="aCodeHint">TabiPrep is in a private beta. You'll need the invite code you were given.</span></label>
         <div class="name-pair">
           <label class="field">First name<input type="text" id="aName" autocomplete="given-name" maxlength="40" required></label>
           <label class="field">Last name<input type="text" id="aLast" autocomplete="family-name" maxlength="40" required></label>
@@ -4200,22 +4260,26 @@ function renderAuth(scr){
       <div class="auth-links"><span></span><button class="link" type="button" id="toLogin">I already have an account</button></div>`;
     $("aShow").onchange = e => { $("aPw").type = e.target.checked ? "text" : "password"; };
     $("toLogin").onclick = () => { authEmail = $("aEmail").value.trim(); authView = "login"; authMsg = ""; render(); };
-    $("aWhy").oninput = e => { authWhy = e.target.value; };   // kept if the form redraws
+    $("aWhy").oninput = e => { authWhy = e.target.value; };
+    $("aCode").oninput = e => { authCode = e.target.value; };   // kept if the form redraws
     $("aNoDate").onchange = e => { $("aMcat").disabled = !!e.target.checked; if(e.target.checked) $("aMcat").value = ""; };
     $("authForm").onchange = () => { const m = $("aMsg"); if(m && authMsg && !authOk){ authMsg = ""; m.style.visibility = "hidden"; } };   // a fixed problem's message goes away; its space stays so the button doesn't jump out from under a click
     $("authForm").onsubmit = e => { e.preventDefault();
       const name = $("aName").value.trim(), last = $("aLast").value.trim(), email = $("aEmail").value.trim(), pw = $("aPw").value;
-      const mcat = ($("aMcat").value || "").trim(), noDate = !!$("aNoDate").checked, why = ($("aWhy").value || "").trim();
+      const mcat = ($("aMcat").value || "").trim(), noDate = !!$("aNoDate").checked, why = ($("aWhy").value || "").trim(), code = ($("aCode").value || "").trim();
       const badDate = mcat && (!/^\d{4}-\d{2}-\d{2}$/.test(mcat) || daysUntil(mcat) < 0 || daysUntil(mcat) > 3 * 366);
-      const problem = !name ? "Please enter your first name." : !last ? "Please enter your last name." : !validEmail(email) ? "Please enter a valid email address." : pw.length < 8 ? "Your password needs at least 8 characters."
+      const problem = !code ? "Please enter your beta invite code." : !name ? "Please enter your first name." : !last ? "Please enter your last name." : !validEmail(email) ? "Please enter a valid email address." : pw.length < 8 ? "Your password needs at least 8 characters."
         : !mcat && !noDate ? "Please enter your MCAT test date, or check “My MCAT date isn't scheduled yet.”" : badDate ? "Please enter an MCAT date between today and three years from now."
         : why.length < 10 ? "Please tell us what brought you to this journey." : !$("aAge").checked ? "You need to be 18 or older to create an account." : !$("aTerms").checked ? "Please agree to the Terms of Service and Privacy Policy." : "";
       if(problem){ showAuthMsg(problem); return; }
       authEmail = email;
       authAction(async () => {
-        const { data, error } = await sb.auth.signUp({ email, password:pw, options:{ emailRedirectTo:siteUrl(), data:{ first_name:name, last_name:last, mcat_date:noDate ? null : mcat, mcat_unscheduled:noDate, journey_why:why, accepted_terms:true, age_confirmed:true } } });
-        if(error) throw error;
-        if(data && data.session){ authBusy = false; await enterAccount(data.user); return; }   // projects without email confirmation
+        // Private beta: the server checks the invite code and creates the account (public sign-up is off in Supabase).
+        const r = await fetch("/api/signup", { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify({ code, email, password:pw, first_name:name, last_name:last,
+          mcat_date:noDate ? null : mcat, mcat_unscheduled:noDate, journey_why:why, accepted_terms:true, age_confirmed:true, ...(window.TabiReferral ? TabiReferral.data() : {}) }) });
+        const out = await r.json().catch(() => ({}));
+        if(!r.ok) throw new Error(out.error || "Your account couldn't be created right now. Please try again.");
+        if(window.TabiReferral) TabiReferral.sent({ first:name, last, email });   // referral sign-up: details go to the owner
         authView = "check"; authMsg = ""; authOk = false;
       }); };
     $("aName").focus();
@@ -4227,8 +4291,10 @@ function renderAuth(scr){
       ${msg}
       <div class="controls"><button class="btn" type="button" id="aResend"${busy}>Resend email</button><button class="btn primary" type="button" id="toLogin">Back to log in</button></div>`;
     $("aResend").onclick = () => authAction(async () => {
-      const { error } = await sb.auth.resend({ type:"signup", email:authEmail, options:{ emailRedirectTo:siteUrl() } });
-      if(error) throw error; authMsg = "Sent again. Check your inbox."; authOk = true;
+      const r = await fetch("/api/signup", { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify({ resend:true, email:authEmail }) });
+      const out = await r.json().catch(() => ({}));
+      if(!r.ok) throw new Error(out.error || "Couldn't send the email right now. Please try again.");
+      authMsg = "Sent again. Check your inbox."; authOk = true;
     });
     $("toLogin").onclick = () => { authView = "login"; authMsg = ""; render(); };
     return;
@@ -4298,6 +4364,28 @@ function renderAccount(scr){
       <button class="btn" type="submit">Save name</button>
     </form>
     ${acctMsg ? `<p class="auth-msg ok" role="status">${esc(acctMsg)}</p>` : ""}
+    <section class="acct-sec" aria-labelledby="acctDateH"><h3 class="acct-h" id="acctDateH">Your MCAT date</h3>
+      <form class="auth-form acct-date" id="acctDateForm" novalidate>
+        <div class="acct-inline"><input type="date" id="acctDate" aria-label="MCAT test date" min="${today()}" value="${esc(progress.testDate || "")}"><button class="btn" type="submit">Save date</button></div>
+        <label class="check small"><input type="checkbox" id="acctNoDate"${!progress.testDate && progress.mcatNone ? " checked" : ""}><span>My MCAT date isn't scheduled yet.</span></label>
+        ${dateMsg && mode === "account" ? `<p class="auth-msg" role="alert">${esc(dateMsg)}</p>` : ""}
+      </form></section>
+    <section class="acct-sec" aria-labelledby="acctWhyH"><h3 class="acct-h" id="acctWhyH">Why you began this journey</h3>
+      <form class="auth-form" id="acctWhyForm" novalidate>
+        <span class="journey-q">What brought you to this journey, and what motivated you to become a doctor?</span>
+        <textarea id="acctWhy" maxlength="2000" rows="5" aria-labelledby="acctWhyH">${esc(((sbUser && sbUser.user_metadata) || {}).journey_why || "")}</textarea>
+        <span class="hint-sm">Rosalind uses this to write you up to two notes of encouragement before your MCAT.</span>
+        <button class="btn" type="submit">Save answer</button>
+      </form></section>
+    <section class="acct-sec" aria-labelledby="acctSetH"><h3 class="acct-h" id="acctSetH">Study settings</h3>
+      <div class="acct-settings">
+        <label class="check"><input type="checkbox" id="setMand"${mandatoryOn() ? " checked" : ""}><span><b>Mandatory Response</b><br><span class="hint-sm">Cards you've missed need a written answer before you flip them, and Struggled / Didn't know need one before the next card.</span></span></label>
+        <label class="check"><input type="checkbox" id="setTips"${tipsOn() ? " checked" : ""}><span><b>Hover help</b><br><span class="hint-sm">Show what a button does when you hover over it.</span></span></label>
+        <label class="check"><input type="checkbox" id="setDark"${progress.bg !== "light" ? " checked" : ""}><span><b>Night mode</b><br><span class="hint-sm">Dark background. Turn off for the white daylight background.</span></span></label>
+        <label class="check"><input type="checkbox" id="setEncourage"${((sbUser && sbUser.user_metadata) || {}).encourage_opt_out ? "" : " checked"}><span><b>Encouragement emails from Rosalind</b><br><span class="hint-sm">Up to two short notes: halfway to your MCAT and two days before it.</span></span></label>
+        <div class="acct-field"><span><b>Card order</b></span><select id="setView" aria-label="Card order">${[["q","Questions First"],["a","Answers First"],["mix","Random Mix"]].map(([v, t]) => `<option value="${v}"${progress.view === v ? " selected" : ""}>${t}</option>`).join("")}</select></div>
+      </div></section>
+    ${retiredSection()}
     <p class="lede" style="margin:0">To change your password, log out and use “Forgot password?”. Your progress is saved to your account, so it follows you to any device you log in on.</p>
     <div class="controls"><button class="btn" type="button" id="sideBack">Back</button><button class="btn" type="button" id="logoutBtn">Log out</button></div>
     <details class="danger"><summary>Delete my account</summary>
@@ -4314,14 +4402,59 @@ function renderAccount(scr){
     let error = null; try { ({ error } = await sb.from("profiles").update({ first_name:name, last_name:last }).eq("id", sbUser.id)); } catch(x){ error = x; }
     if(error){ acctMsg = "Your name couldn't be saved right now. Please try again."; render(); return; }
     profile.first_name = name; profile.last_name = last; acctMsg = "Saved."; render(); };
+  $("acctDateForm").onsubmit = e => { e.preventDefault(); if(saveDate($("acctDate").value, $("acctNoDate").checked, "account")){ acctMsg = $("acctNoDate").checked ? "MCAT date cleared." : "MCAT date saved."; render(); } };
+  $("acctNoDate").onchange = e => { if(e.target.checked) $("acctDate").value = ""; };
+  $("acctDate").oninput = e => { if(e.target.value) $("acctNoDate").checked = false; };
+  const setMeta = async (data, ok, bad) => {   // saved on the account (Supabase user metadata), so it follows the student
+    let error = null; try { const r = await sb.auth.updateUser({ data }); error = r.error; if(r.data && r.data.user) sbUser = r.data.user; } catch(x){ error = x; }
+    if(!error) sbUser = Object.assign({}, sbUser, { user_metadata:Object.assign({}, sbUser.user_metadata, data) });
+    acctMsg = error ? bad : ok; render(); };
+  $("acctWhyForm").onsubmit = e => { e.preventDefault(); const why = $("acctWhy").value.trim().slice(0, 2000);
+    if(why.length < 10){ acctMsg = "Please write a little more about what brought you to this journey."; render(); return; }
+    setMeta({ journey_why:why }, "Your answer is saved.", "Your answer couldn't be saved right now. Please try again."); };
+  $("setMand").onchange = e => { progress.mandOff = !e.target.checked; save(); acctMsg = ""; };
+  $("setTips").onchange = e => { progress.tips = !!e.target.checked; save(); hideTip(); };
+  $("setDark").onchange = e => { progress.bg = e.target.checked ? "dark" : "light"; save(); applyBg(); };
+  $("setEncourage").onchange = e => setMeta({ encourage_opt_out:!e.target.checked }, e.target.checked ? "Encouragement emails are on." : "Encouragement emails are off.", "That setting couldn't be saved right now. Please try again.");
+  $("setView").onchange = e => setView(e.target.value);
+  wireRetired();
   $("delConfirm").oninput = e => { $("delBtn").disabled = e.target.value.trim() !== "DELETE"; };
   $("delBtn").onclick = () => { if($("delConfirm").value.trim() === "DELETE") deleteAccount(); };
   if(emailFormOpen && $("newEmail").focus) (emailNote && !emailNote.ok ? $("emailSend") : $("newEmail")).focus(); else $("sideBack").focus();
 }
+/* ---------- Retired cards on the account page: a list to open, put back one at a time, by selection, or all at once ---------- */
+let retiredOpen = false;
+const retiredIds = () => Object.keys(progress.retired || {}).filter(id => BY_ID[id]).sort((a, b) => (progress.retired[b] || "").localeCompare(progress.retired[a] || "") || a.localeCompare(b));
+function retiredSection(){
+  const ids = retiredIds();
+  const list = !ids.length ? `<p class="hint-sm" style="margin:0">No retired cards. After you get a card right a second time, Rosalind's grade offers “No longer show me this card”.</p>`
+    : `<div class="retired-tools"><label class="check small"><input type="checkbox" id="retSelAll"><span>Select all</span></label>
+        <button class="btn small-btn" type="button" id="retPutSel" disabled>Put selected back</button><button class="btn small-btn" type="button" id="retPutAll">Put all back</button></div>
+      <ul class="retired-list" id="retiredList">${ids.map(id => { const c = BY_ID[id]; return `<li class="bm-row retired-row">
+        <input type="checkbox" class="ret-pick" data-id="${esc(id)}" aria-label="Select card ${esc(id)}">
+        <details><summary><span class="bm-id">${esc(id)} · ${esc(cardLabel(id))} · retired ${esc(progress.retired[id] || "")}</span><span class="bm-q">${c[1]}</span></summary><div class="bm-a">${c[2]}</div></details>
+        <button class="btn small-btn ret-one" type="button" data-id="${esc(id)}">Put back</button></li>`; }).join("")}</ul>`;
+  return `<section class="acct-sec" aria-labelledby="acctRetH"><h3 class="acct-h" id="acctRetH">Retired cards (${ids.length})</h3>
+    <span class="hint-sm">Retired cards leave your study sessions. They come back once for review ${RETIRE_RETURN_DAYS} days before your MCAT.</span>
+    ${ids.length ? `<button class="btn" type="button" id="retToggle" aria-expanded="${retiredOpen}" aria-controls="retiredBox">${retiredOpen ? "Hide retired cards" : "See retired cards"}</button>` : ""}
+    <div id="retiredBox"${ids.length && !retiredOpen ? " hidden" : ""}>${list}</div></section>`;
+}
+function wireRetired(){
+  const t = $("retToggle"); if(t) t.onclick = () => { retiredOpen = !retiredOpen; acctMsg = ""; render(); if($("retToggle")) $("retToggle").focus(); };
+  if(!$("retiredList")) return;
+  const picks = () => Array.from(document.querySelectorAll(".ret-pick"));
+  const sync = () => { const p = picks(), n = p.filter(x => x.checked).length; $("retPutSel").disabled = !n; $("retPutSel").textContent = n ? `Put selected back (${n})` : "Put selected back"; $("retSelAll").checked = n === p.length; };
+  const back = ids => { restoreCards(ids); acctMsg = ids.length === 1 ? "Card " + ids[0] + " is back in your deck." : ids.length + " cards are back in your deck."; render(); };
+  picks().forEach(x => x.onchange = sync);
+  $("retSelAll").onchange = e => { picks().forEach(x => x.checked = e.target.checked); sync(); };
+  $("retPutSel").onclick = () => back(picks().filter(x => x.checked).map(x => x.dataset.id));
+  $("retPutAll").onclick = () => back(retiredIds());
+  document.querySelectorAll(".ret-one").forEach(b => b.onclick = () => back([b.dataset.id]));
+}
 /* ---------- Change email (Supabase's own email-change flow: nothing changes until the links are clicked) ---------- */
 let emailFormOpen = false, emailNote = null, emailDraft = { a:"", b:"" }, emailBusy = false;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-function openAccount(){ acctMsg = ""; emailFormOpen = false; emailNote = null; emailDraft = { a:"", b:"" }; openSide("account"); refreshAuthUser(); }
+function openAccount(){ acctMsg = ""; dateMsg = ""; emailFormOpen = false; emailNote = null; emailDraft = { a:"", b:"" }; openSide("account"); refreshAuthUser(); }
 // Pick up an email change finished on another device or tab (the account page always shows the current address).
 async function refreshAuthUser(){
   if(!sb || !sbUser) return;
@@ -4386,7 +4519,7 @@ async function loadOwner(){
 }
 function renderOwner(scr){
   const head = `<p class="sec-title">Owner Dashboard</p>
-    <p class="lede" style="margin:0">Who's on, who's been active, and who's gone quiet, plus each account's study activity. Scores and answers aren't visible here. "Online now" means the site was open in the last 3 minutes.</p>
+    <p class="lede" style="margin:0">Who has the site open, who has signed in lately, and who's gone quiet, plus each account's study activity. Scores and answers aren't visible here. "Seen" means signed in with the site open on screen, studying or not; it updates about once a minute. This list is a snapshot from when you opened it: press Refresh to update.</p>
     <div class="controls"><button class="btn" type="button" id="sideBack">Back</button><button class="btn" type="button" id="ownerRefresh">Refresh</button></div>`;
   let body = "";
   if(!ownerData) body = `<p class="lede" style="margin:0">Loading…</p>`;
@@ -4406,17 +4539,17 @@ function renderOwner(scr){
     const gone = rows.filter(r => ago(r) > 14 * 864e5 && (r.last || now - Date.parse(r.u.created_at) > 14 * 864e5));
     const nm = u => esc([u.first_name, u.last_name].filter(Boolean).join(" ") || "(no name)");
     const group = (title, list, empty, showLast) => `<section class="owner-group"><p class="owner-gtitle">${title} <span class="owner-count">${list.length}</span></p>
-      ${list.length ? `<ul class="owner-glist">${list.map(r => `<li><span class="owner-gname">${nm(r.u)}</span> <span class="owner-email">${esc(r.u.email || "")}</span>${showLast ? ` <span class="owner-email">· ${r.last ? "last seen " + when(r.last) : "never studied"}</span>` : ""}</li>`).join("")}</ul>` : `<p class="owner-empty">${empty}</p>`}</section>`;
+      ${list.length ? `<ul class="owner-glist">${list.map(r => `<li><span class="owner-gname">${nm(r.u)}</span> <span class="owner-email">${esc(r.u.email || "")}</span>${showLast ? ` <span class="owner-email">· ${r.last ? "last seen " + when(r.last) : "never signed in"}</span>` : ""}</li>`).join("")}</ul>` : `<p class="owner-empty">${empty}</p>`}</section>`;
     body = `<div class="owner-groups">
-      ${group("Online now", online, "Nobody right now.", false)}
-      ${group("Active in the last 7 days", week7, "Nobody this week.", true)}
+      ${group("Site open now (last 3 minutes)", online, "Nobody right now.", false)}
+      ${group("Seen in the last 7 days", week7, "Nobody this week.", true)}
       ${group("Not seen in over 2 weeks", gone, "Everyone has been on in the last 2 weeks.", true)}
       </div>
       <p class="owner-gtitle" style="margin:0">All accounts <span class="owner-count">${rows.length}</span></p>
       <ul class="list">${rows.map(r => `<li class="owner-row">
         <span class="owner-name">${esc([r.u.first_name, r.u.last_name].filter(Boolean).join(" ") || "(no name)")} <span class="owner-email">${esc(r.u.email || "")}</span></span>
         <span>MCAT date: <b>${r.u.mcat_date ? niceDate(r.u.mcat_date) : r.u.mcat_unscheduled ? "Not scheduled yet" : "—"}</b></span>
-        <span>Last active: <b>${when(r.last)}</b> · Days studied: <b>${r.days}</b> · Joined ${new Date(r.u.created_at).toLocaleDateString(undefined, { month:"short", day:"numeric", year:"numeric" })}</span>
+        <span>Last seen: <b>${when(r.last)}</b> · Days studied: <b>${r.days}</b> · Joined ${new Date(r.u.created_at).toLocaleDateString(undefined, { month:"short", day:"numeric", year:"numeric" })}</span>
         <span>Cards reviewed: <b>${r.wcards}</b> this week · <b>${r.cards}</b> total</span>
         <span>Study time: <b>${fmt(r.wsecs)}</b> this week · <b>${fmt(r.secs)}</b> total</span></li>`).join("")}</ul>`;
   }
@@ -4485,6 +4618,7 @@ const TIPS = {
   "#cancelImport": "Keep your current progress."
 };
 const topicTip = k => k === "all" ? "Study every section mixed together: up to 50 cards, reviews that are due first, then new cards."
+  : k === "mine" ? "Study the cards you imported: up to 50 cards, reviews that are due first, then new cards."
   : `Study ${SECTIONS[k].name}: up to 50 cards, reviews that are due first, then new cards.`;
 let tipTimer = null, tipFor = null;
 const tipsOn = () => progress.tips !== false;
@@ -4685,6 +4819,7 @@ function answer(r, written, extra){
     else { o.shown = o.shown || {}; o.shown[idOf(key)] = key; }
   }
   rate(key, r, written, isBoost, extra);
+  try { if(window.TabiReviewLog) window.TabiReviewLog.reviewed(key, r, { written:!!written, boost:isBoost, extra:extra || {}, topic:filter, session:o }); } catch(e){}   // research log (review-log.js); never blocks a rating
   if(isBoost){ progress.boosted = progress.boosted || {}; progress.boosted[idOf(key)] = today(); save(); }
   noteActivity(1, 0);
   if(r === "good" && (firstToday || isBoost) && levelOf(key) === "mastered") maybeCelebrate(!wasMastered);
@@ -4842,5 +4977,10 @@ else render();
 <script src="study-stats.js"></script>
 <script src="mcat-ask.js"></script>
 <script src="app-site-nav.js"></script>
+<script src="session-guard.js"></script>
+<script src="referral.js"></script>
+<script src="deck-import.js"></script>
+<script src="review-log.js"></script>
+<script src="raise-hand.js"></script>
 </body>
 </html>
