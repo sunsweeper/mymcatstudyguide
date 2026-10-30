@@ -4,8 +4,8 @@
    and just above Log out when signed in. */
 (() => {
   'use strict';
-  const LINKS = [['How it works', '/mcat/how-it-works'], ['Try it', '/mcat#demo'], ['Community', '/mcat/community'], ['It’s free', '/mcat/free'], ['About Us', '/about-us']];
-  const MENU_EXTRA = [['About our AI', '/about-rosalind'], ['Contact Us', '/contact']];
+  const LINKS = [['Courses', '/#courses'], ['How it Works', '/how-it-works'], ['Community', '/community'], ['About Us', '/about-us']];
+  const MENU_EXTRA = [['MCAT prep', '/mcat'], ['About our AI', '/about-rosalind'], ['Contact Us', '/contact']];
   const nav = document.querySelector('.topbar .topnav'), menu = document.getElementById('menu');
   if(!nav || !menu) return;
   const bar = document.createElement('div');
