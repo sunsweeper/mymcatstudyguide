@@ -21,7 +21,7 @@ let count = 0; const check = (name, v) => { assert.ok(v, name); count++; console
         await p.evaluate(() => { resetCard(); render(); });
         await p.fill('#curAnswer', 'an answer from memory'); await p.click('#reveal'); await p.waitForFunction(() => revealed && !flipping);
         await p.click('#studyNext'); await p.waitForSelector('#rateRow:not([hidden])'); await p.click(`#rateRow [data-r=${r}]`);
-        if(r !== 'good'){ await p.fill('#curAnswer', 'A reinforcement answer that is long enough.'); await p.click('#studyNext'); }
+        if(r !== 'good'){ await p.fill('#popupReinforce', 'A reinforcement answer that is long enough.'); await p.click('#gradeAccept'); }
         await p.waitForFunction(n => Object.keys(progress.open.bb.results || {}).length === n, r === 'good' ? 1 : 2);
       }
       await p.click('#statsOpen');

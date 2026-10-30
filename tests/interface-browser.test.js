@@ -53,9 +53,9 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
     ok('SR1 screen-reader tree: tabs announced as a tab list with the selected tab, fields labeled, hidden note/answers not readable', /tablist "Notes and written answers"/.test(aria) && /tab "(Notes|My Written Answers)" \[selected\]/.test(aria) && /tabpanel "(Notes|My Written Answers)"/.test(aria) && !/ZZ-/.test(aria));
     await p.click('#studyAnswers'); await p.fill('#curAnswer', 'my try'); await p.click('#reveal'); await p.waitForTimeout(500);
     ok('H4 after the flip, previous answers and the note appear', (await p.textContent('#prevList')).includes('ZZ-OLD-ANSWER') && (await p.click('#studyNotes'), (await p.inputValue('#noteText')) === 'ZZ-NOTE-TEXT'));
-    await p.click('#mandToggle'); await rateThroughPopup(p,'[data-r=again]');
-    ok('H5 switch off: Didn\'t know opens Current Answer with Next card enabled', await p.evaluate(() => document.activeElement.id) === 'curAnswer' && !(await p.isDisabled('#curNext')));
-    await p.click('#studyNext'); await p.waitForTimeout(150);
+    await p.click('#mandToggle'); await p.click('#studyNext'); await p.click('[data-r=again]');
+    ok('H5 switch off: Didn\'t know opens the adaptive learning box in the pop-up with Save and Next Card enabled', await p.evaluate(() => document.activeElement.id) === 'popupReinforce' && !(await p.isDisabled('#gradeAccept')));
+    await p.click('#gradeAccept'); await p.waitForTimeout(150);
     ok('H6 leaving without the response shows the Yes/No popup', await p.isVisible('#askModal') && (await p.textContent('#askText')).startsWith("You didn't type the mandatory response"));
     await p.click('#askNo'); ok('H7 No keeps her on the card', await p.evaluate(() => idOf(curKey)) === id && !(await p.isVisible('#askModal')));
     await p.click('#studyNext'); await p.click('#askYes'); await p.waitForTimeout(200);
@@ -71,7 +71,7 @@ const d = n => { const t = new Date(); t.setHours(12); t.setDate(t.getDate() + n
     await p.addInitScript(() => { if(!sessionStorage.getItem('seeded')){ localStorage.setItem('mcat-progress-v2', JSON.stringify({ cards:{}, newDay:{date:'',count:0}, open:{}, view:'q', tips:{off:true} })); sessionStorage.setItem('seeded','1'); } });
     await p.goto(HTTP); await p.click('[data-k=cp]'); await p.click('#toQuote'); await p.evaluate(()=>window.MCATStudyUI?.setRecall(false)); await p.click('#reveal'); await p.waitForFunction(()=>revealed&&!flipping);
     const k = await p.evaluate(() => curKey);
-    await rateThroughPopup(p,'[data-r=again]'); await p.waitForFunction(()=>document.activeElement.id==='curAnswer'); await p.keyboard.type('Typed before the page reloaded');
+    await p.evaluate(()=>chooseRating('again')); await p.waitForFunction(()=>document.activeElement.id==='curAnswer'); await p.keyboard.type('Typed before the page reloaded');
     await p.waitForTimeout(700); await p.reload();
     await p.waitForFunction(k => typeof curKey !== 'undefined' && curKey === k && mode === 'cards', k, { timeout: 5000 }).catch(() => {});
     ok('RF1 browser refresh mid-answer: same card, answer side, text restored', await p.evaluate(() => curKey) === k && await p.evaluate(() => revealed) && (await p.inputValue('#curAnswer')) === 'Typed before the page reloaded');

@@ -182,3 +182,11 @@ html body #mandToggle[aria-pressed="true"] .switch{background:#4ca778}
 @media(max-width:400px){#study #card .import-tag{font-size:10px;letter-spacing:.4px}}
 #study #raiseHand[hidden],#study #studyReport[hidden],.study-modal #gradeDispute[hidden]{display:none}
 #study .study-utilities.one{grid-template-columns:1fr}
+/* Adaptive learning box inside Rosalind's pop-up (Struggled / Didn't know) */
+.study-modal .popup-write{display:flex;flex-direction:column;gap:8px;margin:4px 0 14px;text-align:left}.study-modal .popup-write[hidden]{display:none}
+.study-modal .popup-answer{background:#f1ecdf;border:1px solid #dfd6c9;border-radius:12px;padding:10px 14px;font:500 15px/1.5 'DM Sans',sans-serif;color:#24382d;max-height:180px;overflow:auto}
+.study-modal .popup-answer-h{display:block;font:700 11px 'DM Sans',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#9d6276;margin-bottom:4px}
+.study-modal .popup-write-label{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font:600 14px 'DM Sans',sans-serif;color:#24382d}.study-modal .popup-write-label span{font-weight:500;color:#6b7d71;font-size:13px}
+.study-modal #popupReinforce{width:100%;box-sizing:border-box;font:500 16px/1.5 'DM Sans',sans-serif;padding:10px 12px;border:1px solid #cdbfae;border-radius:10px;background:#fff;color:#24382d;resize:vertical}
+.study-modal .popup-need{margin:0;color:#a33a52;font:600 13px 'DM Sans',sans-serif}.study-modal .popup-need[hidden],.study-modal #popupNudge[hidden]{display:none}
+.study-modal #gradeDispute{font-size:13px;color:#6b5560}

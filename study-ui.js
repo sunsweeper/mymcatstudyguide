@@ -29,39 +29,59 @@
   byId('raiseHand').onclick=()=>{drawer='assistance';sync();byId('closeStudyDrawer').focus();};
   byId('studyExplain').onclick=()=>{drawer='explanation';sync();byId('closeStudyDrawer').focus();};
   const modal=document.createElement('div');modal.id='studyRatingModal';modal.className='study-modal-bg';modal.hidden=true;
-  modal.innerHTML=`<div id="studyRatingDialog" class="study-modal" role="dialog" aria-modal="true" aria-labelledby="studyRatingTitle" aria-describedby="studyRatingDescription" tabindex="-1"><button class="study-close" id="closeStudyRating" aria-label="Close rating prompt">×</button><span class="study-eyebrow" id="studyRatingEyebrow">YOUR RECALL</span><h2 id="studyRatingTitle">Did you remember the answer to the last card?</h2><p id="studyRatingDescription">Choose the response that best matches how well you remembered.</p><div class="grade-actions" id="gradeActions" hidden><button class="btn" id="gradeAccept" type="button">Next Card →</button><button class="link" id="gradeDispute" type="button">Dispute</button><button class="link retire-link" id="gradeRetire" type="button" hidden>No longer show me this card</button></div><div class="dispute-note" id="disputeNote" hidden><label for="disputeText">What did we get wrong? <span>(optional)</span></label><textarea id="disputeText" rows="3" maxlength="1000"></textarea><div class="dispute-actions"><button class="link" id="disputeBack" type="button">← Back</button><button class="btn" id="disputeSend" type="button">Send and continue →</button></div></div></div>`;
+  modal.innerHTML=`<div id="studyRatingDialog" class="study-modal" role="dialog" aria-modal="true" aria-labelledby="studyRatingTitle" aria-describedby="studyRatingDescription" tabindex="-1"><button class="study-close" id="closeStudyRating" aria-label="Close rating prompt">×</button><span class="study-eyebrow" id="studyRatingEyebrow">YOUR RECALL</span><h2 id="studyRatingTitle">Did you remember the answer to the last card?</h2><p id="studyRatingDescription">Choose the response that best matches how well you remembered.</p><div class="popup-write" id="popupWrite" hidden><div class="popup-answer"><span class="popup-answer-h">The answer</span><div id="popupAnswer"></div></div><label class="popup-write-label" for="popupReinforce"><b>Adaptive learning box</b><span>Write the answer in your own words</span></label><textarea id="popupReinforce" rows="3" maxlength="2000"></textarea><p class="effort-nudge" id="popupNudge" role="status" hidden><b>Rosalind:</b> That's pretty brief, and it doesn't look much like the answer yet. Writing it out in your own words is what makes it stick. Try a full sentence, or press Save and Next Card again to continue.</p><p class="popup-need" id="popupNeed" role="alert" hidden>Write the answer in your own words to continue.</p></div><div class="grade-actions" id="gradeActions" hidden><button class="btn" id="gradeAccept" type="button">Save and Next Card</button><button class="link" id="gradeDispute" type="button">Dispute Grading</button><button class="link retire-link" id="gradeRetire" type="button" hidden>No longer show me this card</button></div><div class="dispute-note" id="disputeNote" hidden><label for="disputeText">What did we get wrong? <span>(optional)</span></label><textarea id="disputeText" rows="3" maxlength="1000"></textarea><div class="dispute-actions"><button class="link" id="disputeBack" type="button">← Back</button><button class="btn" id="disputeSend" type="button">Send and continue →</button></div></div></div>`;
   document.body.append(modal);byId('studyRatingDialog').insertBefore(byId('rateRow'),byId('gradeActions'));byId('studyRatingDialog').insertBefore(byId('disputeNote'),byId('rateRow'));   // note first: tapping a rating submits
   // Popup views: 'grade' (the system's grade + Dispute), 'checking', 'dispute' (pick the right grade), 'manual' (no grade available).
-  let popupView='manual';
+  let popupView='manual',selfR=null,writeFor=null;   // selfR: Struggled / Didn't know picked by hand when no grade was available
   const VERDICT={good:'Good job, you knew that one.',hard:'Close. You were partly there.',again:'Not this time.'};
   function closeRating(restore=true){modal.hidden=true;dialogKey=null;byId('study').inert=false;if(restore&&returnTo?.isConnected)returnTo.focus();}
   function showPopup(){
     const g=check.current(),pending=check.pending();
-    popupView=popupView==='dispute'&&g?'dispute':g&&!pendingR?'grade':pending&&!pendingR?'checking':'manual';
+    popupView=popupView==='dispute'&&g?'dispute':popupView==='self'&&selfR?'self':g&&!pendingR?'grade':pending&&!pendingR?'checking':'manual';
+    const r=popupView==='grade'?g.rating:popupView==='self'?selfR:null,write=!!r&&r!=='good';
     const d=byId('studyRatingDialog');d.dataset.view=popupView;d.dataset.grade=g?g.rating:'';
-    byId('gradeActions').hidden=popupView!=='grade';byId('disputeNote').hidden=popupView!=='dispute';byId('rateRow').hidden=popupView!=='manual';
+    byId('gradeActions').hidden=!['grade','self'].includes(popupView);byId('disputeNote').hidden=popupView!=='dispute';byId('rateRow').hidden=popupView!=='manual';
+    // Struggled / Didn't know: the adaptive learning box is right here, under Rosalind's feedback, so the next card comes next.
+    byId('popupWrite').hidden=!write;if(write){const id=idOf(curKey),c=BY_ID[id],rv=isRevKey(curKey)&&REVERSE[id];byId('popupAnswer').innerHTML=rv?rv[1]:c?c[2]:'';}
+    if(writeFor!==curKey){writeFor=curKey;byId('popupReinforce').value='';byId('popupNudge').hidden=true;byId('popupNeed').hidden=true;}
     byId('rateRow').querySelectorAll('[data-r]').forEach(b=>b.disabled=false);
     const T=byId('studyRatingTitle'),D=byId('studyRatingDescription'),E=byId('studyRatingEyebrow');
-    byId('gradeDispute').hidden=typeof isImported==='function'&&isImported(idOf(curKey));   // a dispute emails the card to TabiPrep; imported cards stay private
+    byId('gradeDispute').hidden=popupView!=='grade'||(typeof isImported==='function'&&isImported(idOf(curKey)));   // a dispute emails the card to TabiPrep; imported cards stay private
     byId('gradeRetire').hidden=!(popupView==='grade'&&g.rating==='good'&&canRetire(curKey));
     if(popupView==='grade'){E.textContent=g.source==='ai'?'GRADED BY ROSALIND':'GRADED';T.textContent=VERDICT[g.rating];D.textContent=g.reasoning;}
+    else if(popupView==='self'){E.textContent='YOUR RECALL';T.textContent=VERDICT[selfR];D.textContent='';}
     else if(popupView==='checking'){E.textContent='YOUR RECALL';T.textContent='Checking your answer…';D.textContent='This takes a moment.';}
     else if(popupView==='dispute'){E.textContent='DISPUTE';T.textContent='Dispute this grade';D.textContent=`We graded it ${rateLabel(g.rating)}. That grade stays for scheduling, and we'll review your dispute.`;}
     else{E.textContent='YOUR RECALL';T.textContent='Did you remember the answer to the last card?';D.textContent=check.why()||'Choose the response that best matches how well you remembered.';}
   }
-  function openRating(manual){if(mode!=='cards'||!revealed||!flipped||flipping||askCfg||noteModalOpen)return;returnTo=document.activeElement;dialogKey=curKey;popupView=manual===true?'manual':'';modal.hidden=false;byId('study').inert=true;
+  function openRating(manual){if(mode!=='cards'||!revealed||!flipped||flipping||askCfg||noteModalOpen)return;returnTo=document.activeElement;dialogKey=curKey;popupView=manual===true?'manual':'';selfR=null;modal.hidden=false;byId('study').inert=true;
     if(manual===true){byId('studyRatingDialog').dataset.view='manual';byId('gradeActions').hidden=true;byId('disputeNote').hidden=true;byId('rateRow').hidden=false;byId('rateRow').querySelectorAll('[data-r]').forEach(b=>b.disabled=false);byId('studyRatingTitle').textContent='Did you remember the answer to the last card?';byId('studyRatingDescription').textContent='Choose the response that best matches how well you remembered.';byId('studyRatingEyebrow').textContent='YOUR RECALL';}
     else showPopup();
-    (modal.querySelector('#gradeActions:not([hidden]) #gradeAccept')||modal.querySelector('#rateRow:not([hidden]) [data-r]:not(:disabled)')||byId('studyRatingDialog')).focus();}
+    (modal.querySelector('#popupWrite:not([hidden]) #popupReinforce')||modal.querySelector('#gradeActions:not([hidden]) #gradeAccept')||modal.querySelector('#rateRow:not([hidden]) [data-r]:not(:disabled)')||byId('studyRatingDialog')).focus();}
   function applyRating(r){const key=curKey;closeRating(false);chooseRating(r);if(key===curKey&&pendingR){byId('curAnswer').focus();sync();}}
-  byId('gradeAccept').onclick=()=>{const g=check.current();if(!modal.hidden&&dialogKey===curKey&&g)applyRating(g.rating);};
+  // Save and Next Card: records the grade (and, for Struggled / Didn't know, what was written in the box) and moves to a new card.
+  byId('gradeAccept').onclick=()=>{
+    const g=check.current(),r=popupView==='self'?selfR:g&&g.rating;
+    if(modal.hidden||dialogKey!==curKey||!r)return;
+    if(r==='good'){applyRating('good');return;}
+    const text=byId('popupReinforce').value.trim();
+    if(!text&&mandatoryOn()){byId('popupNeed').hidden=false;byId('popupReinforce').focus();return;}
+    if(text&&nudgedFor!==curKey&&lowEffort(text)){nudgedFor=curKey;byId('popupNudge').hidden=false;byId('popupReinforce').focus();return;}
+    closeRating(false);chooseRating(r);if(pendingR){reinforceDraft=text;submitReinforce();}sync();
+  };
+  byId('popupReinforce').addEventListener('input',()=>{byId('popupNeed').hidden=true;});
+  // No grade available (rate yourself): Struggled / Didn't know open the box here instead of going back to the card.
+  byId('rateRow').addEventListener('click',e=>{const b=e.target.closest('[data-r]');if(modal.hidden||!b||b.dataset.r==='good')return;
+    e.preventDefault();e.stopImmediatePropagation();selfR=b.dataset.r;popupView='self';showPopup();byId('popupReinforce').focus();},true);
   // Retire: offered once a card has been answered right before (either direction) and is right again now.
   function canRetire(key){const id=idOf(key);if(typeof retireCard!=='function'||(progress.retired&&progress.retired[id]))return false;
     return [id,id+REV].reduce((n,k)=>n+((st(k)?.history)||[]).filter(h=>h.r==='good'&&!h.b&&!h.e).length,0)>=1;}
   byId('gradeRetire').onclick=()=>{const g=check.current();if(modal.hidden||dialogKey!==curKey||!g||g.rating!=='good')return;const id=idOf(curKey);applyRating('good');retireCard(id);};
   byId('gradeDispute').onclick=()=>{popupView='dispute';showPopup();byId('disputeText').value='';byId('disputeText').focus();};
   // The system's grade is what the scheduler records; a dispute only sends the card for review.
-  byId('disputeSend').onclick=()=>{const g=check.current();if(modal.hidden||dialogKey!==curKey||!g)return;check.dispute(byId('disputeText').value.trim());applyRating(g.rating);};
+  byId('disputeSend').onclick=()=>{const g=check.current();if(modal.hidden||dialogKey!==curKey||!g)return;check.dispute(byId('disputeText').value.trim());
+    if(g.rating==='good'){applyRating('good');return;}
+    popupView='';showPopup();byId('studyRatingDescription').textContent='Dispute sent. We\'ll review it. '+g.reasoning;byId('popupReinforce').focus();};   // still write it out, then Save and Next Card
   byId('disputeBack').onclick=()=>{popupView='';showPopup();byId('gradeAccept').focus();};
   // Adaptive learning box: a very short entry that doesn't resemble the answer gets one nudge from Rosalind; pressing Next again continues.
   const STOP=new Set('the a an of to is are and or in on at by for its it that this be as with from was were which what when where who how not no yes'.split(' '));
@@ -178,11 +198,11 @@
     if(!writing)byId('curAnswer').placeholder='Try to recall the answer in your own words before flipping…';
     byId('revealRow').hidden=false;byId('reveal').disabled=!revealed&&((recall||required)&&!draft.trim());
     byId('studyNext').disabled=!revealed||!flipped||(writing&&mandatoryOn()&&reinforceDraft.trim().length<MIN_REINFORCE);
-    byId('studyNext').textContent=writing?'Save response & Next Card →':'Next Card →';
+    byId('studyNext').textContent=writing?'Save and Next Card →':'Next Card →';
     byId('hint').textContent=writing?'Complete your response, then continue.':revealed?'Select Next Card to rate your recall.':'Tap the card or use Flip Card.';
     byId('curHint').textContent=byId('curHint').textContent.replace('Reveal Answer','Flip Card');
     byId('studyChangeRating').hidden=true;   // the system's grade is final; no changing it here
-    byId('curNext').textContent='Save response & Next Card';
+    byId('curNext').textContent='Save and Next Card';
     byId('rateRow').hidden=modal.hidden;
     byId('studyExplain').hidden=!hasExplanation(idOf(curKey));   // no written explanation for this card: no button
     byId('studyExplain').disabled=!revealed||!hasExplanation(idOf(curKey));
