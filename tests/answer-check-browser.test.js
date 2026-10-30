@@ -28,7 +28,7 @@ let count = 0; const check = (name, v) => { assert.ok(v, name); count++; console
       await p.waitForSelector('#studyRatingDialog[data-view=grade]');
       check(`${width}: matched answer shows the Got it verdict`, (await p.textContent('#studyRatingTitle')) === 'Good job, you knew that one.' && (await p.textContent('#studyRatingEyebrow')) === 'GRADED');
       check('Matched answer does not call the AI', aiCalls.length === 0);
-      check('Verdict view: Next Card and Dispute shown, rating buttons hidden', await p.isVisible('#gradeAccept') && await p.isVisible('#gradeDispute') && await p.isHidden('#rateRow'));
+      check('Verdict view: Save and Next Card and Dispute Grading shown, rating buttons hidden', await p.isVisible('#gradeAccept') && await p.isVisible('#gradeDispute') && await p.isHidden('#rateRow'));
       check('Next Card has focus', await p.evaluate(() => document.activeElement.id === 'gradeAccept'));
       await p.click('#gradeAccept'); await p.waitForFunction(() => st('1A-005'));
       check('Accepting records the system grade through the engine', await p.evaluate(() => st('1A-005').history.at(-1).r === 'good'));
@@ -40,8 +40,10 @@ let count = 0; const check = (name, v) => { assert.ok(v, name); count++; console
       check('AI verdict and reasoning in the popup', (await p.textContent('#studyRatingEyebrow')) === 'GRADED BY ROSALIND' && (await p.textContent('#studyRatingTitle')) === 'Close. You were partly there.' && (await p.textContent('#studyRatingDescription')).includes('Vmax is unchanged'));
       await p.click('#gradeDispute');
       check('Dispute view: note box and Send, no rating buttons', await p.isHidden('#rateRow') && await p.isVisible('#disputeText') && await p.isVisible('#disputeSend'));
-      await p.fill('#disputeText', 'Vmax drop was a typo, I meant unchanged.'); await p.click('#disputeSend'); await p.waitForFunction(() => st('1A-018') || pendingR);
-      check('The system grade is what the engine records (Struggled -> reinforcement)', await p.evaluate(() => pendingR === 'hard'));
+      await p.fill('#disputeText', 'Vmax drop was a typo, I meant unchanged.'); await p.click('#disputeSend');
+      check('After a dispute: back to the grade with the adaptive learning box', await p.isVisible('#popupReinforce') && (await p.textContent('#studyRatingDescription')).startsWith('Dispute sent'));
+      await p.fill('#popupReinforce', 'Competitive inhibition raises Km and leaves Vmax unchanged.'); await p.click('#gradeAccept'); await p.waitForFunction(() => st('1A-018'));
+      check('The system grade is what the engine records, with the writing, and a new card is up', await p.evaluate(() => st('1A-018').history.at(-1).r === 'hard' && /Vmax unchanged/.test(st('1A-018').history.at(-1).w) && curKey !== '1A-018' && !pendingR));
       await p.waitForFunction(n => window.__flags >= n, 1).catch(() => {});
       const f = flags.at(-1);
       check('Dispute delivers card, answer, grade, reasoning and note', f && f['Card ID'] === '1A-018' && f['Student answer'] === 'Km goes up and Vmax goes down' && f['Graded as'] === 'Struggled' && !('Student says' in f) && /unchanged/.test(f['Grade reasoning']) && /typo/.test(f['Student note']) && f['Disputed by'] === 'Fixture' && /^AI/.test(f['Graded by']));
