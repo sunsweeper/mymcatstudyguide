@@ -81,7 +81,7 @@
     const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#1b3a2b'); g.addColorStop(1, '#0f2018'); c.fillStyle = g; c.fillRect(0, 0, W, H);
     // Header: logo + wordmark
     c.textBaseline = 'alphabetic';
-    try { const img = await brandLogo(); const h = 150, w = img.width * h / img.height; c.drawImage(img, 60, 40, w, h); }
+    try { const img = await brandLogo(); const h = 162, w = img.width * h / img.height; c.drawImage(img, 60, 40, w, h); }
     catch(e){ c.font = `700 62px ${serif}`; c.fillStyle = '#f8f2e8'; c.fillText('TabiPrep.com', 72, 128); }   // logo file unavailable
     // Title
     const title = opts.session ? 'MCAT study session' : 'My MCAT prep';
