@@ -141,3 +141,5 @@ grant execute on function public.delete_my_account() to authenticated;
 
 -- ---------- Imported decks (deck import) ----------
 -- See docs/user-decks.sql (run it once).
+-- ---------- Review events (learning research log) ----------
+-- See docs/review-events.sql (run it once).
