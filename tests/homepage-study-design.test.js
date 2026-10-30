@@ -11,7 +11,7 @@ const styles=(page,selector)=>page.locator(selector).evaluate(e=>{
   const ctx=await browser.newContext({viewport:{width,height:1000},reducedMotion:'reduce'});
   await ctx.route('**/supabase.js',r=>r.fulfill({contentType:'text/javascript',body:''}));
   const home=await ctx.newPage(),study=await ctx.newPage();for(const p of [home,study])p.on('pageerror',e=>errors.push(e.message));
-  await home.goto(base+'/');await study.goto(base+'/index.html');
+  await home.goto(base+'/mcat');await study.goto(base+'/index.html');
   await study.evaluate(()=>{pick('all');start(true);deck[pos]='1A-001';resetCard();render();});
   for(const p of [home,study])await p.evaluate(()=>document.fonts.ready);
   // Compare the same content at the same available card width, independent of page chrome.
