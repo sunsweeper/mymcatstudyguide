@@ -31,15 +31,12 @@
       "src": "^/why-it-works/?$",
       "status": 301,
       "headers": {
-        "Location": "/mcat/how-it-works"
+        "Location": "/how-it-works"
       }
     },
     {
       "src": "^/community/?$",
-      "status": 301,
-      "headers": {
-        "Location": "/mcat/community"
-      }
+      "dest": "/community.html"
     },
     {
       "src": "^/free-trial/?$",
@@ -54,11 +51,17 @@
     },
     {
       "src": "^/mcat/how-it-works/?$",
-      "dest": "/how-it-works.html"
+      "status": 301,
+      "headers": {
+        "Location": "/how-it-works"
+      }
     },
     {
       "src": "^/mcat/community/?$",
-      "dest": "/community.html"
+      "status": 301,
+      "headers": {
+        "Location": "/community"
+      }
     },
     {
       "src": "^/mcat/free-trial/?$",
@@ -90,6 +93,14 @@
     {
       "src": "^/study/(bio-biochem|chem-phys|psych-soc|cars|all-topics|weakest-topics|focused-review|my-cards)(/start|/missed-cards|/reinforcement(/start|/complete)?|/complete)?/?$",
       "dest": "/index.html"
+    },
+    {
+      "src": "^/how-it-works/?$",
+      "dest": "/how-it-works.html"
+    },
+    {
+      "src": "^/sample-cards/?$",
+      "dest": "/sample-cards.html"
     },
     {
       "src": "^/about-us$",
