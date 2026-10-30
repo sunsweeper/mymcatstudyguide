@@ -46,7 +46,7 @@
   document.head.append(style);
   const REFER_URL = location.origin + '/referral';
 
-  let mine = false, lost = false, asking = false, checkedAt = 0, lastBeat = 0, me = null, deciding = null;
+  let mine = false, lost = false, asking = false, checkedAt = 0, lastBeat = 0, me = null, deciding = null, wasMine = false;   // wasMine: this tab was the active session during this sign-in
   const meta = () => ((sbUser && sbUser.user_metadata) || {}).active_session || null;
   async function fresh(){   // the account's current record of the active session (null if it can't be reached: offline keeps studying)
     try { const r = await sb.auth.getUser(); if(r && r.data && r.data.user){ sbUser = Object.assign({}, sbUser, { user_metadata:r.data.user.user_metadata || {} }); return { ok:true, s:meta() }; } } catch(e){}
@@ -56,7 +56,7 @@
     const s = { id:TAB, device:DEVICE, label:label(), at:Date.now(), taken_from:prev && prev.id !== TAB ? prev.id : null };
     try { await sb.auth.updateUser({ data:{ active_session:s } }); } catch(e){}
     sbUser = Object.assign({}, sbUser, { user_metadata:Object.assign({}, sbUser.user_metadata, { active_session:s }) });
-    mine = true; lastBeat = Date.now(); checkedAt = Date.now();
+    mine = true; wasMine = true; lastBeat = Date.now(); checkedAt = Date.now();
     // Pick up anything the other device saved just before it stopped, then save once from here.
     setTimeout(async () => {
       if(!mine || !sbUser) return;
@@ -96,8 +96,10 @@
     checkedAt = Date.now();
     const r = await fresh(); if(!r.ok || !sbUser) return mine;
     const s = r.s;
-    if(!s || s.id === TAB){ if(!s) await claim(null); else mine = true; return true; }
-    if(s.taken_from === TAB){ mine = false; await signOutHere(`You're signed out here because your account was opened on ${where(s)}.`); referral(s); return false; }
+    if(!s || s.id === TAB){ if(!s) await claim(null); else { mine = true; wasMine = true; } return true; }
+    // Only a tab that was studying when it was taken over is signed out. A tab signing in again later (whose old record still
+    // names it) is asked like any other device, instead of being sent straight back to the login screen.
+    if(s.taken_from === TAB && wasMine){ mine = false; await signOutHere(`You're signed out here because your account was opened on ${where(s)}.`); referral(s); return false; }
     if(Date.now() - (s.at || 0) > STALE){ await claim(s); return true; }
     mine = false; return ask(s);
   }
@@ -105,7 +107,7 @@
   function watch(){
     wrapSignOut();
     const id = sbUser && sbUser.id;
-    if(id && id !== me){ me = id; mine = false; checkedAt = 0; check(true); }
+    if(id && id !== me){ me = id; mine = false; wasMine = false; checkedAt = 0; check(true); }
     if(!id) me = null;
   }
 
