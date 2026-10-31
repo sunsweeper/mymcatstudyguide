@@ -17,7 +17,8 @@ let count = 0; const ok = (n, v) => { assert.ok(v, n); count++; console.log('PAS
     const card = { a: 'el árbol', alt: ['arbolito'] };
     ok('Exact answer correct', (await g('el árbol', card)).kind === 'ok');
     ok('Article and capitals forgiven', (await g('Árbol', card)).kind === 'ok');
-    ok('Missing accent flagged, not failed', (await g('arbol', card)).kind === 'close');
+    ok('Missing accent gets full credit and shows the accented spelling', (await g('arbol', card)).kind === 'ok' && (await g('arbol', card)).text.includes('el árbol'));
+    ok('Missing accent on an alternative also counts', (await g('Adios', { a: 'Adiós', alt: ['Chao'] })).kind === 'ok');
     ok('Alternative accepted', (await g('arbolito', card)).kind === 'ok');
     ok('Punctuation forgiven', (await g('¿Cómo estás?', { a: 'cómo estás', alt: [] })).kind === 'ok');
     ok('Wrong answer marked', (await g('casa', card)).kind === 'no');
