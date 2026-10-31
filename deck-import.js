@@ -222,6 +222,8 @@
     if(!anchor) return;
     anchor.insertAdjacentHTML('beforebegin', section());
     wire();
+    // /account#decks (the homepage's "Import from your Account page" link): go straight to this section.
+    if(location.hash === '#decks'){ history.replaceState(null, '', location.pathname + location.search); setTimeout(() => { const s = byId('deckSec'); if(s) s.scrollIntoView({ block:'start' }); }, 50); }
   }
 
   // ---------- Optional step after sign-up (shown once per account) ----------
