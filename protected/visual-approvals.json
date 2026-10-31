@@ -59,6 +59,11 @@
    "date": "2026-10-30",
    "approved_by": "Aaron Walch",
    "reason": "Raise Your Hand goes live: button label changes from '? Raise Your Hand (planned)' to '✋ Raise Your Hand' (owner-requested feature)"
+  },
+  {
+   "date": "2026-10-31",
+   "approved_by": "Aaron Walch",
+   "reason": "Oct 31 audit: one-sentence Active Recall / Mandatory Response explainer under the toggle; Grade My Answer / Rate My Recall labels"
   }
  ]
 }

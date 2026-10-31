@@ -45,9 +45,11 @@ window.supabase={createClient:()=>({auth:{onAuthStateChange(){},async getSession
     ok('Rosalind grade, dispute and adaptive-box writing recorded', e2.grade === 'hard' && e2.source === 'ai' && e2.disputed === true && e2.wrote_after === true && !JSON.stringify(e2).includes('Vmax unchanged'));
 
     // 3. Undo adds a row; nothing is changed or deleted.
-    await p.click('#prev'); await p.waitForFunction(() => window.__events.length === 3);
+    await p.click('#prev'); await p.waitForTimeout(300);
+    ok('Previous (looking back) logs nothing', await p.evaluate(() => window.__events.length === 2));
+    await p.click('#lbUndo'); await p.waitForFunction(() => window.__events.length === 3);
     const e3 = await p.evaluate(() => window.__events[2]);
-    ok('Previous card adds an "undo" event; earlier rows stay', e3.kind === 'undo' && e3.card_key === '1A-018' && (await p.evaluate(() => window.__events[1].grade)) === 'hard');
+    ok('Undo this grade adds an "undo" event; earlier rows stay', e3.kind === 'undo' && e3.card_key === '1A-018' && (await p.evaluate(() => window.__events[1].grade)) === 'hard');
 
     // 4. No grade available (grader down): the student rates it.
     gradeDown = true;

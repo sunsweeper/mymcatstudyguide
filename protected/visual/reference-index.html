@@ -221,7 +221,9 @@ button{-webkit-tap-highlight-color:transparent}
 .char-hint{font-size:.85rem;color:var(--ink)}
 .reinforce-foot .btn{min-width:140px}
 .write[hidden]{display:none}
-.skip-row{display:flex;justify-content:center;margin-top:4px}
+.skip-row{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:4px}
+.prev-empty{margin:0;padding:10px 2px;color:var(--muted);font-size:.95rem}
+.recall-relation{margin:0;max-width:560px;text-align:center;font-size:.85rem;line-height:1.45;color:var(--muted)}
 .toggle{display:inline-flex;align-items:center;gap:10px;font:700 .95rem var(--f-ui);color:var(--ink);background:none;border:0;padding:6px 4px;cursor:pointer}
 .toggle .switch{position:relative;width:38px;height:22px;border-radius:999px;background:var(--line);transition:background .15s;flex-shrink:0}
 .toggle .switch::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .15s}
@@ -1154,7 +1156,7 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 @media(max-width:620px){#study #card .face{min-height:140px;padding:0 0 30px}}
 </style>
 <link rel="stylesheet" href="study-ui.css">
-<script defer src="/_vercel/insights/script.js"></script></head>
+<script defer src="/_vercel/insights/script.js"></script><link rel="stylesheet" href="/app-site-shell.css"></head>
 <body>
 <div class="wrap" id="app">
   <header class="topbar">
@@ -1262,7 +1264,7 @@ a.logo:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
       </div>
       <div class="ref-row"><a class="ref-link" id="outlineLink" href="3-2020_whats_on_the_mcat_content_outline.pdf" target="_blank" rel="noopener">What's on the MCAT?</a></div>
       <span class="hint" id="hint" aria-live="polite"></span>
-      <div class="skip-row"><button class="toggle" id="mandToggle" type="button" aria-pressed="true"><span class="switch" aria-hidden="true"></span>Mandatory Response</button></div>
+      <div class="skip-row"><button class="toggle" id="mandToggle" type="button" aria-pressed="true" aria-describedby="recallRelation"><span class="switch" aria-hidden="true"></span>Mandatory Response</button><p class="recall-relation" id="recallRelation">Active Recall asks for a written answer on every card; Mandatory Response keeps writing required on cards you've missed until you master them, even with Active Recall off.</p></div>
     </div>
   </div>
   <input type="file" id="importFile" accept=".json,application/json" hidden>
@@ -2688,7 +2690,7 @@ function subReasons(s, left){
   if(!s.seen) r.push(`${s.ids.length} cards you haven't seen yet${left !== null && left > 0 ? `, with ${left} days to your MCAT` : ""}`);
   if(s.failCards) r.push(`${s.failCards} card${s.failCards === 1 ? "" : "s"} missed more than once lately`);
   if(s.overdueIds.length) r.push(`${s.overdueIds.length} overdue`);
-  if(s.seen && s.rate !== null) r.push(`held up after a day or more ${Math.round(s.rate * 10) * 10 >= 100 ? "almost always" : `about ${Math.round(s.rate * 10) * 10}% of the time`} (self-rated)`);
+  if(s.seen && s.rate !== null) r.push(`held up after a day or more ${Math.round(s.rate * 10) * 10 >= 100 ? "almost always" : `about ${Math.round(s.rate * 10) * 10}% of the time`} (graded)`);
   if(s.later !== undefined && s.later - s.earlier <= -0.2) r.push("slipping recently");
   if(s.weight >= 10) r.push("a heavily tested part of the MCAT");
   return r;
@@ -3359,13 +3361,13 @@ function final21HTML(){
       <ul class="ready-list">
         <li><span>Curriculum covered</span><b>${covWord} of it</b><small>${r.conceptsSeen} of ${r.conceptsAll} concepts seen, weighted by how much the MCAT tests them</small></li>
         <li><span>Concepts you've (nearly) mastered</span><b>${r.masteredC}</b><small>every card you've studied for the concept is provisionally mastered or mastered</small></li>
-        <li><span>Holding up after a day+</span><b>${pct(r.retention.rate)}</b><small>last 14 days, self-rated${r.retention.n ? `, ${r.retention.n} reviews` : ""}</small></li>
+        <li><span>Holding up after a day+</span><b>${pct(r.retention.rate)}</b><small>last 14 days, graded${r.retention.n ? `, ${r.retention.n} reviews` : ""}</small></li>
         <li><span>Significant gaps</span><b>${r.gaps.length}</b><small>${r.gaps.length ? list(r.gaps) : "none showing right now"}</small></li>
         <li><span>Important material not seen yet</span><b>${r.unseenImp.length}</b><small>${r.unseenImp.length ? list(r.unseenImp) : "you've seen something from every heavily tested subtopic"}</small></li>
         <li><span>Overdue reviews</span><b>${r.overdue}</b><small>${r.overdue ? "they come first in today's review" : "nothing overdue"}</small></li>
         <li><span>How clear the picture is</span><b>${STAGES[r.stage]}</b><small>how much evidence these estimates rest on</small></li>
       </ul>
-      <p class="hint" style="margin:0">An estimate from your study so far (your own ratings and review spacing). It is not an MCAT score prediction.</p></div>
+      <p class="hint" style="margin:0">An estimate from your study so far (your grades, whether Rosalind graded your written answer or you rated yourself, and review spacing). It is not an MCAT score prediction.</p></div>
     <p class="hint" style="margin:0"><button class="link" id="f21Off" type="button">Turn off Final 21</button></p></div>`;
 }
 // Review page for draft graphical cards: each card drawn with the normal card markup, question and answer side.
@@ -3592,7 +3594,7 @@ function renderScreen(){
       <div class="dash-tiles">
         <div class="tile"><span class="tile-n">${mastered}</span><span class="tile-l">cards mastered${prov ? ` · ${prov} almost there` : ""}</span><span class="tile-s">of ${seenCards} you've studied (estimated)</span></div>
         <div class="tile"><span class="tile-n">${seenC.size} / ${allC.size}</span><span class="tile-l">MCAT concepts covered</span><span class="tile-s">${seenCards} of ${allCards} cards seen</span></div>
-        <div class="tile"><span class="tile-n">${pctR(tr.recent.rate)}</span><span class="tile-l">held up after a day+</span><span class="tile-s">last 14 days, self-rated${trendWord}${tr.recent.n ? ` · ${tr.recent.n} reviews` : ""}</span></div>
+        <div class="tile"><span class="tile-n">${pctR(tr.recent.rate)}</span><span class="tile-l">held up after a day+</span><span class="tile-s">last 14 days, graded${trendWord}${tr.recent.n ? ` · ${tr.recent.n} reviews` : ""}</span></div>
         <div class="tile"><span class="tile-n">${dueNow}</span><span class="tile-l">cards due now</span><span class="tile-s">${over ? `${over} overdue` : "nothing overdue"}</span></div>
       </div>
       <p class="hint" style="margin:0">Activity: ${stats.sessions || 0} sessions · ${Object.values(progress.cards).reduce((a, x) => a + (x.history ? x.history.length : 0), 0)} card reviews · ${fmtTime(stats.ms || 0)} studied. Time is shown for reference; mastery is what counts.</p>
@@ -3767,7 +3769,7 @@ function renderScreen(){
   $("reveal").disabled = needWrite && mandatoryOn() && !draft.trim();
   $("prev").disabled = !undo.length;
   $("recallBtn").disabled = revealed;   // Active Recall opens My Written Answers with the cursor in Current Answer
-  $("hint").textContent = revealed ? (pendingR ? "" : "Compare with the answer, then rate yourself.") : needWrite ? "" : "Tap the card or use Reveal Answer.";
+  $("hint").textContent = revealed ? (pendingR ? "" : (draft.trim() ? "Compare with the answer, then select Grade My Answer." : "Compare with the answer, then rate how well you remembered.")) : needWrite ? "" : "Tap the card or use Reveal Answer.";
 }
 /* ---------- Writing workspace: Notes / My Written Answers ----------
    A saved note and previous written answers stay out of the page until the card is revealed (every card). */
@@ -3779,7 +3781,7 @@ const noteAdditive = id => noteVal !== noteSaved(id) && noteVal.startsWith(noteS
 const noteLocked = id => !revealed && !!noteSaved(id).trim();
 function prevAnswersHTML(k){
   const s = st(k), items = [];
-  if(pendingR && draft.trim()) items.push(["Just now · before reveal", draft.trim()]);
+  if(revealed && draft.trim()) items.push(["Just now · before reveal (saved when you grade this card)", draft.trim()]);
   const h = (s && s.history) || [];
   for(let i = h.length - 1; i >= 0; i--){
     const e = h[i];
@@ -3814,7 +3816,7 @@ function calibrationHTML(){
   const c = confidenceStats(), MIN = 10;
   const row = (label, b) => `<tr><th scope="row">${label}</th><td class="n">${b.n}</td><td class="n">${b.n ? Math.round(b.good / b.n * 100) + "%" : "–"}</td><td class="n">${b.n ? Math.round(b.again / b.n * 100) + "%" : "–"}</td></tr>`;
   if(c.n < MIN) return `<div class="wk-sec cal"><div class="wk-head"><span class="t-name">Confidence check</span></div>
-    <p class="lede" style="margin:0">Pick a number on "How confident are you in your answer?" before you reveal a card. After ${MIN} or more (you have ${c.n}), you'll see how your confidence lines up with how you rate yourself.</p></div>`;
+    <p class="lede" style="margin:0">Pick a number on "How confident are you in your answer?" before you reveal a card. After ${MIN} or more (you have ${c.n}), you'll see how your confidence lines up with how your answers are graded.</p></div>`;
   let trend = "";
   if(c.trend){ const d = c.trend.earlier - c.trend.recent;
     trend = `<p class="lede" style="margin:0">${d > 0.03 ? "Lately your confidence has been lining up with your ratings more closely than before." : d < -0.03 ? "Lately your confidence and your ratings have been lining up a little less closely than before. That's common when you move on to new material." : "How well your confidence lines up with your ratings has stayed about the same."}</p>`; }
@@ -3857,8 +3859,9 @@ function renderWorkspace(id, needWrite){
   $("curHint").textContent = writing ? (n < MIN_REINFORCE ? `${n} / ${MIN_REINFORCE} characters` : "")
     : !revealed && needWrite && mandatoryOn() && !draft.trim() ? "Type your answer to unlock Reveal Answer." : "";
   stashDraft();
-  $("prevList").innerHTML = revealed ? prevAnswersHTML(curKey)
-    : hasPrevAnswers(curKey) ? `<div class="ws-lock"><span class="lock-ico" aria-hidden="true"></span>Your previous answers appear after you reveal the card.</div>` : "";
+  const noPrev = `<p class="prev-empty">No saved answers for this card yet. What you write is saved here when you grade the card.</p>`;
+  $("prevList").innerHTML = revealed ? (prevAnswersHTML(curKey) || noPrev)
+    : hasPrevAnswers(curKey) ? `<div class="ws-lock"><span class="lock-ico" aria-hidden="true"></span>Your previous answers appear after you reveal the card.</div>` : noPrev;
 }
 function noteBits(id){
   const d = noteDestructive(id);
@@ -4580,7 +4583,7 @@ const TIPS = {
   "#view [data-v=q]": "Show the question first, then reveal the answer.",
   "#view [data-v=a]": "Show the answer first and recall what it describes (on cards that have a reverse side).",
   "#view [data-v=mix]": "Mix both directions at random.",
-  "#prev": "Go back to the card you just rated and change your rating.",
+  "#prev": "Look back at the cards you've graded this session. Your grades don't change.",
   "#reveal": "Flip the card to see the answer.",
   "#recallBtn": "Type what you remember in My Written Answers before revealing, then compare. It's saved with your rating; nothing is graded.",
   "#rateRow [data-r=good]": "You knew it. The card comes back later, further out each time you know it.",
@@ -4982,5 +4985,6 @@ else render();
 <script src="deck-import.js"></script>
 <script src="review-log.js"></script>
 <script src="raise-hand.js"></script>
+<script src="look-back.js"></script>
 </body>
 </html>
