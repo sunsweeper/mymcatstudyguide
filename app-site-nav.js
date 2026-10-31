@@ -5,10 +5,10 @@
 (() => {
   'use strict';
   // Keep in step with COURSES in site-nav.js (tests/app-site-nav.test.js checks they match).
-  const COURSES = [['MCAT', '/mcat', 'Available now'], ['Spanish', '/spanish', 'Beta: practice deck']];
+  const COURSES = [['MCAT', '/mcat', 'Available now'], ['Spanish', '/spanish', 'Available now']];
   const ABOUT = [['About our AI', '/about-rosalind'], ['Contact Us', '/contact']];
   const LINKS = [['Courses', '/#courses'], ['How it Works', '/how-it-works'], ['Community', '/community'], ['About Us', '/about-us']];
-  const MENU_EXTRA = [['MCAT prep', '/mcat'], ['Spanish (beta)', '/spanish'], ['About our AI', '/about-rosalind'], ['Contact Us', '/contact']];
+  const MENU_EXTRA = [['MCAT prep', '/mcat'], ['Spanish', '/spanish'], ['About our AI', '/about-rosalind'], ['Contact Us', '/contact']];
   const nav = document.querySelector('.topbar .topnav'), menu = document.getElementById('menu');
   if(!nav || !menu) return;
   const drop = (id, label, href, items) => `<div class="sl-drop" data-drop="${id}"><button type="button" class="sl-top" aria-expanded="false" aria-controls="sl-${id}" data-href="${href}">${label} <span aria-hidden="true">▾</span></button>
@@ -26,8 +26,9 @@
   drops.forEach(d => {
     let hoverAt = 0;
     d.querySelector('.sl-top').onclick = e => { e.stopPropagation(); const m = d.querySelector('.sl-menu'); drops.forEach(o => o !== d && set(o, false)); set(d, Date.now() - hoverAt < 600 ? true : m.hidden); };
-    d.addEventListener('mouseenter', () => { if(matchMedia('(hover:hover)').matches){ if(d.querySelector('.sl-menu').hidden) hoverAt = Date.now(); set(d, true); } });
-    d.addEventListener('mouseleave', () => { if(matchMedia('(hover:hover)').matches) set(d, false); });
+    let closeT = 0;   // leaving closes after a short pause, so the pointer can travel to the menu
+    d.addEventListener('mouseenter', () => { if(matchMedia('(hover:hover)').matches){ clearTimeout(closeT); if(d.querySelector('.sl-menu').hidden) hoverAt = Date.now(); set(d, true); } });
+    d.addEventListener('mouseleave', () => { if(matchMedia('(hover:hover)').matches){ clearTimeout(closeT); closeT = setTimeout(() => set(d, false), 400); } });
   });
   document.addEventListener('click', e => { drops.forEach(d => { if(!d.contains(e.target)) set(d, false); }); });
   document.addEventListener('keydown', e => { if(e.key === 'Escape') drops.forEach(d => { if(!d.querySelector('.sl-menu').hidden){ set(d, false); d.querySelector('.sl-top').focus(); } }); });

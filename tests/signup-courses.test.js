@@ -18,7 +18,7 @@ from(){return {select(){return this},eq(){return this},order(){return this},upda
     const p = await ctx.newPage(); p.on('pageerror', e => errors.push(e.message));
     await p.goto(base + '/signup?course=spanish'); await p.waitForSelector('#aCourse');
     ok('From the Spanish page: Spanish already picked', (await p.inputValue('#aCourse')) === 'spanish');
-    ok('Course list shows every course', (await p.locator('#aCourse option').allTextContents()).join('|') === 'Choose a course|MCAT|Spanish (beta)');
+    ok('Course list shows every course', (await p.locator('#aCourse option').allTextContents()).join('|') === 'Choose a course|MCAT|Spanish');
     const order = await p.evaluate(() => ['aCourse', 'aCode', 'aName', 'aEmail', 'aPw', 'aAge'].map(id => document.getElementById(id).getBoundingClientRect().top));
     ok('Order: course, promo/beta code, name, email, password, then the rest', order.every((t, i) => i === 0 || t > order[i - 1]));
     ok('Spanish: no MCAT questions', await p.isHidden('#aMcat') && await p.isHidden('#aWhy'));

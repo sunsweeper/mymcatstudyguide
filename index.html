@@ -4215,7 +4215,7 @@ function markBad(){
 let authWhy = "", authCode = "", authBad = "", signupKeep = {};
 // Courses you can sign up for. /signup?course=spanish (the Spanish page's Sign up buttons) picks Spanish already.
 // Keep in step with COURSES in site-nav.js. Only MCAT has its own sign-up questions so far.
-const SIGNUP_COURSES = [["mcat", "MCAT"], ["spanish", "Spanish (beta)"]];
+const SIGNUP_COURSES = [["mcat", "MCAT"], ["spanish", "Spanish"]];
 let authCourse = (() => { const c = new URLSearchParams(location.search).get("course"); return SIGNUP_COURSES.some(x => x[0] === c) ? c : /^\/referral/.test(location.pathname) ? "mcat" : ""; })();   // referrals are for MCAT
 const validEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 function renderAuth(scr){
