@@ -103,6 +103,17 @@
       "dest": "/sample-cards.html"
     },
     {
+      "src": "^/(?!spanish(?:/|$))[Ss][Pp][Aa][Nn][Ii][Ss][Hh]/?$",
+      "status": 301,
+      "headers": {
+        "Location": "/spanish"
+      }
+    },
+    {
+      "src": "^/spanish/?$",
+      "dest": "/spanish.html"
+    },
+    {
       "src": "^/about-us$",
       "dest": "/about-us.html"
     },
