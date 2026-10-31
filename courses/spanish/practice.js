@@ -1,5 +1,5 @@
 /* Spanish Foundations practice: flip cards in the browser. Read the English, write the Spanish, flip to check.
-   Checking forgives capitals, punctuation (¿¡.,!?), a leading article (el/la/los/las/un/una), and accents (flagged, not failed).
+   Checking forgives capitals, punctuation (¿¡.,!?), a leading article (el/la/los/las/un/una), and missing accents (full credit; the accented spelling is shown).
    Position, category and score are kept in this browser only. No account, nothing sent anywhere. */
 (() => {
   'use strict';
@@ -15,7 +15,8 @@
     const answers = [card.a, ...card.alt];
     if(!base(input)) return null;
     if(answers.some(a => base(a) === base(input))) return { kind: 'ok', text: '¡Correcto! You got it.' };
-    if(answers.some(a => plain(a) === plain(input))) return { kind: 'close', text: `Almost: check the accents. It's “${card.a}”.` };
+    const hit = answers.find(a => plain(a) === plain(input));
+    if(hit) return { kind: 'ok', text: `¡Correcto! With accents it's written “${hit}”.` };   // most keyboards can't type á/é/ñ easily, so accents never cost credit
     return { kind: 'no', text: `Not quite. It's “${card.a}”.` };
   }
   function build(){
