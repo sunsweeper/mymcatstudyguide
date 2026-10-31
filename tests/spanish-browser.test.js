@@ -13,7 +13,8 @@ let count = 0; const ok = (n, v) => { assert.ok(v, n); count++; console.log('PAS
     const x = sel => p.evaluate(s => document.querySelector(s).getBoundingClientRect().left, sel);
     ok('Mirrored: display on the left, words on the right', await x('.hero-art') < await x('.hero-copy'));
     ok('Mirrored: sign-up form on the left, words on the right', await x('.trial-form') < await x('.trial-copy'));
-    ok('Beta note shown', (await p.textContent('.sp-beta')).includes('being reviewed by native speakers'));
+    ok('No beta / not-ready wording anywhere on the page', !/beta|being reviewed|coming to spanish/i.test(await p.evaluate(() => document.body.innerText)));
+    ok('Hero shows the course photo, faded into the background', await p.evaluate(() => { const i = document.querySelector('.hero-photo img'); return i && i.complete && i.naturalWidth > 0 && /gradient/.test(getComputedStyle(i).maskImage || getComputedStyle(i).webkitMaskImage); }));
     ok('All 1000 cards in the workspace', (await p.textContent('#demoCount')) === '1 / 1000');
     ok('No MCAT words in the page body except the standard footer', !(await p.evaluate(() => [...document.querySelectorAll('main')].map(m => m.innerText).join(' '))).includes('MCAT prep'));
     const g = (i, c) => p.evaluate(([i, c]) => TabiSpanish.grade(i, c), [i, c]);

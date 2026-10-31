@@ -5,7 +5,7 @@
   const header = document.querySelector('header.nav'), nav = header && header.querySelector('.navlinks');
   if(!nav) return;
   // Courses: first in the nav on every page, and kept in the header bar on phones (next to Log in).
-  const COURSES = [['MCAT', '/mcat', 'Available now'], ['Spanish', '/spanish', 'Beta: practice deck']];
+  const COURSES = [['MCAT', '/mcat', 'Available now'], ['Spanish', '/spanish', 'Available now']];
   const courses = document.createElement('div');
   courses.className = 'nav-courses';
   courses.innerHTML = `<button type="button" class="nav-courses-top" aria-expanded="false" aria-controls="coursesMenu">Courses <span aria-hidden="true">▾</span></button>
@@ -15,8 +15,17 @@
   const cSet = open => { cMenu.hidden = !open; cBtn.setAttribute('aria-expanded', String(open)); };
   let hoverAt = 0;   // a click right after the mouse opened it keeps it open
   cBtn.onclick = e => { e.stopPropagation(); cSet(Date.now() - hoverAt < 600 ? true : cMenu.hidden); };
-  courses.addEventListener('mouseenter', () => { if(matchMedia('(hover:hover)').matches){ if(cMenu.hidden) hoverAt = Date.now(); cSet(true); } });
-  courses.addEventListener('mouseleave', () => { if(matchMedia('(hover:hover)').matches) cSet(false); });
+  // Hover menus stay open while the pointer travels to them: an invisible bridge covers the gap under the button,
+  // and leaving only closes the menu after a short pause (coming back within it keeps it open).
+  let closeT = 0;
+  courses.addEventListener('mouseenter', () => { if(matchMedia('(hover:hover)').matches){ clearTimeout(closeT); if(cMenu.hidden) hoverAt = Date.now(); cSet(true); } });
+  courses.addEventListener('mouseleave', () => { if(matchMedia('(hover:hover)').matches){ clearTimeout(closeT); closeT = setTimeout(() => cSet(false), 400); } });
+  // About Us ▾ (CSS hover menu): the same pause before it closes.
+  document.querySelectorAll('header.nav .nav-drop').forEach(d => {
+    let t = 0;
+    d.addEventListener('mouseenter', () => { clearTimeout(t); d.classList.add('hold'); });
+    d.addEventListener('mouseleave', () => { clearTimeout(t); t = setTimeout(() => d.classList.remove('hold'), 400); });
+  });
   document.addEventListener('click', e => { if(!courses.contains(e.target)) cSet(false); });
   document.addEventListener('keydown', e => { if(e.key === 'Escape' && !cMenu.hidden){ cSet(false); cBtn.focus(); } });
   const style = document.createElement('style');
@@ -26,6 +35,8 @@
 .nav-courses-top span{font-size:9px}
 .nav-courses-top:hover,.nav-courses-top[aria-expanded=true]{color:#f0adbd}
 .nav-courses-top:focus-visible{outline:2px solid #f0adbd;outline-offset:3px;border-radius:4px}
+header.nav .nav-drop.hold .nav-menu{display:block}
+.nav-courses-menu::before{content:'';position:absolute;left:-20px;right:-20px;top:-16px;height:16px}
 .nav-courses-menu{position:absolute;left:-14px;top:100%;margin-top:10px;min-width:230px;background:#13241c;border:1px solid #2f4a3a;border-radius:12px;padding:6px;z-index:60;box-shadow:0 18px 40px #0007}
 .nav-courses-menu[hidden]{display:none}
 .nav-courses-menu a{display:flex!important;flex-direction:column;gap:2px;padding:10px 12px;border-radius:8px;color:#f8f6ef;text-decoration:none}
