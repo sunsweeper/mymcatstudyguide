@@ -209,7 +209,7 @@
 <span class="rating-modal-eyebrow">FIVE CARDS COMPLETE</span>
 <h3 id="trialCompletionTitle">Ready to keep learning?</h3>
 <p id="trialCompletionDescription">Would you like to create your free account?</p>
-<div class="trial-completion-actions"><a class="btn" href="/signup" id="trialCompletionYes">Yes, sign me up free →</a><button id="trialCompletionNo" type="button">Not right now</button></div>
+<div class="trial-completion-actions"><a class="btn" href="/signup?course=mcat" id="trialCompletionYes">Yes, sign me up free →</a><button id="trialCompletionNo" type="button">Not right now</button></div>
 <p class="trial-completion-footnote">It’s free. No credit card.</p>
 </div>
 </div>
@@ -387,5 +387,5 @@ function showTour(i){
   positionTour();
   followTourScroll();
 }
-document.querySelectorAll('[data-trial-form]').forEach(form=>form.addEventListener('submit',e=>{e.preventDefault();location.assign('/signup');}));$('startTour').onclick=()=>showTour(0);document.querySelectorAll('[data-start-guided-tour]').forEach(link=>link.addEventListener('click',e=>{e.preventDefault();showTour(0);}));$('summaryTour').onclick=()=>showTour(0);window.addEventListener('resize',positionTour);window.addEventListener('scroll',positionTour,{passive:true});render();
+document.querySelectorAll('[data-trial-form]').forEach(form=>form.addEventListener('submit',e=>{e.preventDefault();location.assign("/signup?course=mcat");}));$('startTour').onclick=()=>showTour(0);document.querySelectorAll('[data-start-guided-tour]').forEach(link=>link.addEventListener('click',e=>{e.preventDefault();showTour(0);}));$('summaryTour').onclick=()=>showTour(0);window.addEventListener('resize',positionTour);window.addEventListener('scroll',positionTour,{passive:true});render();
 </script><script>(()=>{const post=()=>{try{parent.postMessage({tabiSample:true,height:document.documentElement.scrollHeight},location.origin)}catch(e){}};new ResizeObserver(post).observe(document.body);addEventListener('load',post);setTimeout(post,500)})();</script></body></html>

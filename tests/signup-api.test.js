@@ -36,6 +36,14 @@ const good = (over = {}) => ({ code: 'Sarah2028', email: 'new@example.invalid', 
     const before = mails.length; r = await call({ resend: true, email: 'new@example.invalid' }); ok('Resend works for an unconfirmed beta account', r.status === 200 && mails.length === before + 1);
     r = await call({ resend: true, email: 'new@example.invalid' }); ok('Resends are throttled', r.status === 429);
     r = await call({ resend: true, email: 'nobody@example.invalid' }); ok('Resend gives the same answer for unknown emails', r.status === 200);
+    process.env.BETA_LIMIT = '40';
+    r = await call(good({ email: 'old-page@example.invalid' })); ok('No course sent (older page): MCAT, recorded on the account', r.status === 200 && JSON.stringify(created.at(-1).user_metadata.courses) === '["mcat"]');
+    r = await call({ code: 'Sarah2028', email: 'es@example.invalid', password: 'longenough1', first_name: 'Ana', last_name: 'Ruiz', accepted_terms: true, age_confirmed: true, course: 'spanish' });
+    ok('Spanish sign-up: no MCAT date or journey needed; course recorded; no MCAT fields stored', r.status === 200 && JSON.stringify(created.at(-1).user_metadata.courses) === '["spanish"]' && !('mcat_date' in created.at(-1).user_metadata) && !('journey_why' in created.at(-1).user_metadata));
+    r = await call(good({ email: 'z@example.invalid', course: 'french' })); ok('Unknown course refused, pointing at the course field', r.status === 400 && r.out.field === 'aCourse');
+    r = await call(good({ email: 'w@example.invalid', code: 'nope' })); ok('Bad code points at the code field', r.status === 403 && r.out.field === 'aCode');
+    r = await call(good({ email: 'new@example.invalid' })); ok('Existing email points at the email field', r.status === 409 && r.out.field === 'aEmail');
+    delete process.env.BETA_LIMIT;
     ok('Logs carry no emails or answers', logs.every(l => !l.includes('@') && !l.includes('listens')));
   } finally { global.fetch = realFetch; console.log = realLog; }
   console.log(`${count} sign-up API checks passed.`);
