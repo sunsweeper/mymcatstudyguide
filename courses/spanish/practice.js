@@ -228,7 +228,7 @@ function showTour(i){
   positionTour();
   followTourScroll();
 }
-document.querySelectorAll('[data-trial-form]').forEach(form=>form.addEventListener('submit',e=>{e.preventDefault();location.assign('/signup');}));
+document.querySelectorAll('[data-trial-form]').forEach(form=>form.addEventListener('submit',e=>{e.preventDefault();location.assign('/signup?course=spanish');}));
 $('startTour').onclick=()=>showTour(0);document.querySelectorAll('[data-start-guided-tour]').forEach(link=>link.addEventListener('click',e=>{e.preventDefault();showTour(0);}));$('summaryTour').onclick=()=>showTour(0);
 document.querySelectorAll('[data-start-practice]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();$('studyWorkspace').scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>$('recallDraft').focus({preventScroll:true}),500)}));
 window.addEventListener('resize',positionTour);window.addEventListener('scroll',positionTour,{passive:true});

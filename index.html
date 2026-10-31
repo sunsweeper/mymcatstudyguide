@@ -429,6 +429,12 @@ header #title, header .welcome, #topicname{color:var(--on-page-head)}
 .hint-sm{font-weight:400;font-size:.85rem;color:var(--muted)}
 .auth-msg{margin:0;font-size:.95rem;font-weight:700;color:#8E4456}
 .auth-msg:empty{display:none}
+/* Problems stand out: a red box, and a red outline + message on the field it's about */
+.auth-msg:not(.ok):not(:empty){background:#5a1f2e;color:#ffe3e8 !important;border:1px solid #ff8fa3;border-left:6px solid #ff5c7a;border-radius:10px;padding:12px 14px}
+.auth-form .bad input:not([type=checkbox]), .auth-form .bad textarea, .auth-form .bad select{border-color:#ff5c7a !important;box-shadow:0 0 0 3px #ff5c7a55 !important}
+.auth-form .bad input[type=checkbox]{outline:3px solid #ff5c7a;outline-offset:2px}
+.auth-form .field-err{display:block;margin-top:6px;font-size:.9rem;font-weight:700;color:#ff8fa3}
+.auth-form select{font:inherit;padding:12px;border-radius:var(--r);border:1px solid var(--line);background:var(--field);color:var(--ink);width:100%;box-sizing:border-box}
 .auth-msg.ok{color:var(--forest)}
 .auth-links{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .auth-legal{margin:0;font-size:.85rem;color:var(--muted);text-align:center}
@@ -4196,8 +4202,21 @@ async function authAction(fn){
   authBusy = false; if(mode === "auth") render();
 }
 // Form problems are shown in place, so what she typed (password, check boxes) stays put.
-function showAuthMsg(text){ authMsg = text; authOk = false; const m = $("aMsg"); if(m){ m.textContent = text; m.style.visibility = ""; m.className = "auth-msg"; m.setAttribute("role", "alert"); } else render(); }
-let authWhy = "", authCode = "";
+function showAuthMsg(text, field){ authMsg = text; authOk = false; authBad = field || ""; const m = $("aMsg"); if(m){ m.textContent = text; m.style.visibility = ""; m.className = "auth-msg"; m.setAttribute("role", "alert"); markBad(); } else render(); }
+// The field a problem is about gets a red outline and its own message, and the cursor goes there.
+function markBad(){
+  document.querySelectorAll(".auth-form .bad").forEach(x => { x.classList.remove("bad"); x.querySelectorAll("[aria-invalid]").forEach(i => i.removeAttribute("aria-invalid")); x.querySelectorAll(".field-err").forEach(e => e.remove()); });
+  const el = authBad && !authOk && authMsg && $(authBad); if(!el) return;
+  const box = el.closest(".field, .check, fieldset") || el.parentElement;
+  box.classList.add("bad"); el.setAttribute("aria-invalid", "true");
+  const note = document.createElement("span"); note.className = "field-err"; note.textContent = authMsg; box.append(note);
+  try { el.focus({ preventScroll:true }); box.scrollIntoView({ block:"center", behavior:"smooth" }); } catch(e){}
+}
+let authWhy = "", authCode = "", authBad = "", signupKeep = {};
+// Courses you can sign up for. /signup?course=spanish (the Spanish page's Sign up buttons) picks Spanish already.
+// Keep in step with COURSES in site-nav.js. Only MCAT has its own sign-up questions so far.
+const SIGNUP_COURSES = [["mcat", "MCAT"], ["spanish", "Spanish (beta)"]];
+let authCourse = (() => { const c = new URLSearchParams(location.search).get("course"); return SIGNUP_COURSES.some(x => x[0] === c) ? c : /^\/referral/.test(location.pathname) ? "mcat" : ""; })();   // referrals are for MCAT
 const validEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 function renderAuth(scr){
   const msg = `<p class="auth-msg${authOk ? " ok" : ""}" id="aMsg" role="${authOk ? "status" : "alert"}">${esc(authMsg)}</p>`;
@@ -4240,7 +4259,8 @@ function renderAuth(scr){
   if(v === "signup"){
     scr.innerHTML = `<p class="sec-title">Create an account</p>
       <form class="auth-form" id="authForm" novalidate>
-        <label class="field">Beta invite code<input type="text" id="aCode" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="40" required value="${esc(authCode)}" aria-describedby="aCodeHint"><span class="hint-sm" id="aCodeHint">TabiPrep is in a private beta. You'll need the invite code you were given.</span></label>
+        <label class="field">Course<select id="aCourse" required aria-describedby="aCourseHint"><option value="">Choose a course</option>${SIGNUP_COURSES.map(([k, t]) => `<option value="${k}"${authCourse === k ? " selected" : ""}>${t}</option>`).join("")}</select><span class="hint-sm" id="aCourseHint">Which flashcards are you signing up for?</span></label>
+        <label class="field">Promo or beta code<input type="text" id="aCode" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="40" required value="${esc(authCode)}" aria-describedby="aCodeHint"><span class="hint-sm" id="aCodeHint">TabiPrep is in a private beta. You'll need the code you were given.</span></label>
         <div class="name-pair">
           <label class="field">First name<input type="text" id="aName" autocomplete="given-name" maxlength="40" required></label>
           <label class="field">Last name<input type="text" id="aLast" autocomplete="family-name" maxlength="40" required></label>
@@ -4248,6 +4268,7 @@ function renderAuth(scr){
         <label class="field">Email<input type="email" id="aEmail" autocomplete="email" inputmode="email" required value="${esc(authEmail)}"></label>
         <label class="field">Password<input type="password" id="aPw" autocomplete="new-password" minlength="8" required aria-describedby="pwHint"><span class="hint-sm" id="pwHint">At least 8 characters.</span></label>
         <label class="check small"><input type="checkbox" id="aShow"> Show password</label>
+        <div class="course-fields" id="courseMcat"${authCourse === "mcat" ? "" : " hidden"}>
         <fieldset class="mcat-date">
           <legend>MCAT test date</legend>
           <input type="date" id="aMcat" min="${today()}" aria-describedby="mcatHint">
@@ -4255,37 +4276,51 @@ function renderAuth(scr){
           <label class="check small"><input type="checkbox" id="aNoDate"><span>My MCAT date isn't scheduled yet.</span></label>
         </fieldset>
         <label class="field">Your journey<span class="journey-q" id="aWhyQ">The journey to becoming a physician is long and full of sacrifice. But somewhere along the way, something inspired you to take that first step. What brought you to this journey, and what motivated you to become a doctor? Take your time. There are no right or wrong answers.</span><textarea id="aWhy" maxlength="2000" rows="5" required aria-describedby="aWhyQ aWhyHint">${esc(authWhy)}</textarea><span class="hint-sm" id="aWhyHint">Someday, when you need it, we'll remind you of your answer.</span></label>
+        </div>
         <label class="check"><input type="checkbox" id="aAge"><span>I'm 18 or older.</span></label>
         <label class="check"><input type="checkbox" id="aTerms"><span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span></label>
         ${msg}
         <button class="btn primary" type="submit"${busy}>${authBusy ? "Creating account…" : "Create account"}</button>
       </form>
       <div class="auth-links"><span></span><button class="link" type="button" id="toLogin">I already have an account</button></div>`;
+    // What was typed survives a redraw (after a server error, for example).
+    ["aName", "aLast", "aPw", "aMcat"].forEach(id => { if(signupKeep[id]) $(id).value = signupKeep[id]; });
+    ["aNoDate", "aAge", "aTerms"].forEach(id => { if(signupKeep[id]) $(id).checked = true; });
+    if(signupKeep.aNoDate) $("aMcat").disabled = true;
+    $("aCourse").onchange = e => { authCourse = e.target.value; $("courseMcat").hidden = authCourse !== "mcat"; };
     $("aShow").onchange = e => { $("aPw").type = e.target.checked ? "text" : "password"; };
     $("toLogin").onclick = () => { authEmail = $("aEmail").value.trim(); authView = "login"; authMsg = ""; render(); };
     $("aWhy").oninput = e => { authWhy = e.target.value; };
     $("aCode").oninput = e => { authCode = e.target.value; };   // kept if the form redraws
     $("aNoDate").onchange = e => { $("aMcat").disabled = !!e.target.checked; if(e.target.checked) $("aMcat").value = ""; };
-    $("authForm").onchange = () => { const m = $("aMsg"); if(m && authMsg && !authOk){ authMsg = ""; m.style.visibility = "hidden"; } };   // a fixed problem's message goes away; its space stays so the button doesn't jump out from under a click
+    $("authForm").onchange = () => { const m = $("aMsg"); if(m && authMsg && !authOk){ authMsg = ""; authBad = ""; m.style.visibility = "hidden"; document.querySelectorAll(".auth-form .bad").forEach(x => { x.classList.remove("bad"); x.querySelectorAll("[aria-invalid]").forEach(i => i.removeAttribute("aria-invalid")); x.querySelectorAll(".field-err").forEach(n => n.style.visibility = "hidden"); }); } };   // a fixed problem's message goes away; its space stays so the button doesn't jump out from under a click
     $("authForm").onsubmit = e => { e.preventDefault();
-      const name = $("aName").value.trim(), last = $("aLast").value.trim(), email = $("aEmail").value.trim(), pw = $("aPw").value;
+      const name = $("aName").value.trim(), last = $("aLast").value.trim(), email = $("aEmail").value.trim(), pw = $("aPw").value, course = $("aCourse").value;
       const mcat = ($("aMcat").value || "").trim(), noDate = !!$("aNoDate").checked, why = ($("aWhy").value || "").trim(), code = ($("aCode").value || "").trim();
+      const isMcat = course === "mcat";
       const badDate = mcat && (!/^\d{4}-\d{2}-\d{2}$/.test(mcat) || daysUntil(mcat) < 0 || daysUntil(mcat) > 3 * 366);
-      const problem = !code ? "Please enter your beta invite code." : !name ? "Please enter your first name." : !last ? "Please enter your last name." : !validEmail(email) ? "Please enter a valid email address." : pw.length < 8 ? "Your password needs at least 8 characters."
-        : !mcat && !noDate ? "Please enter your MCAT test date, or check “My MCAT date isn't scheduled yet.”" : badDate ? "Please enter an MCAT date between today and three years from now."
-        : why.length < 10 ? "Please tell us what brought you to this journey." : !$("aAge").checked ? "You need to be 18 or older to create an account." : !$("aTerms").checked ? "Please agree to the Terms of Service and Privacy Policy." : "";
-      if(problem){ showAuthMsg(problem); return; }
+      const checks = [[!course, "aCourse", "Please choose the course you're signing up for."], [!code, "aCode", "Please enter your promo or beta code."],
+        [!name, "aName", "Please enter your first name."], [!last, "aLast", "Please enter your last name."], [!validEmail(email), "aEmail", "Please enter a valid email address, like you@example.com."],
+        [pw.length < 8, "aPw", `Your password needs at least 8 characters (you have ${pw.length}).`],
+        [isMcat && !mcat && !noDate, "aMcat", "Please enter your MCAT test date, or check “My MCAT date isn't scheduled yet.”"], [isMcat && badDate, "aMcat", "Please enter an MCAT date between today and three years from now."],
+        [isMcat && why.length < 10, "aWhy", "Please tell us what brought you to this journey (a sentence or two)."], [!$("aAge").checked, "aAge", "You need to be 18 or older to create an account."],
+        [!$("aTerms").checked, "aTerms", "Please agree to the Terms of Service and Privacy Policy."]];
+      const hit = checks.find(c => c[0]);
+      if(hit){ showAuthMsg(hit[2], hit[1]); return; }
       authEmail = email;
+      signupKeep = { aName:name, aLast:last, aPw:pw, aMcat:mcat, aNoDate:noDate, aAge:true, aTerms:true };
       authAction(async () => {
-        // Private beta: the server checks the invite code and creates the account (public sign-up is off in Supabase).
-        const r = await fetch("/api/signup", { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify({ code, email, password:pw, first_name:name, last_name:last,
-          mcat_date:noDate ? null : mcat, mcat_unscheduled:noDate, journey_why:why, accepted_terms:true, age_confirmed:true, ...(window.TabiReferral ? TabiReferral.data() : {}) }) });
+        // Private beta: the server checks the code and creates the account (public sign-up is off in Supabase).
+        const r = await fetch("/api/signup", { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify({ course, code, email, password:pw, first_name:name, last_name:last,
+          ...(isMcat ? { mcat_date:noDate ? null : mcat, mcat_unscheduled:noDate, journey_why:why } : {}), accepted_terms:true, age_confirmed:true, ...(window.TabiReferral ? TabiReferral.data() : {}) }) });
         const out = await r.json().catch(() => ({}));
-        if(!r.ok) throw new Error(out.error || "Your account couldn't be created right now. Please try again.");
+        if(!r.ok){ const t = out.error || ""; authBad = out.field || (/code|beta is full/i.test(t) ? "aCode" : /email/i.test(t) ? "aEmail" : /password/i.test(t) ? "aPw" : /name/i.test(t) ? "aName" : /MCAT/.test(t) ? "aMcat" : /journey/i.test(t) ? "aWhy" : ""); throw new Error(t || "Your account couldn't be created right now. Please try again."); }
         if(window.TabiReferral) TabiReferral.sent({ first:name, last, email });   // referral sign-up: details go to the owner
+        signupKeep = {}; authBad = "";
         authView = "check"; authMsg = ""; authOk = false;
       }); };
-    $("aName").focus();
+    markBad();
+    if(!authBad) $(authCourse ? "aCode" : "aCourse").focus();
     return;
   }
   if(v === "check"){
@@ -4986,5 +5021,6 @@ else render();
 <script src="review-log.js"></script>
 <script src="raise-hand.js"></script>
 <script src="look-back.js"></script>
+<script src="course-gate.js"></script>
 </body>
 </html>

@@ -15,7 +15,7 @@ const mock = createdAgo => `(()=>{const user={id:'ask-fixture',email:'fixture@ex
   };
   try {
     // ---- sign-up question ----
-    let { ctx, p } = await open(null, '/signup');
+    let { ctx, p } = await open(null, '/signup?course=mcat');
     await p.waitForSelector('#aWhy');
     ok('Sign-up shows the journey question and the reminder line', (await p.textContent('#aWhyQ')).includes('what motivated you to become a doctor') && (await p.textContent('#aWhyHint')).includes("we'll remind you of your answer"));
     await p.fill('#aCode', 'Sarah2028'); await p.fill('#aName', 'Ada'); await p.fill('#aLast', 'Lee'); await p.fill('#aEmail', 'ada@example.invalid'); await p.fill('#aPw', 'longenough1');

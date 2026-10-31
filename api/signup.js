@@ -10,6 +10,8 @@ const LIMIT = () => Number(process.env.BETA_LIMIT || 25);
 const log = (outcome, extra = {}) => console.log(JSON.stringify({ signup: outcome, ...extra }));   // never emails, names or answers
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
+// Courses you can sign up for. Each account records its courses in user_metadata.courses; MCAT has its own sign-up questions.
+const COURSES = ['mcat', 'spanish'];
 
 async function sb(path, opts = {}){
   const r = await fetch(E.SB_URL + path, { ...opts, headers: { ...E.admin(), 'Content-Type': 'application/json', ...(opts.headers || {}) }, signal: AbortSignal.timeout(10000) });
@@ -60,7 +62,7 @@ module.exports = async (req, res) => {
   let b = req.body; try { if(typeof b === 'string') b = JSON.parse(b); } catch { return res.status(400).json({ error: 'Invalid request' }); }
   b = b || {};
   const email = String(b.email || '').trim().toLowerCase();
-  if(!EMAIL.test(email) || email.length > 254) return res.status(400).json({ error: 'Please enter a valid email address.' });
+  if(!EMAIL.test(email) || email.length > 254) return res.status(400).json({ error: 'Please enter a valid email address, like you@example.com.', field: 'aEmail' });
   try {
     // Resend the confirmation email for an account made here that isn't confirmed yet.
     if(b.resend){
@@ -70,25 +72,28 @@ module.exports = async (req, res) => {
       if(u && !u.email_confirmed_at && u.user_metadata && u.user_metadata.beta_code) await sendConfirm(email);
       log('resend'); return res.status(200).json({ ok: true });   // same answer either way, so it doesn't reveal who has an account
     }
-    if(String(b.code || '').trim().toLowerCase() !== CODE()){ log('bad_code'); return res.status(403).json({ error: 'That invite code isn’t valid. TabiPrep is in a private beta for now.' }); }
+    const course = b.course === undefined ? 'mcat' : String(b.course);   // older pages didn't send a course: those were MCAT
+    if(!COURSES.includes(course)) return res.status(400).json({ error: 'Please choose the course you’re signing up for.', field: 'aCourse' });
+    if(String(b.code || '').trim().toLowerCase() !== CODE()){ log('bad_code'); return res.status(403).json({ error: 'That promo or beta code isn’t valid. Check it and try again. TabiPrep is in a private beta for now.', field: 'aCode' }); }
     const first = String(b.first_name || '').trim().slice(0, 40), last = String(b.last_name || '').trim().slice(0, 40);
     const password = String(b.password || ''), why = String(b.journey_why || '').trim().slice(0, 2000);
     const noDate = !!b.mcat_unscheduled, mcat = noDate ? null : String(b.mcat_date || '');
-    if(!first || !last) return res.status(400).json({ error: 'Please enter your first and last name.' });
-    if(password.length < 8 || password.length > 72) return res.status(400).json({ error: 'Your password needs at least 8 characters.' });
-    if(!noDate && !DATE.test(mcat)) return res.status(400).json({ error: 'Please enter your MCAT test date, or check “My MCAT date isn’t scheduled yet.”' });
-    if(why.length < 10) return res.status(400).json({ error: 'Please tell us what brought you to this journey.' });
+    if(!first || !last) return res.status(400).json({ error: 'Please enter your first and last name.', field: 'aName' });
+    if(password.length < 8 || password.length > 72) return res.status(400).json({ error: 'Your password needs 8 to 72 characters.', field: 'aPw' });
+    const isMcat = course === 'mcat';
+    if(isMcat && !noDate && !DATE.test(mcat)) return res.status(400).json({ error: 'Please enter your MCAT test date, or check “My MCAT date isn’t scheduled yet.”', field: 'aMcat' });
+    if(isMcat && why.length < 10) return res.status(400).json({ error: 'Please tell us what brought you to this journey.', field: 'aWhy' });
     if(!b.accepted_terms || !b.age_confirmed) return res.status(400).json({ error: 'Please confirm you’re 18 or older and agree to the Terms and Privacy Policy.' });
     const users = await allUsers();
-    if(users.some(x => (x.email || '').toLowerCase() === email)) return res.status(409).json({ error: 'An account with this email already exists. Log in, or use “Forgot password?”.' });
+    if(users.some(x => (x.email || '').toLowerCase() === email)) return res.status(409).json({ error: 'An account with this email already exists. Log in, or use “Forgot password?”.', field: 'aEmail' });
     const used = users.filter(x => x.user_metadata && x.user_metadata.beta_code).length;
-    if(used >= LIMIT()){ log('beta_full', { used }); return res.status(403).json({ error: 'Thanks for your interest! Our beta is full right now.' }); }
+    if(used >= LIMIT()){ log('beta_full', { used }); return res.status(403).json({ error: 'Thanks for your interest! Our beta is full right now.', field: 'aCode' }); }
     const ref = b.referred_by && typeof b.referred_by === 'object' ? { first_name: String(b.referred_by.first_name || '').slice(0, 40), last_name: String(b.referred_by.last_name || '').slice(0, 40), email: String(b.referred_by.email || '').slice(0, 254) } : undefined;
-    const meta = { first_name: first, last_name: last, mcat_date: mcat, mcat_unscheduled: noDate, journey_why: why, accepted_terms: true, age_confirmed: true, beta_code: true, beta_number: used + 1, ...(ref ? { referred_by: ref } : {}) };
+    const meta = { first_name: first, last_name: last, courses: [course], ...(isMcat ? { mcat_date: mcat, mcat_unscheduled: noDate, journey_why: why } : {}), accepted_terms: true, age_confirmed: true, beta_code: true, beta_number: used + 1, ...(ref ? { referred_by: ref } : {}) };
     const c = await sb('/auth/v1/admin/users', { method: 'POST', body: JSON.stringify({ email, password, email_confirm: false, user_metadata: meta }) });
     if(!c.ok){ log('create_failed', { status: c.status }); return res.status(c.status === 422 ? 409 : 502).json({ error: c.status === 422 ? 'An account with this email already exists. Log in, or use “Forgot password?”.' : 'Your account couldn’t be created right now. Please try again.' }); }
     await sendConfirm(email);
-    log('created', { beta_number: used + 1 });
+    log('created', { beta_number: used + 1, course });
     return res.status(200).json({ ok: true, remaining: Math.max(0, LIMIT() - used - 1) });
   } catch(e){
     log('failed', { error: String(e.message).slice(0, 80) });
