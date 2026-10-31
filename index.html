@@ -2506,6 +2506,37 @@ const GRAPHIC_CARDS = [
 const GRAPHICS_PUBLISHED = [];
 GRAPHIC_CARDS.filter(g => GRAPHICS_PUBLISHED.includes(g[3])).forEach(g => CARDS.push([g[0], g[1], g[2], g[3]]));
 const BY_ID = {}; CARDS.forEach(c => BY_ID[c[3]] = c);
+/* ---------- Decks from the server ----------
+   The published page carries no cards (tools/strip-deck.js removes them when the site is deployed). After sign-in the
+   deck comes from /api/deck, which checks the account first. A local copy of this page that still has the cards
+   inline (tests, offline use) skips the download. */
+let DECK_COURSE = CARDS.length ? "mcat" : "";
+function applyDeck(course, d){
+  const imported = USER_CARDS.slice();
+  Object.keys(BY_ID).forEach(k => delete BY_ID[k]);
+  CARDS.length = 0; (d.cards || []).forEach(c => CARDS.push(c));
+  Object.keys(REVERSE).forEach(k => delete REVERSE[k]); Object.assign(REVERSE, d.reverse || {});
+  Object.keys(EXPLAIN).forEach(k => delete EXPLAIN[k]); Object.assign(EXPLAIN, d.explain || {});
+  GRAPHIC_CARDS.length = 0; (d.graphics || []).forEach(g => GRAPHIC_CARDS.push(g));
+  CARDS.forEach(c => BY_ID[c[3]] = c); imported.forEach(c => BY_ID[c[3]] = c);
+  if(typeof window !== "undefined") window.TABI_KEYS = d.keys || null;   // answer keys for the instant check (study-ui.js)
+  DECK_COURSE = course;
+}
+// Answer keys for the instant check: they come with the deck; a page that had the cards inline asks the server for them.
+if(typeof window !== "undefined") window.TabiDeckKeys = async () => {
+  if(window.TABI_KEYS) return window.TABI_KEYS;
+  let token = null; try { token = (await sb.auth.getSession()).data.session.access_token; } catch(e){}
+  const r = await fetch("/api/deck?course=" + encodeURIComponent(DECK_COURSE || "mcat"), { headers: token ? { Authorization:"Bearer " + token } : {} });
+  if(!r.ok) throw new Error("keys");
+  return (window.TABI_KEYS = (await r.json()).keys);
+};
+async function loadDeck(course){
+  if(DECK_COURSE === course) return;
+  let token = null; try { token = (await sb.auth.getSession()).data.session.access_token; } catch(e){}
+  const r = await fetch("/api/deck?course=" + encodeURIComponent(course), { headers: token ? { Authorization:"Bearer " + token } : {} });
+  if(!r.ok) throw new Error(r.status === 403 ? "deck: not enrolled" : "deck: failed to load (" + r.status + ")");
+  applyDeck(course, await r.json());
+}
 /* ---------- Imported cards (deck-import.js) ----------
    A student's own decks (Anki or CSV), private to their account. Each card is ["mine", question, answer, id, deck name];
    ids look like "Uab12cd-7" (deck code + number), so they never collide with TabiPrep ids and never count toward the
@@ -4130,7 +4161,8 @@ async function enterAccount(user){
   try {
     const [p, g] = await Promise.all([
       sb.from("profiles").select("first_name,last_name,email,is_admin").eq("id", user.id).maybeSingle(),
-      sb.from("progress").select("data").eq("user_id", user.id).maybeSingle()
+      sb.from("progress").select("data").eq("user_id", user.id).maybeSingle(),
+      loadDeck("mcat")   // the flashcards themselves, only after sign-in
     ]);
     if(g.error) throw g.error;
     if(p.error) throw p.error;

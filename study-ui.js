@@ -116,7 +116,7 @@
     function loadKeys(){
       if(keys)return Promise.resolve(keys);
       return keysLoading||(keysLoading=(window.TabiMatch?Promise.resolve():new Promise((ok,bad)=>{const sc=document.createElement('script');sc.src='/answer-keys/match.js';sc.onload=ok;sc.onerror=bad;document.head.append(sc);}))
-        .then(()=>fetch('/answer-keys/keys.json')).then(r=>{if(!r.ok)throw new Error('keys');return r.json();}).then(k=>keys=k).catch(e=>{keysLoading=null;throw e;}));
+        .then(()=>window.TabiDeckKeys()).then(k=>keys=k).catch(e=>{keysLoading=null;throw e;}));
     }
     async function token(){try{return sb?(await sb.auth.getSession()).data.session?.access_token||null:null;}catch(e){return null;}}
     async function run(k,key,answer){
