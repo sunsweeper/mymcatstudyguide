@@ -8,7 +8,7 @@ const get=(base,p)=>new Promise((res,rej)=>http.get(base+p,r=>{let b='';r.on('da
   try{
     let r=await get(base,'/');ok('/ is the TabiPrep homepage',r.status===200&&r.body.includes('Flashcards that make you think.'));
     const main=r.body.slice(r.body.indexOf('<main'),r.body.indexOf('</main>'));
-    ok('Homepage names MCAT only for the sample cards and the course listing',(main.match(/MCAT/g)||[]).length===3&&!/Rosalind/.test(main));
+    ok('Homepage names MCAT only in the course listing',(main.match(/MCAT/g)||[]).length===2&&!/Rosalind/.test(main));
     r=await get(base,'/community');ok('/community is served directly',r.status===200);
     r=await get(base,'/sample-cards');ok('/sample-cards (embeddable demo) is served',r.status===200&&r.body.includes('id="demo"'));
     r=await get(base,'/?code=abc');ok('/?code= (old sign-in links) still serves the page that forwards to /login',r.status===200&&r.body.includes('legacy-auth-redirect.js'));
