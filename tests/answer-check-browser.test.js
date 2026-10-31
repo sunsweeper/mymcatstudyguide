@@ -76,12 +76,13 @@ let count = 0; const check = (name, v) => { assert.ok(v, name); count++; console
     await p.waitForSelector('#studyRatingDialog[data-view=manual]');
     check('Signed out: manual popup explains sign-in, no API call', (await p.textContent('#studyRatingDescription')).includes('Sign in') && calls === 0);
     await ctx.close();
-    // 7. Homepage demo: same graded popup, no sign-in, demo cards only.
+    // 7. /mcat demo: five server-picked MCAT cards, same graded popup, no sign-in.
     {
       const ctx = await browser.newContext({ viewport: { width: 1280, height: 1000 }, reducedMotion: 'reduce' });
       const demoCalls = []; await ctx.route('**/api/grade', r => { demoCalls.push(r.request().postDataJSON()); r.fulfill({ contentType: 'application/json', body: JSON.stringify({ rating: 'again', reasoning: 'Classical pairs two stimuli; you described consequences for both.' }) }); });
-      const h = await ctx.newPage(); h.on('pageerror', e => errors.push(e.message)); await h.goto(base + '/mcat');
-      await h.fill('#recallDraft', 'aspartate and glutamate'); await h.click('#demoReveal'); await h.waitForTimeout(250); await h.click('#demoNext');
+      const h = await ctx.newPage(); h.on('pageerror', e => errors.push(e.message)); await h.goto(base + '/mcat'); await h.waitForFunction(() => cards.length === 5);
+      const first = await h.evaluate(() => cards.find(c => !c.ai) ? (() => { const i = cards.findIndex(c => !c.ai); [cards[0], cards[i]] = [cards[i], cards[0]]; render(); return cards[0].a; })() : cards[0].a);
+      await h.fill('#recallDraft', first); await h.click('#demoReveal'); await h.waitForTimeout(250); await h.click('#demoNext');
       await h.waitForSelector('#tour-ratings[data-view=grade]');
       check('Demo: matched answer graded Got it without the AI', (await h.textContent('#ratingModalTitle')) === 'Good job, you knew that one.' && demoCalls.length === 0);
       await h.click('#demoGradeAccept'); await h.waitForFunction(() => pos === 1);
@@ -89,7 +90,7 @@ let count = 0; const check = (name, v) => { assert.ok(v, name); count++; console
       await h.evaluate(() => { pos = 3; flipped = false; render(); });
       await h.fill('#recallDraft', 'both use rewards'); await h.click('#demoReveal'); await h.waitForTimeout(250); await h.click('#demoNext');
       await h.waitForSelector('#tour-ratings[data-view=grade]');
-      check('Demo: unmatched answer graded by the AI, no sign-in needed', demoCalls.length === 1 && demoCalls[0].key === 'demo-3' && (await h.textContent('#ratingModalEyebrow')) === 'GRADED BY ROSALIND' && (await h.textContent('#ratingModalTitle')) === 'Not this time.');
+      check('Demo: unmatched answer graded by the AI, no sign-in needed', demoCalls.length === 1 && demoCalls[0].key === await h.evaluate(() => cards[3].id) && (await h.textContent('#ratingModalEyebrow')) === 'GRADED BY ROSALIND' && (await h.textContent('#ratingModalTitle')) === 'Not this time.');
       check('Demo: graded view hides the three rating buttons', await h.isHidden('#tour-ratings .rating-modal-options'))
       await h.click('#demoGradeDispute');
       check('Demo: Dispute shows a note box, not ratings', await h.isVisible('#demoDisputeText') && await h.isHidden('#tour-ratings .rating-modal-options'));

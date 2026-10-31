@@ -3,6 +3,10 @@
   "outputDirectory": ".",
   "routes": [
     {
+      "src": "^/(private|api/_[^/]*)(/.*)?$",
+      "status": 404
+    },
+    {
       "src": "^/study/(?:[^/]+/)*([^/]+\\.(?:js|css|png|svg|json|ico|webp))$",
       "dest": "/$1"
     },

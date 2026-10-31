@@ -1,5 +1,5 @@
 /* Spanish Foundations practice, in the same study workspace as the /mcat page (markup and styles copied from it).
-   All 1,000 cards, by category. Questions First: read the English, write the Spanish. Answers First: read the Spanish, write the English.
+   Five sample cards from the course (picked by /api/demo-cards; the full deck stays on the server). Questions First: read the English, write the Spanish. Answers First: read the Spanish, write the English.
    Spanish answers are checked on this page: capitals, punctuation (¿¡.,!?), a leading article and missing accents never cost credit;
    a wrong answer gets the reason (wrong article, spelling, word order, missing/extra word, another card's word).
    English answers that aren't an exact match are rated by the student. Place, category and mode are kept in this browser only;
@@ -58,7 +58,7 @@ function buildDeck(){deck=all.filter(c=>!cat||c.cat===cat);
   if(mode==='mix'){if(!mixOrder||mixOrder.length!==deck.length){mixOrder=deck.map(c=>c.id);for(let i=mixOrder.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[mixOrder[i],mixOrder[j]]=[mixOrder[j],mixOrder[i]]}}
     const by=Object.fromEntries(deck.map(c=>[c.id,c]));deck=mixOrder.map(id=>by[id]).filter(Boolean)}
   if(pos>=deck.length)pos=0}
-const persist=()=>store.set({cat,pos,mode,mixOrder:mode==='mix'?mixOrder:null});
+const persist=()=>store.set({mode});
 function backHTML(c){
   if(dirOf()==='es2en')return `<span class="sp-ans">${esc(c.q)}</span>${c.ex?`<span class="sp-ex"><span lang="es">${esc(c.ex)}</span><i>${esc(c.exEn)}</i></span>`:''}`;
   return `<span class="sp-ans" lang="es">${esc(c.a)}</span>${c.alt.length?`<span class="sp-alt">Also: <span lang="es">${c.alt.map(esc).join(' · ')}</span></span>`:''}${c.ex?`<span class="sp-ex"><span lang="es">${esc(c.ex)}</span><i>${esc(c.exEn)}</i></span>`:''}`}
@@ -94,7 +94,6 @@ function move(delta){
   pos=Math.max(0,Math.min(deck.length-1,pos+delta));flipped=mode==='answer'&&!activeRecall;done=false;hideDrawer();persist();render();
   if(delta>0&&activeRecall)$('recallDraft').focus({preventScroll:true})}
 function finish(){done=true;const n=Object.values(ratings).reduce((a,v)=>(a[v]=(a[v]||0)+1,a),{});
-  $('demoSummaryTitle').textContent=`You finished ${cat||'the whole deck'}.`;
   $('demoSummaryText').textContent=`Got it: ${n.got||0} · Struggled: ${n.struggled||0} · Didn't know: ${n.didnt||0}.`;render();$('demoSummary').scrollIntoView({behavior:'smooth',block:'nearest'})}
 // ---- the grade pop-up (same pop-up as /mcat) ----
 const VERDICT={got:'Good job, you knew that one.',struggled:'Close. You were partly there.',didnt:'Not this time.'};
@@ -135,7 +134,6 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('ratingModal').h
 function setMode(m){mode=m;pendingRating=null;reinforcementDraft='';document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('selected',x.dataset.mode===m));
   if(m==='mix')mixOrder=null;pos=0;done=false;buildDeck();flipped=mode==='answer'&&!activeRecall;closeRatingModal();hideDrawer();persist();render()}
 document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
-$('spCat').onchange=e=>{cat=e.target.value;mixOrder=null;pos=0;done=false;pendingRating=null;flipped=false;buildDeck();closeRatingModal();hideDrawer();persist();render()};
 $('demoBookmark').onclick=e=>{e.stopPropagation();const id=current().id;bookmarks.has(id)?bookmarks.delete(id):bookmarks.add(id);store.set({bookmarks:[...bookmarks]});render()};
 $('demoNoteButton').onclick=()=>{const id=current().id;showDrawer('My Card Notes',`<p>Write a personal note for this card. Notes are kept in this browser only.</p><textarea id="noteInput" aria-label="Card note"></textarea><button class="btn" id="saveNote">Save note</button><p id="noteStatus" role="status"></p>`);$('noteInput').value=notes[id]||'';$('saveNote').onclick=()=>{notes[id]=$('noteInput').value;store.set({notes});$('noteStatus').textContent='Saved in this browser.'}};
 $('demoReport').onclick=()=>{const id=current().id;showDrawer('Report this card',`<p>If something on this card looks wrong, tell us on the <a href="/contact" style="color:#f0adbd;text-decoration:underline">Contact Us</a> page and include the card ID: <strong>${esc(id)}</strong>.</p>`)};
@@ -144,7 +142,6 @@ $('restartSample').onclick=()=>{closeRatingModal();pos=0;pendingRating=null;rein
 setInterval(()=>{seconds++;$('demoTimer').textContent=`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`},1000);
 const steps=[
 {target:'tour-study-modes',title:'Choose your study mode',body:'<strong>Questions First</strong> shows the English and you write the Spanish. <strong>Answers First</strong> shows the Spanish and you write the English. <strong>Random Mix</strong> shuffles the cards.'},
-{target:'spCat',title:'Pick a category',body:'Practice all 1,000 cards or one topic at a time, from greetings and food to travel and work. Your place is kept in this browser.'},
 {target:'tour-card',title:'Meet your flashcard',body:'Read the card and try to recall the answer from memory.'},
 {target:'tour-recall-entry',title:'Your Active Recall answer',body:'Type your answer here before you flip. No Spanish keyboard? No problem: missing accents never cost you, and the card shows you the accented spelling.'},
 {target:'demoReveal',highlight:['tour-card'],title:'Flip the card',body:'Press Enter, click Flip Card, or click the card itself to see the answer.'},
@@ -232,10 +229,10 @@ document.querySelectorAll('[data-trial-form]').forEach(form=>form.addEventListen
 $('startTour').onclick=()=>showTour(0);document.querySelectorAll('[data-start-guided-tour]').forEach(link=>link.addEventListener('click',e=>{e.preventDefault();showTour(0);}));$('summaryTour').onclick=()=>showTour(0);
 document.querySelectorAll('[data-start-practice]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();$('studyWorkspace').scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>$('recallDraft').focus({preventScroll:true}),500)}));
 window.addEventListener('resize',positionTour);window.addEventListener('scroll',positionTour,{passive:true});
-fetch('/courses/spanish/cards.json').then(r=>r.json()).then(d=>{
-  all=d.cards;const cats=[...new Set(all.map(c=>c.cat))];
-  $('spCat').insertAdjacentHTML('beforeend',cats.map(c=>`<option value="${esc(c)}">${esc(c)} (${all.filter(x=>x.cat===c).length})</option>`).join(''));
-  const s=store.get();if(s.cat&&cats.includes(s.cat)){cat=s.cat;$('spCat').value=cat}
+// Five sample cards from the course, picked by the server (the same five all day; the full deck isn't sent to the browser).
+fetch('/api/demo-cards?course=spanish').then(r=>{if(!r.ok)throw new Error('cards');return r.json()}).then(d=>{
+  all=d.cards;const s=store.get();
   if(['question','answer','mix'].includes(s.mode)){mode=s.mode;document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('selected',x.dataset.mode===mode))}
-  mixOrder=Array.isArray(s.mixOrder)?s.mixOrder:null;pos=Number(s.pos)||0;buildDeck();render();
-}).catch(()=>{$('demoQuestion').textContent='The cards couldn’t load. Check your connection and refresh.'});
+  pos=0;buildDeck();render();
+})
+.catch(()=>{$('demoQuestion').textContent='The sample cards couldn’t load. Refresh the page to try again.'});

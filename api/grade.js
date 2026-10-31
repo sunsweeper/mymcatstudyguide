@@ -5,7 +5,9 @@
 // card ("Uab12cd-7") is read from their own private deck in Supabase with their session, never from the request body.
 const CARDS = require('../answer-keys/cards.json');
 const { keys: KEYS } = require('../answer-keys/keys.json');
-const DEMO = require('../answer-keys/demo.json');   // the five homepage sample cards, gradable without signing in
+const DEMO = require('../answer-keys/demo.json');   // the original five sample cards, gradable without signing in
+const GK = Object.fromEntries(require('../courses/demo/general-knowledge.json').cards.map(c => [c.id, c]));   // homepage sample deck
+const DEMOTOKEN = require('./_demo');   // MCAT sample cards on /mcat carry a signed token
 
 const SB_URL = 'https://kwvcflbzocmalhlekxjv.supabase.co';
 const SB_KEY = 'sb_publishable_cJYYc0VAsaOHsD5KjqIWsQ_z5q-jJMR';   // publishable key, already public in index.html
@@ -74,7 +76,9 @@ module.exports = async (req, res) => {
   if(req.headers.origin && ![`https://${req.headers.host}`, `http://${req.headers.host}`].includes(req.headers.origin)) return res.status(403).json({ error: 'Invalid origin' });
   if(Number(req.headers['content-length'] || 0) > 8000) return res.status(413).json({ error: 'Too large' });
   let body = req.body; try { if(typeof body === 'string') body = JSON.parse(body); } catch { return res.status(400).json({ error: 'Invalid JSON' }); }
-  const key = body?.key, answer = body?.answer, demo = typeof key === 'string' && /^demo-[0-4]$/.test(key), mine = typeof key === 'string' && IMPORTED.test(key);
+  const key = body?.key, answer = body?.answer, mine = typeof key === 'string' && IMPORTED.test(key);
+  const gk = typeof key === 'string' && !!GK[key], sample = typeof key === 'string' && !!CARDS[key] && DEMOTOKEN.tokenOk(key, body?.demo);
+  const demo = (typeof key === 'string' && /^demo-[0-4]$/.test(key)) || gk || sample;   // graded without signing in, rate-limited
   if(typeof key !== 'string' || !(demo || mine || CARDS[key]) || typeof answer !== 'string' || !answer.trim() || answer.length > (demo ? 600 : 2000)) return res.status(400).json({ error: 'Invalid fields' });
   if(!process.env.ANTHROPIC_API_KEY){ log('no_api_key'); return res.status(503).json({ error: 'AI grading not configured' }); }
   if(demo){
@@ -82,9 +86,9 @@ module.exports = async (req, res) => {
     if(!demoAllowed(ip)){ log('demo_rate_limited'); return res.status(429).json({ error: 'Too many sample grades. Try again in a few minutes.' }); }
   } else if(!await signedInUser(req.headers.authorization)){ log('not_signed_in'); return res.status(401).json({ error: 'Sign in required' }); }
 
-  const card = demo ? DEMO[key] : mine ? await importedCard(key, req.headers.authorization) : CARDS[key];
+  const card = gk ? GK[key] : sample ? CARDS[key] : demo ? DEMO[key] : mine ? await importedCard(key, req.headers.authorization) : CARDS[key];
   if(!card){ log('imported_card_not_found'); return res.status(404).json({ error: 'Card not found' }); }
-  const concepts = (demo ? DEMO[key].keys : mine ? [] : KEYS[key] || []).map(c => c[0]);
+  const concepts = (gk ? GK[key].keys : sample ? KEYS[key] || [] : demo ? DEMO[key].keys : mine ? [] : KEYS[key] || []).map(c => c[0]);
   const prompt = `Card question: ${card.q}\nReference answer: ${card.a}\n` + (concepts.length ? `Key concepts the reference expects: ${concepts.join('; ')}\n` : '') +
     `\n<student_answer>\n${answer.trim()}\n</student_answer>`;
   try {
