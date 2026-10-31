@@ -5,7 +5,7 @@
 create table if not exists public.rh_questions (
   id uuid primary key default gen_random_uuid(),
   card_key text not null check (char_length(card_key) <= 20),
-  asker_id uuid not null references auth.users(id) on delete cascade,
+  asker_id uuid references auth.users(id) on delete set null,   -- posts stay up if the account is deleted
   body text not null check (char_length(body) between 1 and 1000),
   status text not null default 'pending' check (status in ('pending', 'answered')),
   hidden boolean not null default false,
@@ -18,7 +18,7 @@ create index if not exists rh_questions_pending on public.rh_questions (status, 
 create table if not exists public.rh_answers (
   id uuid primary key default gen_random_uuid(),
   question_id uuid not null references public.rh_questions(id) on delete cascade,
-  author_id uuid references auth.users(id) on delete cascade,   -- null for Rosalind's drafts
+  author_id uuid references auth.users(id) on delete set null,   -- null for Rosalind's drafts and deleted accounts
   source text not null default 'student' check (source in ('student', 'team', 'rosalind')),
   body text not null check (char_length(body) between 1 and 2000),
   status text not null default 'live' check (status in ('live', 'draft')),   -- draft: Rosalind's answer waiting for the owner

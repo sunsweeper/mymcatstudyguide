@@ -46,7 +46,9 @@ window.supabase={createClient:()=>({auth:{onAuthStateChange(){},async getSession
     ok('Pending questions can\'t be opened by students who can\'t answer', (await p.locator('#rhq-q-pend button.rh-qhead').count()) === 0 && (await p.textContent('#rhq-q-pend')).includes('Pending'));
     await p.click('#rhq-q-old .rh-qhead');
     ok('Answered questions open to show answers (anonymous)', (await p.textContent('#rhq-q-old')).includes('Cys-ties') && (await p.textContent('#rhq-q-old')).includes('A student answered'));
-    await p.click('#rhAskBtn'); await p.waitForSelector('#rhq-q-new');
+    await p.click('#rhAskBtn'); await p.waitForSelector('#rhAck');
+    ok('First post: notice that posts stay up after account deletion and removal takes a request', (await p.textContent('#rhAck')).includes('even if you later delete your account') && (await p.textContent('#rhAck')).includes('official request') && !state.calls.some(c => c.action === 'ask'));
+    await p.click('#rhAckYes'); await p.waitForSelector('#rhq-q-new');
     ok('Submitting with no text sends the standard question', state.calls.find(c => c.action === 'ask').body === '' && (await p.textContent('#rhq-q-new')).includes("I'm having a hard time with this one"));
     ok('It shows as Pending, marked as yours, with a confirmation', (await p.textContent('#rhq-q-new')).includes('Pending') && (await p.textContent('#rhq-q-new')).includes('Your question') && (await p.textContent('.rh .auth-msg')).includes('3 students'));
     await p.click('#sideBack'); await p.waitForFunction(() => mode === 'cards');

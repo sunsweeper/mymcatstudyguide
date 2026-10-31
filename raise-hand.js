@@ -13,7 +13,26 @@
   const para = s => escH(s).replace(/\n/g, '<br>');
   const when = t => { const d = new Date(t); return isNaN(d) ? '' : d.toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' }); };
   async function token(){ try { return (await sb.auth.getSession()).data.session?.access_token || null; } catch(e){ return null; } }
+  // Before someone's first question or answer: posts are anonymous and stay up to help other students, even if the
+  // account is deleted later. Removing one takes an official request to TabiPrep. Agreed once (user_metadata.rh_ack).
+  function ackPosting(){
+    if(sbUser && sbUser.user_metadata && sbUser.user_metadata.rh_ack) return Promise.resolve(true);
+    return new Promise(done => {
+      const bg = document.createElement('div'); bg.className = 'study-modal-bg'; bg.id = 'rhAck';
+      bg.innerHTML = `<div class="study-modal" role="dialog" aria-modal="true" aria-labelledby="rhAckTitle" tabindex="-1">
+        <span class="study-eyebrow">BEFORE YOU POST</span><h2 id="rhAckTitle">Your post stays up to help others</h2>
+        <p>Questions and answers on Raise Your Hand are anonymous. Once posted, they stay on TabiPrep for other students, <b>even if you later delete your account</b>.</p>
+        <p>The only way to have a post removed is an official request to TabiPrep through <a href="/contact" target="_blank" rel="noopener">Contact Us</a>.</p>
+        <div class="grade-actions"><button class="btn primary" type="button" id="rhAckYes">I understand, post it</button><button class="link" type="button" id="rhAckNo">Cancel</button></div></div>`;
+      document.body.append(bg);
+      const end = ok => { bg.remove(); if(ok){ sbUser = Object.assign({}, sbUser, { user_metadata:Object.assign({}, sbUser.user_metadata, { rh_ack:new Date().toISOString() }) }); try { sb.auth.updateUser({ data:{ rh_ack:new Date().toISOString() } }).catch(() => {}); } catch(e){} } done(ok); };
+      bg.querySelector('#rhAckYes').onclick = () => end(true); bg.querySelector('#rhAckNo').onclick = () => end(false);
+      bg.addEventListener('keydown', e => { if(e.key === 'Escape') end(false); });
+      bg.querySelector('#rhAckYes').focus();
+    });
+  }
   async function api(action, body = {}){
+    if((action === 'ask' || action === 'answer') && !(await ackPosting())) throw new Error('Not posted.');
     const t = await token(); if(!t) throw new Error('Please log in.');
     const r = await fetch('/api/community', { method:'POST', headers:{ 'Content-Type':'application/json', Authorization:'Bearer ' + t }, body:JSON.stringify({ action, ...body }) });
     const d = await r.json().catch(() => ({}));

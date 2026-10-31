@@ -44,7 +44,8 @@ async function qualifiedUsers(id){
 }
 async function userQualifies(uid, id){ const r = await sb(`/rest/v1/progress?user_id=eq.${uid}&select=data`); return !!(r[0] && qualifies(r[0].data && r[0].data.cards, id)); }
 async function notify(userIds, n){
-  const rows = [...new Set(userIds)].map(user_id => ({ user_id, kind: n.kind, title: n.title.slice(0, 140), body: (n.body || '').slice(0, 1000), link: n.link || null }));
+  // a deleted account's posts stay up with no owner (null): nobody to notify
+  const rows = [...new Set(userIds.filter(Boolean))].map(user_id => ({ user_id, kind: n.kind, title: n.title.slice(0, 140), body: (n.body || '').slice(0, 1000), link: n.link || null }));
   for(let i = 0; i < rows.length; i += 500) await sb('/rest/v1/notifications', { method: 'POST', body: JSON.stringify(rows.slice(i, i + 500)), headers: { Prefer: 'return=minimal' } });
   return rows.length;
 }
