@@ -5,7 +5,7 @@
   const header = document.querySelector('header.nav'), nav = header && header.querySelector('.navlinks');
   if(!nav) return;
   // Courses: first in the nav on every page, and kept in the header bar on phones (next to Log in).
-  const COURSES = [['MCAT', '/mcat', 'Available now']];
+  const COURSES = [['MCAT', '/mcat', 'Available now'], ['Spanish', '/spanish', 'Beta: practice deck']];
   const courses = document.createElement('div');
   courses.className = 'nav-courses';
   courses.innerHTML = `<button type="button" class="nav-courses-top" aria-expanded="false" aria-controls="coursesMenu">Courses <span aria-hidden="true">▾</span></button>
