@@ -4,7 +4,8 @@
   "routes": [
     {
       "src": "^/(private|api/_[^/]*)(/.*)?$",
-      "status": 404
+      "status": 404,
+      "dest": "/__not-found__"
     },
     {
       "src": "^/study/(?:[^/]+/)*([^/]+\\.(?:js|css|png|svg|json|ico|webp))$",
