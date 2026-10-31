@@ -1,9 +1,9 @@
 {
-  "buildCommand": "node tools/check-cards.js && node tools/validate-graphics.js && node answer-keys/build.js",
+  "buildCommand": "node tools/check-cards.js && node tools/validate-graphics.js && node answer-keys/build.js && node tools/strip-deck.js",
   "outputDirectory": ".",
   "routes": [
     {
-      "src": "^/(private|api/_[^/]*)(/.*)?$",
+      "src": "^/(private|protected|docs|tests|tools|metadata|answer-keys/(?!match\\.js$)[^/]+|answer-keys/src|api/_[^/]*)(/.*)?$",
       "status": 404,
       "dest": "/__not-found__"
     },
